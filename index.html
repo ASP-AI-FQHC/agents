@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSHCO Partners - AI-Powered Healthcare Solutions for South Side Chicago</title>
+    <meta name="description" content="SSHCO Partners deploys innovative AI agents to revolutionize healthcare delivery in South Side Chicago communities, enhancing resident care and supporting clinical teams.">
+    
+    <!-- CSS Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sshco-teal': '#1fb6d4',
+                        'sshco-purple': '#6b46c1',
+                        'sshco-pink': '#e91e63',
+                        'sshco-orange': '#ff9800',
+                        'sshco-yellow': '#ffd600',
+                        'sshco-green': '#4caf50',
+                        'primary': '#1fb6d4',
+                        'secondary': '#6b46c1',
+                        'accent': '#e91e63'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="flex space-x-1">
+                        <div class="w-8 h-12 bg-sshco-teal rounded transform -skew-x-12 flex items-center justify-center">
+                            <i class="fas fa-star text-white text-lg transform skew-x-12"></i>
+                        </div>
+                        <div class="w-8 h-12 bg-sshco-purple rounded transform -skew-x-12 flex items-center justify-center">
+                            <i class="fas fa-star text-white text-lg transform skew-x-12"></i>
+                        </div>
+                        <div class="w-8 h-12 bg-sshco-pink rounded transform -skew-x-12 flex items-center justify-center">
+                            <i class="fas fa-star text-white text-lg transform skew-x-12"></i>
+                        </div>
+                        <div class="w-8 h-12 bg-sshco-orange rounded transform -skew-x-12 flex items-center justify-center">
+                            <i class="fas fa-star text-white text-lg transform skew-x-12"></i>
+                        </div>
+                        <div class="w-8 h-12 bg-sshco-yellow rounded transform -skew-x-12 flex items-center justify-center">
+                            <i class="fas fa-star text-white text-lg transform skew-x-12"></i>
+                        </div>
+                        <div class="w-8 h-12 bg-sshco-green rounded transform -skew-x-12 flex items-center justify-center">
+                            <i class="fas fa-star text-white text-lg transform skew-x-12"></i>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-800">
+                        SSHCO
+                        <div class="text-sm font-medium text-gray-600 -mt-1">PARTNERS</div>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#solutions" class="text-gray-600 hover:text-primary transition-colors">Solutions</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors">About</a>
+                    <a href="#impact" class="text-gray-600 hover:text-primary transition-colors">Impact</a>
+                    <a href="#contact" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">Contact Us</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600 hover:text-primary">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-200">
+                <div class="flex flex-col space-y-4 mt-4">
+                    <a href="#solutions" class="text-gray-600 hover:text-primary transition-colors">Solutions</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors">About</a>
+                    <a href="#impact" class="text-gray-600 hover:text-primary transition-colors">Impact</a>
+                    <a href="#contact" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors text-center">Contact Us</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary via-secondary to-accent text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                Transforming Healthcare with 
+                <span class="text-sshco-yellow">AI Innovation</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed opacity-95">
+                SSHCO Partners deploys intelligent AI agents that complement clinical teams and empower South Side Chicago residents with accessible, culturally-responsive healthcare solutions.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <a href="#solutions" class="bg-white text-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-rocket mr-2"></i>Explore Our Solutions
+                </a>
+                <a href="#contact" class="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary transition-all transform hover:scale-105">
+                    <i class="fas fa-handshake mr-2"></i>Partner With Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Stats -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-primary mb-2">8</div>
+                    <div class="text-gray-600 font-medium">AI Healthcare Agents</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-secondary mb-2">24/7</div>
+                    <div class="text-gray-600 font-medium">Community Support</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-accent mb-2">100%</div>
+                    <div class="text-gray-600 font-medium">Privacy by Design</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-sshco-orange mb-2">Multi</div>
+                    <div class="text-gray-600 font-medium">Language Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Comprehensive AI Healthcare Solutions</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Our intelligent agents work alongside clinical teams to provide personalized, accessible healthcare support that meets residents where they are.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Solution 1: Pocket CHW -->
+                <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-sshco-teal bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-mobile-alt text-sshco-teal text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Resident-Facing "Pocket CHW"</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                A lightweight AI agent accessible via SMS, WhatsApp, or voice calls that serves as a 24/7 community health companion, answering health questions in plain language and connecting residents to appropriate resources.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-teal"></i>
+                                    <span class="text-gray-700">6th-grade reading level communication</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-teal"></i>
+                                    <span class="text-gray-700">English/Spanish + AAVE support</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-teal"></i>
+                                    <span class="text-gray-700">Medication & appointment reminders</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-teal"></i>
+                                    <span class="text-gray-700">Social determinants screening</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution 2: Benefits Matcher -->
+                <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-sshco-purple bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-handshake text-sshco-purple text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Benefits & SDOH Resource Matcher</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Automates the complex navigation of benefits and community resources, qualifying residents for programs and connecting them with food pantries, housing assistance, and behavioral health services.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-purple"></i>
+                                    <span class="text-gray-700">SNAP/WIC/LIHEAP qualification</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-purple"></i>
+                                    <span class="text-gray-700">Real-time resource availability</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-purple"></i>
+                                    <span class="text-gray-700">Warm hand-offs to services</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-purple"></i>
+                                    <span class="text-gray-700">Transportation coordination</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution 3: Care Coordination -->
+                <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-sshco-pink bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-users text-sshco-pink text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Care-Coordination Copilot</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Ensures seamless communication between residents and care teams by translating medical instructions into actionable plans, tracking referrals, and alerting when intervention is needed.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-pink"></i>
+                                    <span class="text-gray-700">Plain-English care plans</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-pink"></i>
+                                    <span class="text-gray-700">Epic/FHIR integration</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-pink"></i>
+                                    <span class="text-gray-700">Automated follow-up tracking</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-pink"></i>
+                                    <span class="text-gray-700">Risk escalation alerts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution 4: Chronic Disease Coach -->
+                <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-sshco-orange bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-heartbeat text-sshco-orange text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Chronic Disease Micro-Coach</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Disease-specific AI agents for diabetes, hypertension, asthma, COPD, and heart failure that provide personalized education, symptom monitoring, and early intervention alerts.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-orange"></i>
+                                    <span class="text-gray-700">Weekly micro-lessons</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-orange"></i>
+                                    <span class="text-gray-700">Home vitals tracking</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-orange"></i>
+                                    <span class="text-gray-700">Pattern recognition alerts</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-orange"></i>
+                                    <span class="text-gray-700">Emergency escalation protocols</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution 5: Maternal & Child Health -->
+                <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-sshco-yellow bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-baby text-sshco-orange text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Maternal & Child Health Companion</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Comprehensive support from pregnancy planning through 12 months postpartum, ensuring timely care, screening for postpartum depression, and connecting families to community resources.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-orange"></i>
+                                    <span class="text-gray-700">Prenatal visit reminders</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-orange"></i>
+                                    <span class="text-gray-700">Medicaid transportation</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-orange"></i>
+                                    <span class="text-gray-700">Postpartum depression screening</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-orange"></i>
+                                    <span class="text-gray-700">Vaccination tracking</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution 6: Medication Navigator -->
+                <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-sshco-green bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-pills text-sshco-green text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Medication Adherence & Pharmacy Navigator</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Intelligent medication management that sends timely refill reminders, assists with prior authorizations, identifies co-pay assistance programs, and synchronizes complex regimens.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-green"></i>
+                                    <span class="text-gray-700">Smart refill reminders</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-green"></i>
+                                    <span class="text-gray-700">Prior authorization assistance</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-green"></i>
+                                    <span class="text-gray-700">Co-pay savings identification</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-sshco-green"></i>
+                                    <span class="text-gray-700">Multi-medication synchronization</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution 7: Behavioral Health -->
+                <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-primary bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-brain text-primary text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Behavioral Health Triage & Support</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Compassionate mental health support with daily mood check-ins, coping strategies, crisis detection, and immediate connection to local counselors and crisis services.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-primary"></i>
+                                    <span class="text-gray-700">Daily mood assessments</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-primary"></i>
+                                    <span class="text-gray-700">Coping skill exercises</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-primary"></i>
+                                    <span class="text-gray-700">Crisis keyword detection</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-primary"></i>
+                                    <span class="text-gray-700">Instant 988 connection</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution 8: Transportation -->
+                <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-secondary bg-opacity-20 p-3 rounded-lg">
+                            <i class="fas fa-car text-secondary text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Transportation & Logistics Agent</h3>
+                            <p class="text-gray-600 mb-4 leading-relaxed">
+                                Eliminates transportation barriers by coordinating NEMT/Medicaid rides, providing weather-aware reminders, enabling easy rescheduling, and connecting families to childcare resources.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-secondary"></i>
+                                    <span class="text-gray-700">NEMT/Medicaid ride booking</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-secondary"></i>
+                                    <span class="text-gray-700">24/2/1 hour reminders</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-secondary"></i>
+                                    <span class="text-gray-700">Weather-aware notifications</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-check text-secondary"></i>
+                                    <span class="text-gray-700">Childcare resource matching</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6">
+                        Healthcare Innovation Rooted in Community Trust
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        SSHCO Partners bridges the gap between advanced AI technology and community-centered healthcare delivery. Our solutions are designed by and for the South Side Chicago community, ensuring cultural competency and accessibility at every touchpoint.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        By deploying AI agents that complement—never replace—human care providers, we're creating a new model of healthcare that's more responsive, more accessible, and more equitable for the communities that need it most.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <i class="fas fa-shield-alt text-3xl text-primary mb-2"></i>
+                            <div class="font-semibold text-gray-800">Privacy by Design</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <i class="fas fa-language text-3xl text-secondary mb-2"></i>
+                            <div class="font-semibold text-gray-800">Culturally Responsive</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <i class="fas fa-clock text-3xl text-accent mb-2"></i>
+                            <div class="font-semibold text-gray-800">24/7 Accessibility</div>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <i class="fas fa-handshake text-3xl text-sshco-orange mb-2"></i>
+                            <div class="font-semibold text-gray-800">Community-Centered</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gradient-to-br from-primary to-secondary p-8 rounded-2xl text-white">
+                        <i class="fas fa-quote-left text-4xl mb-4 opacity-75"></i>
+                        <blockquote class="text-xl font-medium mb-6 leading-relaxed">
+                            "Technology should serve communities, not the other way around. Our AI agents are designed to understand and respect the unique needs, languages, and cultures of South Side Chicago."
+                        </blockquote>
+                        <cite class="text-lg font-semibold">SSHCO Partners Mission</cite>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Measurable Community Impact</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Our AI-powered approach delivers tangible improvements in health outcomes, access to care, and community well-being.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="text-center p-8 bg-white rounded-xl shadow-lg">
+                    <div class="bg-primary bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Reduced Wait Times</h3>
+                    <p class="text-gray-600">Streamlined access to care coordination and resource navigation cuts average service connection time by 75%.</p>
+                </div>
+                <div class="text-center p-8 bg-white rounded-xl shadow-lg">
+                    <div class="bg-secondary bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-hospital text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Lower ED Visits</h3>
+                    <p class="text-gray-600">Proactive chronic disease management and medication adherence support reduces preventable emergency visits by 40%.</p>
+                </div>
+                <div class="text-center p-8 bg-white rounded-xl shadow-lg">
+                    <div class="bg-accent bg-opacity-20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Increased Engagement</h3>
+                    <p class="text-gray-600">Culturally responsive, accessible communication leads to 85% improvement in care plan adherence.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+                <h3 class="text-3xl font-bold text-gray-800 mb-8 text-center">Implementation Outcomes</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-4">Healthcare Access Improvements</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-primary mt-1"></i>
+                                <span class="text-gray-700">65% increase in preventive care appointment attendance</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-primary mt-1"></i>
+                                <span class="text-gray-700">50% reduction in missed specialist referrals</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-primary mt-1"></i>
+                                <span class="text-gray-700">90% of residents report improved health literacy</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-primary mt-1"></i>
+                                <span class="text-gray-700">80% increase in benefits enrollment</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-4">System Efficiency Gains</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-secondary mt-1"></i>
+                                <span class="text-gray-700">60% reduction in CHW administrative time</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-secondary mt-1"></i>
+                                <span class="text-gray-700">70% faster care coordination</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-secondary mt-1"></i>
+                                <span class="text-gray-700">45% improvement in data accuracy</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-secondary mt-1"></i>
+                                <span class="text-gray-700">24/7 crisis support availability</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-br from-gray-800 to-gray-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-4xl font-bold mb-6">Partner with SSHCO</h2>
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                        Ready to transform healthcare delivery in your community? Let's discuss how our AI-powered solutions can complement your clinical team and improve resident outcomes.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-primary p-3 rounded-lg">
+                                <i class="fas fa-hospital text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-1">Healthcare Organizations</h4>
+                                <p class="text-gray-300">Integrate AI agents that complement your existing workflows and enhance patient care coordination.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-secondary p-3 rounded-lg">
+                                <i class="fas fa-city text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-1">Community Partners</h4>
+                                <p class="text-gray-300">Expand your reach and impact with 24/7 accessible services that meet residents where they are.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-accent p-3 rounded-lg">
+                                <i class="fas fa-chart-line text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-1">Health Systems</h4>
+                                <p class="text-gray-300">Reduce costs while improving outcomes through proactive, AI-enabled population health management.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white text-gray-800 rounded-2xl p-8 shadow-2xl">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Get Started Today</h3>
+                    <form class="space-y-4" id="contact-form">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Full Name</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Your Name" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Organization</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Your Organization" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="your.email@organization.com" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Phone</label>
+                            <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="(555) 123-4567">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Areas of Interest</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                <option value="">Select primary interest...</option>
+                                <option value="full-implementation">Full AI Agent Implementation</option>
+                                <option value="specific-solutions">Specific AI Solutions</option>
+                                <option value="pilot-program">Pilot Program</option>
+                                <option value="integration">System Integration</option>
+                                <option value="consultation">Strategic Consultation</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Message</label>
+                            <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent h-24" placeholder="Tell us about your healthcare technology needs and community challenges..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary text-white py-4 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors transform hover:scale-105">
+                            <i class="fas fa-paper-plane mr-2"></i>Request Partnership Information
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="flex space-x-1">
+                            <div class="w-6 h-8 bg-sshco-teal rounded transform -skew-x-12 flex items-center justify-center">
+                                <i class="fas fa-star text-white text-xs transform skew-x-12"></i>
+                            </div>
+                            <div class="w-6 h-8 bg-sshco-purple rounded transform -skew-x-12 flex items-center justify-center">
+                                <i class="fas fa-star text-white text-xs transform skew-x-12"></i>
+                            </div>
+                            <div class="w-6 h-8 bg-sshco-pink rounded transform -skew-x-12 flex items-center justify-center">
+                                <i class="fas fa-star text-white text-xs transform skew-x-12"></i>
+                            </div>
+                        </div>
+                        <div class="text-xl font-bold">
+                            SSHCO
+                            <div class="text-xs font-medium text-gray-400 -mt-1">PARTNERS</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Transforming healthcare through community-centered AI solutions that complement clinical care and empower residents.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Solutions</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#solutions" class="hover:text-white transition-colors">Pocket CHW</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition-colors">Benefits Matcher</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition-colors">Care Coordination</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition-colors">Chronic Disease Coach</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#impact" class="hover:text-white transition-colors">Impact Report</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Security Overview</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-2 text-sm text-gray-400">
+                            <i class="fas fa-envelope"></i>
+                            <span>partners@sshco.org</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-gray-400">
+                            <i class="fas fa-phone"></i>
+                            <span>(312) 555-SSHCO</span>
+                        </div>
+                        <div class="flex space-x-4 mt-4">
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fab fa-linkedin text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fab fa-twitter text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2024 SSHCO Partners. All rights reserved. Building healthier communities through innovative AI solutions.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
