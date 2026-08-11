@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASP Secure IT® Proposal — SPR-82MVA4 | All Star Partners</title>
+<meta name="description" content="ASP Secure IT® managed security services proposal prepared for Any FQHC by All Star Partners.">
+<style>
+    :root {
+        --navy: #0b2545;
+        --navy-2: #13315c;
+        --blue: #1d6fb8;
+        --accent: #2fa4a9;
+        --gold: #c8a04a;
+        --ink: #1f2933;
+        --muted: #5b6b7b;
+        --line: #e2e8f0;
+        --bg: #f4f6f9;
+        --paper: #ffffff;
+        --good: #1f8a5b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--blue); }
+
+    .page {
+        max-width: 900px;
+        margin: 0 auto;
+        background: var(--paper);
+        box-shadow: 0 10px 40px rgba(11, 37, 69, 0.10);
+    }
+
+    /* ---------- Toolbar (screen only) ---------- */
+    .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0.75rem 1.5rem;
+        background: rgba(11, 37, 69, 0.96);
+        color: #fff;
+        backdrop-filter: blur(6px);
+    }
+    .toolbar .meta-inline { font-size: 0.85rem; opacity: 0.85; }
+    .toolbar .meta-inline strong { color: #fff; opacity: 1; }
+    .btn {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--navy);
+        background: var(--gold);
+        padding: 0.55rem 1.1rem;
+        border-radius: 6px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(200,160,74,0.35); background: #d3ad57; }
+    .btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+    /* ---------- Cover / masthead ---------- */
+    .masthead {
+        background:
+            radial-gradient(1200px 400px at 100% -10%, rgba(47,164,169,0.35), transparent 60%),
+            linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 55%, #1a3d6b 100%);
+        color: #fff;
+        padding: 3rem 3rem 2.5rem;
+    }
+    .brandrow { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 0.85rem; }
+    .brand .mark {
+        width: 48px; height: 48px; border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent), var(--blue));
+        display: grid; place-items: center;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+    }
+    .brand .mark svg { width: 26px; height: 26px; }
+    .brand .name { font-weight: 800; font-size: 1.35rem; letter-spacing: 0.3px; }
+    .brand .name small { display: block; font-weight: 500; font-size: 0.72rem; letter-spacing: 2.5px; opacity: 0.8; text-transform: uppercase; margin-top: 2px; }
+    .brand-contact { text-align: right; font-size: 0.82rem; opacity: 0.9; line-height: 1.5; }
+
+    .doc-title { margin-top: 2.25rem; }
+    .doc-eyebrow { text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; color: var(--accent); font-weight: 700; }
+    .doc-title h1 { margin: 0.4rem 0 0; font-size: 2.35rem; line-height: 1.12; font-weight: 800; }
+    .doc-title p { margin: 0.75rem 0 0; max-width: 46ch; color: #cdd9e6; font-size: 1rem; }
+
+    .parties {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        margin-top: 2.25rem;
+        background: rgba(255,255,255,0.14);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .party { background: rgba(255,255,255,0.06); padding: 1.1rem 1.25rem; }
+    .party h3 { margin: 0 0 0.35rem; font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    .party .big { font-size: 1.15rem; font-weight: 700; }
+    .party .sub { font-size: 0.85rem; color: #cdd9e6; }
+
+    /* ---------- Facts strip ---------- */
+    .facts {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-bottom: 1px solid var(--line);
+    }
+    .fact { padding: 1.1rem 1.25rem; border-right: 1px solid var(--line); }
+    .fact:last-child { border-right: 0; }
+    .fact .k { font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .fact .v { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-top: 0.15rem; }
+
+    /* ---------- Body ---------- */
+    .body { padding: 2.5rem 3rem 3rem; }
+    section { margin-bottom: 2.75rem; }
+    section:last-child { margin-bottom: 0; }
+
+    .sec-head { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1rem; }
+    .sec-head .num {
+        font-size: 0.8rem; font-weight: 800; color: #fff;
+        background: var(--blue); border-radius: 5px; padding: 0.15rem 0.5rem; line-height: 1.4;
+    }
+    h2 { margin: 0; font-size: 1.4rem; color: var(--navy); font-weight: 800; }
+    section > p { color: #3c4a58; }
+    .lede { font-size: 1.05rem; color: #33414f; }
+
+    /* Scope cards */
+    .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .scope {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1.1rem 1.2rem;
+        background: linear-gradient(180deg, #fbfdff, #f6f9fc);
+    }
+    .scope h4 { margin: 0 0 0.4rem; font-size: 1.02rem; color: var(--navy-2); }
+    .scope .unit { display: inline-block; font-size: 0.68rem; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 700; color: var(--accent); background: rgba(47,164,169,0.12); padding: 0.12rem 0.5rem; border-radius: 20px; margin-bottom: 0.55rem; }
+    .scope p { margin: 0; font-size: 0.9rem; color: #4a5a6a; }
+
+    /* Investment table */
+    .table-wrap { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    thead th {
+        background: var(--navy); color: #fff; text-align: left;
+        font-size: 0.72rem; letter-spacing: 0.8px; text-transform: uppercase; font-weight: 700;
+        padding: 0.8rem 1rem;
+    }
+    thead th.num, tbody td.num { text-align: right; }
+    tbody td { padding: 0.85rem 1rem; border-top: 1px solid var(--line); vertical-align: top; }
+    tbody tr:nth-child(even) { background: #f8fafc; }
+    tbody td .svc { font-weight: 600; color: var(--navy-2); }
+    tbody td .per { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    tfoot td { padding: 0.85rem 1rem; border-top: 2px solid var(--navy); font-weight: 700; }
+    tfoot .grand td { background: #eef4fb; color: var(--navy); font-size: 1.02rem; }
+    .mono { font-variant-numeric: tabular-nums; }
+
+    /* Totals cards */
+    .totals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.25rem; }
+    .total-card { border: 1px solid var(--line); border-radius: 10px; padding: 1.15rem 1.25rem; text-align: center; }
+    .total-card.feature { background: linear-gradient(135deg, var(--navy), var(--navy-2)); color: #fff; border-color: transparent; }
+    .total-card .k { font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .total-card.feature .k { color: #bcd2ea; }
+    .total-card .v { font-size: 1.7rem; font-weight: 800; color: var(--navy); margin-top: 0.25rem; font-variant-numeric: tabular-nums; }
+    .total-card.feature .v { color: #fff; }
+    .total-card .note { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+    .total-card.feature .note { color: #bcd2ea; }
+
+    /* Terms */
+    .terms { list-style: none; margin: 0; padding: 0; }
+    .terms li { position: relative; padding: 0.5rem 0 0.5rem 1.75rem; border-bottom: 1px dashed var(--line); font-size: 0.92rem; color: #3c4a58; }
+    .terms li:last-child { border-bottom: 0; }
+    .terms li::before {
+        content: ""; position: absolute; left: 0; top: 0.95rem;
+        width: 9px; height: 9px; border-radius: 50%;
+        background: var(--accent); box-shadow: 0 0 0 3px rgba(47,164,169,0.18);
+    }
+    .terms strong { color: var(--navy-2); }
+
+    /* Signature */
+    .sign-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 0.5rem; }
+    .sign-block .line { border-bottom: 1.5px solid var(--navy); height: 2.4rem; margin-bottom: 0.4rem; }
+    .sign-block .lbl { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+    .sign-note { margin-top: 1.75rem; font-size: 0.85rem; color: var(--muted); }
+
+    .callout {
+        border-left: 4px solid var(--accent);
+        background: #f0f8f8;
+        padding: 1rem 1.25rem;
+        border-radius: 0 8px 8px 0;
+        font-size: 0.95rem;
+        color: #2b3a48;
+    }
+
+    /* Footer */
+    .doc-footer {
+        border-top: 1px solid var(--line);
+        padding: 1.5rem 3rem 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+        color: var(--muted);
+    }
+    .doc-footer .reg { max-width: 60ch; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 720px) {
+        .masthead, .body { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .doc-title h1 { font-size: 1.85rem; }
+        .parties, .scope-grid, .totals, .sign-grid { grid-template-columns: 1fr; }
+        .facts { grid-template-columns: 1fr 1fr; }
+        .fact:nth-child(2) { border-right: 0; }
+        .fact:nth-child(1), .fact:nth-child(2) { border-bottom: 1px solid var(--line); }
+        .doc-footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .brand-contact { text-align: left; }
+        .table-wrap { overflow-x: auto; }
+    }
+
+    /* ---------- Print ---------- */
+    @media print {
+        body { background: #fff; }
+        .no-print { display: none !important; }
+        .page { box-shadow: none; max-width: none; }
+        .masthead {
+            -webkit-print-color-adjust: exact; print-color-adjust: exact;
+            padding: 1.75rem 1.5rem;
+        }
+        .body { padding: 1.5rem; }
+        thead th, .total-card.feature, .fact .v, .sec-head .num {
+            -webkit-print-color-adjust: exact; print-color-adjust: exact;
+        }
+        section, .scope, tr, .total-card, .table-wrap { break-inside: avoid; }
+        h2 { break-after: avoid; }
+        a { color: var(--ink); text-decoration: none; }
+    }
+</style>
+</head>
+<body>
+
+<!-- Screen toolbar -->
+<div class="toolbar no-print">
+    <div class="meta-inline">Proposal <strong>SPR-82MVA4</strong> &middot; Valid through Sep 10, 2026</div>
+    <button class="btn" onclick="window.print()">⤓ Download / Print PDF</button>
+</div>
+
+<div class="page">
+
+    <!-- ===== Masthead ===== -->
+    <header class="masthead">
+        <div class="brandrow">
+            <div class="brand">
+                <div class="mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z"/>
+                        <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                </div>
+                <div class="name">
+                    All Star Partners
+                    <small>ASP Secure IT&reg;</small>
+                </div>
+            </div>
+            <div class="brand-contact">
+                Guy Fuller<br>
+                <a href="mailto:gfuller@allstarpartners.com">gfuller@allstarpartners.com</a><br>
+                allstarpartners.com
+            </div>
+        </div>
+
+        <div class="doc-title">
+            <div class="doc-eyebrow">Managed Security Services Proposal</div>
+            <h1>ASP Secure IT&reg;<br>for Federally Qualified Health Centers</h1>
+            <p>A fully-managed, HIPAA-aligned cybersecurity program that protects your sites, people, identities, and endpoints — so your team can stay focused on patient care.</p>
+        </div>
+
+        <div class="parties">
+            <div class="party">
+                <h3>Prepared For</h3>
+                <div class="big">Any FQHC</div>
+                <div class="sub">Federally Qualified Health Center</div>
+            </div>
+            <div class="party">
+                <h3>Prepared By</h3>
+                <div class="big">Guy Fuller</div>
+                <div class="sub">All Star Partners &middot; gfuller@allstarpartners.com</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== Facts strip ===== -->
+    <div class="facts">
+        <div class="fact">
+            <div class="k">Proposal #</div>
+            <div class="v">SPR-82MVA4</div>
+        </div>
+        <div class="fact">
+            <div class="k">Date Issued</div>
+            <div class="v">Aug 11, 2026</div>
+        </div>
+        <div class="fact">
+            <div class="k">Valid Through</div>
+            <div class="v">Sep 10, 2026</div>
+        </div>
+        <div class="fact">
+            <div class="k">Service Term</div>
+            <div class="v">36 Months</div>
+        </div>
+    </div>
+
+    <!-- ===== Body ===== -->
+    <div class="body">
+
+        <!-- Overview -->
+        <section>
+            <div class="sec-head"><span class="num">01</span><h2>Executive Summary</h2></div>
+            <p class="lede">All Star Partners is pleased to present this proposal for <strong>ASP Secure IT&reg;</strong>, our comprehensive managed security offering built for the realities of community health care.</p>
+            <p>FQHCs operate under demanding privacy and security obligations — HIPAA, HHS/OCR expectations, and 42 CFR Part 2 — while running lean IT teams across multiple locations. ASP Secure IT delivers enterprise-grade protection as a predictable monthly service, covering every site, user, identity, device, workstation, and server in your environment. Our team continuously monitors, patches, hardens, and defends your systems, and stands ready to respond when it matters most.</p>
+            <div class="callout">
+                This engagement covers <strong>4 sites</strong>, <strong>300 users</strong>, <strong>350 identities</strong>, <strong>350 devices</strong>, <strong>300 workstations</strong>, and <strong>12 servers</strong> under a single, fully-managed program with <strong>the standard non-recurring onboarding charge waived</strong>.
+            </div>
+        </section>
+
+        <!-- Scope -->
+        <section>
+            <div class="sec-head"><span class="num">02</span><h2>Scope of Services</h2></div>
+            <p>Your ASP Secure IT program is composed of the following managed service components, each billed per unit and delivered under a unified security operations model.</p>
+            <div class="scope-grid">
+                <div class="scope">
+                    <span class="unit">Per Site</span>
+                    <h4>ASP Secure IT&reg; Managed Site</h4>
+                    <p>Perimeter and network security for each physical location — managed firewall, secure connectivity, network monitoring, and site-level threat detection.</p>
+                </div>
+                <div class="scope">
+                    <span class="unit">Per User</span>
+                    <h4>ASP Secure IT&reg; Managed User</h4>
+                    <p>People-centered protection including email security, anti-phishing, and ongoing security awareness training to reduce human-factor risk.</p>
+                </div>
+                <div class="scope">
+                    <span class="unit">Per Identity</span>
+                    <h4>ASP Secure IT&reg; Managed Identity</h4>
+                    <p>Identity and access management with multi-factor authentication, conditional access, and identity threat detection to stop account takeover.</p>
+                </div>
+                <div class="scope">
+                    <span class="unit">Per Device</span>
+                    <h4>ASP Secure IT&reg; Managed Device</h4>
+                    <p>Managed detection &amp; response (EDR/MDR) across endpoints — continuous monitoring, isolation, and remediation of threats in real time.</p>
+                </div>
+                <div class="scope">
+                    <span class="unit">Per Workstation</span>
+                    <h4>ASP Secure IT&reg; Managed Workstation</h4>
+                    <p>End-to-end workstation lifecycle security — patch management, configuration hardening, encryption enforcement, and compliance reporting.</p>
+                </div>
+                <div class="scope">
+                    <span class="unit">Per Server</span>
+                    <h4>ASP Secure IT&reg; Managed Server</h4>
+                    <p>Server hardening, patching, backup validation, and 24×7 monitoring for the systems that keep clinical and business operations running.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment -->
+        <section>
+            <div class="sec-head"><span class="num">03</span><h2>Investment Summary</h2></div>
+            <p>All pricing reflects a 36-month service term. Amounts are recurring monthly charges.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Service</th>
+                            <th scope="col" class="num">Qty</th>
+                            <th scope="col" class="num">Unit&nbsp;Price</th>
+                            <th scope="col" class="num">Monthly</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="svc">ASP Secure IT&reg; Managed Site</span><span class="per">per Site</span></td>
+                            <td class="num mono">4</td>
+                            <td class="num mono">$507.80</td>
+                            <td class="num mono">$2,031.20</td>
+                        </tr>
+                        <tr>
+                            <td><span class="svc">ASP Secure IT&reg; Managed User</span><span class="per">per User</span></td>
+                            <td class="num mono">300</td>
+                            <td class="num mono">$4.58</td>
+                            <td class="num mono">$1,374.00</td>
+                        </tr>
+                        <tr>
+                            <td><span class="svc">ASP Secure IT&reg; Managed Identity</span><span class="per">per Identity</span></td>
+                            <td class="num mono">350</td>
+                            <td class="num mono">$6.26</td>
+                            <td class="num mono">$2,191.00</td>
+                        </tr>
+                        <tr>
+                            <td><span class="svc">ASP Secure IT&reg; Managed Device</span><span class="per">per Device</span></td>
+                            <td class="num mono">350</td>
+                            <td class="num mono">$37.75</td>
+                            <td class="num mono">$13,212.50</td>
+                        </tr>
+                        <tr>
+                            <td><span class="svc">ASP Secure IT&reg; Managed Workstation</span><span class="per">per Workstation</span></td>
+                            <td class="num mono">300</td>
+                            <td class="num mono">$23.48</td>
+                            <td class="num mono">$7,044.00</td>
+                        </tr>
+                        <tr>
+                            <td><span class="svc">ASP Secure IT&reg; Managed Server</span><span class="per">per Server</span></td>
+                            <td class="num mono">12</td>
+                            <td class="num mono">$60.81</td>
+                            <td class="num mono">$729.72</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="grand">
+                            <td colspan="3">Total Recurring Monthly Investment</td>
+                            <td class="num mono">$26,582.42</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="totals">
+                <div class="total-card">
+                    <div class="k">Monthly</div>
+                    <div class="v">$26,582</div>
+                    <div class="note">recurring, per month</div>
+                </div>
+                <div class="total-card">
+                    <div class="k">Annual</div>
+                    <div class="v">$318,989</div>
+                    <div class="note">per 12 months</div>
+                </div>
+                <div class="total-card feature">
+                    <div class="k">36-Month Term Value</div>
+                    <div class="v">$956,967</div>
+                    <div class="note">total contract value</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terms -->
+        <section>
+            <div class="sec-head"><span class="num">04</span><h2>Terms &amp; Conditions</h2></div>
+            <ul class="terms">
+                <li><strong>Service Term:</strong> 36 months from the service commencement date, billed monthly in advance.</li>
+                <li><strong>Non-Recurring Charge (Onboarding):</strong> <strong>Waived</strong> for this engagement.</li>
+                <li><strong>Time &amp; Materials Rate:</strong> Out-of-scope project or professional-services work is billed at <strong>$175.00 per hour</strong>, authorized in advance.</li>
+                <li><strong>Quantities &amp; True-Up:</strong> Monthly charges are based on the unit counts listed above. Material changes in environment size may be trued-up at the same published unit rates.</li>
+                <li><strong>Compliance:</strong> Services are delivered in alignment with HIPAA Security Rule safeguards; a Business Associate Agreement (BAA) will be executed prior to service commencement.</li>
+                <li><strong>Taxes:</strong> Pricing is exclusive of applicable state and local taxes, which will be billed as required.</li>
+                <li><strong>Validity:</strong> This proposal is valid through <strong>September 10, 2026</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- Acceptance -->
+        <section>
+            <div class="sec-head"><span class="num">05</span><h2>Acceptance</h2></div>
+            <p>To accept this proposal, please sign below. A definitive Master Services Agreement and Business Associate Agreement will follow.</p>
+            <div class="sign-grid">
+                <div class="sign-block">
+                    <div class="line"></div>
+                    <div class="lbl">Authorized Signature — Any FQHC</div>
+                </div>
+                <div class="sign-block">
+                    <div class="line"></div>
+                    <div class="lbl">Printed Name &amp; Title</div>
+                </div>
+                <div class="sign-block">
+                    <div class="line"></div>
+                    <div class="lbl">Date</div>
+                </div>
+                <div class="sign-block">
+                    <div class="line"></div>
+                    <div class="lbl">Purchase Order # (if applicable)</div>
+                </div>
+            </div>
+            <p class="sign-note">Questions? Contact Guy Fuller at <a href="mailto:gfuller@allstarpartners.com">gfuller@allstarpartners.com</a>. We look forward to partnering with you to secure your mission.</p>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="doc-footer">
+        <div class="reg">
+            <strong>ASP Secure IT&reg;</strong> is a registered service mark of All Star Partners. This proposal is confidential and intended solely for the named recipient. Pricing and terms are subject to the executed service agreement.
+        </div>
+        <div>
+            Proposal SPR-82MVA4<br>
+            &copy; 2026 All Star Partners
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>
