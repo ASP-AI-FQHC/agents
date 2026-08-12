@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "clientName": "Any FQHC",
+    "preparedByName": "Guy Fuller",
+    "preparedByEmail": "gfuller@allstarpartners.com",
+    "proposalId": "SPR-82MVA4",
+    "proposalDate": "2026-08-11",
+    "expirationDate": "2026-09-10",
+    "serviceTermMonths": 36,
+    "nrc": "Waived",
+    "tmHourlyRate": 175
+  },
+  "lines": [
+    { "service": "ASP Secure IT ® Managed Site",        "perUnit": "Site",        "qty": 4,   "unitPrice": 507.80, "monthly": 2031.20 },
+    { "service": "ASP Secure IT ® Managed User",        "perUnit": "User",        "qty": 300, "unitPrice": 4.58,   "monthly": 1374.00 },
+    { "service": "ASP Secure IT ® Managed Identity",    "perUnit": "Identity",    "qty": 350, "unitPrice": 6.26,   "monthly": 2191.00 },
+    { "service": "ASP Secure IT ® Managed Device",      "perUnit": "Device",      "qty": 350, "unitPrice": 37.75,  "monthly": 13212.50 },
+    { "service": "ASP Secure IT ® Managed Workstation", "perUnit": "Workstation", "qty": 300, "unitPrice": 23.48,  "monthly": 7044.00 },
+    { "service": "ASP Secure IT ® Managed Server",      "perUnit": "Server",      "qty": 12,  "unitPrice": 60.81,  "monthly": 729.72 }
+  ],
+  "totals": { "monthlyTotal": 26582.42, "annualTotal": 318989.04 }
+}
