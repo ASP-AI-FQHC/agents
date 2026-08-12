@@ -108,6 +108,9 @@
     .btn:active{transform:translateY(0);}
     .btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
     .btn[disabled]{opacity:.55;cursor:not-allowed;box-shadow:none;transform:none;filter:none;}
+    .btn.secondary{background:transparent;color:var(--teal);border:1.5px solid var(--teal);
+        box-shadow:none;padding:12px 16px;}
+    .btn.secondary:hover{background:color-mix(in srgb,var(--teal) 12%,transparent);filter:none;}
 
     .note{font-size:.8rem;color:var(--muted);margin-top:16px;display:flex;gap:8px;align-items:flex-start;}
     .note b{color:var(--ink);font-weight:700;}
@@ -218,6 +221,7 @@
                 <div class="tot hero"><span class="k" id="termLbl">36-month term value</span><span class="v" id="tTerm">$0.00</span></div>
             </div>
             <span class="status" id="status" role="status" aria-live="polite"></span>
+            <button class="btn secondary" id="goJson" type="button">&#8595;&nbsp; JSON</button>
             <button class="btn" id="go" type="button">&#8595;&nbsp; Download Word (.docx)</button>
         </div>
     </div>
@@ -282,6 +286,52 @@ function calc(){
 document.getElementById('f').addEventListener('input',()=>{calc();setStatus('');});
 
 function setStatus(msg,kind){const s=$('status');s.textContent=msg;s.className='status'+(kind?' '+kind:'');}
+function fileBase(client){return (client.replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||'Client');}
+function saveBlob(blob,fname){
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download=fname;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+function round2(n){return Math.round((Number(n)+Number.EPSILON)*100)/100;}
+
+function collectJSON(){
+    const client=$('client').value.trim();
+    let total=0;
+    const lines=UNITS.map(u=>{
+        const qty=parseFloat($('q_'+u.key).value)||0;
+        const unitPrice=parseFloat($('u_'+u.key).value)||0;
+        const monthly=round2(qty*unitPrice); total+=monthly;
+        return {service:u.name, perUnit:u.per, qty, unitPrice:round2(unitPrice), monthly};
+    });
+    total=round2(total);
+    return {
+        meta:{
+            clientName:client,
+            preparedByName:$('pname').value.trim()||'Guy Fuller',
+            preparedByEmail:$('pemail').value.trim()||'gfuller@allstarpartners.com',
+            proposalId:$('pid').value.trim(),
+            proposalDate:$('pdate').value,
+            expirationDate:$('edate').value,
+            serviceTermMonths:parseInt($('term').value)||0,
+            nrc:$('nrc').value.trim()||'Waived',
+            tmHourlyRate:parseFloat($('tm').value)||0
+        },
+        lines,
+        totals:{monthlyTotal:total, annualTotal:round2(total*12)}
+    };
+}
+function downloadJSON(){
+    const client=$('client').value.trim();
+    if(!client){$('client').setAttribute('aria-invalid','true');$('client').focus();
+        setStatus('Enter a client name.','err');return;}
+    $('client').removeAttribute('aria-invalid');
+    const data=collectJSON();
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const fname='ASP_Secure_IT_Proposal_'+fileBase(client)+'.json';
+    saveBlob(blob,fname);
+    setStatus('Downloaded '+fname,'ok');
+}
 
 async function generate(){
     const client=$('client').value.trim();
@@ -321,17 +371,15 @@ async function generate(){
         }
         const blob=await zip.generateAsync({type:'blob',
             mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
-        const fname='ASP_Secure_IT_Proposal_'+(client.replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||'Client')+'.docx';
-        const a=document.createElement('a');
-        a.href=URL.createObjectURL(blob); a.download=fname;
-        document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+        const fname='ASP_Secure_IT_Proposal_'+fileBase(client)+'.docx';
+        saveBlob(blob,fname);
         setStatus('Downloaded '+fname,'ok');
     }catch(err){
         setStatus('Could not build the file: '+err.message,'err');
     }finally{$('go').disabled=false;}
 }
 $('go').addEventListener('click',generate);
+$('goJson').addEventListener('click',downloadJSON);
 calc();
 </script>
 </body>
