@@ -59,21 +59,43 @@ DEFAULT_EXEC = [
     "support. This proposal reflects a long-term partnership focused on operational confidence, "
     "financial predictability, and measurable results.",
 ]
-# Paragraph break inside the {{EXEC_OVERVIEW}} region — closes the current Calibri
-# body paragraph and opens an identically-formatted one.
-_PPR = '<w:pPr><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/></w:rPr></w:pPr>'
-_RPR = '<w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/></w:rPr>'
-EXEC_SEP = '</w:t></w:r></w:p><w:p>' + _PPR + '<w:r>' + _RPR + '<w:t xml:space="preserve">'
+# Default Proposal Summary intro paragraph ({CLIENT} -> client name).
+DEFAULT_SUMMARY = [
+    "{CLIENT} (referred to as “Client”) relies on secure, dependable technology to operate "
+    "effectively. ALLSTAR Partners (referred to as “ASP”) is a Cybersecurity-focused Managed "
+    "Service Provider (MSP+) with extensive experience in supporting organizations like {CLIENT} "
+    "with their technology requirements.",
+]
+# Default Additional Terms and Conditions (one per item).
+DEFAULT_TERMS = [
+    "Upon request ASP Engineers will be assigned unique accounts with sufficient access to Client "
+    "infrastructure and systems to accomplish the Work or Services in this Proposal. For highly "
+    "sensitive tasks, ASP Engineers may work alongside the Client to complete restricted work.",
+    "Work and Services will be performed remotely as much as possible.",
+    "For ASP engineers working on site the Client is expected to provide a workspace area large "
+    "enough to accommodate a laptop with a desk, a chair, electric power and Internet access.",
+    "Additional costs may apply if the Client network equipment does not support port mirroring or "
+    "an equivalent configuration and active network traffic monitoring via SIEM is required. "
+    "Alternatively, the Client may decline to implement active network traffic monitoring if the "
+    "equipment cannot be configured to support it.",
+    "All emergency recovery services are best effort only without guarantee.",
+]
+# Paragraph-break fragments: close the current paragraph, open an identically-styled one.
+_CALIBRI = '<w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>'
+BODY_SEP  = ('</w:t></w:r></w:p><w:p><w:pPr><w:rPr>' + _CALIBRI + '</w:rPr></w:pPr>'
+             '<w:r><w:rPr>' + _CALIBRI + '</w:rPr><w:t xml:space="preserve">')   # Calibri body
+TERMS_SEP = ('</w:t></w:r></w:p><w:p><w:pPr><w:pStyle w:val="Heading2"/></w:pPr>'
+             '<w:r><w:t xml:space="preserve">')                                   # numbered term
 
-def build_exec(text, client):
-    """Return the XML value for {{EXEC_OVERVIEW}}: one or more body paragraphs."""
+def build_paras(text, default_paras, client, sep):
+    """Build the XML value for a paragraph region: custom text or the default."""
     if text and str(text).strip():
         paras = [p.strip() for p in re.split(r"\n+", str(text)) if p.strip()]
     else:
-        paras = [p.replace("{CLIENT}", client) for p in DEFAULT_EXEC]
+        paras = [p.replace("{CLIENT}", client) for p in default_paras]
     if not paras:
         paras = [""]
-    return EXEC_SEP.join(xml_escape(p) for p in paras)
+    return sep.join(xml_escape(p) for p in paras)
 
 def die(msg):
     print("ERROR:", msg); sys.exit(1)
@@ -130,8 +152,12 @@ def main():
         "{{TM_RATE}}":              xml_escape(meta.get("tmHourlyRate", "")),
         "{{SERVICE_TERM_MONTHS}}":  xml_escape(meta.get("serviceTermMonths", "")),
         "{{MONTHLY_TOTAL}}":        money(monthly_total),
-        "{{EXEC_OVERVIEW}}":        build_exec(meta.get("executiveOverview"),
-                                               meta.get("clientName", "Client")),
+        "{{EXEC_OVERVIEW}}":        build_paras(meta.get("executiveOverview"), DEFAULT_EXEC,
+                                                meta.get("clientName", "Client"), BODY_SEP),
+        "{{PROPOSAL_SUMMARY}}":     build_paras(meta.get("proposalSummary"), DEFAULT_SUMMARY,
+                                                meta.get("clientName", "Client"), BODY_SEP),
+        "{{TERMS}}":                build_paras(meta.get("additionalTerms"), DEFAULT_TERMS,
+                                                meta.get("clientName", "Client"), TERMS_SEP),
     }
     for u in UNITS:
         ln = by_unit[u]
