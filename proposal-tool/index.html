@@ -119,6 +119,9 @@
     .note b{color:var(--ink);font-weight:700;}
     .status{font-size:.85rem;font-weight:600;}
     .status.ok{color:var(--green);} .status.err{color:var(--magenta);}
+    .dl-fallback{font-size:.86rem;font-weight:700;color:var(--teal);text-decoration:underline;
+        cursor:pointer;white-space:nowrap;}
+    .dl-fallback:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
     kbd{font:inherit;font-size:.78rem;background:var(--panel);border:1px solid var(--line);
         border-radius:5px;padding:1px 6px;color:var(--ink);}
 
@@ -228,6 +231,7 @@
                 <div class="tot"><span class="k">Annual</span><span class="v" id="tAnnual">$0.00</span></div>
                 <div class="tot hero"><span class="k" id="termLbl">36-month term value</span><span class="v" id="tTerm">$0.00</span></div>
             </div>
+            <a id="dl" class="dl-fallback" hidden></a>
             <span class="status" id="status" role="status" aria-live="polite"></span>
             <button class="btn secondary" id="goJson" type="button">&#8595;&nbsp; JSON</button>
             <button class="btn" id="go" type="button">&#8595;&nbsp; Download Word (.docx)</button>
@@ -295,11 +299,19 @@ document.getElementById('f').addEventListener('input',()=>{calc();setStatus('');
 
 function setStatus(msg,kind){const s=$('status');s.textContent=msg;s.className='status'+(kind?' '+kind:'');}
 function fileBase(client){return (client.replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||'Client');}
+function inIframe(){try{return window.self!==window.top;}catch(e){return true;}}
 function saveBlob(blob,fname){
+    const url=URL.createObjectURL(blob);
+    // Primary: programmatic download (works in a normal browser tab).
     const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob); a.download=fname;
+    a.href=url; a.download=fname; a.rel='noopener';
     document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+    // Always expose a manual link too — sandboxed/hosted previews block auto-downloads.
+    const dl=$('dl');
+    dl.href=url; dl.setAttribute('download',fname); dl.textContent='⤓ Save '+fname; dl.hidden=false;
+    // In an embedded/sandboxed frame, also try opening the file in a new tab.
+    if(inIframe()){ try{window.open(url,'_blank','noopener');}catch(e){} }
+    // Keep the object URL alive so the manual link stays clickable.
 }
 function round2(n){return Math.round((Number(n)+Number.EPSILON)*100)/100;}
 
@@ -338,7 +350,8 @@ function downloadJSON(){
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const fname='ASP_Secure_IT_Proposal_'+fileBase(client)+'.json';
     saveBlob(blob,fname);
-    setStatus('Downloaded '+fname,'ok');
+    setStatus(inIframe()?('Generated '+fname+' — use the Save link if it didn’t download.')
+                        :('Downloaded '+fname),'ok');
 }
 
 async function generate(){
@@ -381,7 +394,8 @@ async function generate(){
             mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
         const fname='ASP_Secure_IT_Proposal_'+fileBase(client)+'.docx';
         saveBlob(blob,fname);
-        setStatus('Downloaded '+fname,'ok');
+        setStatus(inIframe()?('Generated '+fname+' — use the Save link if it didn’t download.')
+                            :('Downloaded '+fname),'ok');
     }catch(err){
         setStatus('Could not build the file: '+err.message,'err');
     }finally{$('go').disabled=false;}
