@@ -40,6 +40,41 @@ TEMPLATE = os.path.join(HERE, "template.docx")
 
 UNITS = ["Site", "User", "Identity", "Device", "Workstation", "Server"]
 
+# Default Executive Overview — {CLIENT} is replaced with the client name.
+# Used when the input JSON has no meta.executiveOverview.
+DEFAULT_EXEC = [
+    "{CLIENT} operates in a demanding environment where reliability, security, and cost control "
+    "are essential to its core mission. As {CLIENT} continues to grow and serve its community, "
+    "predictable and dependable technology support is no longer optional—it is foundational to "
+    "operational stability, security, and organizational confidence.",
+    "ALLSTAR Partners proposes a structured, predictive monthly billing model designed to "
+    "eliminate the frustration and uncertainty of variable IT expenses. This approach replaces "
+    "reactive, project-based invoicing with a consistent monthly investment that covers a broad "
+    "range of technical support and security services. {CLIENT} gains clear financial visibility "
+    "while ensuring continuous access to experienced professionals who understand its operational "
+    "demands.",
+    "ALLSTAR Partners brings a proven track record of delivering reliable, high-value managed "
+    "services to organizations that demand accountability, security, and consistency. Our "
+    "philosophy is simple: build stability, bake in security, and provide leadership—not just "
+    "support. This proposal reflects a long-term partnership focused on operational confidence, "
+    "financial predictability, and measurable results.",
+]
+# Paragraph break inside the {{EXEC_OVERVIEW}} region — closes the current Calibri
+# body paragraph and opens an identically-formatted one.
+_PPR = '<w:pPr><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/></w:rPr></w:pPr>'
+_RPR = '<w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/></w:rPr>'
+EXEC_SEP = '</w:t></w:r></w:p><w:p>' + _PPR + '<w:r>' + _RPR + '<w:t xml:space="preserve">'
+
+def build_exec(text, client):
+    """Return the XML value for {{EXEC_OVERVIEW}}: one or more body paragraphs."""
+    if text and str(text).strip():
+        paras = [p.strip() for p in re.split(r"\n+", str(text)) if p.strip()]
+    else:
+        paras = [p.replace("{CLIENT}", client) for p in DEFAULT_EXEC]
+    if not paras:
+        paras = [""]
+    return EXEC_SEP.join(xml_escape(p) for p in paras)
+
 def die(msg):
     print("ERROR:", msg); sys.exit(1)
 
@@ -95,6 +130,8 @@ def main():
         "{{TM_RATE}}":              xml_escape(meta.get("tmHourlyRate", "")),
         "{{SERVICE_TERM_MONTHS}}":  xml_escape(meta.get("serviceTermMonths", "")),
         "{{MONTHLY_TOTAL}}":        money(monthly_total),
+        "{{EXEC_OVERVIEW}}":        build_exec(meta.get("executiveOverview"),
+                                               meta.get("clientName", "Client")),
     }
     for u in UNITS:
         ln = by_unit[u]

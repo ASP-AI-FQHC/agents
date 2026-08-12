@@ -72,7 +72,8 @@ Use the same JSON your pricing tool produces. Minimum required fields:
     "expirationDate": "2026-09-10",
     "serviceTermMonths": 36,
     "nrc": "Waived",
-    "tmHourlyRate": 175
+    "tmHourlyRate": 175,
+    "executiveOverview": "Optional. Custom page-1 narrative; one paragraph per line."
   },
   "lines": [
     { "perUnit": "Site",        "qty": 4,   "unitPrice": 507.80, "monthly": 2031.20 },
@@ -91,6 +92,9 @@ Notes:
   **Site, User, Identity, Device, Workstation, Server**.
 - `preparedByName` / `preparedByEmail` are optional; they default to Guy Fuller /
   gfuller@allstarpartners.com. The email is rendered as a clickable `mailto:` link on the cover.
+- `executiveOverview` is optional. Provide a custom page-1 narrative (one paragraph per line;
+  newlines separate paragraphs). Omit it to use the default wording with the client name filled
+  in. In the web form this is the editable **Executive Overview** box (with **Reset to default**).
 - Dates accept `YYYY-MM-DD` (rendered as `MM/DD/YYYY`).
 - `totals.monthlyTotal` is optional — if omitted it is summed from the line items.
 - Internal-only fields (`unitCost`, `margin`, `blendedMargin`, `annualTotal`) are **ignored**;
