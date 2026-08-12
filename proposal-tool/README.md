@@ -15,6 +15,7 @@ so every proposal looks identical to the approved sample.
 | `template.docx` | The approved ALLSTAR proposal with `{{TOKENS}}` where client/pricing data goes. **Formatting lives here.** |
 | `generate_proposal.py` | Fills the template from a JSON file and writes a ready-to-send `.docx`. |
 | `sample_input.json` | Example input (the "Any FQHC" proposal, SPR-82MVA4). Copy it to start a new one. |
+| `index.html` | **Web interface** — a self-contained page (no server, no install): fill in a form and download the branded `.docx` in the browser. Runs the same fill logic as the script. Open it directly, or host it with the site. |
 
 ## The process (data → proposal)
 
@@ -35,7 +36,17 @@ so every proposal looks identical to the approved sample.
    wording with the client's name filled in — skim and tailor a sentence if the deal calls for it.
 6. **Send it.** Save as PDF from Word if you need a PDF.
 
-## Running it
+## Two ways to run it
+
+**A) Web form (no install).** Open `index.html` in any browser, fill in the client, preparer,
+dates, and quantities, and click **Download Word (.docx)**. Everything runs locally in the page
+(the template and zip logic are embedded); nothing is uploaded.
+
+**B) Command line (batch / automation).** Run the Python script against a JSON file — see below.
+
+Both paths produce the identical `.docx`.
+
+## Running the script
 
 Requires only Python 3 (standard library — no packages to install).
 
