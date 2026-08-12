@@ -123,9 +123,16 @@
     .note b{color:var(--ink);font-weight:700;}
     .status{font-size:.85rem;font-weight:600;}
     .status.ok{color:var(--green);} .status.err{color:var(--magenta);}
-    .dl-fallback{font-size:.86rem;font-weight:700;color:var(--teal);text-decoration:underline;
-        cursor:pointer;white-space:nowrap;}
+    .dl-fallback{font-size:.86rem;font-weight:700;color:#fff;background:var(--teal);
+        text-decoration:none;cursor:pointer;white-space:nowrap;padding:9px 14px;border-radius:8px;}
+    .dl-fallback:hover{filter:brightness(1.06);}
     .dl-fallback:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
+    .embed-note{background:#fff6e6;border:1px solid #f2c66b;color:#5a4413;border-radius:10px;
+        padding:12px 15px;font-size:.9rem;margin-bottom:18px;line-height:1.5;}
+    .embed-note code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px;font-size:.85em;}
+    @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .embed-note{
+        background:#2a2410;border-color:#5c4a1e;color:#e7d9ad;}}
+    :root[data-theme="dark"] .embed-note{background:#2a2410;border-color:#5c4a1e;color:#e7d9ad;}
     kbd{font:inherit;font-size:.78rem;background:var(--panel);border:1px solid var(--line);
         border-radius:5px;padding:1px 6px;color:var(--ink);}
 
@@ -151,6 +158,12 @@
     <div class="rainbow"></div>
 
     <div class="wrap" style="margin-top:26px;">
+        <div id="embedNote" class="embed-note" hidden>
+            <strong>Heads up:</strong> this embedded preview blocks file downloads. To save proposals,
+            open this tool in its own browser tab (the <span aria-hidden="true">⤢</span> expand control),
+            or open the standalone <code>index.html</code> file. Everything runs locally either way —
+            nothing is uploaded.
+        </div>
         <form id="f" autocomplete="off">
             <div class="toolbar-row">
                 <button class="btn secondary sm" id="upload" type="button">&#8593;&nbsp; Upload JSON</button>
@@ -418,7 +431,7 @@ function downloadJSON(){
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const fname='ASP_Secure_IT_Proposal_'+fileBase(client)+'.json';
     saveBlob(blob,fname);
-    setStatus(inIframe()?('Generated '+fname+' — use the Save link if it didn’t download.')
+    setStatus(inIframe()?('Generated '+fname+' — if nothing downloaded, this embedded preview is blocking it (see the note above).')
                         :('Downloaded '+fname),'ok');
 }
 
@@ -463,7 +476,7 @@ async function generate(){
             mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
         const fname='ASP_Secure_IT_Proposal_'+fileBase(client)+'.docx';
         saveBlob(blob,fname);
-        setStatus(inIframe()?('Generated '+fname+' — use the Save link if it didn’t download.')
+        setStatus(inIframe()?('Generated '+fname+' — if nothing downloaded, this embedded preview is blocking it (see the note above).')
                             :('Downloaded '+fname),'ok');
     }catch(err){
         setStatus('Could not build the file: '+err.message,'err');
@@ -538,6 +551,7 @@ $('client').addEventListener('input',()=>{ EDITABLE.forEach(sec=>{ if(sec.useCli
 
 $('go').addEventListener('click',generate);
 $('goJson').addEventListener('click',downloadJSON);
+if(inIframe()) $('embedNote').hidden=false;   // warn when downloads are sandbox-blocked
 calc();
 </script>
 </body>
