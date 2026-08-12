@@ -54,6 +54,8 @@ Use the same JSON your pricing tool produces. Minimum required fields:
 {
   "meta": {
     "clientName": "Any FQHC",
+    "preparedByName": "Guy Fuller",
+    "preparedByEmail": "gfuller@allstarpartners.com",
     "proposalId": "SPR-82MVA4",
     "proposalDate": "2026-08-11",
     "expirationDate": "2026-09-10",
@@ -76,6 +78,8 @@ Use the same JSON your pricing tool produces. Minimum required fields:
 Notes:
 - One `lines` entry is required for each of the six unit types:
   **Site, User, Identity, Device, Workstation, Server**.
+- `preparedByName` / `preparedByEmail` are optional; they default to Guy Fuller /
+  gfuller@allstarpartners.com. The email is rendered as a clickable `mailto:` link on the cover.
 - Dates accept `YYYY-MM-DD` (rendered as `MM/DD/YYYY`).
 - `totals.monthlyTotal` is optional — if omitted it is summed from the line items.
 - Internal-only fields (`unitCost`, `margin`, `blendedMargin`, `annualTotal`) are **ignored**;
@@ -86,11 +90,10 @@ Notes:
 ## What is fixed vs. variable
 
 - **Fixed by the template:** all branding/formatting, the service descriptions, Scope of Work,
-  Scope of Services, terms, acceptance language, Exhibit A, and the preparer
-  (Guy Fuller / gfuller@allstarpartners.com — the email is a Word hyperlink, so change the
-  preparer by editing the cover in Word if ever needed).
-- **Variable (from JSON):** client name, proposal ID, dates, service term, NRC, T&M rate,
-  and the six line items (quantity, unit price, monthly cost) plus the monthly total.
+  Scope of Services, terms, acceptance language, and Exhibit A.
+- **Variable (from JSON):** client name, preparer name + email (clickable mailto), proposal ID,
+  dates, service term, NRC, T&M rate, and the six line items (quantity, unit price, monthly
+  cost) plus the monthly total.
 
 ## Updating the template
 

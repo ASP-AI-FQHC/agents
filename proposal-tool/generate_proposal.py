@@ -81,8 +81,13 @@ def main():
     if monthly_total is None:
         monthly_total = sum(float(by_unit[u]["monthly"]) for u in UNITS)
 
+    prep_name  = meta.get("preparedByName", "Guy Fuller")
+    prep_email = meta.get("preparedByEmail", "gfuller@allstarpartners.com")
+
     repl = {
         "{{CLIENT_NAME}}":          xml_escape(meta.get("clientName", "Client")),
+        "{{PREPARED_BY_NAME}}":     xml_escape(prep_name),
+        "{{PREPARED_BY_EMAIL}}":    xml_escape(prep_email),
         "{{PROPOSAL_ID}}":          xml_escape(meta.get("proposalId", "")),
         "{{PROPOSAL_DATE}}":        xml_escape(fmt_date(meta.get("proposalDate", ""))),
         "{{EXPIRATION_DATE}}":      xml_escape(fmt_date(meta.get("expirationDate", ""))),
@@ -98,14 +103,17 @@ def main():
         repl[f"{{{{UNIT_{U}}}}}"] = num2(ln["unitPrice"])
         repl[f"{{{{COST_{U}}}}}"] = money(ln["monthly"])
 
-    # read template document.xml
+    # Files that carry tokens: the body, and the relationships file (mailto hyperlink).
+    token_files = ("word/document.xml", "word/_rels/document.xml.rels")
+    filled = {}
     with zipfile.ZipFile(TEMPLATE) as z:
-        doc = z.read("word/document.xml").decode("utf-8")
+        for name in token_files:
+            s = z.read(name).decode("utf-8")
+            for tok, val in repl.items():
+                s = s.replace(tok, val)
+            filled[name] = s
 
-    for tok, val in repl.items():
-        doc = doc.replace(tok, val)
-
-    left = sorted(set(re.findall(r"{{[A-Z_]+}}", doc)))
+    left = sorted(set(re.findall(r"{{[A-Z_]+}}", "".join(filled.values()))))
     if left:
         die(f"unfilled tokens remain (bad/missing input): {left}")
 
@@ -113,13 +121,11 @@ def main():
         f"ASP_Secure_IT_Proposal_{re.sub(r'[^A-Za-z0-9]+','_', meta.get('clientName','Client'))}.docx"
 
     shutil.copyfile(TEMPLATE, out)
-    # rewrite word/document.xml inside the copied docx
     tmp = out + ".tmp"
     with zipfile.ZipFile(out) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
-            b = zin.read(item.filename)
-            if item.filename == "word/document.xml":
-                b = doc.encode("utf-8")
+            b = filled[item.filename].encode("utf-8") if item.filename in filled \
+                else zin.read(item.filename)
             zout.writestr(item, b)
     os.replace(tmp, out)
     print(f"Wrote {out}")
