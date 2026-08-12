@@ -111,6 +111,9 @@
     .btn.secondary{background:transparent;color:var(--teal);border:1.5px solid var(--teal);
         box-shadow:none;padding:12px 16px;}
     .btn.secondary:hover{background:color-mix(in srgb,var(--teal) 12%,transparent);filter:none;}
+    .btn.sm{padding:8px 14px;font-size:.88rem;}
+    .toolbar-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+    .toolbar-row .thint{font-size:.83rem;color:var(--muted);}
 
     .note{font-size:.8rem;color:var(--muted);margin-top:16px;display:flex;gap:8px;align-items:flex-start;}
     .note b{color:var(--ink);font-weight:700;}
@@ -142,6 +145,11 @@
 
     <div class="wrap" style="margin-top:26px;">
         <form id="f" autocomplete="off">
+            <div class="toolbar-row">
+                <button class="btn secondary sm" id="upload" type="button">&#8593;&nbsp; Upload JSON</button>
+                <span class="thint">Pre-fill this form from a saved proposal or your pricing tool's JSON export.</span>
+                <input id="file" type="file" accept="application/json,.json" hidden>
+            </div>
             <div class="grid">
                 <!-- Details -->
                 <section class="card">
@@ -378,6 +386,58 @@ async function generate(){
         setStatus('Could not build the file: '+err.message,'err');
     }finally{$('go').disabled=false;}
 }
+// ---- Upload / pre-fill from JSON ----
+function toISODate(v){
+    if(!v) return '';
+    let m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v); if(m) return v;              // already ISO
+    m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(v);                            // MM/DD/YYYY
+    if(m) return `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+    return '';
+}
+function setVal(id,v){ if(v!==undefined && v!==null && v!=='') $(id).value=v; }
+
+function applyJSON(data){
+    const meta=(data&&data.meta)||{};
+    setVal('client',meta.clientName);
+    setVal('pname',meta.preparedByName);
+    setVal('pemail',meta.preparedByEmail);
+    setVal('pid',meta.proposalId);
+    if(meta.serviceTermMonths!==undefined) setVal('term',meta.serviceTermMonths);
+    const pd=toISODate(meta.proposalDate); if(pd) $('pdate').value=pd;
+    const ed=toISODate(meta.expirationDate); if(ed) $('edate').value=ed;
+    setVal('nrc',meta.nrc);
+    if(meta.tmHourlyRate!==undefined) setVal('tm',meta.tmHourlyRate);
+
+    const byUnit={};
+    (data&&Array.isArray(data.lines)?data.lines:[]).forEach(ln=>{
+        const k=String(ln.perUnit||'').trim().toUpperCase();
+        if(k) byUnit[k]=ln;
+    });
+    let matched=0;
+    UNITS.forEach(u=>{
+        const ln=byUnit[u.key]; if(!ln) return;
+        if(ln.qty!==undefined) $('q_'+u.key).value=ln.qty;
+        if(ln.unitPrice!==undefined) $('u_'+u.key).value=Number(ln.unitPrice).toFixed(2);
+        matched++;
+    });
+    calc();
+    setStatus('Loaded '+(meta.clientName?('“'+meta.clientName+'” — '):'')+matched+'/6 line items.','ok');
+}
+
+$('upload').addEventListener('click',()=>$('file').click());
+$('file').addEventListener('change',e=>{
+    const file=e.target.files&&e.target.files[0];
+    if(!file) return;
+    const r=new FileReader();
+    r.onload=()=>{
+        try{ applyJSON(JSON.parse(r.result)); }
+        catch(err){ setStatus('That file isn’t valid JSON.','err'); }
+    };
+    r.onerror=()=>setStatus('Could not read that file.','err');
+    r.readAsText(file);
+    e.target.value='';   // allow re-selecting the same file
+});
+
 $('go').addEventListener('click',generate);
 $('goJson').addEventListener('click',downloadJSON);
 calc();
