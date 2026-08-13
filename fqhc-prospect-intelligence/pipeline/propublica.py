@@ -28,7 +28,16 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.config import Config
-from app.models import ApiCache, utcnow
+from app.models import (
+    ApiCache,
+    EinMatch,
+    Filing,
+    IngestRun,
+    MatchStatus,
+    Organization,
+    RunStatus,
+    utcnow,
+)
 
 
 class ProPublicaUnavailable(RuntimeError):
@@ -340,3 +349,328 @@ def _as_utc(value: datetime) -> datetime:
     from datetime import timezone
 
     return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+
+
+# ===========================================================================
+# Form 990 enrichment
+# ===========================================================================
+
+# ProPublica exposes different field names depending on which form the
+# organization filed (990 vs 990-EZ vs 990-PF), so each figure is read through
+# a list of candidate keys. An unknown key set yields None -- never a zero.
+REVENUE_KEYS = ("totrevenue", "totrevnue", "totprgmrevnue", "revenue_amount")
+EXPENSE_KEYS = ("totfuncexpns", "totexpns", "totexpenses", "expenses_amount")
+ASSET_KEYS = ("totassetsend", "totassetsendofyear", "totassets", "assets_amount")
+
+FORM_TYPE_NAMES = {0: "990", 1: "990-EZ", 2: "990-PF", 3: "990-N"}
+
+
+def _first_number(payload: dict[str, Any], keys: tuple[str, ...]) -> float | None:
+    """Return the first present, numeric value among ``keys``."""
+    for key in keys:
+        if key not in payload:
+            continue
+        value = payload[key]
+        if value is None or value == "":
+            continue
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            continue
+    return None
+
+
+def _parse_period_end(tax_prd: Any) -> datetime | None:
+    """Convert ProPublica's ``tax_prd`` (YYYYMM) into the period end date."""
+    import calendar
+    from datetime import timezone
+
+    text = str(tax_prd or "").strip()
+    if len(text) < 6 or not text[:6].isdigit():
+        return None
+    year, month = int(text[:4]), int(text[4:6])
+    if not 1 <= month <= 12 or not 1900 <= year <= 2200:
+        return None
+    last_day = calendar.monthrange(year, month)[1]
+    return datetime(year, month, last_day, tzinfo=timezone.utc)
+
+
+def _parse_updated(value: Any) -> datetime | None:
+    """Parse ProPublica's ``updated`` timestamp, which is ISO-8601 with offset."""
+    from datetime import timezone
+
+    text = str(value or "").strip()
+    if not text:
+        return None
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return parsed.astimezone(timezone.utc) if parsed.tzinfo else parsed.replace(
+        tzinfo=timezone.utc
+    )
+
+
+@dataclass
+class FilingRecord:
+    """One 990 filing, normalized. Missing figures stay None."""
+
+    ein: str
+    tax_year: int
+    total_revenue: float | None = None
+    total_expenses: float | None = None
+    total_assets: float | None = None
+    form_type: str | None = None
+    pdf_url: str | None = None
+    period_end: datetime | None = None
+    filing_date: datetime | None = None
+
+    @property
+    def has_financials(self) -> bool:
+        return any(
+            v is not None
+            for v in (self.total_revenue, self.total_expenses, self.total_assets)
+        )
+
+
+def parse_filings(
+    ein: str, payload: dict[str, Any] | None, *, limit: int = 3
+) -> list[FilingRecord]:
+    """Extract the most recent filings from an organization payload.
+
+    Filings ProPublica has extracted data from win over bare PDF listings for
+    the same tax year, but a year with only a PDF is still returned -- with null
+    figures -- so the UI can offer the document and say the numbers are not
+    available.
+    """
+    if not payload:
+        return []
+
+    digits = normalize_ein(ein)
+    by_year: dict[int, FilingRecord] = {}
+
+    def absorb(items: Any, with_data: bool) -> None:
+        for item in items or []:
+            if not isinstance(item, dict):
+                continue
+            year = item.get("tax_prd_yr")
+            try:
+                tax_year = int(year)
+            except (TypeError, ValueError):
+                period = _parse_period_end(item.get("tax_prd"))
+                if period is None:
+                    continue
+                tax_year = period.year
+
+            record = FilingRecord(
+                ein=digits,
+                tax_year=tax_year,
+                total_revenue=_first_number(item, REVENUE_KEYS) if with_data else None,
+                total_expenses=_first_number(item, EXPENSE_KEYS) if with_data else None,
+                total_assets=_first_number(item, ASSET_KEYS) if with_data else None,
+                form_type=FORM_TYPE_NAMES.get(item.get("formtype")),
+                pdf_url=item.get("pdf_url") or None,
+                period_end=_parse_period_end(item.get("tax_prd")),
+                filing_date=_parse_updated(item.get("updated")),
+            )
+
+            existing = by_year.get(tax_year)
+            if existing is None or (record.has_financials and not existing.has_financials):
+                by_year[tax_year] = record
+            elif existing.pdf_url is None and record.pdf_url:
+                # Keep the extracted figures but adopt the document link.
+                existing.pdf_url = record.pdf_url
+
+    absorb(payload.get("filings_with_data"), with_data=True)
+    absorb(payload.get("filings_without_data"), with_data=False)
+
+    ordered = sorted(by_year.values(), key=lambda f: f.tax_year, reverse=True)
+    return ordered[:limit]
+
+
+def latest_with_financials(filings: list[FilingRecord]) -> FilingRecord | None:
+    """The most recent filing that actually carries figures, if any."""
+    for filing in sorted(filings, key=lambda f: f.tax_year, reverse=True):
+        if filing.has_financials:
+            return filing
+    return None
+
+
+@dataclass
+class EnrichmentResult:
+    eligible: int = 0
+    fetched: int = 0
+    from_cache: int = 0
+    not_found: int = 0
+    filings_written: int = 0
+    organizations_with_financials: int = 0
+    failed: int = 0
+    used_cache: bool = False
+    source_reachable: bool = True
+    messages: list[str] = field(default_factory=list)
+
+    @property
+    def status(self) -> RunStatus:
+        if self.fetched == 0 and self.failed > 0:
+            return RunStatus.FAILED
+        return RunStatus.PARTIAL if not self.source_reachable else RunStatus.SUCCESS
+
+
+# Give up after this many consecutive hard failures rather than hammering an
+# API that is clearly unreachable.
+CONSECUTIVE_FAILURE_LIMIT = 3
+
+
+def enrich_financials(
+    session: Session,
+    config: Config,
+    *,
+    client: ProPublicaClient,
+    force: bool = False,
+    limit: int | None = None,
+    on_progress: Callable[[str], None] | None = None,
+) -> EnrichmentResult:
+    """Fetch and store 990 filings for every organization with a usable EIN.
+
+    Only organizations whose EIN match is auto-accepted or human-approved are
+    enriched: financials must never be attached to an organization on the
+    strength of an unconfirmed guess.
+    """
+    report = on_progress or (lambda _message: None)
+    result = EnrichmentResult()
+
+    run = IngestRun(stage="financials", status=RunStatus.RUNNING)
+    session.add(run)
+    session.commit()
+
+    organizations = session.scalars(
+        select(Organization)
+        .join(EinMatch, EinMatch.organization_id == Organization.id)
+        .where(
+            EinMatch.ein.is_not(None),
+            EinMatch.status.in_([MatchStatus.AUTO.value, MatchStatus.ACCEPTED.value]),
+        )
+        .order_by(Organization.name)
+    ).all()
+    result.eligible = len(organizations)
+    report(f"{result.eligible:,} organizations have a confirmed EIN")
+
+    consecutive_failures = 0
+
+    try:
+        for index, org in enumerate(organizations, start=1):
+            if limit is not None and result.fetched >= limit:
+                break
+
+            ein = org.ein
+            if not ein:  # defensive: the query already filters for this
+                continue
+
+            try:
+                api_result = client.organization(ein, force=force)
+            except ProPublicaUnavailable as exc:
+                result.failed += 1
+                result.source_reachable = False
+                consecutive_failures += 1
+                report(f"ProPublica unreachable for {org.name} (EIN {ein}): {exc}")
+                if consecutive_failures >= CONSECUTIVE_FAILURE_LIMIT:
+                    result.messages.append(
+                        f"ProPublica unreachable ({exc}); stopped after "
+                        f"{consecutive_failures} consecutive failures with "
+                        f"{result.fetched} of {result.eligible} organizations enriched"
+                    )
+                    break
+                continue
+
+            consecutive_failures = 0
+            if api_result.from_cache:
+                result.used_cache = True
+                result.from_cache += 1
+            else:
+                result.fetched += 1
+
+            if api_result.status_code == 404:
+                result.not_found += 1
+                continue
+
+            filings = parse_filings(
+                ein, api_result.payload, limit=config.propublica.filings_per_org
+            )
+            if not filings:
+                continue
+
+            written = _persist_filings(session, ein, filings)
+            result.filings_written += written
+            if any(f.has_financials for f in filings):
+                result.organizations_with_financials += 1
+
+            if index % 50 == 0:
+                report(
+                    f"Enriched {index:,} of {result.eligible:,} organizations "
+                    f"({result.filings_written:,} filings stored)"
+                )
+
+        session.commit()
+    except Exception as exc:
+        session.rollback()
+        run.status = RunStatus.FAILED
+        run.finished_at = utcnow()
+        run.message = f"{type(exc).__name__}: {exc}"
+        session.commit()
+        raise
+
+    if client.stale_responses:
+        result.used_cache = True
+        result.source_reachable = False
+        result.messages.append(
+            f"{client.stale_responses} response(s) served from an expired cache "
+            "because ProPublica was unreachable"
+        )
+
+    report(
+        f"Stored {result.filings_written:,} filings for "
+        f"{result.organizations_with_financials:,} organizations"
+    )
+
+    run.status = result.status
+    run.finished_at = utcnow()
+    run.records_read = result.eligible
+    run.records_written = result.filings_written
+    run.used_cache = result.used_cache
+    run.source_reachable = result.source_reachable
+    run.message = " | ".join(result.messages) or None
+    session.commit()
+
+    return result
+
+
+def _persist_filings(session: Session, ein: str, filings: list[FilingRecord]) -> int:
+    """Upsert filings for one EIN and drop any that are no longer retained."""
+    existing = {
+        filing.tax_year: filing
+        for filing in session.scalars(select(Filing).where(Filing.ein == ein)).all()
+    }
+    keep_years = {record.tax_year for record in filings}
+
+    for record in filings:
+        row = existing.get(record.tax_year)
+        if row is None:
+            row = Filing(ein=ein, tax_year=record.tax_year)
+            session.add(row)
+        row.total_revenue = record.total_revenue
+        row.total_expenses = record.total_expenses
+        row.total_assets = record.total_assets
+        row.form_type = record.form_type
+        row.pdf_url = record.pdf_url
+        row.period_end = record.period_end
+        row.filing_date = record.filing_date
+        row.fetched_at = utcnow()
+
+    # Retain only the configured window, so shrinking filings_per_org does not
+    # leave orphaned years behind.
+    for year, row in existing.items():
+        if year not in keep_years:
+            session.delete(row)
+
+    session.flush()
+    return len(filings)

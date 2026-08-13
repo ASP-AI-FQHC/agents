@@ -1,0 +1,37 @@
+{
+  "organization": {
+    "id": 111111111,
+    "ein": 111111111,
+    "name": "PRAIRIE RURAL HEALTH SERVICES",
+    "address": "412 MAIN ST",
+    "city": "LAFAYETTE",
+    "state": "IN",
+    "zipcode": "47901",
+    "subseccd": 3
+  },
+  "filings_with_data": [
+    {
+      "ein": 111111111,
+      "tax_prd": 202306,
+      "tax_prd_yr": 2023,
+      "formtype": 1,
+      "pdf_url": "https://projects.propublica.org/nonprofits/download-filing/111111111_2023.pdf",
+      "updated": "2024-05-20T10:00:00.000-04:00",
+      "totrevnue": 842119,
+      "totexpns": 811540,
+      "totassetsend": 402887
+    },
+    {
+      "ein": 111111111,
+      "tax_prd": 202206,
+      "tax_prd_yr": 2022,
+      "formtype": 1,
+      "pdf_url": "https://projects.propublica.org/nonprofits/download-filing/111111111_2022.pdf",
+      "updated": "2023-05-11T10:00:00.000-04:00",
+      "totrevnue": 795004,
+      "totexpns": 780221,
+      "totassetsend": 371455
+    }
+  ],
+  "filings_without_data": []
+}

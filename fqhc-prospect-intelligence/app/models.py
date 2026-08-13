@@ -223,10 +223,22 @@ class Filing(Base):
 
     form_type: Mapped[str | None] = mapped_column(String(32))
     pdf_url: Mapped[str | None] = mapped_column(String(500))
-    # When the IRS/ProPublica record was filed or last updated -- drives the
-    # "data freshness" badge, since 990s typically lag 6-18 months.
+
+    # End of the tax period the filing covers. This is what "freshness" means
+    # for a 990: the figures describe a year that ended on this date, typically
+    # 6-18 months before the filing becomes publicly available.
+    period_end: Mapped[datetime | None] = mapped_column(DateTime)
+    # When ProPublica last updated its record of this filing.
     filing_date: Mapped[datetime | None] = mapped_column(DateTime)
     fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    @property
+    def has_financials(self) -> bool:
+        """False for filings ProPublica lists but has extracted no data from."""
+        return any(
+            value is not None
+            for value in (self.total_revenue, self.total_expenses, self.total_assets)
+        )
 
     __table_args__ = (
         UniqueConstraint("ein", "tax_year", name="uq_filing_ein_year"),

@@ -23,7 +23,7 @@ from app.config import Config, load_config
 from app.db import init_db, session_scope
 from app.models import RunStatus
 from pipeline import hrsa, matching
-from pipeline.propublica import ProPublicaClient
+from pipeline.propublica import ProPublicaClient, enrich_financials
 
 
 @dataclass(frozen=True)
@@ -50,9 +50,19 @@ def _run_matching(
         )
 
 
+def _run_financials(
+    session: Session, config: Config, force_refresh: bool, report: Callable[[str], None]
+) -> object:
+    with ProPublicaClient(config, session) as client:
+        return enrich_financials(
+            session, config, client=client, force=force_refresh, on_progress=report
+        )
+
+
 STAGES: tuple[Stage, ...] = (
     Stage("hrsa", "Build the FQHC universe from HRSA downloads", _run_hrsa),
     Stage("ein", "Resolve EINs via ProPublica search", _run_matching),
+    Stage("financials", "Pull Form 990 filings by EIN", _run_financials),
 )
 
 

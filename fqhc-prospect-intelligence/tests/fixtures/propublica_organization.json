@@ -1,0 +1,63 @@
+{
+  "organization": {
+    "id": 362167869,
+    "ein": 362167869,
+    "name": "ERIE FAMILY HEALTH CENTERS INC",
+    "careofname": null,
+    "address": "1701 W SUPERIOR ST",
+    "city": "CHICAGO",
+    "state": "IL",
+    "zipcode": "60622-5799",
+    "subseccd": 3,
+    "ntee_code": "E320",
+    "updated": "2024-08-11T14:22:03.000-04:00"
+  },
+  "filings_with_data": [
+    {
+      "ein": 362167869,
+      "tax_prd": 202312,
+      "tax_prd_yr": 2023,
+      "formtype": 0,
+      "pdf_url": "https://projects.propublica.org/nonprofits/download-filing/362167869_2023.pdf",
+      "updated": "2024-11-02T09:14:55.000-04:00",
+      "totrevenue": 89412355,
+      "totfuncexpns": 84003112,
+      "totassetsend": 71559204,
+      "totliabend": 19883410
+    },
+    {
+      "ein": 362167869,
+      "tax_prd": 202212,
+      "tax_prd_yr": 2022,
+      "formtype": 0,
+      "pdf_url": "https://projects.propublica.org/nonprofits/download-filing/362167869_2022.pdf",
+      "updated": "2023-10-18T11:02:19.000-04:00",
+      "totrevenue": 81255900,
+      "totfuncexpns": 76310488,
+      "totassetsend": 66104773,
+      "totliabend": 18442901
+    },
+    {
+      "ein": 362167869,
+      "tax_prd": 202112,
+      "tax_prd_yr": 2021,
+      "formtype": 0,
+      "pdf_url": "https://projects.propublica.org/nonprofits/download-filing/362167869_2021.pdf",
+      "updated": "2022-09-30T16:41:07.000-04:00",
+      "totrevenue": 74980221,
+      "totfuncexpns": 68115330,
+      "totassetsend": 60228914,
+      "totliabend": 17009855
+    }
+  ],
+  "filings_without_data": [
+    {
+      "ein": 362167869,
+      "tax_prd": 202012,
+      "tax_prd_yr": 2020,
+      "formtype": 0,
+      "pdf_url": "https://projects.propublica.org/nonprofits/download-filing/362167869_2020.pdf",
+      "updated": "2021-11-15T08:30:00.000-05:00"
+    }
+  ]
+}
