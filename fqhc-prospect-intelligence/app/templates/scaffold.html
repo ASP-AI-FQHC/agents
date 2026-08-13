@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Build status{% endblock %}
+
+{% block nav %}
+  <a class="nav__link nav__link--active" href="/">Build status</a>
+{% endblock %}
+
+{% block content %}
+  <h2 class="page__title">Scaffold ready</h2>
+  <p class="page__subtitle">
+    Database schema, configuration loader and brand system are in place. The
+    HRSA ingestion, EIN matching, ProPublica enrichment and scoring modules
+    populate the tables below.
+  </p>
+
+  <div class="callout callout--info">
+    <p class="callout__title">Nothing has been ingested yet</p>
+    <p>Run <code>python -m pipeline.run</code> once the pipeline modules are installed to build the prospect universe.</p>
+  </div>
+
+  <section class="section">
+    <h3 class="section__header">Database</h3>
+    <dl class="datalist">
+      <dt>SQLite file</dt>
+      <dd>{{ database_file }}</dd>
+      <dt>Download cache</dt>
+      <dd>{{ cache_directory }} <span class="u-muted u-small">(TTL {{ config.cache.max_age_days }} days)</span></dd>
+      <dt>Tables</dt>
+      <dd>
+        {% if tables %}
+          {% for table in tables %}<span class="badge badge--info">{{ table }}</span> {% endfor %}
+        {% else %}
+          <span class="not-available">Not available</span>
+        {% endif %}
+      </dd>
+    </dl>
+  </section>
+
+  <section class="section">
+    <h3 class="section__header">Active ideal-client profile</h3>
+    <div class="grid grid--kpi">
+      <div class="kpi pipe--green">
+        <p class="kpi__label">Revenue sweet spot</p>
+        <p class="kpi__value">${{ '{:,.0f}'.format(config.scoring.revenue.sweet_spot_min / 1000000) }}M&ndash;${{ '{:,.0f}'.format(config.scoring.revenue.sweet_spot_max / 1000000) }}M</p>
+        <p class="kpi__meta">Weight {{ config.scoring.weights.revenue | int }}</p>
+      </div>
+      <div class="kpi">
+        <p class="kpi__label">Minimum sites</p>
+        <p class="kpi__value">{{ config.scoring.sites.minimum }}+</p>
+        <p class="kpi__meta">Weight {{ config.scoring.weights.sites | int }}</p>
+      </div>
+      <div class="kpi pipe--purple">
+        <p class="kpi__label">Target states</p>
+        <p class="kpi__value">{{ config.scoring.state.target_states | join(' ') }}</p>
+        <p class="kpi__meta">Weight {{ config.scoring.weights.state | int }}</p>
+      </div>
+      <div class="kpi pipe--orange">
+        <p class="kpi__label">EIN auto-accept</p>
+        <p class="kpi__value">{{ config.matching.auto_accept_score | int }}</p>
+        <p class="kpi__meta">{{ config.matching.review_score | int }}&ndash;{{ (config.matching.auto_accept_score - 1) | int }} routed to human review</p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

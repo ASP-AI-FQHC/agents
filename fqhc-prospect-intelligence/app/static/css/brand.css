@@ -1,0 +1,638 @@
+/* ==========================================================================
+   Allstar Partners brand system
+   Implements the Allstar Partners Brand Style Guide: the six brand colors,
+   Open Sans, the six-color star band, the left-edge color pipe, blue page
+   titles / uppercase green section headers, and the standard footer.
+   Color comes from accents -- surfaces stay white.
+   ========================================================================== */
+
+:root {
+  /* --- Brand palette (exact values from the style guide) ----------------- */
+  --allstar-blue: #0094bb;
+  --allstar-purple: #524fa2;
+  --allstar-pink: #cf118c;
+  --allstar-orange: #f58220;
+  --allstar-yellow: #ffd503;
+  --allstar-green: #6fc055;
+  --allstar-black: #000000;
+  --allstar-gray: #999999;
+
+  /* --- Derived neutrals (tints only; never new hues) --------------------- */
+  --surface: #ffffff;
+  --surface-muted: #f7f9fa;
+  --rule: #e4e8ea;
+  --rule-strong: #cfd6d9;
+  --text: var(--allstar-black);
+  --text-secondary: var(--allstar-gray);
+  --text-on-color: #ffffff;
+
+  --blue-tint: #e6f5f9;
+  --green-tint: #eef8ea;
+  --orange-tint: #fef2e7;
+  --pink-tint: #fbe7f3;
+
+  /* --- Type ------------------------------------------------------------- */
+  --font-stack: "Open Sans", Helvetica, Verdana, Arial, sans-serif;
+
+  /* --- Rhythm ----------------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --pipe-width: 4px;
+  --radius: 3px;
+  --content-max: 1360px;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-stack);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.55;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--allstar-blue);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--allstar-blue);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Signature element 1: the six-color star band
+   Six equal-width blocks -- blue, purple, pink, orange, yellow, green --
+   centered and flush against the very top edge of every page.
+   -------------------------------------------------------------------------- */
+
+.star-band {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  /* Flush to the top edge, above everything else on the page. */
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--surface);
+}
+
+.star-band__block {
+  width: 60px;
+  height: 8px;
+}
+
+.star-band__block--blue { background: var(--allstar-blue); }
+.star-band__block--purple { background: var(--allstar-purple); }
+.star-band__block--pink { background: var(--allstar-pink); }
+.star-band__block--orange { background: var(--allstar-orange); }
+.star-band__block--yellow { background: var(--allstar-yellow); }
+.star-band__block--green { background: var(--allstar-green); }
+
+@media (max-width: 480px) {
+  .star-band__block { width: 44px; }
+}
+
+/* --------------------------------------------------------------------------
+   Signature element 2: the color pipe
+   A solid vertical bar on the left edge of callouts, KPI cards and highlighted
+   blocks. Blue = informational, green = recommended / qualified.
+   -------------------------------------------------------------------------- */
+
+/* Every piped component reads --pipe-color, so a .pipe--* modifier recolors the
+   bar regardless of rule order or which component it is applied to. */
+.pipe {
+  border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-blue));
+  padding-left: var(--space-4);
+}
+
+.pipe--blue { --pipe-color: var(--allstar-blue); }
+.pipe--purple { --pipe-color: var(--allstar-purple); }
+.pipe--pink { --pipe-color: var(--allstar-pink); }
+.pipe--orange { --pipe-color: var(--allstar-orange); }
+.pipe--yellow { --pipe-color: var(--allstar-yellow); }
+.pipe--green { --pipe-color: var(--allstar-green); }
+.pipe--gray { --pipe-color: var(--allstar-gray); }
+
+/* --------------------------------------------------------------------------
+   Masthead + navigation
+   -------------------------------------------------------------------------- */
+
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.masthead__inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-6) var(--space-4);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.masthead__brand {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--allstar-gray);
+  margin: 0 0 var(--space-1);
+}
+
+.masthead__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--allstar-blue);
+  line-height: 1.2;
+}
+
+.masthead__title a { color: inherit; text-decoration: none; }
+
+.nav {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav__link {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--allstar-gray);
+  padding-bottom: var(--space-1);
+  border-bottom: 2px solid transparent;
+}
+
+.nav__link:hover {
+  color: var(--allstar-blue);
+  text-decoration: none;
+}
+
+.nav__link--active {
+  color: var(--allstar-blue);
+  border-bottom-color: var(--allstar-blue);
+}
+
+.nav__count {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: var(--allstar-orange);
+  color: var(--text-on-color);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+
+.page {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-6) var(--space-8);
+}
+
+.page__title {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--allstar-blue);
+  margin: 0 0 var(--space-2);
+  line-height: 1.2;
+}
+
+.page__subtitle {
+  margin: 0 0 var(--space-6);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.section {
+  margin-top: var(--space-7);
+}
+
+.section__header {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--allstar-green);
+  margin: 0 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--rule);
+}
+
+.stack > * + * { margin-top: var(--space-4); }
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.grid--kpi {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.grid--halves {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+   KPI cards -- white surface, color pipe on the left edge
+   -------------------------------------------------------------------------- */
+
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-blue));
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-4);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.kpi__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--allstar-gray);
+  margin: 0 0 var(--space-2);
+}
+
+.kpi__value {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+  margin: 0;
+}
+
+.kpi__meta {
+  margin: var(--space-2) 0 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Callouts
+   -------------------------------------------------------------------------- */
+
+.callout {
+  border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-blue));
+  background: var(--surface-muted);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 13px;
+}
+
+.callout--info { --pipe-color: var(--allstar-blue); background: var(--blue-tint); }
+.callout--success { --pipe-color: var(--allstar-green); background: var(--green-tint); }
+.callout--warning { --pipe-color: var(--allstar-orange); background: var(--orange-tint); }
+.callout--alert { --pipe-color: var(--allstar-pink); background: var(--pink-tint); }
+
+.callout__title {
+  font-weight: 700;
+  margin: 0 0 var(--space-1);
+}
+
+.callout p { margin: 0; }
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--allstar-blue);
+  background: var(--allstar-blue);
+  color: var(--text-on-color);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.btn:hover { background: #007a9b; border-color: #007a9b; text-decoration: none; }
+
+.btn--secondary {
+  background: var(--surface);
+  color: var(--allstar-blue);
+}
+
+.btn--secondary:hover { background: var(--blue-tint); color: var(--allstar-blue); }
+
+.btn--accept {
+  background: var(--allstar-green);
+  border-color: var(--allstar-green);
+}
+
+.btn--accept:hover { background: #5faa48; border-color: #5faa48; }
+
+.btn--reject {
+  background: var(--surface);
+  border-color: var(--rule-strong);
+  color: var(--text-secondary);
+}
+
+.btn--reject:hover { background: var(--surface-muted); color: var(--text); }
+
+.btn--small { padding: 5px 11px; font-size: 12px; }
+
+.btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+/* --------------------------------------------------------------------------
+   Badges -- confidence, freshness and qualification states
+   -------------------------------------------------------------------------- */
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.badge--qualified { background: var(--green-tint); color: #3f7a2d; border-color: #bfe3b2; }
+.badge--info { background: var(--blue-tint); color: #006d8a; border-color: #b5e0eb; }
+.badge--review { background: var(--orange-tint); color: #a85a10; border-color: #f8d3ac; }
+.badge--alert { background: var(--pink-tint); color: #a20d6e; border-color: #f0b9dd; }
+.badge--neutral { background: var(--surface-muted); color: var(--text-secondary); border-color: var(--rule); }
+
+/* Missing data is always stated, never filled in. */
+.not-available {
+  color: var(--allstar-gray);
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   Tables
+   -------------------------------------------------------------------------- */
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th,
+.table td {
+  padding: 10px var(--space-3);
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.table thead th {
+  background: var(--surface-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--allstar-gray);
+  white-space: nowrap;
+  border-bottom: 2px solid var(--rule-strong);
+}
+
+.table thead th a { color: inherit; }
+.table thead th a:hover { color: var(--allstar-blue); }
+
+.table tbody tr:hover { background: var(--surface-muted); }
+
+.table tbody tr:last-child td { border-bottom: none; }
+
+.table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.sort-indicator { color: var(--allstar-blue); }
+
+/* Score cell: number plus a proportional bar in brand blue. */
+.score-cell { display: flex; align-items: center; gap: var(--space-2); }
+
+.score-value {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  min-width: 28px;
+  text-align: right;
+}
+
+.score-bar {
+  flex: 1;
+  min-width: 48px;
+  height: 6px;
+  background: var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.score-bar__fill { height: 100%; background: var(--allstar-blue); }
+.score-bar__fill--strong { background: var(--allstar-green); }
+
+/* --------------------------------------------------------------------------
+   Filters + forms
+   -------------------------------------------------------------------------- */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: flex-end;
+  padding: var(--space-4);
+  border: 1px solid var(--rule);
+  border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-blue));
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--surface);
+}
+
+.field { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.field__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--allstar-gray);
+}
+
+.field input,
+.field select {
+  font-family: inherit;
+  font-size: 13px;
+  padding: 7px 9px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  min-width: 150px;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--allstar-blue);
+  outline: none;
+}
+
+.toolbar {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.toolbar__group { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
+
+.result-count { font-size: 12px; color: var(--text-secondary); }
+
+/* --------------------------------------------------------------------------
+   Definition lists (organization detail)
+   -------------------------------------------------------------------------- */
+
+.datalist { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: var(--space-2) var(--space-5); }
+
+.datalist dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--allstar-gray);
+  padding-top: 2px;
+}
+
+.datalist dd { margin: 0; font-size: 14px; }
+
+/* --------------------------------------------------------------------------
+   Progress (Refresh Data)
+   -------------------------------------------------------------------------- */
+
+.progress {
+  height: 8px;
+  background: var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  background: var(--allstar-blue);
+  transition: width 0.3s ease;
+}
+
+.progress__log {
+  margin-top: var(--space-3);
+  font-size: 12px;
+  color: var(--text-secondary);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.progress__log li { margin-bottom: var(--space-1); }
+
+/* --------------------------------------------------------------------------
+   Footer -- thin blue pipe, gray 12px, on every page
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  flex-shrink: 0;
+  border-top: 1px solid var(--rule);
+  margin-top: var(--space-8);
+  padding: var(--space-5) var(--space-6);
+}
+
+.site-footer__inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  border-left: var(--pipe-width) solid var(--allstar-blue);
+  padding-left: var(--space-4);
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--allstar-gray);
+}
+
+.site-footer__name { font-weight: 700; letter-spacing: 0.04em; }
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+
+.u-muted { color: var(--text-secondary); }
+.u-small { font-size: 12px; }
+.u-nowrap { white-space: nowrap; }
+.u-mt-0 { margin-top: 0; }
+.u-mb-4 { margin-bottom: var(--space-4); }
+.u-flex { display: flex; gap: var(--space-2); align-items: center; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media print {
+  .star-band { position: static; }
+  .nav, .filters, .toolbar { display: none; }
+}

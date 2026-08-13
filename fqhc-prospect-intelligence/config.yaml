@@ -1,0 +1,98 @@
+# FQHC Prospect Intelligence -- single source of truth for tunable behaviour.
+#
+# Every threshold, weight and endpoint the pipeline uses lives here. Nothing in
+# the code hard-codes a business rule; change a value below and re-run
+# `python -m pipeline.run` to see it reflected in the scores and the dashboard.
+
+app:
+  name: FQHC Prospect Intelligence
+  company: Allstar Partners
+  # Relative paths are resolved against the project root (the directory holding
+  # this file), so the app behaves the same no matter where it is launched from.
+  database_path: data/fqhc.db
+
+cache:
+  # Raw HRSA downloads land here alongside a .meta.json stamped with the fetch
+  # time. A cached file younger than max_age_days is reused without a network
+  # call; `python -m pipeline.run --force-refresh` overrides that.
+  directory: data/raw
+  max_age_days: 30
+
+hrsa:
+  # HRSA occasionally renames these download files. If a URL 404s the pipeline
+  # falls back to any matching file already sitting in the cache directory, and
+  # you can always drop a manually downloaded CSV there (see README).
+  sites_url: https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv
+  sites_filename: hrsa_service_delivery_sites.csv
+  awardees_url: https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Program_Awardee_Data.csv
+  awardees_filename: hrsa_program_awardees.csv
+  timeout_seconds: 180
+
+propublica:
+  base_url: https://projects.propublica.org/nonprofits/api/v2
+  # Politeness controls. The Nonprofit Explorer API is free and unauthenticated;
+  # we stay well inside what it tolerates.
+  requests_per_second: 1.0
+  max_retries: 5
+  backoff_base_seconds: 2.0
+  backoff_max_seconds: 60.0
+  timeout_seconds: 30
+  # How many 990 filings to retain per organization.
+  filings_per_org: 3
+  # Cached API responses older than this are re-fetched; newer ones are reused.
+  refresh_after_days: 30
+
+matching:
+  # Fuzzy name-match routing. Scores are 0-100 (rapidfuzz token_sort_ratio on
+  # normalized names). Nothing is ever silently guessed: everything below
+  # auto_accept_score is surfaced in the UI.
+  auto_accept_score: 90
+  review_score: 70
+  # Require the ProPublica record's state to equal the HRSA state. Turning this
+  # off widens recall at the cost of more review-queue noise.
+  require_state_match: true
+  # Candidates pulled from the ProPublica search endpoint per organization.
+  max_candidates: 25
+
+scoring:
+  # Composite ICP score = weighted average of the factors below, expressed 0-100.
+  # Weights are relative; they do not need to sum to 100. When a factor cannot be
+  # computed for an organization (e.g. no 990 on file) it is marked unavailable
+  # and the remaining weights are renormalized -- missing data is never guessed.
+  weights:
+    revenue: 35
+    sites: 25
+    state: 20
+    grant_dependence: 20
+
+  revenue:
+    # Full credit inside the sweet spot, tapering to zero at the outer bounds.
+    sweet_spot_min: 5000000
+    sweet_spot_max: 50000000
+    floor: 1000000        # below this: score 0
+    ceiling: 150000000    # above this: score 0
+
+  sites:
+    # Full credit at target_sites or more; linear ramp from 1 site.
+    minimum: 3
+    target: 10
+
+  state:
+    # Organizations in these states receive full credit for the state factor.
+    target_states: [IL, WI, IN, MI]
+    # Credit given to organizations outside the target list (0-100). Set above 0
+    # to keep out-of-footprint organizations visible but ranked lower.
+    other_state_score: 0
+
+  grant_dependence:
+    # Federal grant revenue as a share of total revenue. Higher dependence means
+    # a stronger funding-protection / compliance sales angle. Only computed when
+    # both figures are actually present in the source data.
+    full_credit_ratio: 0.5   # >= 50% of revenue from grants -> score 100
+    zero_credit_ratio: 0.05  # <= 5% -> score 0
+
+ui:
+  # Rows per page in the master table.
+  page_size: 50
+  # A 990 filing older than this many months is badged as ageing in the UI.
+  filing_stale_months: 18

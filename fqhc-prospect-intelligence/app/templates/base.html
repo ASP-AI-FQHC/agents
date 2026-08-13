@@ -1,0 +1,57 @@
+{# Base layout carrying the Allstar Partners brand furniture: the six-color
+   star band at the top edge, the masthead, and the standard footer. #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ config.app.name }}{% endblock %} | {{ config.app.company }}</title>
+
+  {# Open Sans 300/400/700/800 per the brand guide; the CSS fallback stack is
+     Helvetica, Verdana, Arial, sans-serif if the font cannot be reached. #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', path='css/brand.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+  {# Signature element: six equal-width color blocks, flush to the top edge. #}
+  <div class="star-band" aria-hidden="true">
+    <span class="star-band__block star-band__block--blue"></span>
+    <span class="star-band__block star-band__block--purple"></span>
+    <span class="star-band__block star-band__block--pink"></span>
+    <span class="star-band__block star-band__block--orange"></span>
+    <span class="star-band__block star-band__block--yellow"></span>
+    <span class="star-band__block star-band__block--green"></span>
+  </div>
+
+  <header class="masthead">
+    <div class="masthead__inner">
+      <div>
+        <p class="masthead__brand">{{ config.app.company }}</p>
+        <h1 class="masthead__title"><a href="/">{{ config.app.name }}</a></h1>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        {% block nav %}{% endblock %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    {% block banner %}{% endblock %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p><span class="site-footer__name">ALLSTAR PARTNERS</span> | Information Technology Consultants</p>
+      <p>954 W. Washington Blvd. Ste 535, Chicago, IL 60607 | Main: (312) 235-2400 | allstar.partners</p>
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
