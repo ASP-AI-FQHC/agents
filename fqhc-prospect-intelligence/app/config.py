@@ -37,6 +37,9 @@ class HrsaSettings(BaseModel):
     awardees_url: str
     awardees_filename: str = "hrsa_program_awardees.csv"
     timeout_seconds: float = Field(default=180.0, gt=0)
+    # Count only sites HRSA reports as active. Turning this off inflates site
+    # counts with closed locations.
+    active_sites_only: bool = True
 
 
 class ProPublicaSettings(BaseModel):

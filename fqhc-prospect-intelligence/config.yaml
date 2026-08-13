@@ -27,6 +27,8 @@ hrsa:
   awardees_url: https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Program_Awardee_Data.csv
   awardees_filename: hrsa_program_awardees.csv
   timeout_seconds: 180
+  # Count only sites HRSA reports as active.
+  active_sites_only: true
 
 propublica:
   base_url: https://projects.propublica.org/nonprofits/api/v2

@@ -1,0 +1,12 @@
+BHCMIS Organization Identification Number,Health Center Name,Site Name,Site Number,Site Address,Site City,Site State Abbreviation,Site Postal Code,Site Telephone Number,Site Web Address,Site Type Description,Site Status Description,Health Center Type Description,Grant Number
+010010,"Erie Family Health Centers, Inc.",Erie Administrative Office,S-1001,1701 W Superior St,Chicago,IL,60622,(312) 666-3494,https://www.eriefamilyhealth.org,Administrative Site,Active,Health Center Program Awardee,H80CS00123
+010010,"Erie Family Health Centers, Inc.",Erie Humboldt Park Health Center,S-1002,2750 W North Ave,Chicago,IL,60647,(312) 666-3494,,Service Delivery Site,Active,Health Center Program Awardee,H80CS00123
+010010,"Erie Family Health Centers, Inc.",Erie West Town Health Center,S-1003,1701 W Superior St,Chicago,IL,60622,(312) 666-3494,,Service Delivery Site,Active,Health Center Program Awardee,H80CS00123
+010010,"Erie Family Health Centers, Inc.",Erie Humboldt Park Health Center,S-1002,2750 W North Ave,Chicago,IL,60647,(312) 666-3494,,Service Delivery Site,Active,Health Center Program Awardee,H80CS00456
+010010,Erie Family Health Center,Erie Evanston Health Center,S-1004,1285 Hartrey Ave,Evanston,IL,60202,,,Service Delivery Site,Inactive,Health Center Program Awardee,H80CS00123
+020020,Milwaukee Health Services Inc,MLK Heritage Health Center,S-2001,2555 N Dr Martin Luther King Dr,Milwaukee,WI,53212,(414) 372-8080,https://www.mhsi.org,Service Delivery Site,Active,Health Center Program Look-Alike,
+020020,Milwaukee Health Services Inc,Isaac Coggs Heritage Health Center,S-2002,8200 W Silver Spring Dr,Milwaukee,WI,53218,(414) 372-8080,,Service Delivery Site,Active,Health Center Program Look-Alike,
+,Prairie Rural Health Clinic,Prairie Rural Health Clinic,S-3001,412 Main St,Lafayette,IN,47901,(765) 555-0134,,Service Delivery Site,Active,Health Center Program Awardee,H80CS00789
+,Lakeshore Community Health,Lakeshore Community Health - Gary,S-4001,900 Broadway,Gary,IN,46402,,,Service Delivery Site,Active,Health Center Program Awardee,H80CS00901
+,Lakeshore Community Health,Lakeshore Community Health - Grand Rapids,S-4002,150 Monroe Ave NW,Grand Rapids,MI,49503,,,Service Delivery Site,Active,Health Center Program Awardee,H80CS00902
+,,Orphan Site With No Organization,S-9999,1 Nowhere Rd,Springfield,IL,62701,,,Service Delivery Site,Active,Health Center Program Awardee,
