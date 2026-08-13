@@ -397,23 +397,37 @@ document.getElementById('f').addEventListener('input',()=>{calc();setStatus('');
 function setStatus(msg,kind){const s=$('status');s.textContent=msg;s.className='status'+(kind?' '+kind:'');}
 function fileBase(client){return (client.replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'')||'Client');}
 function inIframe(){try{return window.self!==window.top;}catch(e){return true;}}
-// Reveal a prominent, user-clickable Save button and best-effort auto-download.
-// The user-click path is what makes downloads reliable in Safari and other browsers
-// that require a *fresh* user gesture (the file is built asynchronously, after the
-// original button click, so the auto-download alone isn't always honored).
-function saveBlob(blob,fname){
+function capDownloads(){ try{ return (window.claude && window.claude.downloads) || null; }catch(e){ return null; } }
+async function saveBlob(blob,fname){
+    // Preferred: the claude.ai artifact runtime download capability — this is what
+    // makes downloads work inside the hosted page (the viewer confirms the save).
+    const cap=capDownloads();
+    if(cap){
+        setStatus('Preparing '+fname+'…');
+        try{
+            await cap.save({filename:fname, data:blob});
+            setStatus('Saved '+fname,'ok');
+        }catch(err){
+            const code=err&&err.code, ext=(fname.split('.').pop()||'file').toUpperCase();
+            setStatus(
+              (code==='declined'||code==='rate_limited') ? 'Save canceled — click the button again to retry.' :
+              code==='extension_not_enabled' ? (ext+' saving isn’t enabled in this hosted view — export JSON here, or use the shared file for Word.') :
+              code==='too_large' ? 'File is too large to save here.' :
+              ('Could not save here ('+(code||'unavailable')+').'), 'err');
+        }
+        return;
+    }
+    // Fallback: a normal browser tab or the local file — reveal a click-to-Save button
+    // (a fresh user gesture, which Safari/strict browsers require) and best-effort auto-download.
     const url=URL.createObjectURL(blob);
     const dl=$('dl');
-    dl.href=url; dl.setAttribute('download',fname);
-    dl.textContent='⬇ Save '+fname;
-    dl.hidden=false;
-    dl.classList.add('ready');
-    dl.scrollIntoView({block:'nearest'});
-    // Best-effort immediate download (instant in Chrome/Edge; harmless elsewhere).
+    dl.href=url; dl.setAttribute('download',fname); dl.textContent='⬇ Save '+fname;
+    dl.hidden=false; dl.classList.add('ready'); dl.scrollIntoView({block:'nearest'});
     try{ const a=document.createElement('a'); a.href=url; a.download=fname; a.rel='noopener';
          document.body.appendChild(a); a.click(); a.remove(); }catch(e){}
-    if(inIframe()){ try{window.open(url,'_blank','noopener');}catch(e){} }
-    return url;
+    setStatus(inIframe()
+        ? 'Proposal ready — open the tool in its own tab to download.'
+        : ('Ready — if it didn’t download, click ⬇ Save '+fname+'.'), 'ok');
 }
 function round2(n){return Math.round((Number(n)+Number.EPSILON)*100)/100;}
 
@@ -447,7 +461,7 @@ function collectJSON(){
         totals:{monthlyTotal:total, annualTotal:round2(total*12)}
     };
 }
-function downloadJSON(){
+async function downloadJSON(){
     const client=$('client').value.trim();
     if(!client){$('client').setAttribute('aria-invalid','true');$('client').focus();
         setStatus('Enter a client name.','err');return;}
@@ -455,9 +469,7 @@ function downloadJSON(){
     const data=collectJSON();
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const fname='ASP_Secure_IT_Proposal_'+fileBase(client)+'.json';
-    saveBlob(blob,fname);
-    setStatus(inIframe()?('JSON ready — this embedded preview blocks downloads; open the tool in its own tab.')
-                        :('JSON ready — click the ⬇ Save button to download.'),'ok');
+    await saveBlob(blob,fname);
 }
 
 async function generate(){
@@ -501,9 +513,7 @@ async function generate(){
         const blob=await zip.generateAsync({type:'blob',
             mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
         const fname='ASP_Secure_IT_Proposal_'+fileBase(client)+'.docx';
-        saveBlob(blob,fname);
-        setStatus(inIframe()?('Proposal ready — this embedded preview blocks downloads (see the note above); open the tool in its own tab.')
-                            :('Proposal ready — click the ⬇ Save button to download.'),'ok');
+        await saveBlob(blob,fname);
     }catch(err){
         setStatus('Could not build the file: '+err.message,'err');
     }finally{$('go').disabled=false;}
@@ -580,7 +590,7 @@ $('client').addEventListener('input',()=>{ EDITABLE.forEach(sec=>{ if(sec.useCli
 $('brand').addEventListener('change',updateBrandLabels);
 $('go').addEventListener('click',generate);
 $('goJson').addEventListener('click',downloadJSON);
-if(inIframe()) $('embedNote').hidden=false;   // warn when downloads are sandbox-blocked
+if(inIframe() && !capDownloads()) $('embedNote').hidden=false;   // warn only when no download capability is available
 calc();
 </script>
 </body>
