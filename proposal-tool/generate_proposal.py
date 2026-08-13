@@ -40,6 +40,10 @@ TEMPLATE = os.path.join(HERE, "template.docx")
 
 UNITS = ["Site", "User", "Identity", "Device", "Workstation", "Server"]
 
+# Product-line brand shown in every heading (cover, summary, SOS, price table).
+BRANDS = ["ASP Healthcare IT", "ASP Enterprise IT", "ASP Business IT"]
+DEFAULT_BRAND = BRANDS[0]
+
 # Default Executive Overview — {CLIENT} is replaced with the client name.
 # Used when the input JSON has no meta.executiveOverview.
 DEFAULT_EXEC = [
@@ -152,6 +156,7 @@ def main():
         "{{TM_RATE}}":              xml_escape(meta.get("tmHourlyRate", "")),
         "{{SERVICE_TERM_MONTHS}}":  xml_escape(meta.get("serviceTermMonths", "")),
         "{{MONTHLY_TOTAL}}":        money(monthly_total),
+        "{{BRAND}}":                xml_escape(meta.get("productLine", DEFAULT_BRAND)),
         "{{EXEC_OVERVIEW}}":        build_paras(meta.get("executiveOverview"), DEFAULT_EXEC,
                                                 meta.get("clientName", "Client"), BODY_SEP),
         "{{PROPOSAL_SUMMARY}}":     build_paras(meta.get("proposalSummary"), DEFAULT_SUMMARY,

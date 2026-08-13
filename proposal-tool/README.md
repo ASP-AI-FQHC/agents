@@ -73,6 +73,7 @@ Use the same JSON your pricing tool produces. Minimum required fields:
     "serviceTermMonths": 36,
     "nrc": "Waived",
     "tmHourlyRate": 175,
+    "productLine": "ASP Healthcare IT",
     "executiveOverview": "Optional. Custom page-1 narrative; one paragraph per line.",
     "proposalSummary": "Optional. Custom client-description intro.",
     "additionalTerms": "Optional. One term per line; each becomes a numbered item."
@@ -94,6 +95,10 @@ Notes:
   **Site, User, Identity, Device, Workstation, Server**.
 - `preparedByName` / `preparedByEmail` are optional; they default to Guy Fuller /
   gfuller@allstarpartners.com. The email is rendered as a clickable `mailto:` link on the cover.
+- `productLine` is the brand shown in every heading (cover, summary, Scope of Services, price
+  table). One of **ASP Healthcare IT**, **ASP Enterprise IT**, **ASP Business IT** (default
+  Healthcare). In the web form it's the **Product line** dropdown, and the service-item labels
+  update to match.
 - Three prose sections are optional and editable (each has a **Reset to default** box in the web
   form; omit the field to use the default wording with the client name filled in):
   - `executiveOverview` — the page-1 narrative (one paragraph per line).
