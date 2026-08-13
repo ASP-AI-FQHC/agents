@@ -21,7 +21,9 @@ from sqlalchemy.orm import Session
 
 from app.config import Config, load_config
 from app.db import init_db, session_scope
-from pipeline import hrsa
+from app.models import RunStatus
+from pipeline import hrsa, matching
+from pipeline.propublica import ProPublicaClient
 
 
 @dataclass(frozen=True)
@@ -39,8 +41,18 @@ def _run_hrsa(
     )
 
 
+def _run_matching(
+    session: Session, config: Config, force_refresh: bool, report: Callable[[str], None]
+) -> matching.MatchingResult:
+    with ProPublicaClient(config, session) as client:
+        return matching.match_organizations(
+            session, config, client=client, force=force_refresh, on_progress=report
+        )
+
+
 STAGES: tuple[Stage, ...] = (
     Stage("hrsa", "Build the FQHC universe from HRSA downloads", _run_hrsa),
+    Stage("ein", "Resolve EINs via ProPublica search", _run_matching),
 )
 
 
@@ -100,7 +112,14 @@ def main(argv: list[str] | None = None) -> int:
                 cache_date = getattr(result, "cache_date", None)
                 stamp = f" from {cache_date:%Y-%m-%d}" if cache_date else ""
                 print(f"  ! Ran on cached data{stamp}", flush=True)
-            print(f"[{stage.name}] done", flush=True)
+
+            # A stage that completed on stale data, or not at all, must not
+            # report the same "done" as a clean live run.
+            status = getattr(result, "status", None)
+            if status is RunStatus.FAILED:
+                failures += 1
+            suffix = "" if status in (None, RunStatus.SUCCESS) else f" ({status.value})"
+            print(f"[{stage.name}] done{suffix}", flush=True)
 
     if failures:
         print(f"\n{failures} stage(s) failed.", file=sys.stderr)

@@ -55,6 +55,11 @@ matching:
   require_state_match: true
   # Candidates pulled from the ProPublica search endpoint per organization.
   max_candidates: 25
+  # When the two best candidates are this close, the name alone cannot tell them
+  # apart, so the match goes to review even if the top score clears 90.
+  ambiguity_margin: 3
+  # How long before an unmatched or rejected organization is searched again.
+  refresh_after_days: 30
 
 scoring:
   # Composite ICP score = weighted average of the factors below, expressed 0-100.

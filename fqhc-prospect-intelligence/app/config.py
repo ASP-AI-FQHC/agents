@@ -58,6 +58,11 @@ class MatchingSettings(BaseModel):
     review_score: float = Field(default=70.0, ge=0, le=100)
     require_state_match: bool = True
     max_candidates: int = Field(default=25, ge=1)
+    # If the two best candidates are within this many points of each other, the
+    # match goes to human review even when the top score clears auto-accept.
+    ambiguity_margin: float = Field(default=3.0, ge=0)
+    # How long before an unmatched or rejected organization is searched again.
+    refresh_after_days: int = Field(default=30, ge=0)
 
     @model_validator(mode="after")
     def _check_band(self) -> "MatchingSettings":

@@ -196,6 +196,9 @@ class EinMatch(Base):
 
     # Runner-up candidates, kept so the review queue can offer alternatives.
     candidates: Mapped[list[dict[str, Any]] | None] = mapped_column(JSON)
+    # EINs a human has rejected for this organization. Excluded from every
+    # future search so a rejection is not re-proposed.
+    rejected_eins: Mapped[list[str] | None] = mapped_column(JSON)
 
     searched_at: Mapped[datetime | None] = mapped_column(DateTime)
     decided_at: Mapped[datetime | None] = mapped_column(DateTime)
