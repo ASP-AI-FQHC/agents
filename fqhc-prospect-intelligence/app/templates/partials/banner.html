@@ -19,6 +19,11 @@
         <strong>Refresh data</strong> below, to build the prospect database from
         HRSA and ProPublica.
       </p>
+      <p class="u-small">
+        This window is reading <code>{{ database_file }}</code>. If you have
+        already run the pipeline, check that it wrote to that same file &mdash;
+        it prints the path it uses on the first line of its output.
+      </p>
     {% endif %}
   </div>
 {% elif status.any_source_unreachable %}

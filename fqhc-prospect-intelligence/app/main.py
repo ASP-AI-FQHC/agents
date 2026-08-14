@@ -125,6 +125,9 @@ def page_context(session: Session, request: Request) -> dict:
     return {
         "request": request,
         "status": status,
+        # Shown in the empty state: an app pointed at the wrong database looks
+        # identical to one whose pipeline has never run.
+        "database_file": config.database_file,
         "review_count": summarize(session).needs_review,
         "change_count": session.scalar(
             select(func.count()).select_from(ChangeEvent)

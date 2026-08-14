@@ -93,6 +93,20 @@ re-fetching anything.
 Point the app and the CLI at a different config with the `FQHC_CONFIG`
 environment variable, or `python -m pipeline.run --config path/to/config.yaml`.
 
+### Where the database lives
+
+Run from a checkout — `python -m pipeline.run`, `uvicorn app.main:app` and
+`python -m desktop.main` alike — everything lives in `data/` next to the code.
+Only the packaged `.app` uses a separate per-user directory
+(`~/Library/Application Support/Allstar Partners/…`), because an application
+bundle is read-only and cannot be written to.
+
+Both the pipeline and the desktop launcher print the database file they are
+using on startup, and the app's empty state names it too. An app pointed at a
+different database than the pipeline just built looks exactly like a pipeline
+that found nothing, so the path is always stated rather than assumed. Override
+it for both with `FQHC_DATA_DIR`.
+
 ## How prospects are scored
 
 Four factors, combined into a weighted 0–100 composite:

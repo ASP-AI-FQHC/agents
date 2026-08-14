@@ -31,8 +31,22 @@ def main() -> int:
     from app.main import app as fastapi_app
 
     if not is_frozen():
+        from app.config import get_config
+
         print(f"Config:    {config_path}")
         print(f"Data:      {data_dir}")
+        # Printed because getting this wrong is invisible otherwise: the window
+        # opens, the pages render, and every one of them is empty.
+        print(f"Database:  {get_config().database_file}")
+
+        from desktop.paths import other_database
+
+        elsewhere = other_database(get_config().database_file)
+        if elsewhere is not None:
+            print(
+                f"Note:      another database exists at {elsewhere}. This "
+                "window is not showing it."
+            )
 
     server = ServerController(fastapi_app)
     server.start()

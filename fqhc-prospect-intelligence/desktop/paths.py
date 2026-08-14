@@ -94,13 +94,51 @@ def bootstrap(
 
     Must run *before* ``app.main`` is imported, since that module reads its
     configuration at import time.
+
+    **Run from a checkout, this uses the checkout itself.** Only a packaged
+    build needs the per-user directory, because only a packaged build is
+    read-only. Redirecting a source run there too split the data in half:
+    ``python -m pipeline.run`` built a database next to the code while
+    ``python -m desktop.main`` opened a different one somewhere else, and the
+    window showed none of the work the pipeline had just done.
     """
     env = environ if environ is not None else os.environ
-    directory = data_dir or user_data_dir(environ=env)
+
+    if data_dir is not None:
+        directory = Path(data_dir)
+    elif env.get("FQHC_DATA_DIR"):
+        # An explicit override always wins, however the app was started.
+        directory = Path(env["FQHC_DATA_DIR"])
+    elif is_frozen():
+        directory = user_data_dir(environ=env)
+    else:
+        directory = bundled_root()
+
     directory.mkdir(parents=True, exist_ok=True)
     (directory / "data" / "raw").mkdir(parents=True, exist_ok=True)
 
-    config_path = seed_config(directory)
+    config_path = Path(env["FQHC_CONFIG"]) if env.get("FQHC_CONFIG") else seed_config(directory)
     env["FQHC_CONFIG"] = str(config_path)
     env["FQHC_DATA_DIR"] = str(directory)
     return config_path, directory
+
+
+def other_database(active: Path, *, environ: dict[str, str] | None = None) -> Path | None:
+    """A populated database in the location this run is *not* using.
+
+    Both locations are legitimate -- the packaged app has to write to the
+    per-user directory, a checkout writes next to the code -- so a database in
+    the other one is worth pointing at rather than silently ignoring.
+    """
+    env = environ if environ is not None else os.environ
+    candidates = [
+        user_data_dir(environ=env) / "data" / "fqhc.db",
+        bundled_root() / "data" / "fqhc.db",
+    ]
+    for candidate in candidates:
+        try:
+            if candidate != active and candidate.exists() and candidate.stat().st_size > 0:
+                return candidate
+        except OSError:
+            continue
+    return None

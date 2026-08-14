@@ -15,7 +15,13 @@ import yaml
 from fastapi import FastAPI
 
 from app.config import load_config
-from desktop.paths import bootstrap, seed_config, user_data_dir
+from desktop.paths import (
+    bootstrap,
+    bundled_root,
+    other_database,
+    seed_config,
+    user_data_dir,
+)
 from desktop.server import ServerController, free_port
 
 
@@ -115,6 +121,65 @@ def test_bootstrap_is_idempotent(tmp_path: Path) -> None:
     bootstrap(data_dir=data_dir, environ=environ)
 
     assert (data_dir / "config.yaml").read_text() == "app:\n  name: Edited\n"
+
+
+def test_a_source_checkout_uses_the_checkout(monkeypatch) -> None:
+    """The single most confusing failure this project has had: the pipeline
+    wrote a database next to the code, the window opened a different one in
+    Application Support, and every page looked empty."""
+    monkeypatch.setattr("desktop.paths.is_frozen", lambda: False)
+    environ: dict[str, str] = {"HOME": "/nowhere"}
+
+    _config_path, resolved = bootstrap(environ=environ)
+
+    assert resolved == bundled_root()
+    assert "Application Support" not in str(resolved)
+
+
+def test_a_packaged_build_still_uses_the_per_user_directory(
+    tmp_path: Path, monkeypatch
+) -> None:
+    """A bundle is read-only, so this half must not change."""
+    monkeypatch.setattr("desktop.paths.is_frozen", lambda: True)
+    monkeypatch.setattr("desktop.paths.seed_config", lambda directory: directory / "config.yaml")
+    environ: dict[str, str] = {"HOME": str(tmp_path)}
+
+    _config_path, resolved = bootstrap(environ=environ)
+
+    assert resolved == user_data_dir(environ=environ)
+
+
+def test_an_explicit_override_wins_over_both(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr("desktop.paths.is_frozen", lambda: True)
+    chosen = tmp_path / "chosen"
+    environ: dict[str, str] = {"HOME": str(tmp_path), "FQHC_DATA_DIR": str(chosen)}
+
+    _config_path, resolved = bootstrap(environ=environ)
+
+    assert resolved == chosen
+
+
+def test_a_database_in_the_other_location_is_reported(tmp_path: Path, monkeypatch) -> None:
+    """Both locations are legitimate, so the one not in use is worth naming."""
+    other = tmp_path / "appdata" / "data"
+    other.mkdir(parents=True)
+    (other / "fqhc.db").write_bytes(b"not empty")
+    monkeypatch.setattr(
+        "desktop.paths.user_data_dir", lambda **_kwargs: tmp_path / "appdata"
+    )
+
+    active = tmp_path / "checkout" / "data" / "fqhc.db"
+    assert other_database(active, environ={"HOME": str(tmp_path)}) == other / "fqhc.db"
+
+
+def test_no_report_when_only_one_database_exists(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(
+        "desktop.paths.user_data_dir", lambda **_kwargs: tmp_path / "appdata"
+    )
+    monkeypatch.setattr("desktop.paths.bundled_root", lambda: tmp_path / "checkout")
+
+    active = tmp_path / "checkout" / "data" / "fqhc.db"
+    assert other_database(active, environ={"HOME": str(tmp_path)}) is None
 
 
 # ---------------------------------------------------------------------------

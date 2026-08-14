@@ -198,6 +198,10 @@ def main(argv: list[str] | None = None) -> int:
     selected = [s for s in STAGES if not args.stage or s.name in args.stage]
     init_db(config)
 
+    # Always stated. A run that writes to a different database than the one the
+    # window opens looks exactly like a run that found nothing.
+    print(f"Database: {config.database_file}", flush=True)
+
     if options.limit is not None:
         limited = [s.name for s in selected if s.honours_limit]
         ignored = [s.name for s in selected if not s.honours_limit]
