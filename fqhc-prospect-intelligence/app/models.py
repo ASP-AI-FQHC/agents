@@ -131,6 +131,14 @@ class Organization(Base):
     federal_award_amount: Mapped[float | None] = mapped_column(Float)
     grant_number: Mapped[str | None] = mapped_column(String(64))
     funding_program: Mapped[str | None] = mapped_column(String(240))
+    # Every HRSA funding stream the organization receives, not just the first:
+    # a health center often holds Community Health Center, Health Care for the
+    # Homeless and Migrant Health awards at once, and each is a program area.
+    funding_programs: Mapped[list[str] | None] = mapped_column(JSON)
+
+    # IRS National Taxonomy of Exempt Entities code, from ProPublica. The code
+    # is stored verbatim; only descriptions we can state accurately are shown.
+    ntee_code: Mapped[str | None] = mapped_column(String(16))
 
     source_file: Mapped[str | None] = mapped_column(String(240))
     first_seen_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
@@ -255,6 +263,40 @@ class Filing(Base):
     total_revenue: Mapped[float | None] = mapped_column(Float)
     total_expenses: Mapped[float | None] = mapped_column(Float)
     total_assets: Mapped[float | None] = mapped_column(Float)
+
+    # Revenue composition, where the IRS extract provides it. This is the
+    # funding mix: how much comes from grants and contributions versus billing
+    # for services. Each stays NULL when the source does not report it.
+    contributions: Mapped[float | None] = mapped_column(Float)
+    program_service_revenue: Mapped[float | None] = mapped_column(Float)
+    investment_income: Mapped[float | None] = mapped_column(Float)
+    government_grants: Mapped[float | None] = mapped_column(Float)
+
+    @property
+    def has_composition(self) -> bool:
+        """Whether any funding-mix detail is available for this filing.
+
+        Mirrors the same property on the parse-time record. The templates read
+        it off persisted rows, and a property that exists on only one of the two
+        representations fails silently in Jinja -- an undefined attribute is
+        just falsy, so the section renders empty rather than erroring.
+        """
+        return any(
+            value is not None
+            for value in (
+                self.contributions,
+                self.program_service_revenue,
+                self.investment_income,
+                self.government_grants,
+            )
+        )
+
+    @property
+    def contribution_share(self) -> float | None:
+        """Contributions and grants as a share of total revenue."""
+        if self.contributions is None or not self.total_revenue:
+            return None
+        return self.contributions / self.total_revenue
 
     form_type: Mapped[str | None] = mapped_column(String(32))
     pdf_url: Mapped[str | None] = mapped_column(String(500))

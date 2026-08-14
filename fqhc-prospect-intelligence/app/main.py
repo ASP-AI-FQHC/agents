@@ -29,13 +29,16 @@ from app import exports, formatting
 from app.config import get_config
 from app.db import get_db, init_db
 from app.models import ChangeEvent, ChangeKind, GranteeType, MatchStatus, utcnow
+from app import ntee
 from app.queries import (
     MATCH_FILTERS,
     Filters,
     data_status,
     fetch_rows,
+    organization_changes,
     organization_detail,
     review_queue,
+    similar_organizations,
     summarize,
 )
 from app.refresh import manager
@@ -61,6 +64,7 @@ templates.env.filters.update(
     percent=formatting.percent,
     na=formatting.text,
     ein=format_ein,
+    ntee=ntee.label,
     age=formatting.age_label,
     months_since=formatting.months_since,
 )
@@ -195,6 +199,10 @@ def organization_page(
         match=match,
         filings=filings,
         stale_months=config.ui.filing_stale_months,
+        ntee_specific=ntee.describe(organization.ntee_code)[0],
+        ntee_group=ntee.describe(organization.ntee_code)[1],
+        similar=similar_organizations(session, organization),
+        history=organization_changes(session, organization.id),
     )
     return templates.TemplateResponse(request, "detail.html", context)
 

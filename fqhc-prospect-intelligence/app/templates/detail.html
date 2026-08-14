@@ -121,6 +121,41 @@
     </dl>
   </section>
 
+  {# ---- Program areas ------------------------------------------------------ #}
+  <section class="section">
+    <h3 class="section__header">Program areas</h3>
+    <dl class="datalist">
+      <dt>HRSA programs</dt>
+      <dd>
+        {% if organization.funding_programs %}
+          {% for programme in organization.funding_programs %}
+            <span class="badge badge--info">{{ programme }}</span>
+          {% endfor %}
+          <div class="u-small u-muted" style="margin-top:6px">
+            Federal funding streams awarded under Section 330.
+          </div>
+        {% elif organization.funding_program %}
+          <span class="badge badge--info">{{ organization.funding_program }}</span>
+        {% else %}
+          <span class="not-available">Not available</span>
+        {% endif %}
+      </dd>
+      <dt>IRS classification</dt>
+      <dd>
+        {% if organization.ntee_code %}
+          {% if ntee_specific %}{{ ntee_specific }}{% elif ntee_group %}{{ ntee_group }}{% endif %}
+          <span class="u-muted u-small">
+            &middot; NTEE {{ organization.ntee_code }}{% if ntee_specific and ntee_group %} &middot; {{ ntee_group }}{% endif %}
+          </span>
+        {% else %}
+          <span class="not-available">Not available</span>
+        {% endif %}
+      </dd>
+      <dt>Grantee type</dt>
+      <dd>{{ organization.grantee_label }}</dd>
+    </dl>
+  </section>
+
   {# ---- Financials -------------------------------------------------------- #}
   <section class="section">
     <h3 class="section__header">IRS Form 990 filings</h3>
@@ -201,6 +236,66 @@
     {% endif %}
   </section>
 
+  {# ---- Funding sources ----------------------------------------------------- #}
+  {% set composed = filings | selectattr('has_composition') | list %}
+  <section class="section">
+    <h3 class="section__header">Funding sources</h3>
+    {% if composed %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tax year</th>
+              <th class="num">Contributions and grants</th>
+              <th class="num">Program service revenue</th>
+              <th class="num">Government grants</th>
+              <th class="num">Investment income</th>
+              <th class="num">Grant share</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for filing in composed %}
+              <tr>
+                <td><strong>FY{{ filing.tax_year }}</strong></td>
+                <td class="num">{% if filing.contributions is not none %}{{ filing.contributions | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+                <td class="num">{% if filing.program_service_revenue is not none %}{{ filing.program_service_revenue | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+                <td class="num">{% if filing.government_grants is not none %}{{ filing.government_grants | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+                <td class="num">{% if filing.investment_income is not none %}{{ filing.investment_income | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+                <td class="num">
+                  {% if filing.contribution_share is not none %}
+                    <strong>{{ filing.contribution_share | percent }}</strong>
+                  {% else %}<span class="not-available">&mdash;</span>{% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="u-small u-muted" style="margin-top:12px">
+        Revenue composition as reported on the Form 990. A high grant share is
+        the funding-protection angle: more of the budget depends on compliance
+        with federal award conditions.
+      </p>
+    {% else %}
+      <p class="not-available">
+        Not available &mdash; the IRS extract for this organization does not
+        break revenue down by source.
+      </p>
+    {% endif %}
+
+    <dl class="datalist" style="margin-top:20px">
+      <dt>HRSA federal award</dt>
+      <dd>
+        {% if organization.federal_award_amount is not none %}
+          {{ organization.federal_award_amount | money }}
+          <span class="u-muted u-small">&middot; Section 330, current award</span>
+        {% else %}<span class="not-available">Not available</span>{% endif %}
+      </dd>
+      <dt>Grant number</dt>
+      <dd>{{ organization.grant_number | na }}</dd>
+    </dl>
+  </section>
+
   {# ---- Sites ------------------------------------------------------------- #}
   <section class="section">
     <h3 class="section__header">Delivery sites ({{ organization.sites | length }})</h3>
@@ -222,6 +317,82 @@
       </div>
     {% else %}
       <p class="not-available">Not available</p>
+    {% endif %}
+  </section>
+
+  {# ---- Update history ------------------------------------------------------ #}
+  <section class="section">
+    <h3 class="section__header">Data update history</h3>
+    <dl class="datalist u-mb-4">
+      <dt>First seen</dt>
+      <dd>{{ organization.first_seen_at.strftime('%-d %B %Y') }}</dd>
+      <dt>Last confirmed in HRSA</dt>
+      <dd>{{ organization.last_seen_at.strftime('%-d %B %Y') }}</dd>
+      <dt>EIN searched</dt>
+      <dd>
+        {% if match and match.searched_at %}{{ match.searched_at.strftime('%-d %B %Y') }}
+        {% else %}<span class="not-available">Not available</span>{% endif %}
+      </dd>
+      <dt>Scored</dt>
+      <dd>
+        {% if score %}{{ score.scored_at.strftime('%-d %B %Y') }}
+        {% else %}<span class="not-available">Not available</span>{% endif %}
+      </dd>
+    </dl>
+
+    {% if history %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Detected</th><th>Change</th><th>What moved</th></tr></thead>
+          <tbody>
+            {% for event in history %}
+              <tr>
+                <td class="u-nowrap u-small u-muted">{{ event.detected_at.strftime('%-d %b %Y') }}</td>
+                <td>
+                  {% if event.direction == 1 %}<span class="badge badge--qualified">{{ event.kind_label }}</span>
+                  {% elif event.direction == -1 %}<span class="badge badge--alert">{{ event.kind_label }}</span>
+                  {% else %}<span class="badge badge--info">{{ event.kind_label }}</span>{% endif %}
+                </td>
+                <td>{{ event.summary }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="u-small u-muted">
+        No changes recorded yet. Movement is reported from the second pipeline
+        run onwards, once there is a baseline to compare against.
+      </p>
+    {% endif %}
+  </section>
+
+  {# ---- Similar organizations ----------------------------------------------- #}
+  <section class="section">
+    <h3 class="section__header">Similar organizations</h3>
+    {% if similar %}
+      <ol class="top-list">
+        {% for item in similar %}
+          <li class="top-list__item">
+            <span class="top-list__rank">{{ loop.index }}</span>
+            <a class="top-list__name" href="/organizations/{{ item.row.organization.id }}">{{ item.row.organization.name }}</a>
+            <span class="top-list__meta">{{ item.reasons | join(' &middot; ') | safe }}</span>
+            <span class="top-list__score">
+              {% if item.row.composite is not none %}{{ '%.0f' % item.row.composite }}{% else %}&mdash;{% endif %}
+            </span>
+          </li>
+        {% endfor %}
+      </ol>
+      <p class="u-small u-muted" style="margin-top:12px">
+        Computed from this database by state, footprint, revenue and IRS
+        classification. This is a resemblance, not a stated relationship &mdash;
+        no public source publishes affiliations between health centers.
+      </p>
+    {% else %}
+      <p class="not-available">
+        Not available &mdash; no other organization in the database closely
+        resembles this one.
+      </p>
     {% endif %}
   </section>
 {% endblock %}

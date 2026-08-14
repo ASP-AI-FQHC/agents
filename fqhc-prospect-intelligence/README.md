@@ -124,6 +124,25 @@ baseline and reports nothing.
 An organization HRSA stops publishing is reported once and then kept. Its row
 survives because human EIN decisions hang off it.
 
+## What is on an organization's profile
+
+| Data point | Source | Availability |
+| --- | --- | --- |
+| Program areas | HRSA awardee file (all Section 330 funding streams) + IRS NTEE code | Available |
+| Financials and Form 990s | ProPublica Nonprofit Explorer, three most recent filings | Available |
+| Funding sources | Form 990 revenue composition: contributions and grants, program service revenue, government grants, investment income | Available where the IRS extract reports it |
+| Data update history | This database: first seen, last confirmed, and every detected change | Available |
+| Similar organizations | Computed here from state, footprint, revenue and IRS classification | Available |
+| Delivery sites | HRSA site file | Available |
+| Key personnel and board members | Form 990 Part VII — names, titles and compensation | **Not yet built.** Requires the IRS e-file XML bulk data; ProPublica's API does not expose it. |
+| Board member contact details | — | **Not available anywhere free.** A 990 lists officers care-of the organization's own address; personal emails and phone numbers are not published. |
+| Vendors and contractors | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | **Not yet built.** Same IRS XML source as personnel. |
+| Software and technology used | — | **Not available.** No free, authoritative source publishes an organization's technology stack. |
+
+Where a data point cannot be sourced it is labelled "Not available" rather than
+approximated, and the profile says which of the two reasons applies: the source
+does not report it for this organization, or no free source publishes it at all.
+
 ## Data integrity rules
 
 These are enforced in code and covered by tests, not merely documented:

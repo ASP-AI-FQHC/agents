@@ -412,6 +412,104 @@ def organization_detail(
 
 
 @dataclass
+class SimilarOrganization:
+    """A comparable organization, with why it is considered comparable.
+
+    Nothing here is fetched: similarity is computed from the data already in
+    this database, so the reasons are always things a user can check on the
+    other organization's own page.
+    """
+
+    row: ProspectRow
+    reasons: list[str] = field(default_factory=list)
+    score: float = 0.0
+
+
+def similar_organizations(
+    session: Session, organization: Organization, *, limit: int = 5
+) -> list[SimilarOrganization]:
+    """Organizations comparable to this one by footprint, size and programme.
+
+    Deliberately a local computation rather than a claim about any relationship
+    between the organizations -- there is no public source for that, and
+    inventing one would be worse than offering nothing.
+    """
+    rows, _ = fetch_rows(session, Filters(sort="score", direction="desc"))
+    target = next((r for r in rows if r.organization.id == organization.id), None)
+    target_revenue = target.revenue if target else None
+    target_ntee = (organization.ntee_code or "")[:3]
+
+    scored: list[SimilarOrganization] = []
+    for row in rows:
+        other = row.organization
+        if other.id == organization.id:
+            continue
+
+        # Same state is required. Every FQHC in a state shares its state and
+        # its IRS classification, so without this the list would be "every
+        # health center in Illinois" -- true, and useless.
+        if not other.state or other.state != organization.state:
+            continue
+
+        reasons: list[str] = [f"also in {other.state}"]
+        score = 3.0
+        size_signals = 0
+
+        if organization.site_count and other.site_count:
+            ratio = min(other.site_count, organization.site_count) / max(
+                other.site_count, organization.site_count
+            )
+            if ratio >= 0.5:
+                score += 2 + ratio
+                size_signals += 1
+                reasons.append(f"similar footprint ({other.site_count} sites)")
+
+        if target_revenue and row.revenue:
+            ratio = min(row.revenue, target_revenue) / max(row.revenue, target_revenue)
+            if ratio >= 0.5:
+                score += 2 + ratio
+                size_signals += 1
+                reasons.append("similar revenue")
+
+        # A resemblance in size is what makes two health centers comparable as
+        # prospects. State and classification alone describe hundreds of them.
+        if size_signals == 0:
+            continue
+
+        if target_ntee and (other.ntee_code or "")[:3] == target_ntee:
+            score += 1
+            reasons.append("same IRS classification")
+
+        if (
+            other.grantee_type
+            and organization.grantee_type
+            and other.grantee_type == organization.grantee_type
+        ):
+            score += 0.5
+
+        scored.append(SimilarOrganization(row=row, reasons=reasons, score=score))
+
+    scored.sort(key=lambda s: (s.score, s.row.composite or 0), reverse=True)
+    return scored[:limit]
+
+
+def organization_changes(
+    session: Session, organization_id: int, *, limit: int = 20
+):
+    """Change history for one organization, newest first."""
+    from app.models import ChangeEvent
+
+    return list(
+        session.scalars(
+            select(ChangeEvent)
+            .where(ChangeEvent.organization_id == organization_id)
+            .order_by(ChangeEvent.detected_at.desc(), ChangeEvent.id.desc())
+            .limit(limit)
+        ).all()
+    )
+
+
+@dataclass
 class DataStatus:
     """Where the data came from and when -- shown as a banner on every page."""
 

@@ -383,6 +383,7 @@ class OrganizationRecord:
     grant_number: str | None
     federal_award_amount: float | None
     funding_program: str | None
+    funding_programs: list[str] = field(default_factory=list)
     sites: list[SiteRecord] = field(default_factory=list)
 
     @property
@@ -729,9 +730,16 @@ def merge_awardees(
         amounts = [c.award_amount for c in candidates if c.award_amount is not None]
         # None (unknown) stays None -- an absent award column must not read as $0.
         org.federal_award_amount = sum(amounts) if amounts else None
-        org.funding_program = next(
-            (c.funding_program for c in candidates if c.funding_program), None
-        )
+
+        # A health center commonly holds several awards at once -- Community
+        # Health Center, Health Care for the Homeless, Migrant Health -- and
+        # each names a distinct programme area, so keep all of them.
+        programmes: list[str] = []
+        for candidate in candidates:
+            if candidate.funding_program and candidate.funding_program not in programmes:
+                programmes.append(candidate.funding_program)
+        org.funding_programs = programmes
+        org.funding_program = programmes[0] if programmes else None
         if not org.grant_number:
             org.grant_number = next(
                 (c.grant_number for c in candidates if c.grant_number), None
@@ -789,6 +797,7 @@ def persist(session: Session, organizations: list[OrganizationRecord]) -> tuple[
         org.grant_number = record.grant_number
         org.federal_award_amount = record.federal_award_amount
         org.funding_program = record.funding_program
+        org.funding_programs = record.funding_programs or None
         org.last_seen_at = utcnow()
         session.flush()  # assign org.id for new rows
 

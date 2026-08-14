@@ -358,9 +358,18 @@ def _as_utc(value: datetime) -> datetime:
 # ProPublica exposes different field names depending on which form the
 # organization filed (990 vs 990-EZ vs 990-PF), so each figure is read through
 # a list of candidate keys. An unknown key set yields None -- never a zero.
-REVENUE_KEYS = ("totrevenue", "totrevnue", "totprgmrevnue", "revenue_amount")
+# NOTE: totprgmrevnue is deliberately absent here. It is *program service*
+# revenue -- billing income only -- not total revenue, and using it as a
+# fallback would silently understate an organization by the size of its grants.
+REVENUE_KEYS = ("totrevenue", "totrevnue", "revenue_amount")
 EXPENSE_KEYS = ("totfuncexpns", "totexpns", "totexpenses", "expenses_amount")
 ASSET_KEYS = ("totassetsend", "totassetsendofyear", "totassets", "assets_amount")
+
+# Revenue composition: the funding mix behind the total.
+CONTRIBUTION_KEYS = ("totcntrbgfts", "totcntrbs", "contributions_amount")
+PROGRAM_REVENUE_KEYS = ("totprgmrevnue", "prgmservrev", "program_service_revenue")
+INVESTMENT_KEYS = ("invstmntinc", "investinc", "investment_income")
+GOVERNMENT_GRANT_KEYS = ("govtgrants", "grntsfrmgovt", "government_grants")
 
 FORM_TYPE_NAMES = {0: "990", 1: "990-EZ", 2: "990-PF", 3: "990-N"}
 
@@ -420,6 +429,10 @@ class FilingRecord:
     total_revenue: float | None = None
     total_expenses: float | None = None
     total_assets: float | None = None
+    contributions: float | None = None
+    program_service_revenue: float | None = None
+    investment_income: float | None = None
+    government_grants: float | None = None
     form_type: str | None = None
     pdf_url: str | None = None
     period_end: datetime | None = None
@@ -430,6 +443,19 @@ class FilingRecord:
         return any(
             v is not None
             for v in (self.total_revenue, self.total_expenses, self.total_assets)
+        )
+
+    @property
+    def has_composition(self) -> bool:
+        """Whether any funding-mix detail is available for this filing."""
+        return any(
+            v is not None
+            for v in (
+                self.contributions,
+                self.program_service_revenue,
+                self.investment_income,
+                self.government_grants,
+            )
         )
 
 
@@ -468,6 +494,18 @@ def parse_filings(
                 total_revenue=_first_number(item, REVENUE_KEYS) if with_data else None,
                 total_expenses=_first_number(item, EXPENSE_KEYS) if with_data else None,
                 total_assets=_first_number(item, ASSET_KEYS) if with_data else None,
+                contributions=(
+                    _first_number(item, CONTRIBUTION_KEYS) if with_data else None
+                ),
+                program_service_revenue=(
+                    _first_number(item, PROGRAM_REVENUE_KEYS) if with_data else None
+                ),
+                investment_income=(
+                    _first_number(item, INVESTMENT_KEYS) if with_data else None
+                ),
+                government_grants=(
+                    _first_number(item, GOVERNMENT_GRANT_KEYS) if with_data else None
+                ),
                 form_type=FORM_TYPE_NAMES.get(item.get("formtype")),
                 pdf_url=item.get("pdf_url") or None,
                 period_end=_parse_period_end(item.get("tax_prd")),
@@ -600,6 +638,13 @@ def enrich_financials(
                 result.not_found += 1
                 continue
 
+            # The organization block carries the NTEE classification, which is
+            # the closest thing to a program area the IRS publishes.
+            details = (api_result.payload or {}).get("organization") or {}
+            ntee = details.get("ntee_code")
+            if ntee:
+                org.ntee_code = str(ntee).strip().upper()
+
             filings = parse_filings(
                 ein, api_result.payload, limit=config.propublica.filings_per_org
             )
@@ -667,6 +712,10 @@ def _persist_filings(session: Session, ein: str, filings: list[FilingRecord]) ->
         row.total_revenue = record.total_revenue
         row.total_expenses = record.total_expenses
         row.total_assets = record.total_assets
+        row.contributions = record.contributions
+        row.program_service_revenue = record.program_service_revenue
+        row.investment_income = record.investment_income
+        row.government_grants = record.government_grants
         row.form_type = record.form_type
         row.pdf_url = record.pdf_url
         row.period_end = record.period_end
