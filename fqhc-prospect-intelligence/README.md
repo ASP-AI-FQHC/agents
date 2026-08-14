@@ -9,6 +9,18 @@ No API keys. No paid data sources. No scraping behind logins.
 
 ## Quick start
 
+On macOS, one command sets everything up — it finds a suitable Python, builds
+the virtualenv, installs the dependencies and verifies the result:
+
+```bash
+./setup_macos.sh
+source .venv/bin/activate
+python -m desktop.main
+```
+
+If no new-enough Python is installed it says so and tells you how to get one,
+rather than failing later.
+
 **Requires Python 3.11 or newer.** macOS ships 3.9 with the Xcode Command Line
 Tools, which is too old — check with `python3 --version` before creating the
 virtualenv, and use `brew install python@3.12` (or the python.org installer) if
