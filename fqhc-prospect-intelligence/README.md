@@ -135,7 +135,7 @@ column degrades to an empty field instead of breaking the run.
 ## Development
 
 ```bash
-python -m pytest          # 207 tests
+python -m pytest          # scoring, matching, ingestion, exports, routes
 ```
 
 Layout:
