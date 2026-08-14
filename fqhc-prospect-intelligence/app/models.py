@@ -69,6 +69,28 @@ class MatchStatus(str, enum.Enum):
         return self in (MatchStatus.AUTO, MatchStatus.ACCEPTED)
 
 
+class ChangeKind(str, enum.Enum):
+    """What kind of movement a change event records."""
+
+    APPEARED = "appeared"            # new to the HRSA universe
+    DISAPPEARED = "disappeared"      # no longer published by HRSA
+    SITES = "sites"                  # opened or closed delivery sites
+    FILING = "filing"                # a newer Form 990 became available
+    AWARD = "award"                  # federal award amount moved
+    GRANTEE_TYPE = "grantee_type"    # look-alike became an awardee, or back
+
+    @property
+    def label(self) -> str:
+        return {
+            ChangeKind.APPEARED: "New health center",
+            ChangeKind.DISAPPEARED: "No longer listed",
+            ChangeKind.SITES: "Delivery sites",
+            ChangeKind.FILING: "New 990 filing",
+            ChangeKind.AWARD: "Federal award",
+            ChangeKind.GRANTEE_TYPE: "Grantee type",
+        }[self]
+
+
 class RunStatus(str, enum.Enum):
     RUNNING = "running"
     SUCCESS = "success"
@@ -277,6 +299,73 @@ class Score(Base):
     scored_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     organization: Mapped[Organization] = relationship(back_populates="score")
+
+
+class OrganizationSnapshot(Base):
+    """Last known state of an organization, used to detect what moved.
+
+    One row per organization, overwritten on each run. The history lives in
+    :class:`ChangeEvent`; this is only the baseline the next run compares to.
+    """
+
+    __tablename__ = "organization_snapshots"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    organization_id: Mapped[int] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), unique=True, index=True
+    )
+
+    site_count: Mapped[int | None] = mapped_column(Integer)
+    grantee_type: Mapped[str | None] = mapped_column(String(16))
+    federal_award_amount: Mapped[float | None] = mapped_column(Float)
+    latest_tax_year: Mapped[int | None] = mapped_column(Integer)
+    latest_revenue: Mapped[float | None] = mapped_column(Float)
+    composite: Mapped[float | None] = mapped_column(Float)
+
+    # True once HRSA stops publishing the organization, so a reappearance can
+    # be distinguished from a first sighting.
+    is_present: Mapped[bool] = mapped_column(Boolean, default=True)
+    taken_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    organization: Mapped[Organization] = relationship()
+
+
+class ChangeEvent(Base):
+    """One observed movement, kept as a browsable log.
+
+    Only facts sourced from HRSA or the IRS are recorded. Score movements are
+    deliberately excluded: editing a weight in config.yaml would otherwise
+    generate an event for every organization in the database.
+    """
+
+    __tablename__ = "change_events"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    organization_id: Mapped[int] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), index=True
+    )
+
+    kind: Mapped[ChangeKind] = mapped_column(String(24), index=True)
+    summary: Mapped[str] = mapped_column(String(320))
+    previous_value: Mapped[str | None] = mapped_column(String(120))
+    current_value: Mapped[str | None] = mapped_column(String(120))
+    # Positive for growth, negative for contraction, None where not meaningful.
+    direction: Mapped[int | None] = mapped_column(Integer)
+
+    detected_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
+
+    organization: Mapped[Organization] = relationship()
+
+    @property
+    def kind_label(self) -> str:
+        """Display label for the kind.
+
+        The column is a plain String, so SQLAlchemy returns a str rather than a
+        ChangeKind on the way back out; this coerces either form.
+        """
+        return ChangeKind(self.kind).label
+
+    __table_args__ = (Index("ix_change_org_detected", "organization_id", "detected_at"),)
 
 
 class ApiCache(Base):

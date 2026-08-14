@@ -36,7 +36,8 @@ country, at roughly ten times the API traffic.
 | 2. EIN resolution | `pipeline/matching.py` | Fuzzy-matches each organization to an EIN via ProPublica search, with a confidence score that routes the match. |
 | 3. Financials | `pipeline/propublica.py` | Pulls the three most recent Form 990 filings per EIN — revenue, expenses, assets, and the 990 PDF link. |
 | 4. Scoring | `pipeline/scoring.py` | Produces a 0–100 composite ICP score with a per-factor breakdown. |
-| 5. Dashboard | `app/` | Master table, organization detail, EIN review queue, CSV/XLSX export, refresh. |
+| 5. Changes | `pipeline/changes.py` | Compares every organization to the previous run and logs what moved. |
+| 6. Dashboard | `app/` | Master table, organization detail, EIN review queue, what-changed log, CSV/XLSX export, refresh. |
 
 Run stages individually while iterating:
 
@@ -82,6 +83,27 @@ actually known about it. Scoring an unknown as zero would rank "we have no data"
 alongside "genuinely poor fit", which is a different claim. The organization
 detail page shows each factor's score, its effective weight after
 renormalization, and the reason behind it.
+
+## What changed
+
+Re-running the pipeline monthly is where this earns its keep over a static
+export. Each run compares every organization against the previous run and logs
+real movement, browsable at `/changes` and filterable by kind:
+
+- **Delivery sites** opened or closed — the clearest expansion signal there is
+- **A newer 990** became available, with the revenue move against the prior year
+- **Federal award** increased or decreased, as a percentage
+- **Grantee type** changed — a look-alike becoming a Section 330 awardee
+- Health centers **entering or leaving** the HRSA file
+
+Two deliberate omissions. **Score movements are not logged**: the composite is
+derived, so retuning a weight in `config.yaml` would fire an event for every
+organization and bury the real signal. And **the first run is silent** — with no
+baseline every organization would read as "new", so the first run records the
+baseline and reports nothing.
+
+An organization HRSA stops publishing is reported once and then kept. Its row
+survives because human EIN decisions hang off it.
 
 ## Data integrity rules
 

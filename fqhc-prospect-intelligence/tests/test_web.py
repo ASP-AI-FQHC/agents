@@ -493,3 +493,98 @@ def test_refresh_status_endpoint_reports_idle(populated) -> None:
 def test_healthz(populated) -> None:
     client, _, _ = populated
     assert client.get("/healthz").json()["status"] == "ok"
+
+
+# ---------------------------------------------------------------------------
+# What changed
+# ---------------------------------------------------------------------------
+
+
+def seed_change(session: Session, org_id: int, kind, summary: str, direction=None):
+    from app.models import ChangeEvent
+
+    session.add(
+        ChangeEvent(
+            organization_id=org_id,
+            kind=kind,
+            summary=summary,
+            direction=direction,
+        )
+    )
+    session.commit()
+
+
+def test_changes_page_lists_events(populated) -> None:
+    from app.models import ChangeKind
+
+    client, db, erie = populated
+    seed_change(db, erie.id, ChangeKind.SITES, "Opened 3 delivery sites (8 to 11)", 1)
+
+    body = client.get("/changes").text
+
+    assert "What changed" in body
+    assert "Opened 3 delivery sites" in body
+    assert "Delivery sites" in body
+    assert "Erie Family Health" in body
+
+
+def test_changes_page_filters_by_kind(populated) -> None:
+    from app.models import ChangeKind
+
+    client, db, erie = populated
+    seed_change(db, erie.id, ChangeKind.SITES, "Opened 3 delivery sites (8 to 11)", 1)
+    seed_change(db, erie.id, ChangeKind.AWARD, "Federal award increased 25%", 1)
+
+    sites_only = client.get("/changes?kind=sites").text
+    assert "Opened 3 delivery sites" in sites_only
+    assert "Federal award increased" not in sites_only
+
+
+def test_unknown_kind_falls_back_to_everything(populated) -> None:
+    from app.models import ChangeKind
+
+    client, db, erie = populated
+    seed_change(db, erie.id, ChangeKind.SITES, "Opened 3 delivery sites (8 to 11)", 1)
+
+    assert "Opened 3 delivery sites" in client.get("/changes?kind=nonsense").text
+
+
+def test_changes_page_distinguishes_baseline_from_nothing_moving(populated) -> None:
+    """"No events" reads very differently before and after a second run."""
+    from app.models import IngestRun, RunStatus
+
+    client, db, _ = populated
+    db.add(
+        IngestRun(
+            stage="changes",
+            status=RunStatus.SUCCESS,
+            started_at=utcnow(),
+            finished_at=utcnow(),
+        )
+    )
+    db.commit()
+
+    assert "Baseline recorded" in client.get("/changes").text
+
+    db.add(
+        IngestRun(
+            stage="changes",
+            status=RunStatus.SUCCESS,
+            started_at=utcnow(),
+            finished_at=utcnow(),
+        )
+    )
+    db.commit()
+
+    assert "Nothing has moved" in client.get("/changes").text
+
+
+def test_navigation_shows_a_change_badge(populated) -> None:
+    from app.models import ChangeKind
+
+    client, db, erie = populated
+    seed_change(db, erie.id, ChangeKind.SITES, "Opened 3 delivery sites", 1)
+
+    body = client.get("/").text
+    assert "nav__count--info" in body
+    assert "What changed" in body

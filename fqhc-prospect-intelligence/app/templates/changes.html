@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% set active_page = 'changes' %}
+{% block title %}What changed{% endblock %}
+
+{% block content %}
+  <h2 class="page__title">What changed</h2>
+  <p class="page__subtitle">
+    Movement observed between pipeline runs: sites opened or closed, newer 990
+    filings, federal award changes, and health centers entering or leaving the
+    HRSA file.
+  </p>
+
+  {% if baseline_only %}
+    <div class="callout callout--info">
+      <p class="callout__title">Baseline recorded</p>
+      <p>
+        The first run captured the current state of every organization. Changes
+        are reported from the next run onwards &mdash; re-run the pipeline after
+        HRSA or the IRS publish new data, typically monthly.
+      </p>
+    </div>
+  {% elif changes %}
+    <div class="toolbar">
+      <div class="toolbar__group">
+        <span class="result-count">{{ changes | length }} change{{ '' if changes | length == 1 else 's' }}</span>
+      </div>
+      <div class="toolbar__group">
+        <a class="btn btn--small {% if not selected_kind %}btn{% else %}btn--secondary{% endif %}" href="/changes">All</a>
+        {% for kind, count in kind_counts %}
+          <a class="btn btn--small {% if selected_kind == kind.value %}btn{% else %}btn--secondary{% endif %}"
+             href="/changes?kind={{ kind.value }}">{{ kind.label }} ({{ count }})</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Detected</th>
+            <th>Organization</th>
+            <th>Change</th>
+            <th>What moved</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in changes %}
+            <tr>
+              <td class="u-nowrap u-small u-muted">{{ event.detected_at.strftime('%-d %b %Y') }}</td>
+              <td>
+                <a href="/organizations/{{ event.organization_id }}">{{ event.organization.name }}</a>
+                <div class="u-small u-muted">
+                  {{ event.organization.city | na }}{% if event.organization.state %}, {{ event.organization.state }}{% endif %}
+                </div>
+              </td>
+              <td>
+                {% if event.direction == 1 %}
+                  <span class="badge badge--qualified">{{ event.kind_label }}</span>
+                {% elif event.direction == -1 %}
+                  <span class="badge badge--alert">{{ event.kind_label }}</span>
+                {% else %}
+                  <span class="badge badge--info">{{ event.kind_label }}</span>
+                {% endif %}
+              </td>
+              <td>{{ event.summary }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="callout callout--success">
+      <p class="callout__title">Nothing has moved</p>
+      <p>
+        No changes were detected in the most recent run. Re-run the pipeline
+        after HRSA or the IRS publish new data.
+      </p>
+    </div>
+  {% endif %}
+{% endblock %}

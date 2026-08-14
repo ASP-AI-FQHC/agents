@@ -28,7 +28,7 @@ from sqlalchemy.orm import Session
 from app import exports, formatting
 from app.config import get_config
 from app.db import get_db, init_db
-from app.models import GranteeType, MatchStatus, utcnow
+from app.models import ChangeEvent, ChangeKind, GranteeType, MatchStatus, utcnow
 from app.queries import (
     MATCH_FILTERS,
     Filters,
@@ -39,6 +39,7 @@ from app.queries import (
     summarize,
 )
 from app.refresh import manager
+from pipeline.changes import recent_changes
 from pipeline.propublica import format_ein
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -111,10 +112,16 @@ def get_filters(
 def page_context(session: Session, request: Request) -> dict:
     """Values every page needs: freshness banner and review-queue badge."""
     status = data_status(session)
+    from sqlalchemy import func, select
+
     return {
         "request": request,
         "status": status,
         "review_count": summarize(session).needs_review,
+        "change_count": session.scalar(
+            select(func.count()).select_from(ChangeEvent)
+        )
+        or 0,
         "refresh": manager.state,
         "now": datetime.now(timezone.utc),
     }
@@ -190,6 +197,53 @@ def organization_page(
         stale_months=config.ui.filing_stale_months,
     )
     return templates.TemplateResponse(request, "detail.html", context)
+
+
+@app.get("/changes", response_class=HTMLResponse)
+def changes_page(
+    request: Request,
+    kind: str | None = Query(None),
+    session: Session = Depends(get_db),
+):
+    from sqlalchemy import func, select
+
+    valid = {k.value for k in ChangeKind}
+    selected = kind if kind in valid else None
+
+    counts = dict(
+        session.execute(
+            select(ChangeEvent.kind, func.count()).group_by(ChangeEvent.kind)
+        ).all()
+    )
+    context = page_context(session, request)
+    context.update(
+        changes=recent_changes(session, kind=selected),
+        selected_kind=selected,
+        kind_counts=[
+            (ChangeKind(value), count)
+            for value, count in sorted(counts.items())
+            if count
+        ],
+        # No events yet may mean nothing moved, or may mean only the baseline
+        # run has happened. Those read very differently to a user.
+        baseline_only=not counts and _changes_run_count(session) <= 1,
+    )
+    return templates.TemplateResponse(request, "changes.html", context)
+
+
+def _changes_run_count(session: Session) -> int:
+    from sqlalchemy import func, select
+
+    from app.models import IngestRun
+
+    return (
+        session.scalar(
+            select(func.count())
+            .select_from(IngestRun)
+            .where(IngestRun.stage == "changes", IngestRun.finished_at.is_not(None))
+        )
+        or 0
+    )
 
 
 @app.get("/review", response_class=HTMLResponse)

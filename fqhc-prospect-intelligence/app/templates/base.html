@@ -38,6 +38,10 @@
       </div>
       <nav class="nav" aria-label="Primary">
         <a class="nav__link {% if active_page == 'prospects' %}nav__link--active{% endif %}" href="/">Prospects</a>
+        <a class="nav__link {% if active_page == 'changes' %}nav__link--active{% endif %}" href="/changes">
+          What changed
+          {% if change_count %}<span class="nav__count nav__count--info">{{ change_count }}</span>{% endif %}
+        </a>
         <a class="nav__link {% if active_page == 'review' %}nav__link--active{% endif %}" href="/review">
           Review queue
           {% if review_count %}<span class="nav__count">{{ review_count }}</span>{% endif %}

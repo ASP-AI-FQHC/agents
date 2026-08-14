@@ -211,16 +211,20 @@ a:focus-visible {
   border-bottom-color: var(--allstar-blue);
 }
 
+/* Reads --count-color so a modifier wins regardless of rule order.
+   Orange demands action (review queue); blue is informational (changes). */
 .nav__count {
   display: inline-block;
   margin-left: var(--space-2);
   padding: 1px 7px;
   border-radius: 10px;
-  background: var(--allstar-orange);
+  background: var(--count-color, var(--allstar-orange));
   color: var(--text-on-color);
   font-size: 11px;
   font-weight: 700;
 }
+
+.nav__count--info { --count-color: var(--allstar-blue); }
 
 /* --------------------------------------------------------------------------
    Layout
