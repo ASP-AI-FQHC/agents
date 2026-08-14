@@ -220,3 +220,120 @@ def test_cli_says_nothing_about_limits_on_a_full_run(
 
     assert "TRIAL RUN" not in output
     assert "trial run capped" not in output
+
+
+# ---------------------------------------------------------------------------
+# Footprint restriction
+# ---------------------------------------------------------------------------
+
+
+def add_org_in(session: Session, name: str, state: str, ein: str | None = None):
+    org = Organization(
+        dedup_key=f"{name.lower()}|{state}",
+        name=name,
+        normalized_name=name.lower(),
+        state=state,
+        city="Somewhere",
+        site_count=3,
+    )
+    session.add(org)
+    session.flush()
+    if ein:
+        session.add(
+            EinMatch(
+                organization_id=org.id, ein=ein, score=99.0, status=MatchStatus.AUTO
+            )
+        )
+    session.commit()
+    return org
+
+
+def test_matching_skips_organizations_outside_the_footprint(
+    config: Config, session: Session
+) -> None:
+    """The API cost of a national sweep buys nothing when only four states score."""
+    add_org_in(session, "Illinois Health", "IL")
+    add_org_in(session, "Wisconsin Health", "WI")
+    add_org_in(session, "Texas Health", "TX")
+    add_org_in(session, "Florida Health", "FL")
+
+    calls = {"n": 0}
+
+    def handler(_request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        return httpx.Response(200, json={"total_results": 0, "organizations": []})
+
+    result = match_organizations(
+        session, config, client=make_client(config, session, handler)
+    )
+
+    assert result.searched == 2
+    assert result.out_of_footprint == 2
+    assert any("outside" in m for m in result.messages)
+
+    searched = {
+        m.organization_id for m in session.scalars(select(EinMatch)).all()
+    }
+    states = {
+        session.get(Organization, oid).state for oid in searched
+    }
+    assert states == {"IL", "WI"}
+
+
+def test_turning_the_restriction_off_searches_everything(
+    config: Config, session: Session
+) -> None:
+    add_org_in(session, "Illinois Health", "IL")
+    add_org_in(session, "Texas Health", "TX")
+
+    config.pipeline.restrict_api_to_target_states = False
+
+    def handler(_request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"total_results": 0, "organizations": []})
+
+    result = match_organizations(
+        session, config, client=make_client(config, session, handler)
+    )
+
+    assert result.searched == 2
+    assert result.out_of_footprint == 0
+
+
+def test_enrichment_skips_organizations_outside_the_footprint(
+    config: Config, session: Session
+) -> None:
+    add_org_in(session, "Illinois Health", "IL", ein="362167869")
+    add_org_in(session, "Texas Health", "TX", ein="741234567")
+
+    payload = {
+        "filings_with_data": [
+            {"tax_prd_yr": 2023, "tax_prd": 202312, "totrevenue": 1_000_000, "formtype": 0}
+        ]
+    }
+    result = enrich_financials(
+        session,
+        config,
+        client=make_client(config, session, lambda _r: httpx.Response(200, json=payload)),
+    )
+
+    assert result.eligible == 1
+    assert {f.ein for f in session.scalars(select(Filing)).all()} == {"362167869"}
+
+
+def test_footprint_follows_the_configured_target_states(
+    config: Config, session: Session
+) -> None:
+    """Widening the scoring footprint widens the API sweep with no code change."""
+    add_org_in(session, "Ohio Health", "OH")
+    assert config.api_states == ["IL", "WI", "IN", "MI"]
+
+    config.scoring.state.target_states = ["IL", "OH"]
+    assert config.api_states == ["IL", "OH"]
+
+    def handler(_request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json={"total_results": 0, "organizations": []})
+
+    result = match_organizations(
+        session, config, client=make_client(config, session, handler)
+    )
+    assert result.searched == 1

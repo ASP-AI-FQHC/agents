@@ -543,7 +543,7 @@ def enrich_financials(
     session.add(run)
     session.commit()
 
-    organizations = session.scalars(
+    statement = (
         select(Organization)
         .join(EinMatch, EinMatch.organization_id == Organization.id)
         .where(
@@ -551,7 +551,12 @@ def enrich_financials(
             EinMatch.status.in_([MatchStatus.AUTO.value, MatchStatus.ACCEPTED.value]),
         )
         .order_by(Organization.name)
-    ).all()
+    )
+    footprint = config.api_states
+    if footprint:
+        statement = statement.where(Organization.state.in_(footprint))
+
+    organizations = session.scalars(statement).all()
     result.eligible = len(organizations)
     report(f"{result.eligible:,} organizations have a confirmed EIN")
 

@@ -16,10 +16,17 @@ uvicorn app.main:app          # then open http://127.0.0.1:8000
 ```
 
 The first run downloads the HRSA files, then queries ProPublica once per
-organization at one request per second — with roughly 1,500 FQHC organizations
-nationally, allow around an hour. Every response is cached, so subsequent runs
-take minutes. The run is resumable: organizations already resolved are skipped,
-so an interrupted run continues where it left off.
+second for each organization **in your scoring footprint** — the four states in
+`config.yaml`, which is a few hundred organizations rather than the ~1,500
+nationally. Expect roughly ten to fifteen minutes. Every response is cached, so
+subsequent runs take a fraction of that, and the run is resumable: organizations
+already resolved are skipped, so an interrupted run continues where it stopped.
+
+The full national universe is still built locally by the HRSA stage — that is a
+file parse, not an API call — so widening the footprint later is a config change
+and a re-run of two stages, not a rebuild. Set
+`pipeline.restrict_api_to_target_states: false` to resolve EINs for the whole
+country, at roughly ten times the API traffic.
 
 ## What it does
 
@@ -179,8 +186,9 @@ The config is seeded on first launch and never overwritten afterwards, so tuned
 thresholds survive an upgrade. Delete that folder to reset the app completely.
 
 **First launch shows an empty database** and a prompt to click *Refresh data*,
-which runs the full pipeline in the background — around an hour the first time.
-The window can be closed and reopened while that runs; completed work is kept.
+which runs the full pipeline in the background — usually ten to fifteen minutes
+for a four-state footprint. The window can be closed and reopened while that
+runs; completed work is kept.
 
 **Gatekeeper.** The bundle is unsigned, so macOS refuses it on first open:
 right-click the app, choose *Open*, and confirm — once per machine. Signing and

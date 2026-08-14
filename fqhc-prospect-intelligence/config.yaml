@@ -98,6 +98,16 @@ scoring:
     full_credit_ratio: 0.5   # >= 50% of revenue from grants -> score 100
     zero_credit_ratio: 0.05  # <= 5% -> score 0
 
+pipeline:
+  # Resolve EINs and pull Form 990s only for organizations in the scoring
+  # footprint above. HRSA ingestion is unaffected: the full national universe
+  # is still built, because that is a local parse rather than an API call.
+  #
+  # Leaving this on keeps the first run to minutes instead of about an hour.
+  # Turn it off to score the whole country, at roughly ten times the API
+  # traffic -- and remember to re-run the ein and financials stages afterwards.
+  restrict_api_to_target_states: true
+
 ui:
   # Rows per page in the master table.
   page_size: 50

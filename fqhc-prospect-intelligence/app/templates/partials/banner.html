@@ -7,10 +7,11 @@
     {% if is_packaged %}
       <p>
         Click <strong>Refresh data</strong> below to build the prospect database
-        from HRSA and ProPublica. The first build takes around an hour, because
-        the IRS data source is queried once per organization at one request per
-        second. You can close this window and reopen it later &mdash; the work
-        already done is kept.
+        from HRSA and ProPublica. The first build usually takes ten to fifteen
+        minutes: the IRS data source is queried once per second for each
+        organization in {{ config.scoring.state.target_states | join(', ') }}.
+        You can close this window and reopen it later &mdash; the work already
+        done is kept.
       </p>
     {% else %}
       <p>

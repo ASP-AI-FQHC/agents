@@ -161,6 +161,15 @@ class ScoringSettings(BaseModel):
     )
 
 
+class PipelineSettings(BaseModel):
+    # Resolve EINs and pull 990s only for organizations in the scoring
+    # footprint (scoring.state.target_states). HRSA ingestion is unaffected --
+    # the full national universe is still built locally, because that is a
+    # parse rather than an API call. Turning this off scores the whole country
+    # at the cost of roughly ten times the API traffic.
+    restrict_api_to_target_states: bool = True
+
+
 class UiSettings(BaseModel):
     page_size: int = Field(default=50, ge=1)
     filing_stale_months: int = Field(default=18, ge=0)
@@ -175,10 +184,18 @@ class Config(BaseModel):
     propublica: ProPublicaSettings = Field(default_factory=ProPublicaSettings)
     matching: MatchingSettings = Field(default_factory=MatchingSettings)
     scoring: ScoringSettings = Field(default_factory=ScoringSettings)
+    pipeline: PipelineSettings = Field(default_factory=PipelineSettings)
     ui: UiSettings = Field(default_factory=UiSettings)
 
     # Set at load time so relative paths resolve consistently.
     project_root: Path = PROJECT_ROOT
+
+    @property
+    def api_states(self) -> list[str] | None:
+        """States the API stages are limited to, or None for no limit."""
+        if not self.pipeline.restrict_api_to_target_states:
+            return None
+        return self.scoring.state.target_states or None
 
     @property
     def data_root(self) -> Path:

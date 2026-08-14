@@ -29,7 +29,7 @@ from datetime import timedelta
 from typing import Any
 
 from rapidfuzz import fuzz
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.config import Config, MatchingSettings
@@ -279,6 +279,9 @@ class MatchingResult:
     needs_review: int = 0
     unmatched: int = 0
     failed: int = 0
+    # Organizations not searched because they sit outside the scoring
+    # footprint. Reported so a low match rate is never mistaken for a problem.
+    out_of_footprint: int = 0
     used_cache: bool = False
     source_reachable: bool = True
     messages: list[str] = field(default_factory=list)
@@ -308,9 +311,21 @@ def match_organizations(
     session.add(run)
     session.commit()
 
-    organizations = session.scalars(
-        select(Organization).order_by(Organization.name)
-    ).all()
+    statement = select(Organization).order_by(Organization.name)
+    footprint = config.api_states
+    if footprint:
+        statement = statement.where(Organization.state.in_(footprint))
+
+    organizations = session.scalars(statement).all()
+    if footprint:
+        total = session.scalar(select(func.count()).select_from(Organization)) or 0
+        result.out_of_footprint = max(total - len(organizations), 0)
+        if result.out_of_footprint:
+            report(
+                f"Searching {len(organizations):,} organizations in "
+                f"{', '.join(footprint)}; skipping {result.out_of_footprint:,} "
+                "outside the footprint"
+            )
     consecutive_failures = 0
 
     try:
@@ -386,6 +401,13 @@ def match_organizations(
         result.messages.append(
             f"{client.stale_responses} search response(s) served from an expired "
             "cache because ProPublica was unreachable"
+        )
+
+    if result.out_of_footprint:
+        result.messages.append(
+            f"{result.out_of_footprint:,} organizations outside "
+            f"{', '.join(footprint or [])} were not searched "
+            "(pipeline.restrict_api_to_target_states)"
         )
 
     report(
