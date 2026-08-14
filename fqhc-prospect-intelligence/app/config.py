@@ -180,10 +180,21 @@ class Config(BaseModel):
     # Set at load time so relative paths resolve consistently.
     project_root: Path = PROJECT_ROOT
 
+    @property
+    def data_root(self) -> Path:
+        """Directory that relative data paths are resolved against.
+
+        Normally the project root. A packaged desktop build sets FQHC_DATA_DIR
+        to a writable per-user directory, because the application bundle it
+        runs from is read-only.
+        """
+        override = os.environ.get("FQHC_DATA_DIR")
+        return Path(override) if override else self.project_root
+
     def resolve(self, path: Path | str) -> Path:
-        """Resolve a possibly-relative config path against the project root."""
+        """Resolve a possibly-relative config path against the data root."""
         candidate = Path(path)
-        return candidate if candidate.is_absolute() else self.project_root / candidate
+        return candidate if candidate.is_absolute() else self.data_root / candidate
 
     @property
     def database_file(self) -> Path:

@@ -14,6 +14,7 @@ form submission.
 from __future__ import annotations
 
 import math
+import sys
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -46,6 +47,9 @@ config = get_config()
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 templates.env.globals.update(
     config=config,
+    # True in a packaged desktop build, where telling the user to run a CLI
+    # command would be useless -- they have a Refresh button instead.
+    is_packaged=bool(getattr(sys, "frozen", False)),
     MatchStatus=MatchStatus,
     GranteeType=GranteeType,
     match_filters=list(MATCH_FILTERS),

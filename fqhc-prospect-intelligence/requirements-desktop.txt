@@ -1,0 +1,11 @@
+# Extras for building and running the desktop application.
+# Install alongside requirements.txt:
+#     pip install -r requirements.txt -r requirements-desktop.txt
+
+# Native window using the platform's own web engine (WebKit on macOS,
+# WebView2 on Windows). No bundled browser.
+pywebview>=5.3
+
+# Bundles Python and every dependency into a double-clickable application.
+# Cannot cross-compile: build on the platform you are targeting.
+pyinstaller>=6.11

@@ -1,0 +1,25 @@
+<!-- Application icon: the Allstar six-color star band on a white tile. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <filter id="tile-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <rect x="72" y="72" width="880" height="880" rx="196" ry="196"
+        fill="#ffffff" filter="url(#tile-shadow)"/>
+
+  <!-- Six equal blocks, blue through green, centred on the tile. -->
+  <g>
+    <rect x="212" y="392" width="100" height="240" fill="#0094bb"/>
+    <rect x="312" y="392" width="100" height="240" fill="#524fa2"/>
+    <rect x="412" y="392" width="100" height="240" fill="#cf118c"/>
+    <rect x="512" y="392" width="100" height="240" fill="#f58220"/>
+    <rect x="612" y="392" width="100" height="240" fill="#ffd503"/>
+    <rect x="712" y="392" width="100" height="240" fill="#6fc055"/>
+  </g>
+
+  <text x="512" y="742" text-anchor="middle"
+        font-family="Helvetica, Arial, sans-serif" font-size="96" font-weight="700"
+        letter-spacing="10" fill="#0094bb">FQHC</text>
+</svg>

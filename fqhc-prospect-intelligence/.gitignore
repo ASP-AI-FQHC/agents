@@ -14,3 +14,8 @@ data/raw/*
 
 # Generated exports
 exports/
+
+# Desktop build artifacts
+build/
+dist/
+desktop/icon.icns

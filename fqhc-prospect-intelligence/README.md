@@ -153,6 +153,40 @@ declared nullable columns to an existing database automatically; if a schema
 change ever needs more than that, the app says so and asks you to delete
 `data/fqhc.db` and re-run the pipeline.
 
+## Desktop application (macOS)
+
+The same app, in a native window, with no terminal and no Python install:
+
+```bash
+pip install -r requirements.txt -r requirements-desktop.txt
+./desktop/build_macos.sh          # produces dist/"FQHC Prospect Intelligence.app"
+```
+
+Run it from a checkout without packaging:
+
+```bash
+python -m desktop.main            # native window
+python -m desktop.main --no-window  # serve only, open the URL yourself
+```
+
+**The build must run on macOS.** PyInstaller does not cross-compile, so a Mac
+bundle can only be produced on a Mac.
+
+**Where a packaged build keeps its data.** The application bundle is read-only,
+so the database, the download cache and an editable copy of `config.yaml` live
+in `~/Library/Application Support/Allstar Partners/FQHC Prospect Intelligence`.
+The config is seeded on first launch and never overwritten afterwards, so tuned
+thresholds survive an upgrade. Delete that folder to reset the app completely.
+
+**First launch shows an empty database** and a prompt to click *Refresh data*,
+which runs the full pipeline in the background — around an hour the first time.
+The window can be closed and reopened while that runs; completed work is kept.
+
+**Gatekeeper.** The bundle is unsigned, so macOS refuses it on first open:
+right-click the app, choose *Open*, and confirm — once per machine. Signing and
+notarizing it properly needs an Apple Developer account; the exact commands are
+printed at the end of the build script.
+
 ## Branding
 
 The UI implements the Allstar Partners Brand Style Guide: the six brand colors
