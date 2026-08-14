@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
 from app.config import Config, load_config
 from app.db import init_db, session_scope
 from app.models import RunStatus
-from pipeline import hrsa, matching
+from pipeline import hrsa, matching, scoring
 from pipeline.propublica import ProPublicaClient, enrich_financials
 
 
@@ -59,10 +59,17 @@ def _run_financials(
         )
 
 
+def _run_scoring(
+    session: Session, config: Config, _force_refresh: bool, report: Callable[[str], None]
+) -> scoring.ScoringResult:
+    return scoring.score_all(session, config, on_progress=report)
+
+
 STAGES: tuple[Stage, ...] = (
     Stage("hrsa", "Build the FQHC universe from HRSA downloads", _run_hrsa),
     Stage("ein", "Resolve EINs via ProPublica search", _run_matching),
     Stage("financials", "Pull Form 990 filings by EIN", _run_financials),
+    Stage("scoring", "Score every organization against the ICP", _run_scoring),
 )
 
 

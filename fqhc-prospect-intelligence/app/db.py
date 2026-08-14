@@ -10,7 +10,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 
-from sqlalchemy import Engine, create_engine, event
+from sqlalchemy import Engine, create_engine, event, inspect, text
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.config import Config, get_config
@@ -59,10 +59,50 @@ def get_session_factory(config: Config | None = None) -> sessionmaker[Session]:
 
 
 def init_db(config: Config | None = None) -> Engine:
-    """Create any missing tables. Safe to call repeatedly."""
+    """Create any missing tables and columns. Safe to call repeatedly."""
     engine = get_engine(config)
     Base.metadata.create_all(engine)
+    apply_additive_migrations(engine)
     return engine
+
+
+def apply_additive_migrations(engine: Engine) -> list[str]:
+    """Add columns the models declare but an existing database lacks.
+
+    ``create_all`` only creates missing *tables*, so a database built by an
+    earlier version keeps its old columns. Rather than making users delete and
+    rebuild, new nullable columns are added in place -- which is all this
+    project's schema changes have ever needed. A new *non-nullable* column
+    cannot be added safely, so that raises with an explicit instruction instead
+    of failing later with an opaque "no such column".
+
+    Returns the list of applied ``table.column`` names.
+    """
+    inspector = inspect(engine)
+    applied: list[str] = []
+
+    with engine.begin() as connection:
+        for table in Base.metadata.sorted_tables:
+            if not inspector.has_table(table.name):
+                continue
+            present = {col["name"] for col in inspector.get_columns(table.name)}
+            for column in table.columns:
+                if column.name in present:
+                    continue
+                if not column.nullable:
+                    raise RuntimeError(
+                        f"Database is missing the non-nullable column "
+                        f"{table.name}.{column.name} and cannot be migrated in "
+                        f"place. Delete the database file and re-run "
+                        f"`python -m pipeline.run` to rebuild it."
+                    )
+                ddl = column.type.compile(engine.dialect)
+                connection.execute(
+                    text(f'ALTER TABLE {table.name} ADD COLUMN "{column.name}" {ddl}')
+                )
+                applied.append(f"{table.name}.{column.name}")
+
+    return applied
 
 
 @contextmanager
