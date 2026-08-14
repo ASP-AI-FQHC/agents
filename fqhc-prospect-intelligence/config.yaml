@@ -117,6 +117,28 @@ irs:
   documents_per_org: 3
   timeout_seconds: 60
 
+website:
+  # Fallback source for key personnel and board members: the leadership, board
+  # and "our team" pages on the health center's own website, found from the web
+  # address HRSA publishes.
+  #
+  # This is weaker evidence than a Form 990 -- a filing has a fixed schema, a
+  # web page is prose read by a heuristic -- so results are stored and displayed
+  # separately from filing data, always with the page they came from. robots.txt
+  # is honoured and nothing behind a login is touched.
+  enabled: true
+  # Only crawl organizations with no Part VII people on file. Set to false to
+  # also collect current names for organizations that do have a filing: 990 data
+  # lags 12-24 months, so the website is usually more current about who holds a
+  # post right now.
+  only_when_missing: true
+  requests_per_second: 0.5
+  timeout_seconds: 20
+  # Homepage plus this many candidate leadership pages per organization.
+  max_pages_per_org: 4
+  max_people_per_org: 60
+  refresh_after_days: 30
+
 pipeline:
   # Resolve EINs and pull Form 990s only for organizations in the scoring
   # footprint above. HRSA ingestion is unaffected: the full national universe

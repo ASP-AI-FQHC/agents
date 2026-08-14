@@ -365,9 +365,67 @@
       </div>
     {% else %}
       <p class="not-available">
-        Not available &mdash; no Form 990 XML has been loaded for this
-        organization. See <code>irs.local_directory</code> in config.yaml.
+        Not available from a filing &mdash; no Form 990 XML has been loaded for
+        this organization. See <code>irs.local_directory</code> in config.yaml.
       </p>
+    {% endif %}
+
+    {% if website_people %}
+      <h4 class="subsection__header">From the organization&rsquo;s website</h4>
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>Name</th><th>Title</th><th>Published email</th><th>Source page</th></tr>
+          </thead>
+          <tbody>
+            {% for person in website_people %}
+              <tr>
+                <td><strong>{{ person.name }}</strong></td>
+                <td>{{ person.title | na }}</td>
+                <td>
+                  {% if person.email %}
+                    <a href="mailto:{{ person.email }}">{{ person.email }}</a>
+                  {% else %}<span class="not-available">Not published</span>{% endif %}
+                </td>
+                <td class="u-small">
+                  <a href="{{ person.source_url }}" target="_blank" rel="noopener noreferrer">View page</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--warning" style="margin-top:16px">
+        <p class="callout__title">Read from a web page, not from a filing</p>
+        <p>
+          These names were extracted from the organization&rsquo;s own public
+          leadership pages
+          {% if website_crawl and website_crawl.fetched_at %}
+            on {{ website_crawl.fetched_at.strftime('%-d %B %Y') }}{% endif %}, because no Form
+          990 Part VII data was available. A web page has no fixed format, so
+          treat every row as a lead to confirm rather than as a record
+          &mdash; the source page is linked on each line. Emails are shown only
+          where the organization published them itself.
+        </p>
+      </div>
+    {% elif not people %}
+      {% if website_crawl %}
+        <p class="not-available">
+          The organization&rsquo;s website was checked
+          {% if website_crawl.fetched_at %}on {{ website_crawl.fetched_at.strftime('%-d %B %Y') }}{% endif %}
+          and no leadership listing was found ({{ website_crawl.outcome | na }}).
+        </p>
+      {% elif organization.website %}
+        <p class="not-available">
+          The organization&rsquo;s website has not been checked yet. Run
+          <code>python -m pipeline.run --stage website</code>.
+        </p>
+      {% else %}
+        <p class="not-available">
+          HRSA publishes no web address for this organization, so there is no
+          site to fall back to.
+        </p>
+      {% endif %}
     {% endif %}
   </section>
 

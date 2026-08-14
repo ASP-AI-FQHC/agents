@@ -492,6 +492,68 @@ class Contractor(Base):
     )
 
 
+class WebsitePerson(Base):
+    """A person named on the organization's own website.
+
+    Deliberately a separate table from :class:`Person`. A 990 is a signed
+    federal filing with a fixed schema; a leadership page is prose that happens
+    to contain names, read by a heuristic that can be wrong. Keeping the two
+    apart means the filing table stays exactly as authoritative as the filing
+    is, and the UI can label each source for what it is.
+
+    ``source_url`` is mandatory for that reason -- every row here points at the
+    page it came from so a human can check it in one click.
+    """
+
+    __tablename__ = "website_people"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    organization_id: Mapped[int] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), index=True
+    )
+
+    name: Mapped[str] = mapped_column(String(240))
+    title: Mapped[str | None] = mapped_column(String(240))
+    # Only ever an address the organization itself published on that page.
+    email: Mapped[str | None] = mapped_column(String(240))
+    source_url: Mapped[str] = mapped_column(String(500))
+    fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    organization: Mapped["Organization"] = relationship()
+
+    @property
+    def is_board_member(self) -> bool:
+        title = (self.title or "").lower()
+        return any(
+            word in title
+            for word in ("board", "trustee", "director of the board", "chair")
+        ) and "director of" not in title
+
+
+class WebsiteCrawl(Base):
+    """One attempt to read leadership information off an organization's site.
+
+    Recorded whether or not it found anything, so the stage can tell "not
+    crawled yet" from "crawled and the site says nothing", and so a re-run can
+    skip sites visited recently.
+    """
+
+    __tablename__ = "website_crawls"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    organization_id: Mapped[int] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), index=True, unique=True
+    )
+
+    url: Mapped[str | None] = mapped_column(String(500))
+    pages_fetched: Mapped[int] = mapped_column(Integer, default=0)
+    people_found: Mapped[int] = mapped_column(Integer, default=0)
+    # Short human-readable outcome: "ok", "blocked by robots.txt",
+    # "unreachable: ConnectTimeout", "no website on file".
+    outcome: Mapped[str | None] = mapped_column(String(240))
+    fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
+
+
 class ApiCache(Base):
     """Raw HTTP responses from ProPublica, so re-runs only fetch what is stale."""
 

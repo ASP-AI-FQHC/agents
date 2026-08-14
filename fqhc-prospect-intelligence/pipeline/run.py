@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
 from app.config import Config, load_config
 from app.db import init_db, session_scope
 from app.models import RunStatus
-from pipeline import changes, hrsa, irs, matching, scoring
+from pipeline import changes, hrsa, irs, matching, scoring, website
 from pipeline.propublica import ProPublicaClient, enrich_financials
 
 
@@ -98,6 +98,18 @@ def _run_people(
         )
 
 
+def _run_websites(
+    session: Session, config: Config, options: StageOptions, report: Callable[[str], None]
+) -> website.WebsiteResult:
+    return website.enrich_websites(
+        session,
+        config,
+        limit=options.limit,
+        force=options.force_refresh,
+        on_progress=report,
+    )
+
+
 def _run_scoring(
     session: Session, config: Config, _options: StageOptions, report: Callable[[str], None]
 ) -> scoring.ScoringResult:
@@ -118,6 +130,12 @@ STAGES: tuple[Stage, ...] = (
     ),
     Stage(
         "people", "Read Form 990 Part VII people and contractors", _run_people,
+        honours_limit=True,
+    ),
+    Stage(
+        "website",
+        "Read leadership pages for organizations with no Part VII people",
+        _run_websites,
         honours_limit=True,
     ),
     Stage("scoring", "Score every organization against the ICP", _run_scoring),
@@ -154,8 +172,8 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="N",
         help=(
             "Process at most N organizations in the API-bound stages (ein, "
-            "financials). Use for a quick trial run before committing to a full "
-            "pass; the result is deliberately partial."
+            "financials, people, website). Use for a quick trial run before "
+            "committing to a full pass; the result is deliberately partial."
         ),
     )
     parser.add_argument(

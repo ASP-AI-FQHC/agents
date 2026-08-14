@@ -39,6 +39,8 @@ from app.queries import (
     organization_contractors,
     organization_detail,
     organization_people,
+    organization_website_crawl,
+    organization_website_people,
     review_queue,
     similar_organizations,
     summarize,
@@ -207,6 +209,8 @@ def organization_page(
         history=organization_changes(session, organization.id),
         people=organization_people(session, organization.ein),
         contractors=organization_contractors(session, organization.ein),
+        website_people=organization_website_people(session, organization.id),
+        website_crawl=organization_website_crawl(session, organization.id),
     )
     return templates.TemplateResponse(request, "detail.html", context)
 

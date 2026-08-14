@@ -53,9 +53,11 @@ country, at roughly ten times the API traffic.
 | 1. Universe | `pipeline/hrsa.py` | Downloads HRSA's service delivery site and awardee files and deduplicates sites up to the grantee organization, so one row is one FQHC with a site count. |
 | 2. EIN resolution | `pipeline/matching.py` | Fuzzy-matches each organization to an EIN via ProPublica search, with a confidence score that routes the match. |
 | 3. Financials | `pipeline/propublica.py` | Pulls the three most recent Form 990 filings per EIN — revenue, expenses, assets, and the 990 PDF link. |
-| 4. Scoring | `pipeline/scoring.py` | Produces a 0–100 composite ICP score with a per-factor breakdown. |
-| 5. Changes | `pipeline/changes.py` | Compares every organization to the previous run and logs what moved. |
-| 6. Dashboard | `app/` | Master table, organization detail, EIN review queue, what-changed log, CSV/XLSX export, refresh. |
+| 4. People | `pipeline/irs.py` | Reads Form 990 Part VII from IRS e-file XML: officers, board members and contractors paid over $100,000. |
+| 5. Websites | `pipeline/website.py` | Falls back to the organization's own leadership and board pages for the health centers with no filing on hand. |
+| 6. Scoring | `pipeline/scoring.py` | Produces a 0–100 composite ICP score with a per-factor breakdown. |
+| 7. Changes | `pipeline/changes.py` | Compares every organization to the previous run and logs what moved. |
+| 8. Dashboard | `app/` | Master table, organization detail, EIN review queue, what-changed log, CSV/XLSX export, refresh. |
 
 Run stages individually while iterating:
 
@@ -67,7 +69,13 @@ python -m pipeline.run --stage scoring            # re-rank after editing weight
 python -m pipeline.run --force-refresh            # ignore the 30-day download cache
 ```
 
-`--limit N` caps the API-bound stages (`ein`, `financials`) at N organizations,
+The stages run in order and each depends on the ones before it. In particular
+`--stage people` and `--stage website` read organizations that earlier stages
+created, so running either on its own against an empty database finds nothing —
+and says so, naming the stage to run first rather than reporting a bland zero.
+
+`--limit N` caps the source-bound stages (`ein`, `financials`, `people`,
+`website`) at N organizations,
 so you can confirm the live sources behave as expected in under a minute before
 committing to a full pass. A capped run is announced at the start and again at
 the end, so a partial pass is never mistaken for a complete one, and because the
@@ -135,8 +143,9 @@ survives because human EIN decisions hang off it.
 | Similar organizations | Computed here from state, footprint, revenue and IRS classification | Available |
 | Delivery sites | HRSA site file | Available |
 | Key personnel and board members | Form 990 Part VII Section A — names, titles, hours, compensation and role checkboxes | Available once Form 990 XML is loaded (see below) |
+| Key personnel, fallback | The organization's own leadership / board / "our team" pages | Available for organizations HRSA publishes a web address for. Shown in a separate, labelled block with a link to the page each name came from |
 | Vendors and service providers | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | Available once Form 990 XML is loaded |
-| Board member contact details | — | **Not available anywhere free.** A 990 lists officers care-of the organization's own address; personal emails and direct phone numbers are not published. The `people` table has no contact columns, so there is nowhere to put invented ones. |
+| Board member contact details | Only where the organization publishes them itself | **Mostly not available.** A 990 lists officers care-of the organization's own address; personal emails and direct phone numbers are not published, and the `people` table has no contact columns, so there is nowhere to put invented ones. Where a leadership page carries a `mailto:` address it is captured verbatim; nothing is ever constructed from a name and a domain. |
 | Software and technology used | — | **Not available.** No free authoritative source publishes an organization's technology stack. The contractor rows are the closest proxy: an incumbent EHR, IT or billing vendor often appears there by name. |
 
 Where a data point cannot be sourced it is labelled "Not available" rather than
@@ -170,6 +179,70 @@ it moved to bulk ZIPs — the bucket is still reachable but empty — so
 that would silently return nothing. Set it, plus `irs.index_urls` and
 `irs.fetch_remote: true`, if you have a working source.
 
+The first run indexes every document in the folder, reading only the header of
+each rather than decompressing it, and saves the finished index next to the
+archives — so a multi-gigabyte download is scanned once and every later run
+starts instantly.
+
+**If the stage reports no people,** its output says which of the four possible
+reasons applies rather than leaving you to guess. It prints the absolute path it
+searched, how many `.xml` files and archives it found there, how many documents
+it indexed and how many distinct EINs those cover, and then one of:
+
+| What it says | What to do |
+| --- | --- |
+| `No organization has a confirmed EIN yet` | Run `python -m pipeline.run` — the `hrsa` and `ein` stages populate what this stage reads. |
+| `No IRS XML directory at …` | Create that folder and put the download in it. |
+| `… contains no .xml or .zip files` | The download is still in `~/Downloads`; copy it across. |
+| `… cover N other EINs` | The archive is real but for filing years that do not include your organizations; download another year. |
+
+Note that a packaged desktop build keeps its data in
+`~/Library/Application Support/Allstar Partners/FQHC Prospect Intelligence/`,
+not in the checkout — the path the stage prints is always the one it actually
+used.
+
+### Falling back to the organization's website
+
+Only a fraction of health centers will have a filing in whichever IRS archive
+you have downloaded, and even a filing that is present describes a tax year that
+closed 12–24 months ago. So for any organization left with no Part VII people,
+the `website` stage reads the leadership, board and "our team" pages on the
+health center's own site, found from the web address in the HRSA data:
+
+```bash
+python -m pipeline.run --stage website
+```
+
+This is deliberately treated as weaker evidence than a filing:
+
+- Results are stored in a **separate table** (`website_people`) and shown in a
+  separate, labelled block on the profile. A filing and a heuristic never blend
+  into one list.
+- Every row carries **the page it came from**, linked, so a human can confirm it
+  in one click.
+- A row is only recorded when a plausible person's name sits next to a phrase
+  that names a role. A capitalised phrase on its own is not evidence — "Patient
+  Portal" reads like a name — so pages with no role labels yield nothing rather
+  than noise.
+- Emails appear **only** where the organization published a `mailto:` link
+  itself. Nothing is ever constructed from a name and a domain.
+- `robots.txt` is honoured, requests are throttled to `website.requests_per_second`,
+  links off the organization's own host are not followed, and nothing behind a
+  login is touched.
+- Every attempt is recorded whether or not it found anything, so "not checked
+  yet" stays distinguishable from "checked, and the site says nothing".
+
+Set `website.only_when_missing: false` to collect current names even where a
+filing exists — useful precisely because the website is usually more current
+about who holds a post right now. Set `website.enabled: false` to switch the
+stage off entirely.
+
+What this can and cannot deliver, honestly: leadership pages reliably give the
+executive team by name and title; board rosters are published by many health
+centers but not all; individual staff email addresses are usually absent, and
+where present are often images or obfuscated, in which case nothing is
+captured.
+
 ## Data integrity rules
 
 These are enforced in code and covered by tests, not merely documented:
@@ -189,6 +262,10 @@ These are enforced in code and covered by tests, not merely documented:
   surfaces the next-best candidate instead.
 - **Uncertainty is displayed.** Match confidence appears on every matched row,
   and each filing is badged with the age of the tax year it describes.
+- **Sources are never blended.** People read from a Form 990 and people read
+  from a web page live in different tables and appear in different, labelled
+  blocks, each carrying where it came from. Weaker evidence is presented as
+  weaker evidence rather than quietly promoted.
 - **It degrades gracefully.** If HRSA or ProPublica is unreachable, the app runs
   on cached data and says so, with the cache date, on every page and inside
   every export.
@@ -201,6 +278,11 @@ These are enforced in code and covered by tests, not merely documented:
 - ProPublica Nonprofit Explorer API v2 —
   <https://projects.propublica.org/nonprofits/api/> (free, unauthenticated,
   throttled to one request per second with exponential backoff on 429/5xx).
+- IRS Form 990 series downloads —
+  <https://www.irs.gov/charities-non-profits/form-990-series-downloads>
+  (downloaded by hand, read locally, never fetched during a run by default).
+- The organizations' own public websites, for leadership and board pages only —
+  fetched politely, `robots.txt` honoured, nothing behind a login.
 
 **If HRSA moves a download:** update the URL in `config.yaml`, or download the
 CSV by hand and drop it into `data/raw/` under the configured filename — the

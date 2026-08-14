@@ -267,6 +267,18 @@ a:focus-visible {
   border-bottom: 1px solid var(--rule);
 }
 
+/* A second source inside one section -- deliberately quieter than the green
+   section header, so a reader can see at a glance that the block below it is
+   subordinate rather than a new topic. */
+.subsection__header {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-3);
+}
+
 .stack > * + * { margin-top: var(--space-4); }
 
 .grid {

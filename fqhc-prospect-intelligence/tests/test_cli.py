@@ -40,7 +40,7 @@ def test_only_the_source_bound_stages_honour_the_limit() -> None:
     """hrsa, scoring and changes are local and fast, so a cap is meaningless
     for them and the CLI says so rather than appearing to apply one."""
     honouring = {stage.name for stage in STAGES if stage.honours_limit}
-    assert honouring == {"ein", "financials", "people"}
+    assert honouring == {"ein", "financials", "people", "website"}
 
 
 def test_stage_options_default_to_a_full_run() -> None:

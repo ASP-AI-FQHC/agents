@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import csv
 import io
+import json
 import re
 import xml.etree.ElementTree as ElementTree
 import zipfile
@@ -375,39 +376,142 @@ def peek(data: bytes) -> tuple[str | None, int | None]:
     )
 
 
-def _directory_signature(directory: Path) -> tuple:
-    """Cheap fingerprint of a directory, so the index is rebuilt when it changes."""
-    entries = sorted(
-        (path.name, path.stat().st_mtime_ns, path.stat().st_size)
-        for path in directory.iterdir()
-        if path.is_file()
-    )
-    return tuple(entries)
+# Both facts live in the ReturnHeader at the very top of the document, so the
+# indexer reads a prefix instead of decompressing whole files. On a full IRS
+# bulk download -- hundreds of thousands of documents across several
+# multi-hundred-megabyte archives -- this is the difference between a scan that
+# finishes while you watch and one you assume has hung.
+_PEEK_CHUNK = 64 * 1024
+_PEEK_LIMIT = 1024 * 1024
+# Enough overlap that a tag split across two chunk boundaries still matches.
+_PEEK_OVERLAP = 64
 
+
+def peek_stream(handle) -> tuple[str | None, int | None]:
+    """Filer EIN and tax year, read from the front of an open binary stream."""
+    ein: str | None = None
+    year: int | None = None
+    tail = b""
+    consumed = 0
+
+    while consumed < _PEEK_LIMIT:
+        chunk = handle.read(_PEEK_CHUNK)
+        if not chunk:
+            break
+        consumed += len(chunk)
+        window = tail + chunk
+        found_ein, found_year = peek(window)
+        ein = ein or found_ein
+        year = year or found_year
+        if ein is not None and year is not None:
+            break
+        # Carried over from the whole window, not just the new chunk: a stream
+        # that hands back a few bytes at a time would otherwise never hold
+        # enough of the document at once to match an element.
+        tail = window[-_PEEK_OVERLAP:]
+
+    return ein, year
+
+
+def _directory_signature(directory: Path) -> list[list]:
+    """Cheap fingerprint of a directory, so the index is rebuilt when it changes.
+
+    Hidden files are excluded because the index cache itself is written into
+    this directory; including it would invalidate the cache the moment it was
+    saved.
+    """
+    return sorted(
+        [path.name, path.stat().st_mtime_ns, path.stat().st_size]
+        for path in directory.iterdir()
+        if path.is_file() and not path.name.startswith(".")
+    )
+
+
+INDEX_CACHE_FILENAME = ".fqhc-document-index.json"
 
 _DOCUMENT_INDEX: dict[tuple, dict[str, list[DocumentRef]]] = {}
 
 
-def document_index(directory: Path) -> dict[str, list[DocumentRef]]:
+def _load_index_cache(directory: Path, signature: list) -> dict[str, list[DocumentRef]] | None:
+    """Read a previously saved index, if it still describes this directory."""
+    path = directory / INDEX_CACHE_FILENAME
+    try:
+        saved = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if saved.get("version") != 1 or saved.get("signature") != signature:
+        return None
+
+    index: dict[str, list[DocumentRef]] = {}
+    for ein, refs in (saved.get("documents") or {}).items():
+        index[ein] = [
+            DocumentRef(
+                path=directory / name,
+                member=member,
+                ein=ein,
+                tax_year=year,
+            )
+            for name, member, year in refs
+        ]
+    return index
+
+
+def _save_index_cache(
+    directory: Path, signature: list, index: dict[str, list[DocumentRef]]
+) -> None:
+    payload = {
+        "version": 1,
+        "signature": signature,
+        "documents": {
+            ein: [[ref.path.name, ref.member, ref.tax_year] for ref in refs]
+            for ein, refs in index.items()
+        },
+    }
+    try:
+        (directory / INDEX_CACHE_FILENAME).write_text(
+            json.dumps(payload), encoding="utf-8"
+        )
+    except OSError:
+        # A read-only download folder is not a reason to fail the run; it only
+        # means the next run pays for the scan again.
+        pass
+
+
+def document_index(
+    directory: Path, *, on_progress: ProgressFn | None = None
+) -> dict[str, list[DocumentRef]]:
     """Map EIN to available documents, newest tax year first.
 
     Indexes on the EIN *inside* each document rather than on its filename. The
     IRS bulk downloads name files by object id, which contains no EIN at all, so
     filename matching would find nothing in a real download. Zip archives are
     read in place -- there is no need to unpack a multi-gigabyte download.
+
+    The finished index is written to the directory as a small JSON file, so the
+    scan is paid for once rather than on every run.
     """
     if not directory.exists():
         return {}
 
-    signature = (str(directory), _directory_signature(directory))
-    cached = _DOCUMENT_INDEX.get(signature)
+    report = on_progress or (lambda _message: None)
+    signature = _directory_signature(directory)
+    memory_key = (str(directory), json.dumps(signature))
+    cached = _DOCUMENT_INDEX.get(memory_key)
     if cached is not None:
         return cached
 
-    index: dict[str, list[DocumentRef]] = {}
+    from_disk = _load_index_cache(directory, signature)
+    if from_disk is not None:
+        _DOCUMENT_INDEX[memory_key] = from_disk
+        return from_disk
 
-    def record(path: Path, member: str | None, data: bytes) -> None:
-        ein, year = peek(data)
+    index: dict[str, list[DocumentRef]] = {}
+    scanned = 0
+
+    def record(path: Path, member: str | None, handle) -> None:
+        nonlocal scanned
+        ein, year = peek_stream(handle)
+        scanned += 1
         if not ein:
             return
         index.setdefault(ein, []).append(
@@ -415,31 +519,105 @@ def document_index(directory: Path) -> dict[str, list[DocumentRef]]:
         )
 
     for path in sorted(directory.iterdir()):
-        if not path.is_file():
+        if not path.is_file() or path.name.startswith("."):
             continue
         suffix = path.suffix.lower()
         try:
             if suffix == ".xml":
-                record(path, None, path.read_bytes())
+                with path.open("rb") as handle:
+                    record(path, None, handle)
             elif suffix == ".zip":
+                report(f"Indexing {path.name}")
                 with zipfile.ZipFile(path) as archive:
                     for member in archive.namelist():
-                        if member.lower().endswith(".xml"):
-                            record(path, member, archive.read(member))
+                        if not member.lower().endswith(".xml"):
+                            continue
+                        with archive.open(member) as handle:
+                            record(path, member, handle)
+                report(f"{path.name}: {scanned:,} documents read so far")
         except (OSError, zipfile.BadZipFile):
             # A corrupt archive should cost its own contents, not the whole run.
+            report(f"Skipped {path.name}: not readable as an archive")
             continue
 
     for refs in index.values():
         refs.sort(key=lambda ref: (ref.tax_year or 0), reverse=True)
 
-    _DOCUMENT_INDEX[signature] = index
+    if index:
+        _save_index_cache(directory, signature, index)
+    _DOCUMENT_INDEX[memory_key] = index
     return index
 
 
 def reset_document_index() -> None:
     """Forget any cached document index. Used by tests."""
     _DOCUMENT_INDEX.clear()
+
+
+@dataclass(frozen=True)
+class SourceReport:
+    """What is actually sitting in the configured IRS directory.
+
+    Every zero-result failure mode of the people stage is distinguishable from
+    these numbers, which is why the stage prints them: a missing folder, a
+    folder holding the wrong kind of file, an archive that unpacked to nothing,
+    and an archive full of documents for other organizations all look identical
+    from the outside otherwise.
+    """
+
+    directory: Path
+    exists: bool
+    xml_files: int = 0
+    zip_files: int = 0
+    other_files: int = 0
+    documents: int = 0
+    eins: int = 0
+
+    @property
+    def lines(self) -> list[str]:
+        if not self.exists:
+            return [f"No IRS XML directory at {self.directory}"]
+        if not (self.xml_files or self.zip_files):
+            return [
+                f"{self.directory} holds no .xml or .zip files "
+                f"({self.other_files:,} other files)"
+            ]
+        return [
+            f"{self.directory}: {self.xml_files:,} XML files, "
+            f"{self.zip_files:,} archives",
+            f"Indexed {self.documents:,} Form 990 documents "
+            f"for {self.eins:,} distinct EINs",
+        ]
+
+
+def describe_source(config, *, on_progress: ProgressFn | None = None) -> SourceReport:
+    """Inspect the configured IRS directory and index it."""
+    directory = config.resolve(config.irs.local_directory)
+    if not directory.exists():
+        return SourceReport(directory=directory, exists=False)
+
+    xml_files = zip_files = other_files = 0
+    for path in directory.iterdir():
+        if not path.is_file() or path.name.startswith("."):
+            continue
+        suffix = path.suffix.lower()
+        if suffix == ".xml":
+            xml_files += 1
+        elif suffix == ".zip":
+            zip_files += 1
+        else:
+            other_files += 1
+
+    index = document_index(directory, on_progress=on_progress)
+    return SourceReport(
+        directory=directory,
+        exists=True,
+        xml_files=xml_files,
+        zip_files=zip_files,
+        other_files=other_files,
+        documents=sum(len(refs) for refs in index.values()),
+        eins=len(index),
+    )
 
 
 def extract_zip_members(content: bytes) -> Iterator[tuple[str, bytes]]:
@@ -483,6 +661,7 @@ class PeopleResult:
     failed: int = 0
     source_reachable: bool = True
     messages: list[str] = field(default_factory=list)
+    source: "SourceReport | None" = None
 
     @property
     def status(self):
@@ -595,6 +774,11 @@ def enrich_people(
     session.commit()
 
     try:
+        source = describe_source(config, on_progress=report)
+        for line in source.lines:
+            report(line)
+        result.source = source
+
         statement = (
             select(Organization)
             .join(EinMatch, EinMatch.organization_id == Organization.id)
@@ -613,6 +797,16 @@ def enrich_people(
         organizations = session.scalars(statement).all()
         result.eligible = len(organizations)
         report(f"{result.eligible:,} organizations have a confirmed EIN")
+
+        if not result.eligible:
+            # By far the most common way this stage produces nothing: it was run
+            # on its own, before anything had populated the EINs it reads.
+            result.messages.append(
+                "No organization has a confirmed EIN yet, so there was nothing "
+                "to look up. Run `python -m pipeline.run --stage hrsa` then "
+                "`--stage ein` first, or `python -m pipeline.run` for the "
+                "whole pipeline."
+            )
 
         for organization in organizations:
             if limit is not None and result.resolved >= limit:
@@ -694,10 +888,28 @@ def enrich_people(
         raise
 
     if result.without_documents:
+        source = result.source
+        if source is not None and not source.exists:
+            detail = (
+                f"there is no directory at {source.directory} -- create it and "
+                "unzip an IRS Form 990 download into it"
+            )
+        elif source is not None and not (source.xml_files or source.zip_files):
+            detail = (
+                f"{source.directory} contains no .xml or .zip files -- the IRS "
+                "download needs to be copied there, not left in ~/Downloads"
+            )
+        elif source is not None and source.documents:
+            detail = (
+                f"the {source.documents:,} documents in {source.directory} "
+                f"cover {source.eins:,} other EINs -- these organizations filed "
+                "in a year you have not downloaded"
+            )
+        else:
+            detail = "see irs.local_directory in config.yaml"
         result.messages.append(
             f"No Form 990 XML found for {result.without_documents:,} of "
-            f"{result.eligible:,} organizations (see irs.local_directory in "
-            "config.yaml)"
+            f"{result.eligible:,} organizations: {detail}"
         )
 
     report(

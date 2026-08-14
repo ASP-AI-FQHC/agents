@@ -189,6 +189,36 @@ class IrsSettings(BaseModel):
     timeout_seconds: float = Field(default=60.0, gt=0)
 
 
+class WebsiteSettings(BaseModel):
+    """Leadership pages on an organization's own website.
+
+    A fallback for the many health centers whose Form 990 is not in the IRS
+    bulk download you happen to have. What it produces is weaker evidence than
+    a filing -- it is a heuristic read of prose -- so it is stored separately,
+    labelled in the UI, and always carries the page it came from.
+    """
+
+    enabled: bool = True
+    # Only crawl organizations with no Part VII people already on file. Turn
+    # off to collect current names even where a filing exists; 990 data lags
+    # 12-24 months, so a website is often more current about who holds a post.
+    only_when_missing: bool = True
+    # Politeness. robots.txt is always honoured; this throttles what remains.
+    requests_per_second: float = Field(default=0.5, gt=0)
+    timeout_seconds: float = Field(default=20.0, gt=0)
+    # Homepage plus this many candidate leadership pages per organization.
+    max_pages_per_org: int = Field(default=4, ge=1)
+    # Guardrail against a page that fools the extractor into finding hundreds
+    # of "people". A real health center leadership page lists tens.
+    max_people_per_org: int = Field(default=60, ge=1)
+    # Skip organizations crawled more recently than this.
+    refresh_after_days: int = Field(default=30, ge=0)
+    user_agent: str = (
+        "FQHCProspectIntelligence/1.0 (+https://allstar.partners; "
+        "contact via allstar.partners)"
+    )
+
+
 class PipelineSettings(BaseModel):
     # Resolve EINs and pull 990s only for organizations in the scoring
     # footprint (scoring.state.target_states). HRSA ingestion is unaffected --
@@ -214,6 +244,7 @@ class Config(BaseModel):
     scoring: ScoringSettings = Field(default_factory=ScoringSettings)
     pipeline: PipelineSettings = Field(default_factory=PipelineSettings)
     irs: IrsSettings = Field(default_factory=IrsSettings)
+    website: WebsiteSettings = Field(default_factory=WebsiteSettings)
     ui: UiSettings = Field(default_factory=UiSettings)
 
     # Set at load time so relative paths resolve consistently.

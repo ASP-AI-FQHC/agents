@@ -502,3 +502,151 @@ def test_no_contact_columns_exist() -> None:
     ones. This is a structural guarantee, not a convention."""
     columns = set(Person.__table__.columns.keys())
     assert not {"email", "phone", "telephone", "address"} & columns
+
+
+# ---------------------------------------------------------------------------
+# Indexing a real-shaped download: prefix reads, a saved index, diagnostics
+# ---------------------------------------------------------------------------
+
+
+def test_peek_stream_reads_only_the_front_of_a_document(tmp_path: Path) -> None:
+    """Identity comes from the header, so a huge body is never decompressed."""
+    from pipeline.irs import peek_stream
+
+    padded = MODERN + b"<!--" + b"x" * (5 * 1024 * 1024) + b"-->"
+    path = tmp_path / "big.xml"
+    path.write_bytes(padded)
+
+    with path.open("rb") as handle:
+        assert peek_stream(handle) == ("362167869", 2023)
+        # Everything needed was in the first chunks; the rest is still unread.
+        assert handle.tell() < len(padded)
+
+
+def test_peek_stream_survives_a_tag_split_across_chunks() -> None:
+    """The chunk overlap exists for exactly this case."""
+    import pipeline.irs as irs_module
+
+    class Chunked:
+        def __init__(self, data: bytes, size: int) -> None:
+            self.data, self.size, self.pos = data, size, 0
+
+        def read(self, _n: int = 0) -> bytes:
+            chunk = self.data[self.pos : self.pos + self.size]
+            self.pos += len(chunk)
+            return chunk
+
+    payload = b"<Return><ReturnHeader><TaxYr>2023</TaxYr>"
+    payload += b"<Filer><EIN>362167869</EIN></Filer></ReturnHeader></Return>"
+    for size in (7, 13, 29):
+        assert irs_module.peek_stream(Chunked(payload, size)) == ("362167869", 2023)
+
+
+def test_index_is_saved_and_reused(tmp_path: Path) -> None:
+    from pipeline.irs import INDEX_CACHE_FILENAME
+
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    (directory / "202312345.xml").write_bytes(MODERN)
+
+    first = document_index(directory)
+    assert list(first) == ["362167869"]
+    assert (directory / INDEX_CACHE_FILENAME).exists()
+
+    # A fresh process (no in-memory cache) reads the saved index rather than
+    # rescanning, and gets refs that still resolve to real files.
+    reset_document_index()
+    second = document_index(directory)
+    assert list(second) == ["362167869"]
+    assert second["362167869"][0].read_bytes() == MODERN
+
+
+def test_saved_index_is_discarded_when_the_directory_changes(tmp_path: Path) -> None:
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    (directory / "a.xml").write_bytes(MODERN)
+    document_index(directory)
+
+    reset_document_index()
+    (directory / "b.xml").write_bytes(LEGACY)
+    rebuilt = document_index(directory)
+    assert set(rebuilt) == {"362167869", "391385403"}
+
+
+def test_the_saved_index_does_not_invalidate_itself(tmp_path: Path) -> None:
+    """The cache file lives in the directory it describes, so it must not count
+    towards that directory's fingerprint."""
+    from pipeline.irs import _directory_signature
+
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    (directory / "a.xml").write_bytes(MODERN)
+
+    before = _directory_signature(directory)
+    document_index(directory)
+    assert _directory_signature(directory) == before
+
+
+def test_source_report_describes_an_empty_directory(irs_config: Config) -> None:
+    from pipeline.irs import describe_source
+
+    report = describe_source(irs_config)
+    assert report.exists and report.documents == 0
+    assert "no .xml or .zip files" in " ".join(report.lines)
+
+
+def test_source_report_describes_a_missing_directory(config: Config, tmp_path: Path) -> None:
+    from pipeline.irs import describe_source
+
+    config.irs.local_directory = tmp_path / "absent"
+    config.project_root = tmp_path
+    report = describe_source(config)
+    assert not report.exists
+    assert "No IRS XML directory" in report.lines[0]
+
+
+def test_source_report_counts_documents_in_an_archive(irs_config: Config) -> None:
+    from pipeline.irs import describe_source
+
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        archive.writestr("202401019349300000_public.xml", MODERN)
+        archive.writestr("201103199349200000_public.xml", LEGACY)
+    (irs_config.irs.local_directory / "2023_TEOS_XML_01A.zip").write_bytes(
+        buffer.getvalue()
+    )
+
+    report = describe_source(irs_config)
+    assert (report.zip_files, report.documents, report.eins) == (1, 2, 2)
+
+
+def test_running_people_alone_says_to_run_the_earlier_stages(
+    irs_config: Config, session: Session
+) -> None:
+    """The single most common way this stage produces nothing is being run on
+    an empty database, and the message has to say so."""
+    result = enrich_people(session, irs_config)
+
+    assert result.eligible == 0
+    assert any("--stage hrsa" in message for message in result.messages)
+
+
+def test_missing_documents_name_the_actual_problem(
+    irs_config: Config, session: Session
+) -> None:
+    add_org(session, "Erie Family Health", "362167869")
+    result = enrich_people(session, irs_config)
+
+    assert result.without_documents == 1
+    assert "no .xml or .zip files" in " ".join(result.messages)
+
+
+def test_documents_for_other_filers_are_reported_as_such(
+    irs_config: Config, session: Session
+) -> None:
+    add_org(session, "Erie Family Health", "362167869")
+    (irs_config.irs.local_directory / "other.xml").write_bytes(LEGACY)
+
+    result = enrich_people(session, irs_config)
+    assert result.without_documents == 1
+    assert "cover 1 other EINs" in " ".join(result.messages)

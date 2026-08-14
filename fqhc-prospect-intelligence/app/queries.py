@@ -517,6 +517,34 @@ def organization_people(session: Session, ein: str | None):
     return people
 
 
+def organization_website_people(session: Session, organization_id: int):
+    """People named on the organization's own website, board roles first.
+
+    Kept separate from :func:`organization_people` all the way to the template:
+    these came from prose, not from a signed filing, and the page says so.
+    """
+    from app.models import WebsitePerson
+
+    people = list(
+        session.scalars(
+            select(WebsitePerson)
+            .where(WebsitePerson.organization_id == organization_id)
+            .order_by(WebsitePerson.id)
+        ).all()
+    )
+    people.sort(key=lambda p: (not p.is_board_member, p.name))
+    return people
+
+
+def organization_website_crawl(session: Session, organization_id: int):
+    """The last attempt to read this organization's website, if any."""
+    from app.models import WebsiteCrawl
+
+    return session.scalar(
+        select(WebsiteCrawl).where(WebsiteCrawl.organization_id == organization_id)
+    )
+
+
 def organization_contractors(session: Session, ein: str | None):
     """Part VII Section B contractors for the most recent filing year."""
     from app.models import Contractor
