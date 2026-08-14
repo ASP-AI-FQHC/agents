@@ -45,6 +45,7 @@ Run stages individually while iterating:
 python -m pipeline.run --stage hrsa               # local and fast; run this first
 python -m pipeline.run --stage ein --limit 20     # trial run: 20 organizations
 python -m pipeline.run --stage ein --stage financials
+python -m pipeline.run --stage scoring            # re-rank after editing weights
 python -m pipeline.run --force-refresh            # ignore the 30-day download cache
 ```
 
@@ -164,8 +165,14 @@ column degrades to an empty field instead of breaking the run.
 ## Development
 
 ```bash
-python -m pytest          # scoring, matching, ingestion, exports, routes
+python -m pytest
 ```
+
+`tests/test_end_to_end.py` is the acceptance test: it runs all five stages from
+an empty database against fixture data with the API mocked, simulates a second
+run a month later, and then boots the web app on the result to check the pages,
+a review decision and both exports. The other modules test their units; this one
+catches wiring mistakes between them.
 
 Layout:
 
