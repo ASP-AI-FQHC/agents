@@ -517,6 +517,77 @@ def organization_people(session: Session, ein: str | None):
     return people
 
 
+@dataclass
+class ContactRow:
+    """One named person, flattened for an outreach list.
+
+    Both sources land in the same shape so a single list can be worked
+    through, but ``source`` is carried on every row: a name from a signed
+    federal filing and a name read off a web page are not the same claim, and
+    the person calling needs to know which one they are holding.
+    """
+
+    organization: "Organization"
+    composite: float | None
+    ein: str | None
+    name: str
+    title: str | None
+    role: str | None
+    email: str | None
+    source: str
+    source_detail: str | None
+    compensation: float | None = None
+    is_board_member: bool = False
+
+
+def fetch_contacts(session: Session, filters: Filters) -> list[ContactRow]:
+    """Every named person at the organizations the current filters select.
+
+    Ordered the way the list gets worked: best-fitting organization first,
+    board members ahead of staff within each one.
+    """
+    rows, _ = fetch_rows(session, filters, page_size=None)
+
+    contacts: list[ContactRow] = []
+    for row in rows:
+        organization = row.organization
+
+        for person in organization_people(session, row.ein):
+            contacts.append(
+                ContactRow(
+                    organization=organization,
+                    composite=row.composite,
+                    ein=row.ein,
+                    name=person.name,
+                    title=person.title,
+                    role=person.role_label,
+                    email=None,
+                    source="IRS Form 990 Part VII",
+                    source_detail=f"Tax year {person.tax_year}",
+                    compensation=person.total_compensation,
+                    is_board_member=person.is_board_member,
+                )
+            )
+
+        for person in organization_website_people(session, organization.id):
+            contacts.append(
+                ContactRow(
+                    organization=organization,
+                    composite=row.composite,
+                    ein=row.ein,
+                    name=person.name,
+                    title=person.title,
+                    role=None,
+                    email=person.email,
+                    source="Organization website",
+                    source_detail=person.source_url,
+                    is_board_member=person.is_board_member,
+                )
+            )
+
+    return contacts
+
+
 def organization_website_people(session: Session, organization_id: int):
     """People named on the organization's own website, board roles first.
 

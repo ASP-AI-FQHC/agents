@@ -309,6 +309,11 @@ column degrades to an empty field instead of breaking the run.
 
 ## The dashboard
 
+- **Contacts export** — CSV or XLSX of every named person at the organizations
+  the current filters select: one row each, with organization, ICP score, name,
+  title, published email where there is one, and the source. Form 990 rows and
+  website rows are both there and each says which it is, with the tax year or
+  the page link, so a list that gets forwarded still carries the difference.
 - **Prospects** — sortable, filterable master table (score, state, revenue,
   sites, match status), a KPI summary strip and the top 10 prospects. Filtering
   updates in place; sorting, paging and filtering all work without JavaScript

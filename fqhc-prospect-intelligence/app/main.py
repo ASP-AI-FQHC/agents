@@ -34,6 +34,7 @@ from app.queries import (
     MATCH_FILTERS,
     Filters,
     data_status,
+    fetch_contacts,
     fetch_rows,
     organization_changes,
     organization_contractors,
@@ -379,6 +380,42 @@ def export_csv(
         headers={
             "Content-Disposition": (
                 f'attachment; filename="{exports.export_filename("csv")}"'
+            )
+        },
+    )
+
+
+@app.get("/contacts.csv")
+def contacts_csv(
+    session: Session = Depends(get_db), filters: Filters = Depends(get_filters)
+):
+    contacts = fetch_contacts(session, filters)
+    body = exports.contacts_to_csv(contacts, config, filters, data_status(session))
+    return Response(
+        content=body,
+        media_type="text/csv; charset=utf-8",
+        headers={
+            "Content-Disposition": (
+                f'attachment; filename="{exports.contacts_filename("csv")}"'
+            )
+        },
+    )
+
+
+@app.get("/contacts.xlsx")
+def contacts_xlsx(
+    session: Session = Depends(get_db), filters: Filters = Depends(get_filters)
+):
+    contacts = fetch_contacts(session, filters)
+    body = exports.contacts_to_xlsx(contacts, config, filters, data_status(session))
+    return Response(
+        content=body,
+        media_type=(
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ),
+        headers={
+            "Content-Disposition": (
+                f'attachment; filename="{exports.contacts_filename("xlsx")}"'
             )
         },
     )

@@ -17,7 +17,7 @@ from openpyxl.utils import get_column_letter
 
 from app.config import Config
 from app.formatting import NOT_AVAILABLE
-from app.queries import DataStatus, Filters, ProspectRow
+from app.queries import ContactRow, DataStatus, Filters, ProspectRow
 from pipeline.propublica import format_ein
 
 COLUMNS: tuple[tuple[str, str], ...] = (
@@ -129,18 +129,36 @@ def to_csv(
     return buffer.getvalue()
 
 
-def to_xlsx(
-    rows: list[ProspectRow],
-    config: Config,
-    filters: Filters,
-    status: DataStatus | None = None,
-    generated_at: datetime | None = None,
-) -> bytes:
-    workbook = Workbook()
-    sheet = workbook.active
-    sheet.title = "Prospects"
+MONEY_KEYS = frozenset({"revenue", "award", "compensation"})
+DECIMAL_KEYS = frozenset({"score", "match_score"})
 
-    header_block = _header_block(config, filters, len(rows), status, generated_at)
+WIDTHS = {
+    "name": 42,
+    "organization": 42,
+    "person": 28,
+    "title": 30,
+    "role": 26,
+    "email": 30,
+    "source": 24,
+    "source_detail": 46,
+    "city": 18,
+    "website": 32,
+    "match_status": 16,
+    "grantee_type": 14,
+    "revenue": 16,
+    "award": 16,
+    "compensation": 16,
+    "phone": 16,
+}
+
+
+def _write_sheet(
+    sheet,
+    columns: tuple[tuple[str, str], ...],
+    records: list[dict[str, object]],
+    header_block: list[list[str]],
+) -> None:
+    """Write the provenance block, a branded header row and the data."""
     for index, line in enumerate(header_block, start=1):
         sheet.cell(row=index, column=1, value=line[0] if line else None)
 
@@ -152,16 +170,15 @@ def to_xlsx(
     header_row = len(header_block) + 1
     thin = Side(style="thin", color="FFE4E8EA")
 
-    for column_index, (label, _) in enumerate(COLUMNS, start=1):
+    for column_index, (label, _) in enumerate(columns, start=1):
         cell = sheet.cell(row=header_row, column=column_index, value=label)
         cell.font = Font(name="Open Sans", size=10, bold=True, color="FFFFFFFF")
         cell.fill = PatternFill("solid", fgColor=BRAND_GREEN)
         cell.alignment = Alignment(vertical="center", wrap_text=True)
         cell.border = Border(bottom=thin)
 
-    for offset, row in enumerate(rows, start=1):
-        values = _cell_values(row)
-        for column_index, (_, key) in enumerate(COLUMNS, start=1):
+    for offset, values in enumerate(records, start=1):
+        for column_index, (_, key) in enumerate(columns, start=1):
             value = values[key]
             cell = sheet.cell(
                 row=header_row + offset,
@@ -170,34 +187,147 @@ def to_xlsx(
             )
             cell.font = Font(name="Open Sans", size=10)
             if value is None:
+                # Italic gray, so an unknown never reads as a reported zero.
                 cell.font = Font(name="Open Sans", size=10, italic=True, color=BRAND_GRAY)
-            elif key in ("revenue", "award"):
+            elif key in MONEY_KEYS:
                 cell.number_format = '"$"#,##0'
-            elif key in ("score", "match_score"):
+            elif key in DECIMAL_KEYS:
                 cell.number_format = "0.0"
 
-    widths = {
-        "name": 42,
-        "city": 18,
-        "website": 32,
-        "match_status": 16,
-        "grantee_type": 14,
-        "revenue": 16,
-        "award": 16,
-        "phone": 16,
-    }
-    for column_index, (label, key) in enumerate(COLUMNS, start=1):
-        sheet.column_dimensions[get_column_letter(column_index)].width = widths.get(
+    for column_index, (label, key) in enumerate(columns, start=1):
+        sheet.column_dimensions[get_column_letter(column_index)].width = WIDTHS.get(
             key, max(len(label) + 2, 12)
         )
 
     sheet.freeze_panes = sheet.cell(row=header_row + 1, column=1)
+
+
+def to_xlsx(
+    rows: list[ProspectRow],
+    config: Config,
+    filters: Filters,
+    status: DataStatus | None = None,
+    generated_at: datetime | None = None,
+) -> bytes:
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Prospects"
+
+    _write_sheet(
+        sheet,
+        COLUMNS,
+        [_cell_values(row) for row in rows],
+        _header_block(config, filters, len(rows), status, generated_at),
+    )
 
     stream = io.BytesIO()
     workbook.save(stream)
     return stream.getvalue()
 
 
+# ---------------------------------------------------------------------------
+# Contacts: one row per named person
+# ---------------------------------------------------------------------------
+
+CONTACT_COLUMNS: tuple[tuple[str, str], ...] = (
+    ("Organization", "organization"),
+    ("State", "state"),
+    ("ICP score", "score"),
+    ("Name", "person"),
+    ("Title", "title"),
+    ("Form 990 role", "role"),
+    ("Email", "email"),
+    ("Source", "source"),
+    ("Source detail", "source_detail"),
+    ("Reported compensation", "compensation"),
+    ("Organization phone", "phone"),
+    ("EIN", "ein"),
+)
+
+
+def _contact_values(contact: ContactRow) -> dict[str, object]:
+    return {
+        "organization": contact.organization.name,
+        "state": contact.organization.state,
+        "score": contact.composite,
+        "person": contact.name,
+        "title": contact.title,
+        "role": contact.role,
+        "email": contact.email,
+        "source": contact.source,
+        "source_detail": contact.source_detail,
+        "compensation": contact.compensation,
+        "phone": contact.organization.phone,
+        "ein": format_ein(contact.ein),
+    }
+
+
+def contacts_to_csv(
+    contacts: list[ContactRow],
+    config: Config,
+    filters: Filters,
+    status: DataStatus | None = None,
+    generated_at: datetime | None = None,
+) -> str:
+    buffer = io.StringIO()
+    writer = csv.writer(buffer, lineterminator="\n")
+
+    for line in _header_block(config, filters, len(contacts), status, generated_at):
+        writer.writerow(line)
+    writer.writerow(_CONTACT_CAVEAT)
+    writer.writerow([])
+
+    writer.writerow([label for label, _ in CONTACT_COLUMNS])
+    for contact in contacts:
+        values = _contact_values(contact)
+        writer.writerow(
+            [
+                NOT_AVAILABLE if values[key] is None else values[key]
+                for _, key in CONTACT_COLUMNS
+            ]
+        )
+    return buffer.getvalue()
+
+
+def contacts_to_xlsx(
+    contacts: list[ContactRow],
+    config: Config,
+    filters: Filters,
+    status: DataStatus | None = None,
+    generated_at: datetime | None = None,
+) -> bytes:
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Contacts"
+
+    header_block = _header_block(config, filters, len(contacts), status, generated_at)
+    # Slot the caveat in before the closing blank line of the block.
+    header_block = [*header_block[:-1], list(_CONTACT_CAVEAT), []]
+
+    _write_sheet(
+        sheet, CONTACT_COLUMNS, [_contact_values(c) for c in contacts], header_block
+    )
+
+    stream = io.BytesIO()
+    workbook.save(stream)
+    return stream.getvalue()
+
+
+# Travels with the file, because a contact list gets forwarded and the screen
+# that explained it does not.
+_CONTACT_CAVEAT = [
+    "Source column: Form 990 rows come from a signed federal filing and "
+    "describe the tax year shown. Website rows were read from the page linked "
+    "in Source detail and should be confirmed before use. Emails appear only "
+    "where the organization published them itself."
+]
+
+
 def export_filename(extension: str, generated_at: datetime | None = None) -> str:
     stamp = (generated_at or datetime.now(timezone.utc)).strftime("%Y-%m-%d")
     return f"allstar-fqhc-prospects-{stamp}.{extension}"
+
+
+def contacts_filename(extension: str, generated_at: datetime | None = None) -> str:
+    stamp = (generated_at or datetime.now(timezone.utc)).strftime("%Y-%m-%d")
+    return f"allstar-fqhc-contacts-{stamp}.{extension}"

@@ -22,8 +22,10 @@ from app.models import (
     IngestRun,
     MatchStatus,
     Organization,
+    Person,
     RunStatus,
     Score,
+    WebsitePerson,
     utcnow,
 )
 from app.queries import Filters, data_status, fetch_rows, review_queue, summarize
@@ -121,7 +123,28 @@ def populated(tmp_path: Path, config: Config):
         return org
 
     erie = add("Erie Family Health", "IL", "Chicago", 12, 6_000_000, "362167869", MatchStatus.AUTO, 88.0, 20_000_000)
-    add("Milwaukee Health Services", "WI", "Milwaukee", 4, None, "391385403", MatchStatus.ACCEPTED, 71.0, 8_000_000, grantee_type=GranteeType.LOOK_ALIKE)
+    # Erie has people from its filing; Milwaukee only from its website. Both
+    # shapes need to survive into the contacts export.
+    session.add(
+        Person(
+            ein="362167869",
+            tax_year=2023,
+            name="MARIA T ALVAREZ",
+            title="CHIEF EXECUTIVE OFFICER",
+            roles=["Officer"],
+            compensation=451_000,
+        )
+    )
+    milwaukee = add("Milwaukee Health Services", "WI", "Milwaukee", 4, None, "391385403", MatchStatus.ACCEPTED, 71.0, 8_000_000, grantee_type=GranteeType.LOOK_ALIKE)
+    session.add(
+        WebsitePerson(
+            organization_id=milwaukee.id,
+            name="Denise Whitaker",
+            title="Board Chair",
+            email="dwhitaker@example.org",
+            source_url="https://example.org/board",
+        )
+    )
     add("Prairie Rural Health", "IN", "Lafayette", 1, None, "351122334", MatchStatus.PENDING, 44.0, None, match_score=77.0)
     add("Riverbend Access", "IL", "Peoria", 2, None, None, MatchStatus.UNMATCHED, 40.0, None, match_score=None)
     add("Northwoods Clinic", "MI", "Marquette", 6, None, None, MatchStatus.PENDING, 55.0, None, match_score=82.0)
@@ -588,3 +611,93 @@ def test_navigation_shows_a_change_badge(populated) -> None:
     body = client.get("/").text
     assert "nav__count--info" in body
     assert "What changed" in body
+
+
+# ---------------------------------------------------------------------------
+# Contacts export: one row per named person
+# ---------------------------------------------------------------------------
+
+
+def test_contacts_export_flattens_both_sources(populated) -> None:
+    client, _, _ = populated
+    body = client.get("/contacts.csv").text
+
+    assert "MARIA T ALVAREZ" in body       # from a Form 990
+    assert "Denise Whitaker" in body        # from a website
+    assert "IRS Form 990 Part VII" in body
+    assert "Organization website" in body
+
+
+def test_every_contact_row_names_its_source(populated) -> None:
+    """A filing and a web page are different claims, and the row that gets
+    forwarded has to say which one it is."""
+    client, _, _ = populated
+    lines = client.get("/contacts.csv").text.splitlines()
+
+    header = next(line for line in lines if line.startswith("Organization,State"))
+    columns = header.split(",")
+    assert "Source" in columns and "Source detail" in columns
+
+    alvarez = next(line for line in lines if "MARIA T ALVAREZ" in line)
+    whitaker = next(line for line in lines if "Denise Whitaker" in line)
+    assert "Tax year 2023" in alvarez
+    assert "https://example.org/board" in whitaker
+
+
+def test_contacts_export_carries_the_caveat_into_the_file(populated) -> None:
+    client, _, _ = populated
+    body = client.get("/contacts.csv").text
+    assert "should be confirmed before use" in body
+
+
+def test_contacts_export_respects_the_current_filter(populated) -> None:
+    client, _, _ = populated
+    body = client.get("/contacts.csv?state=WI").text
+
+    assert "Denise Whitaker" in body
+    assert "MARIA T ALVAREZ" not in body
+    assert "state in WI" in body
+
+
+def test_contacts_export_marks_missing_emails(populated) -> None:
+    """A 990 carries no email, and a blank cell would invite a guess."""
+    client, _, _ = populated
+    alvarez = next(
+        line
+        for line in client.get("/contacts.csv").text.splitlines()
+        if "MARIA T ALVAREZ" in line
+    )
+    assert "Not available" in alvarez
+
+
+def test_contacts_xlsx_is_a_readable_workbook(populated) -> None:
+    from openpyxl import load_workbook
+
+    client, _, _ = populated
+    response = client.get("/contacts.xlsx")
+    assert response.status_code == 200
+
+    workbook = load_workbook(io.BytesIO(response.content))
+    sheet = workbook.active
+    assert sheet.title == "Contacts"
+
+    values = [
+        cell.value
+        for row in sheet.iter_rows(values_only=False)
+        for cell in row
+        if cell.value
+    ]
+    assert "MARIA T ALVAREZ" in values
+    assert "Denise Whitaker" in values
+
+
+def test_contacts_export_filename_is_distinct(populated) -> None:
+    client, _, _ = populated
+    disposition = client.get("/contacts.csv").headers["content-disposition"]
+    assert "allstar-fqhc-contacts-" in disposition
+
+
+def test_the_dashboard_offers_the_contacts_export(populated) -> None:
+    client, _, _ = populated
+    body = client.get("/").text
+    assert 'href="/contacts.csv' in body and 'href="/contacts.xlsx' in body
