@@ -110,7 +110,9 @@ irs:
   # IRS index*.csv files alongside object-id filenames, are both understood.
   local_directory: data/raw/irs_xml
   fetch_remote: false
-  xml_url_template: https://s3.amazonaws.com/irs-form-990/{object_id}_public.xml
+  # No default: the old s3://irs-form-990 bucket is still reachable but empty,
+  # so pointing at it would look like a working fetch that returns nothing.
+  xml_url_template: ""
   index_urls: []
   documents_per_org: 3
   timeout_seconds: 60

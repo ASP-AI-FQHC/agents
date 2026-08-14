@@ -151,16 +151,24 @@ downloads more than once, so nothing is fetched automatically by default:
 
 1. Download the years you want from the
    [IRS Form 990 series downloads](https://www.irs.gov/charities-non-profits/form-990-series-downloads).
-2. Unzip them into `data/raw/irs_xml/` (or wherever `irs.local_directory`
-   points). Filenames containing the EIN are matched directly; if you also drop
-   the `index*.csv` files alongside object-id filenames, those are understood
-   too.
+2. Drop the ZIPs, as downloaded, into `data/raw/irs_xml/` (or wherever
+   `irs.local_directory` points). **There is no need to unpack them.**
 3. Run `python -m pipeline.run --stage people`.
 
-Set `irs.fetch_remote: true` with a working `xml_url_template` and `index_urls`
-to have the stage fetch documents itself. Both schema generations parse — a 2011
-return and a 2023 one use different element names for the same facts, and
-elements are matched by local name rather than exact path.
+Documents are indexed by the EIN *inside* each file, not by its name, because
+the IRS names bulk files by object id — `202441123456789012_public.xml` contains
+no EIN at all. Loose `.xml` files work too, whatever they are called. A corrupt
+archive costs only its own contents.
+
+Both schema generations parse: a 2011 return and a 2023 one use different
+element names for the same facts, and elements are matched by local name rather
+than by exact path.
+
+There is no automatic download. The IRS retired the per-document S3 bucket when
+it moved to bulk ZIPs — the bucket is still reachable but empty — so
+`irs.xml_url_template` is blank by default rather than pointing at something
+that would silently return nothing. Set it, plus `irs.index_urls` and
+`irs.fetch_remote: true`, if you have a working source.
 
 ## Data integrity rules
 

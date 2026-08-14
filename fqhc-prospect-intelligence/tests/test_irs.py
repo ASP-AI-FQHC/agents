@@ -22,6 +22,8 @@ from app.models import (
 )
 from pipeline.irs import (
     best_return,
+    document_index,
+    reset_document_index,
     enrich_people,
     extract_zip_members,
     local_xml_for_ein,
@@ -40,8 +42,10 @@ INDEX_CSV = (FIXTURES / "irs_index_sample.csv").read_text()
 @pytest.fixture(autouse=True)
 def _clear_index_cache():
     reset_index_cache()
+    reset_document_index()
     yield
     reset_index_cache()
+    reset_document_index()
 
 
 # ---------------------------------------------------------------------------
@@ -397,14 +401,90 @@ def test_newest_filing_wins_when_several_are_present(
     assert len(people) == 5
 
 
+def document_for(ein: str) -> bytes:
+    """The modern fixture, re-stamped with a different filer EIN."""
+    return MODERN.replace(b"<EIN>362167869</EIN>", f"<EIN>{ein}</EIN>".encode())
+
+
 def test_limit_caps_the_stage(irs_config: Config, session: Session) -> None:
     for index in range(4):
         ein = f"36216786{index}"
         add_org(session, f"Health Center {index}", ein)
-        (irs_config.irs.local_directory / f"{ein}.xml").write_bytes(MODERN)
+        (irs_config.irs.local_directory / f"{ein}.xml").write_bytes(document_for(ein))
 
     result = enrich_people(session, irs_config, limit=2)
     assert result.resolved == 2
+
+
+# ---------------------------------------------------------------------------
+# Finding documents in a real IRS download
+# ---------------------------------------------------------------------------
+
+
+def test_documents_are_found_by_the_ein_inside_them(
+    irs_config: Config, session: Session
+) -> None:
+    """IRS bulk files are named by object id, which contains no EIN at all, so
+    matching on the filename would find nothing in a real download."""
+    add_org(session, "Erie Family Health", "362167869")
+    (irs_config.irs.local_directory / "202441123456789012_public.xml").write_bytes(
+        MODERN
+    )
+
+    result = enrich_people(session, irs_config)
+
+    assert result.resolved == 1
+    assert result.people_written == 5
+
+
+def test_zip_archives_are_read_without_unpacking(
+    irs_config: Config, session: Session
+) -> None:
+    """The IRS ships gigabyte ZIPs; requiring users to unpack them is friction
+    for no benefit."""
+    add_org(session, "Erie Family Health", "362167869")
+    add_org(session, "Milwaukee Health Services", "391385403", state="WI")
+
+    archive_path = irs_config.irs.local_directory / "2023_TEOS_XML_01A.zip"
+    with zipfile.ZipFile(archive_path, "w") as archive:
+        archive.writestr("202441123456789012_public.xml", MODERN)
+        archive.writestr("201211987654321098_public.xml", LEGACY.replace(b"39-1385403", b"391385403"))
+        archive.writestr("manifest.txt", "ignored")
+
+    result = enrich_people(session, irs_config)
+
+    assert result.resolved == 2
+    assert result.people_written == 7
+    assert result.contractors_written == 4
+
+
+def test_index_prefers_the_newest_tax_year(irs_config: Config) -> None:
+    from pipeline.irs import document_index
+
+    older = MODERN.replace(b"<TaxYr>2023</TaxYr>", b"<TaxYr>2019</TaxYr>")
+    (irs_config.irs.local_directory / "a.xml").write_bytes(older)
+    (irs_config.irs.local_directory / "b.xml").write_bytes(MODERN)
+
+    refs = document_index(irs_config.irs.local_directory)["362167869"]
+    assert [ref.tax_year for ref in refs] == [2023, 2019]
+
+
+def test_a_corrupt_archive_does_not_break_the_directory(
+    irs_config: Config, session: Session
+) -> None:
+    add_org(session, "Erie Family Health", "362167869")
+    (irs_config.irs.local_directory / "broken.zip").write_bytes(b"not a zip at all")
+    (irs_config.irs.local_directory / "good.xml").write_bytes(MODERN)
+
+    assert enrich_people(session, irs_config).resolved == 1
+
+
+def test_peek_reads_identity_without_parsing() -> None:
+    from pipeline.irs import peek
+
+    assert peek(MODERN) == ("362167869", 2023)
+    assert peek(LEGACY) == ("391385403", 2011)
+    assert peek(b"<Return><nothing/></Return>") == (None, None)
 
 
 def test_run_is_recorded(irs_config: Config, session: Session) -> None:

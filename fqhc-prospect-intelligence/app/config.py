@@ -175,8 +175,12 @@ class IrsSettings(BaseModel):
     local_directory: Path = Path("data/raw/irs_xml")
     # Try to fetch documents that are not present locally.
     fetch_remote: bool = False
-    # Filled in from the IRS index; {object_id} is substituted.
-    xml_url_template: str = "https://s3.amazonaws.com/irs-form-990/{object_id}_public.xml"
+    # Filled in from the IRS index; {object_id} is substituted. Empty by
+    # default because there is no working public per-document URL: the old
+    # s3://irs-form-990 bucket still exists but was emptied when the IRS moved
+    # to bulk ZIP downloads, so shipping it here would look like a working
+    # fetch path that silently returns nothing.
+    xml_url_template: str = ""
     # Index files mapping EIN to object id. Check the current locations at
     # https://www.irs.gov/charities-non-profits/form-990-series-downloads
     index_urls: list[str] = Field(default_factory=list)

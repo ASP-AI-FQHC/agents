@@ -337,6 +337,111 @@ def local_xml_for_ein(directory: Path, ein: str) -> list[Path]:
     return sorted(matches, reverse=True)
 
 
+# Reading the EIN and year straight out of the bytes is far cheaper than
+# parsing every document in a bulk download just to find out whose it is.
+_EIN_PATTERN = re.compile(rb"<(?:[A-Za-z0-9]+:)?EIN>\s*([0-9\- ]{9,14})\s*<")
+# Alternation, not an optional suffix: the older element is TaxYear, and
+# "TaxYr" plus an optional "ear" spells TaxYrear.
+_YEAR_PATTERN = re.compile(rb"<(?:[A-Za-z0-9]+:)?(?:TaxYr|TaxYear)>\s*(\d{4})")
+
+
+@dataclass(frozen=True)
+class DocumentRef:
+    """Where one Form 990 document lives, and whose it is."""
+
+    path: Path
+    member: str | None = None   # set when the document is inside a zip archive
+    ein: str | None = None
+    tax_year: int | None = None
+
+    def read_bytes(self) -> bytes:
+        if self.member is None:
+            return self.path.read_bytes()
+        with zipfile.ZipFile(self.path) as archive:
+            return archive.read(self.member)
+
+    @property
+    def label(self) -> str:
+        return f"{self.path.name}:{self.member}" if self.member else self.path.name
+
+
+def peek(data: bytes) -> tuple[str | None, int | None]:
+    """Filer EIN and tax year, read from raw bytes without parsing the XML."""
+    ein_match = _EIN_PATTERN.search(data)
+    year_match = _YEAR_PATTERN.search(data)
+    return (
+        normalize_ein(ein_match.group(1).decode("ascii", "ignore")) if ein_match else None,
+        int(year_match.group(1)) if year_match else None,
+    )
+
+
+def _directory_signature(directory: Path) -> tuple:
+    """Cheap fingerprint of a directory, so the index is rebuilt when it changes."""
+    entries = sorted(
+        (path.name, path.stat().st_mtime_ns, path.stat().st_size)
+        for path in directory.iterdir()
+        if path.is_file()
+    )
+    return tuple(entries)
+
+
+_DOCUMENT_INDEX: dict[tuple, dict[str, list[DocumentRef]]] = {}
+
+
+def document_index(directory: Path) -> dict[str, list[DocumentRef]]:
+    """Map EIN to available documents, newest tax year first.
+
+    Indexes on the EIN *inside* each document rather than on its filename. The
+    IRS bulk downloads name files by object id, which contains no EIN at all, so
+    filename matching would find nothing in a real download. Zip archives are
+    read in place -- there is no need to unpack a multi-gigabyte download.
+    """
+    if not directory.exists():
+        return {}
+
+    signature = (str(directory), _directory_signature(directory))
+    cached = _DOCUMENT_INDEX.get(signature)
+    if cached is not None:
+        return cached
+
+    index: dict[str, list[DocumentRef]] = {}
+
+    def record(path: Path, member: str | None, data: bytes) -> None:
+        ein, year = peek(data)
+        if not ein:
+            return
+        index.setdefault(ein, []).append(
+            DocumentRef(path=path, member=member, ein=ein, tax_year=year)
+        )
+
+    for path in sorted(directory.iterdir()):
+        if not path.is_file():
+            continue
+        suffix = path.suffix.lower()
+        try:
+            if suffix == ".xml":
+                record(path, None, path.read_bytes())
+            elif suffix == ".zip":
+                with zipfile.ZipFile(path) as archive:
+                    for member in archive.namelist():
+                        if member.lower().endswith(".xml"):
+                            record(path, member, archive.read(member))
+        except (OSError, zipfile.BadZipFile):
+            # A corrupt archive should cost its own contents, not the whole run.
+            continue
+
+    for refs in index.values():
+        refs.sort(key=lambda ref: (ref.tax_year or 0), reverse=True)
+
+    _DOCUMENT_INDEX[signature] = index
+    return index
+
+
+def reset_document_index() -> None:
+    """Forget any cached document index. Used by tests."""
+    _DOCUMENT_INDEX.clear()
+
+
 def extract_zip_members(content: bytes) -> Iterator[tuple[str, bytes]]:
     """Yield (name, bytes) for every XML file in a ZIP archive."""
     with zipfile.ZipFile(io.BytesIO(content)) as archive:
@@ -397,8 +502,12 @@ def _documents_for_ein(config, ein: str, client=None) -> list[bytes]:
     documents: list[bytes] = []
 
     directory = config.resolve(config.irs.local_directory)
-    for path in local_xml_for_ein(directory, ein)[: config.irs.documents_per_org]:
-        documents.append(path.read_bytes())
+    refs = document_index(directory).get(normalize_ein(ein) or "", [])
+    for ref in refs[: config.irs.documents_per_org]:
+        try:
+            documents.append(ref.read_bytes())
+        except (OSError, zipfile.BadZipFile):
+            continue
 
     if documents or not config.irs.fetch_remote or not config.irs.xml_url_template:
         return documents
