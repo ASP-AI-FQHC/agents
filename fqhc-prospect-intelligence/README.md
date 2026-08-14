@@ -15,10 +15,11 @@ python -m pipeline.run        # build the database from public sources
 uvicorn app.main:app          # then open http://127.0.0.1:8000
 ```
 
-The first pipeline run downloads roughly 200 MB of HRSA data and then queries
-ProPublica once per organization at one request per second, so allow time for
-it. Every response is cached, so subsequent runs only fetch what is new or
-stale.
+The first run downloads the HRSA files, then queries ProPublica once per
+organization at one request per second — with roughly 1,500 FQHC organizations
+nationally, allow around an hour. Every response is cached, so subsequent runs
+take minutes. The run is resumable: organizations already resolved are skipped,
+so an interrupted run continues where it left off.
 
 ## What it does
 
