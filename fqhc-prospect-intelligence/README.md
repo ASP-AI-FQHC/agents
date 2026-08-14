@@ -9,6 +9,12 @@ No API keys. No paid data sources. No scraping behind logins.
 
 ## Quick start
 
+**Requires Python 3.11 or newer.** macOS ships 3.9 with the Xcode Command Line
+Tools, which is too old — check with `python3 --version` before creating the
+virtualenv, and use `brew install python@3.12` (or the python.org installer) if
+needed. The app refuses to start on an older interpreter with an explanation
+rather than failing obscurely inside SQLAlchemy.
+
 ```bash
 pip install -r requirements.txt
 python -m pipeline.run        # build the database from public sources

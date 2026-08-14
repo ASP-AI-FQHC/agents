@@ -19,6 +19,16 @@ fi
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
+PY_VERSION="$(python -c 'import sys; print("%d.%d" % sys.version_info[:2])')"
+if ! python -c 'import sys; raise SystemExit(0 if sys.version_info[:2] >= (3, 11) else 1)'; then
+  echo "This project needs Python 3.11 or newer; this virtualenv has $PY_VERSION." >&2
+  echo "macOS ships 3.9 with the Xcode Command Line Tools, which is too old." >&2
+  echo "    brew install python@3.12   # or download from python.org" >&2
+  echo "    rm -rf .venv && python3.12 -m venv .venv && source .venv/bin/activate" >&2
+  echo "    pip install -r requirements.txt -r requirements-desktop.txt" >&2
+  exit 1
+fi
+
 if ! python -c "import PyInstaller" >/dev/null 2>&1; then
   echo "PyInstaller is not installed. Run:" >&2
   echo "    pip install -r requirements-desktop.txt" >&2
