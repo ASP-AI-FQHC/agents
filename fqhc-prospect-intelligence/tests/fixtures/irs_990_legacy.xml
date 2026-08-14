@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Older e-file schema: different element names for the same facts, and the
+     namespace URI differs too. Both must parse identically. -->
+<Return xmlns="http://www.irs.gov/efile" returnVersion="2011v1.2">
+  <ReturnHeader>
+    <TaxYear>2011</TaxYear>
+    <Filer>
+      <EIN>39-1385403</EIN>
+      <Name>
+        <BusinessNameLine1>MILWAUKEE HEALTH SERVICES INC</BusinessNameLine1>
+      </Name>
+    </Filer>
+  </ReturnHeader>
+  <ReturnData>
+    <IRS990>
+      <Form990PartVIISectionA>
+        <NamePerson>GLORIA HENDERSON</NamePerson>
+        <Title>PRESIDENT AND CEO</Title>
+        <AverageHoursPerWeek>40</AverageHoursPerWeek>
+        <Officer>1</Officer>
+        <ReportableCompFromOrganization>187400</ReportableCompFromOrganization>
+        <OtherCompensation>15200</OtherCompensation>
+      </Form990PartVIISectionA>
+      <Form990PartVIISectionA>
+        <NamePerson>WALTER J BRZESKI</NamePerson>
+        <Title>BOARD TREASURER</Title>
+        <AverageHoursPerWeek>3</AverageHoursPerWeek>
+        <IndividualTrusteeOrDirector>1</IndividualTrusteeOrDirector>
+      </Form990PartVIISectionA>
+      <ContractorCompensation>
+        <Name>
+          <BusinessNameLine1>LAKEFRONT TECHNOLOGY GROUP INC</BusinessNameLine1>
+        </Name>
+        <ServicesDescription>NETWORK AND HELPDESK SERVICES</ServicesDescription>
+        <Compensation>156000</Compensation>
+      </ContractorCompensation>
+    </IRS990>
+  </ReturnData>
+</Return>

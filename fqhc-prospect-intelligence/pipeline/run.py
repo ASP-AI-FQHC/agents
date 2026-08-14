@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
 from app.config import Config, load_config
 from app.db import init_db, session_scope
 from app.models import RunStatus
-from pipeline import changes, hrsa, matching, scoring
+from pipeline import changes, hrsa, irs, matching, scoring
 from pipeline.propublica import ProPublicaClient, enrich_financials
 
 
@@ -83,6 +83,21 @@ def _run_financials(
         )
 
 
+def _run_people(
+    session: Session, config: Config, options: StageOptions, report: Callable[[str], None]
+) -> irs.PeopleResult:
+    import httpx
+
+    with httpx.Client(follow_redirects=True) as client:
+        return irs.enrich_people(
+            session,
+            config,
+            client=client if config.irs.fetch_remote else None,
+            limit=options.limit,
+            on_progress=report,
+        )
+
+
 def _run_scoring(
     session: Session, config: Config, _options: StageOptions, report: Callable[[str], None]
 ) -> scoring.ScoringResult:
@@ -100,6 +115,10 @@ STAGES: tuple[Stage, ...] = (
     Stage("ein", "Resolve EINs via ProPublica search", _run_matching, honours_limit=True),
     Stage(
         "financials", "Pull Form 990 filings by EIN", _run_financials, honours_limit=True
+    ),
+    Stage(
+        "people", "Read Form 990 Part VII people and contractors", _run_people,
+        honours_limit=True,
     ),
     Stage("scoring", "Score every organization against the ICP", _run_scoring),
     Stage("changes", "Record what moved since the last run", _run_changes),

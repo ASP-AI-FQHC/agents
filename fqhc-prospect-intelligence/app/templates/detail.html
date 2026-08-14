@@ -320,6 +320,91 @@
     {% endif %}
   </section>
 
+  {# ---- People -------------------------------------------------------------- #}
+  <section class="section">
+    <h3 class="section__header">Key personnel and board members</h3>
+    {% if people %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Title</th><th>Role</th>
+              <th class="num">Hours/week</th><th class="num">Reported compensation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for person in people %}
+              <tr>
+                <td><strong>{{ person.name }}</strong></td>
+                <td>{{ person.title | na }}</td>
+                <td>
+                  {% for role in person.roles or [] %}
+                    <span class="badge {% if role == 'Board member' or role == 'Institutional trustee' %}badge--info{% else %}badge--neutral{% endif %}">{{ role }}</span>
+                  {% else %}
+                    <span class="not-available">Not stated</span>
+                  {% endfor %}
+                </td>
+                <td class="num">{% if person.average_hours is not none %}{{ '%.0f' % person.average_hours }}{% else %}<span class="not-available">&mdash;</span>{% endif %}</td>
+                <td class="num">
+                  {% if person.total_compensation is not none %}{{ person.total_compensation | money }}
+                  {% else %}<span class="not-available">Not available</span>{% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--info" style="margin-top:16px">
+        <p class="callout__title">No direct contact details are available</p>
+        <p>
+          Form 990 Part VII lists officers and directors care of the
+          organization&rsquo;s own address. Personal email addresses and direct
+          telephone numbers are not published by any free authoritative source,
+          so none are shown here. Use the organization&rsquo;s main line above.
+        </p>
+      </div>
+    {% else %}
+      <p class="not-available">
+        Not available &mdash; no Form 990 XML has been loaded for this
+        organization. See <code>irs.local_directory</code> in config.yaml.
+      </p>
+    {% endif %}
+  </section>
+
+  {# ---- Contractors ---------------------------------------------------------- #}
+  <section class="section">
+    <h3 class="section__header">Service providers and vendors</h3>
+    {% if contractors %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Contractor</th><th>Service provided</th><th class="num">Paid</th></tr></thead>
+          <tbody>
+            {% for vendor in contractors %}
+              <tr>
+                <td><strong>{{ vendor.name }}</strong></td>
+                <td>{{ vendor.services | na }}</td>
+                <td class="num">
+                  {% if vendor.compensation is not none %}{{ vendor.compensation | money }}
+                  {% else %}<span class="not-available">Not available</span>{% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="u-small u-muted" style="margin-top:12px">
+        Independent contractors paid more than $100,000, as reported on Form 990
+        Part VII Section B. Only contractors above that threshold are disclosed,
+        and the software an organization runs is not reported at all.
+      </p>
+    {% else %}
+      <p class="not-available">
+        Not available &mdash; no Form 990 XML has been loaded, or this
+        organization reported no contractor paid over $100,000.
+      </p>
+    {% endif %}
+  </section>
+
   {# ---- Update history ------------------------------------------------------ #}
   <section class="section">
     <h3 class="section__header">Data update history</h3>

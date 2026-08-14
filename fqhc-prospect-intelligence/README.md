@@ -134,14 +134,33 @@ survives because human EIN decisions hang off it.
 | Data update history | This database: first seen, last confirmed, and every detected change | Available |
 | Similar organizations | Computed here from state, footprint, revenue and IRS classification | Available |
 | Delivery sites | HRSA site file | Available |
-| Key personnel and board members | Form 990 Part VII — names, titles and compensation | **Not yet built.** Requires the IRS e-file XML bulk data; ProPublica's API does not expose it. |
-| Board member contact details | — | **Not available anywhere free.** A 990 lists officers care-of the organization's own address; personal emails and phone numbers are not published. |
-| Vendors and contractors | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | **Not yet built.** Same IRS XML source as personnel. |
-| Software and technology used | — | **Not available.** No free, authoritative source publishes an organization's technology stack. |
+| Key personnel and board members | Form 990 Part VII Section A — names, titles, hours, compensation and role checkboxes | Available once Form 990 XML is loaded (see below) |
+| Vendors and service providers | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | Available once Form 990 XML is loaded |
+| Board member contact details | — | **Not available anywhere free.** A 990 lists officers care-of the organization's own address; personal emails and direct phone numbers are not published. The `people` table has no contact columns, so there is nowhere to put invented ones. |
+| Software and technology used | — | **Not available.** No free authoritative source publishes an organization's technology stack. The contractor rows are the closest proxy: an incumbent EHR, IT or billing vendor often appears there by name. |
 
 Where a data point cannot be sourced it is labelled "Not available" rather than
 approximated, and the profile says which of the two reasons applies: the source
 does not report it for this organization, or no free source publishes it at all.
+
+### Loading Form 990 people and contractors
+
+ProPublica's API does not expose Part VII, so this comes from the IRS's own
+e-file XML. The IRS has moved these files between an S3 bucket and bulk ZIP
+downloads more than once, so nothing is fetched automatically by default:
+
+1. Download the years you want from the
+   [IRS Form 990 series downloads](https://www.irs.gov/charities-non-profits/form-990-series-downloads).
+2. Unzip them into `data/raw/irs_xml/` (or wherever `irs.local_directory`
+   points). Filenames containing the EIN are matched directly; if you also drop
+   the `index*.csv` files alongside object-id filenames, those are understood
+   too.
+3. Run `python -m pipeline.run --stage people`.
+
+Set `irs.fetch_remote: true` with a working `xml_url_template` and `index_urls`
+to have the stage fetch documents itself. Both schema generations parse — a 2011
+return and a 2023 one use different element names for the same facts, and
+elements are matched by local name rather than exact path.
 
 ## Data integrity rules
 

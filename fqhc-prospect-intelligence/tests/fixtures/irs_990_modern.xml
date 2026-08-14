@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Return xmlns="http://www.irs.gov/efile" returnVersion="2023v5.0">
+  <ReturnHeader binaryAttachmentCnt="0">
+    <ReturnTs>2024-11-02T09:14:55-04:00</ReturnTs>
+    <TaxPeriodEndDt>2023-12-31</TaxPeriodEndDt>
+    <TaxYr>2023</TaxYr>
+    <Filer>
+      <EIN>362167869</EIN>
+      <BusinessName>
+        <BusinessNameLine1Txt>ERIE FAMILY HEALTH CENTERS INC</BusinessNameLine1Txt>
+      </BusinessName>
+      <USAddress>
+        <AddressLine1Txt>1701 W SUPERIOR ST</AddressLine1Txt>
+        <CityNm>CHICAGO</CityNm>
+        <StateAbbreviationCd>IL</StateAbbreviationCd>
+        <ZIPCd>60622</ZIPCd>
+      </USAddress>
+    </Filer>
+  </ReturnHeader>
+  <ReturnData documentCnt="1">
+    <IRS990 documentId="RetDoc1">
+      <Form990PartVIISectionAGrp>
+        <PersonNm>MARIA T ALVAREZ</PersonNm>
+        <TitleTxt>CHIEF EXECUTIVE OFFICER</TitleTxt>
+        <AverageHoursPerWeekRt>40.00</AverageHoursPerWeekRt>
+        <OfficerInd>X</OfficerInd>
+        <ReportableCompFromOrgAmt>412500</ReportableCompFromOrgAmt>
+        <ReportableCompFromRltdOrgAmt>0</ReportableCompFromRltdOrgAmt>
+        <OtherCompensationAmt>38200</OtherCompensationAmt>
+      </Form990PartVIISectionAGrp>
+      <Form990PartVIISectionAGrp>
+        <PersonNm>DANIEL OKONKWO</PersonNm>
+        <TitleTxt>CHIEF INFORMATION OFFICER</TitleTxt>
+        <AverageHoursPerWeekRt>40.00</AverageHoursPerWeekRt>
+        <OfficerInd>X</OfficerInd>
+        <KeyEmployeeInd>X</KeyEmployeeInd>
+        <ReportableCompFromOrgAmt>246800</ReportableCompFromOrgAmt>
+        <OtherCompensationAmt>21400</OtherCompensationAmt>
+      </Form990PartVIISectionAGrp>
+      <Form990PartVIISectionAGrp>
+        <PersonNm>REV. JAMES P DONNELLY</PersonNm>
+        <TitleTxt>BOARD CHAIR</TitleTxt>
+        <AverageHoursPerWeekRt>2.00</AverageHoursPerWeekRt>
+        <IndividualTrusteeOrDirectorInd>X</IndividualTrusteeOrDirectorInd>
+        <ReportableCompFromOrgAmt>0</ReportableCompFromOrgAmt>
+      </Form990PartVIISectionAGrp>
+      <Form990PartVIISectionAGrp>
+        <PersonNm>SUSAN B WHITFIELD</PersonNm>
+        <TitleTxt>DIRECTOR</TitleTxt>
+        <AverageHoursPerWeekRt>2.00</AverageHoursPerWeekRt>
+        <IndividualTrusteeOrDirectorInd>X</IndividualTrusteeOrDirectorInd>
+      </Form990PartVIISectionAGrp>
+      <Form990PartVIISectionAGrp>
+        <PersonNm>ANNA KOWALSKI MD</PersonNm>
+        <TitleTxt>CHIEF MEDICAL OFFICER</TitleTxt>
+        <AverageHoursPerWeekRt>40.00</AverageHoursPerWeekRt>
+        <HighestCompensatedEmployeeInd>X</HighestCompensatedEmployeeInd>
+        <ReportableCompFromOrgAmt>298000</ReportableCompFromOrgAmt>
+      </Form990PartVIISectionAGrp>
+
+      <ContractorCompensationGrp>
+        <ContractorName>
+          <BusinessName>
+            <BusinessNameLine1Txt>EPIC SYSTEMS CORPORATION</BusinessNameLine1Txt>
+          </BusinessName>
+        </ContractorName>
+        <ServicesDesc>ELECTRONIC HEALTH RECORD SOFTWARE AND HOSTING</ServicesDesc>
+        <CompensationAmt>1284000</CompensationAmt>
+      </ContractorCompensationGrp>
+      <ContractorCompensationGrp>
+        <ContractorName>
+          <BusinessName>
+            <BusinessNameLine1Txt>NORTHSIDE MANAGED IT LLC</BusinessNameLine1Txt>
+          </BusinessName>
+        </ContractorName>
+        <ServicesDesc>INFORMATION TECHNOLOGY SUPPORT SERVICES</ServicesDesc>
+        <CompensationAmt>412750</CompensationAmt>
+      </ContractorCompensationGrp>
+      <ContractorCompensationGrp>
+        <ContractorName>
+          <BusinessName>
+            <BusinessNameLine1Txt>MIDWEST REVENUE CYCLE PARTNERS</BusinessNameLine1Txt>
+          </BusinessName>
+        </ContractorName>
+        <ServicesDesc>MEDICAL BILLING</ServicesDesc>
+        <CompensationAmt>289400</CompensationAmt>
+      </ContractorCompensationGrp>
+    </IRS990>
+  </ReturnData>
+</Return>

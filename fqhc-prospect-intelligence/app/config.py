@@ -161,6 +161,30 @@ class ScoringSettings(BaseModel):
     )
 
 
+class IrsSettings(BaseModel):
+    """Form 990 Part VII personnel and contractors, from IRS e-file XML.
+
+    The IRS has moved this data between an S3 bucket and bulk ZIP downloads,
+    and the URLs change, so nothing here is assumed to work. Point
+    local_directory at a folder of downloaded XML (and optionally the index
+    CSVs) and the stage runs with no network at all.
+    """
+
+    # Folder of Form 990 XML files, and optionally index*.csv files. Relative
+    # paths resolve against the data directory.
+    local_directory: Path = Path("data/raw/irs_xml")
+    # Try to fetch documents that are not present locally.
+    fetch_remote: bool = False
+    # Filled in from the IRS index; {object_id} is substituted.
+    xml_url_template: str = "https://s3.amazonaws.com/irs-form-990/{object_id}_public.xml"
+    # Index files mapping EIN to object id. Check the current locations at
+    # https://www.irs.gov/charities-non-profits/form-990-series-downloads
+    index_urls: list[str] = Field(default_factory=list)
+    # How many filings to read per organization; the newest with Part VII wins.
+    documents_per_org: int = Field(default=3, ge=1)
+    timeout_seconds: float = Field(default=60.0, gt=0)
+
+
 class PipelineSettings(BaseModel):
     # Resolve EINs and pull 990s only for organizations in the scoring
     # footprint (scoring.state.target_states). HRSA ingestion is unaffected --
@@ -185,6 +209,7 @@ class Config(BaseModel):
     matching: MatchingSettings = Field(default_factory=MatchingSettings)
     scoring: ScoringSettings = Field(default_factory=ScoringSettings)
     pipeline: PipelineSettings = Field(default_factory=PipelineSettings)
+    irs: IrsSettings = Field(default_factory=IrsSettings)
     ui: UiSettings = Field(default_factory=UiSettings)
 
     # Set at load time so relative paths resolve consistently.

@@ -98,6 +98,23 @@ scoring:
     full_credit_ratio: 0.5   # >= 50% of revenue from grants -> score 100
     zero_credit_ratio: 0.05  # <= 5% -> score 0
 
+irs:
+  # Form 990 Part VII: officers, board members and contractors paid over
+  # $100,000. Sourced from the IRS e-file XML, which ProPublica's API does not
+  # expose.
+  #
+  # The IRS has moved these files more than once, so nothing is fetched by
+  # default. Download the XML you want from
+  # https://www.irs.gov/charities-non-profits/form-990-series-downloads
+  # and unzip it into the folder below -- filenames containing the EIN, or the
+  # IRS index*.csv files alongside object-id filenames, are both understood.
+  local_directory: data/raw/irs_xml
+  fetch_remote: false
+  xml_url_template: https://s3.amazonaws.com/irs-form-990/{object_id}_public.xml
+  index_urls: []
+  documents_per_org: 3
+  timeout_seconds: 60
+
 pipeline:
   # Resolve EINs and pull Form 990s only for organizations in the scoring
   # footprint above. HRSA ingestion is unaffected: the full national universe

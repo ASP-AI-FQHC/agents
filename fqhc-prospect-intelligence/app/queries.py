@@ -493,6 +493,50 @@ def similar_organizations(
     return scored[:limit]
 
 
+def organization_people(session: Session, ein: str | None):
+    """Part VII people for the most recent filing year, board members first."""
+    from app.models import Person
+
+    if not ein:
+        return []
+    latest = session.scalar(
+        select(func.max(Person.tax_year)).where(Person.ein == ein)
+    )
+    if latest is None:
+        return []
+    people = list(
+        session.scalars(
+            select(Person).where(Person.ein == ein, Person.tax_year == latest)
+        ).all()
+    )
+    # Board first, then by compensation: the order someone reading a prospect
+    # profile actually wants.
+    people.sort(
+        key=lambda p: (not p.is_board_member, -(p.total_compensation or 0), p.name)
+    )
+    return people
+
+
+def organization_contractors(session: Session, ein: str | None):
+    """Part VII Section B contractors for the most recent filing year."""
+    from app.models import Contractor
+
+    if not ein:
+        return []
+    latest = session.scalar(
+        select(func.max(Contractor.tax_year)).where(Contractor.ein == ein)
+    )
+    if latest is None:
+        return []
+    return list(
+        session.scalars(
+            select(Contractor)
+            .where(Contractor.ein == ein, Contractor.tax_year == latest)
+            .order_by(Contractor.compensation.desc().nulls_last())
+        ).all()
+    )
+
+
 def organization_changes(
     session: Session, organization_id: int, *, limit: int = 20
 ):

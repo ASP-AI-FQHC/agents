@@ -410,6 +410,88 @@ class ChangeEvent(Base):
     __table_args__ = (Index("ix_change_org_detected", "organization_id", "detected_at"),)
 
 
+class Person(Base):
+    """An officer, director, trustee or key employee from Form 990 Part VII.
+
+    Keyed by EIN and tax year rather than by organization, matching how the
+    filings themselves are keyed, so a re-run replaces a year cleanly.
+
+    There is no contact column and there will not be one: a 990 lists people
+    care of the organization's own address, and no free authoritative source
+    publishes their direct email or telephone.
+    """
+
+    __tablename__ = "people"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    ein: Mapped[str] = mapped_column(String(16), index=True)
+    tax_year: Mapped[int] = mapped_column(Integer, index=True)
+
+    name: Mapped[str] = mapped_column(String(240))
+    title: Mapped[str | None] = mapped_column(String(240))
+    # Part VII checkbox roles, e.g. ["Board member", "Officer"].
+    roles: Mapped[list[str] | None] = mapped_column(JSON)
+
+    average_hours: Mapped[float | None] = mapped_column(Float)
+    compensation: Mapped[float | None] = mapped_column(Float)
+    related_compensation: Mapped[float | None] = mapped_column(Float)
+    other_compensation: Mapped[float | None] = mapped_column(Float)
+
+    fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    __table_args__ = (
+        Index("ix_people_ein_year", "ein", "tax_year"),
+    )
+
+    @property
+    def is_board_member(self) -> bool:
+        return any(
+            role in ("Board member", "Institutional trustee")
+            for role in (self.roles or [])
+        )
+
+    @property
+    def role_label(self) -> str | None:
+        return ", ".join(self.roles) if self.roles else None
+
+    @property
+    def total_compensation(self) -> float | None:
+        parts = [
+            value
+            for value in (
+                self.compensation,
+                self.related_compensation,
+                self.other_compensation,
+            )
+            if value is not None
+        ]
+        return sum(parts) if parts else None
+
+
+class Contractor(Base):
+    """An independent contractor paid over $100,000, from Part VII Section B.
+
+    The most commercially interesting rows in a 990 for a managed services
+    provider: this is where an incumbent IT, EHR or billing vendor is named.
+    """
+
+    __tablename__ = "contractors"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    ein: Mapped[str] = mapped_column(String(16), index=True)
+    tax_year: Mapped[int] = mapped_column(Integer, index=True)
+
+    name: Mapped[str] = mapped_column(String(240))
+    services: Mapped[str | None] = mapped_column(String(500))
+    compensation: Mapped[float | None] = mapped_column(Float)
+
+    fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    __table_args__ = (
+        Index("ix_contractors_ein_year", "ein", "tax_year"),
+    )
+
+
 class ApiCache(Base):
     """Raw HTTP responses from ProPublica, so re-runs only fetch what is stale."""
 

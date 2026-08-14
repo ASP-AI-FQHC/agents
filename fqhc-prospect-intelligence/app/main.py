@@ -36,7 +36,9 @@ from app.queries import (
     data_status,
     fetch_rows,
     organization_changes,
+    organization_contractors,
     organization_detail,
+    organization_people,
     review_queue,
     similar_organizations,
     summarize,
@@ -203,6 +205,8 @@ def organization_page(
         ntee_group=ntee.describe(organization.ntee_code)[1],
         similar=similar_organizations(session, organization),
         history=organization_changes(session, organization.id),
+        people=organization_people(session, organization.ein),
+        contractors=organization_contractors(session, organization.ein),
     )
     return templates.TemplateResponse(request, "detail.html", context)
 
