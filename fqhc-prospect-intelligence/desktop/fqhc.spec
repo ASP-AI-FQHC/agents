@@ -5,8 +5,15 @@
 # Run from the project root. PyInstaller does not cross-compile: build the
 # macOS bundle on macOS, the Windows executable on Windows.
 
+import os
 import sys
 from pathlib import Path
+
+# PyInstaller builds for the architecture of the Python running it, so an Apple
+# Silicon Mac produces an arm64-only app that will not launch on an Intel Mac.
+# Set FQHC_TARGET_ARCH=universal2 to build for both -- which additionally
+# requires a universal2 Python and universal2 wheels for every dependency.
+TARGET_ARCH = os.environ.get("FQHC_TARGET_ARCH") if sys.platform == "darwin" else None
 
 # SPECPATH is set by PyInstaller to the directory holding this file.
 PROJECT_ROOT = Path(SPECPATH).parent  # noqa: F821
@@ -59,6 +66,7 @@ executable = EXE(  # noqa: F821
     upx=False,
     # No terminal window: this is a windowed application.
     console=False,
+    target_arch=TARGET_ARCH,
 )
 
 collection = COLLECT(  # noqa: F821

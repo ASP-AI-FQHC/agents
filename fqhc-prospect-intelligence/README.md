@@ -208,6 +208,15 @@ python -m desktop.main --no-window  # serve only, open the URL yourself
 **The build must run on macOS.** PyInstaller does not cross-compile, so a Mac
 bundle can only be produced on a Mac.
 
+**It also builds for one CPU architecture** — whichever your Python is. On an
+Apple Silicon Mac that means an arm64-only app, which will not launch on a
+colleague's Intel Mac. The build script reports which you are producing. To
+build for both, use a universal2 Python and:
+
+```bash
+FQHC_TARGET_ARCH=universal2 ./desktop/build_macos.sh
+```
+
 **Where a packaged build keeps its data.** The application bundle is read-only,
 so the database, the download cache and an editable copy of `config.yaml` live
 in `~/Library/Application Support/Allstar Partners/FQHC Prospect Intelligence`.

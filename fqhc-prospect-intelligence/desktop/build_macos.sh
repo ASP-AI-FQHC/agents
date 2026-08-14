@@ -26,6 +26,37 @@ if ! python -c "import PyInstaller" >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
+# Architecture preflight
+#
+# PyInstaller builds for the architecture of the Python running it. Say plainly
+# which machines the result will run on, rather than letting someone discover it
+# when a colleague double-clicks the app and nothing happens.
+# ---------------------------------------------------------------------------
+
+PY_PLATFORM="$(python -c 'import sysconfig; print(sysconfig.get_platform())')"
+echo "==> Building with Python for: $PY_PLATFORM"
+
+case "$PY_PLATFORM" in
+  *universal2*)
+    if [[ "${FQHC_TARGET_ARCH:-}" == "universal2" ]]; then
+      echo "    Target: universal2 -- runs on both Apple Silicon and Intel."
+    else
+      echo "    This Python is universal2. Set FQHC_TARGET_ARCH=universal2 to"
+      echo "    build an app that runs on both Apple Silicon and Intel Macs."
+    fi
+    ;;
+  *arm64*)
+    echo "    Target: Apple Silicon only. Intel Macs will not run this build."
+    echo "    For both, install a universal2 Python and re-run with"
+    echo "    FQHC_TARGET_ARCH=universal2."
+    ;;
+  *x86_64*)
+    echo "    Target: Intel only. It will run on Apple Silicon under Rosetta 2."
+    ;;
+esac
+echo
+
+# ---------------------------------------------------------------------------
 # Icon: build icon.icns from the checked-in PNG using macOS's own tools.
 # ---------------------------------------------------------------------------
 
