@@ -34,10 +34,18 @@ so an interrupted run continues where it left off.
 Run stages individually while iterating:
 
 ```bash
-python -m pipeline.run --stage hrsa
+python -m pipeline.run --stage hrsa               # local and fast; run this first
+python -m pipeline.run --stage ein --limit 20     # trial run: 20 organizations
 python -m pipeline.run --stage ein --stage financials
-python -m pipeline.run --force-refresh      # ignore the 30-day download cache
+python -m pipeline.run --force-refresh            # ignore the 30-day download cache
 ```
+
+`--limit N` caps the API-bound stages (`ein`, `financials`) at N organizations,
+so you can confirm the live sources behave as expected in under a minute before
+committing to a full pass. A capped run is announced at the start and again at
+the end, so a partial pass is never mistaken for a complete one, and because the
+pipeline skips organizations it has already settled, running again picks up
+where the trial stopped.
 
 ## Configuration
 

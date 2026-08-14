@@ -465,3 +465,18 @@ def test_stage_records_a_run(config: Config, session: Session) -> None:
     run = session.scalars(select(IngestRun).where(IngestRun.stage == "scoring")).one()
     assert run.status == RunStatus.SUCCESS
     assert run.records_written == 1
+
+
+def test_scoring_an_empty_database_is_not_a_failure(
+    config: Config, session: Session
+) -> None:
+    """Nothing to score means the universe has not been built yet -- which the
+    run should say plainly rather than reporting as a scoring failure."""
+    result = score_all(session, config)
+
+    assert result.scored == 0
+    assert result.status is RunStatus.SUCCESS
+    assert any("run the hrsa stage first" in m for m in result.messages)
+
+    run = session.scalars(select(IngestRun).where(IngestRun.stage == "scoring")).one()
+    assert run.status == RunStatus.SUCCESS

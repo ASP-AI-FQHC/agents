@@ -559,7 +559,9 @@ def enrich_financials(
 
     try:
         for index, org in enumerate(organizations, start=1):
-            if limit is not None and result.fetched >= limit:
+            # Count cache hits as well as live fetches, so --limit means the same
+            # "at most N organizations" here as it does in the matching stage.
+            if limit is not None and result.fetched + result.from_cache >= limit:
                 break
 
             ein = org.ein

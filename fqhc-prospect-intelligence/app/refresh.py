@@ -16,7 +16,7 @@ from typing import Any
 from app.config import Config
 from app.db import session_scope
 from app.models import RunStatus, utcnow
-from pipeline.run import STAGES
+from pipeline.run import STAGES, StageOptions
 
 
 @dataclass
@@ -130,6 +130,8 @@ class RefreshManager:
             self._state.warnings.append(message)
 
     def _run(self, config: Config, stages: list[Any], force_refresh: bool) -> None:
+        # The UI always runs a full pass; --limit is a CLI-only trial affordance.
+        options = StageOptions(force_refresh=force_refresh)
         try:
             with session_scope(config) as session:
                 for index, stage in enumerate(stages):
@@ -139,7 +141,7 @@ class RefreshManager:
                     self._record(f"{stage.description}...")
 
                     try:
-                        result = stage.run(session, config, force_refresh, self._record)
+                        result = stage.run(session, config, options, self._record)
                     except Exception as exc:
                         # One stage failing should not abandon the others: HRSA
                         # data is still useful when ProPublica is unreachable.

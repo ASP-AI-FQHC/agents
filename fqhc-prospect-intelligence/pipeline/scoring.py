@@ -369,7 +369,11 @@ class ScoringResult:
 
     @property
     def status(self) -> RunStatus:
-        return RunStatus.SUCCESS if self.scored else RunStatus.FAILED
+        # Only consulted when scoring completed without raising -- a genuine
+        # failure sets the run record directly. Zero organizations means the
+        # database is empty, which is not a scoring failure; the accompanying
+        # message says so.
+        return RunStatus.SUCCESS
 
 
 def score_all(
@@ -440,7 +444,13 @@ def score_all(
         session.commit()
         raise
 
-    if result.scored:
+    if not result.scored:
+        result.messages.append(
+            "No organizations to score -- run the hrsa stage first to build the "
+            "prospect universe"
+        )
+        report(result.messages[-1])
+    else:
         missing_revenue = result.unavailable_counts.get("revenue", 0)
         if missing_revenue:
             result.messages.append(

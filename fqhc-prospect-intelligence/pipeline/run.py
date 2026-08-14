@@ -27,48 +27,74 @@ from pipeline.propublica import ProPublicaClient, enrich_financials
 
 
 @dataclass(frozen=True)
+class StageOptions:
+    """Per-run switches passed to every stage."""
+
+    force_refresh: bool = False
+    # Cap on organizations processed by the API-bound stages. Used for a quick
+    # trial run before committing to a full pass; ignored by hrsa and scoring,
+    # which are local and fast.
+    limit: int | None = None
+
+
+@dataclass(frozen=True)
 class Stage:
     name: str
     description: str
-    run: Callable[[Session, Config, bool, Callable[[str], None]], object]
+    run: Callable[[Session, Config, StageOptions, Callable[[str], None]], object]
+    # Whether --limit means anything for this stage, so the CLI can say when it
+    # is being ignored rather than silently doing nothing.
+    honours_limit: bool = False
 
 
 def _run_hrsa(
-    session: Session, config: Config, force_refresh: bool, report: Callable[[str], None]
+    session: Session, config: Config, options: StageOptions, report: Callable[[str], None]
 ) -> hrsa.HrsaIngestResult:
     return hrsa.ingest(
-        session, config, force_refresh=force_refresh, on_progress=report
+        session, config, force_refresh=options.force_refresh, on_progress=report
     )
 
 
 def _run_matching(
-    session: Session, config: Config, force_refresh: bool, report: Callable[[str], None]
+    session: Session, config: Config, options: StageOptions, report: Callable[[str], None]
 ) -> matching.MatchingResult:
     with ProPublicaClient(config, session) as client:
         return matching.match_organizations(
-            session, config, client=client, force=force_refresh, on_progress=report
+            session,
+            config,
+            client=client,
+            force=options.force_refresh,
+            limit=options.limit,
+            on_progress=report,
         )
 
 
 def _run_financials(
-    session: Session, config: Config, force_refresh: bool, report: Callable[[str], None]
+    session: Session, config: Config, options: StageOptions, report: Callable[[str], None]
 ) -> object:
     with ProPublicaClient(config, session) as client:
         return enrich_financials(
-            session, config, client=client, force=force_refresh, on_progress=report
+            session,
+            config,
+            client=client,
+            force=options.force_refresh,
+            limit=options.limit,
+            on_progress=report,
         )
 
 
 def _run_scoring(
-    session: Session, config: Config, _force_refresh: bool, report: Callable[[str], None]
+    session: Session, config: Config, _options: StageOptions, report: Callable[[str], None]
 ) -> scoring.ScoringResult:
     return scoring.score_all(session, config, on_progress=report)
 
 
 STAGES: tuple[Stage, ...] = (
     Stage("hrsa", "Build the FQHC universe from HRSA downloads", _run_hrsa),
-    Stage("ein", "Resolve EINs via ProPublica search", _run_matching),
-    Stage("financials", "Pull Form 990 filings by EIN", _run_financials),
+    Stage("ein", "Resolve EINs via ProPublica search", _run_matching, honours_limit=True),
+    Stage(
+        "financials", "Pull Form 990 filings by EIN", _run_financials, honours_limit=True
+    ),
     Stage("scoring", "Score every organization against the ICP", _run_scoring),
 )
 
@@ -96,14 +122,30 @@ def build_parser() -> argparse.ArgumentParser:
         help="Path to config.yaml (defaults to the project's own).",
     )
     parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        metavar="N",
+        help=(
+            "Process at most N organizations in the API-bound stages (ein, "
+            "financials). Use for a quick trial run before committing to a full "
+            "pass; the result is deliberately partial."
+        ),
+    )
+    parser.add_argument(
         "--quiet", action="store_true", help="Suppress per-step progress output."
     )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if args.limit is not None and args.limit < 1:
+        parser.error("--limit must be at least 1")
+
     config = load_config(args.config)
+    options = StageOptions(force_refresh=args.force_refresh, limit=args.limit)
 
     def report(message: str) -> None:
         if not args.quiet:
@@ -112,12 +154,22 @@ def main(argv: list[str] | None = None) -> int:
     selected = [s for s in STAGES if not args.stage or s.name in args.stage]
     init_db(config)
 
+    if options.limit is not None:
+        limited = [s.name for s in selected if s.honours_limit]
+        ignored = [s.name for s in selected if not s.honours_limit]
+        print(
+            f"TRIAL RUN: at most {options.limit} organizations in "
+            f"{', '.join(limited) if limited else 'no selected stage'}"
+            + (f" (--limit does not apply to {', '.join(ignored)})" if ignored else ""),
+            flush=True,
+        )
+
     failures = 0
     with session_scope(config) as session:
         for stage in selected:
             print(f"[{stage.name}] {stage.description}", flush=True)
             try:
-                result = stage.run(session, config, args.force_refresh, report)
+                result = stage.run(session, config, options, report)
             except Exception as exc:
                 failures += 1
                 print(f"[{stage.name}] FAILED: {exc}", file=sys.stderr, flush=True)
@@ -143,6 +195,12 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     print(f"\nDatabase: {config.database_file}")
+    if options.limit is not None:
+        # A capped run must never be mistaken for a complete one.
+        print(
+            f"This was a trial run capped at {options.limit} organizations. "
+            "Re-run without --limit for the full set."
+        )
     return 0
 
 
