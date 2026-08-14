@@ -188,6 +188,11 @@ class IrsSettings(BaseModel):
     # Index files mapping EIN to object id. Check the current locations at
     # https://www.irs.gov/charities-non-profits/form-990-series-downloads
     index_urls: list[str] = Field(default_factory=list)
+    # The largest IRS archives use Deflate64, which Python cannot decompress.
+    # When true, such an archive is unpacked once with a system tool (ditto or
+    # bsdtar, both present on macOS) into a folder beside it, and the result is
+    # indexed. Costs disk; the alternative is losing those filings entirely.
+    expand_unreadable_archives: bool = True
     # How many filings to read per organization; the newest with Part VII wins.
     documents_per_org: int = Field(default=3, ge=1)
     timeout_seconds: float = Field(default=60.0, gt=0)

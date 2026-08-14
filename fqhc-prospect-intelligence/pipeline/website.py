@@ -16,9 +16,11 @@ What this module is careful about, because the data is weaker than a filing:
 * **It requires a title, not just a name.** A capitalised phrase alone is not
   evidence of anything -- "Patient Portal" reads like a name. A row is only
   recorded when a plausible person name sits next to a phrase that names a role.
-* **It only records what the page states.** Emails are captured solely from
-  ``mailto:`` links the organization published itself; nothing is constructed
-  from a name and a domain.
+* **It only records what the page states.** An email is captured only where the
+  organization printed it beside that person, whether linked or as plain text.
+  Nothing is constructed from a name and a domain, and a shared inbox --
+  ``info@``, ``reception@``, or any address that lands on more than one person
+  -- is dropped rather than passed off as somebody's direct line.
 * **It is polite.** robots.txt is honoured, requests are throttled, redirects
   off the organization's own host are not followed, and nothing behind a login
   is touched.
@@ -32,8 +34,9 @@ from __future__ import annotations
 
 import re
 import urllib.robotparser
+from collections import Counter
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta, timezone
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
@@ -119,6 +122,28 @@ SECTION_PHRASES: tuple[str, ...] = (
     "senior leadership", "meet the", "governing board", "board members",
     "staff directory", "the board", "corporate compliance", "table of contents",
 )
+
+# Shared mailboxes. Attaching one of these to a named person would turn a
+# reception address into "the CFO's email", which is worse than no address at
+# all -- it reads as a direct line and is not one.
+SHARED_MAILBOXES = frozenset(
+    {
+        "info", "contact", "contactus", "admin", "administration", "hello",
+        "office", "reception", "frontdesk", "appointments", "appointment",
+        "billing", "accounts", "hr", "humanresources", "careers", "jobs",
+        "recruiting", "media", "press", "marketing", "support", "help",
+        "helpdesk", "enquiries", "inquiries", "feedback", "webmaster",
+        "noreply", "no-reply", "donotreply", "mail", "email", "general",
+        "referrals", "records", "compliance", "privacy", "scheduling",
+        "patientservices", "customerservice",
+    }
+)
+
+
+def is_shared_mailbox(address: str) -> bool:
+    local = address.split("@", 1)[0].lower()
+    return re.sub(r"[^a-z]", "", local) in SHARED_MAILBOXES
+
 
 _NAME_SPLIT = re.compile(r"\s*[,–—|/]\s*|\s+[-–—]\s+")
 _WHITESPACE = re.compile(r"\s+")
@@ -347,6 +372,13 @@ def extract_people(html: str, *, limit: int = 60) -> list[WebsitePersonRecord]:
     emails_by_run: dict[int, str] = {}
     for index, address in page.emails:
         emails_by_run.setdefault(index, address)
+    # Plenty of health centers print the address as plain text instead of
+    # linking it. Still published by the organization, still verbatim -- the
+    # only difference is the markup, so there is no reason to ignore it.
+    for index, run in enumerate(runs):
+        match = _EMAIL.search(run)
+        if match:
+            emails_by_run.setdefault(index, match.group(0))
 
     found: list[WebsitePersonRecord] = []
     seen: set[str] = set()
@@ -359,7 +391,14 @@ def extract_people(html: str, *, limit: int = 60) -> list[WebsitePersonRecord]:
         seen.add(key)
         # A published address usually sits a line or two below the title, so the
         # search window is wider than the lines the person themselves occupies.
-        email = next((emails_by_run[i] for i in window if i in emails_by_run), None)
+        email = next(
+            (
+                emails_by_run[i]
+                for i in window
+                if i in emails_by_run and not is_shared_mailbox(emails_by_run[i])
+            ),
+            None,
+        )
         found.append(WebsitePersonRecord(name=name, title=title, email=email))
         used.update(consumed)
 
@@ -397,6 +436,16 @@ def extract_people(html: str, *, limit: int = 60) -> list[WebsitePersonRecord]:
                     range(index, neighbour + 2),
                 )
                 break
+
+    # An address that landed on more than one person is a shared inbox that
+    # happened not to be named like one. It belongs to none of them.
+    counts = Counter(person.email for person in found if person.email)
+    duplicated = {address for address, count in counts.items() if count > 1}
+    if duplicated:
+        found = [
+            replace(person, email=None) if person.email in duplicated else person
+            for person in found
+        ]
 
     return found[:limit]
 

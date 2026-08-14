@@ -127,6 +127,14 @@ irs:
   # so pointing at it would look like a working fetch that returns nothing.
   xml_url_template: ""
   index_urls: []
+  # The largest IRS archives are built with Deflate64, which Python cannot
+  # decompress. Rather than losing those filings, such an archive is unpacked
+  # once with a system tool -- ditto or bsdtar, both standard on macOS -- into
+  # <archive>.expanded/ beside it, and that folder is indexed instead. Set to
+  # false to skip it and accept the missing filings; the expansion is several
+  # times the size of the .zip and can be deleted afterwards only if you also
+  # delete .fqhc-document-index.json.
+  expand_unreadable_archives: true
   documents_per_org: 3
   timeout_seconds: 60
 

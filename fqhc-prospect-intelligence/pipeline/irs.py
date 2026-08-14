@@ -31,6 +31,8 @@ import csv
 import io
 import json
 import re
+import shutil
+import subprocess
 import xml.etree.ElementTree as ElementTree
 import zipfile
 from collections.abc import Callable, Iterator
@@ -429,11 +431,17 @@ def _directory_signature(directory: Path) -> list[list]:
     this directory; including it would invalidate the cache the moment it was
     saved.
     """
-    return sorted(
-        [path.name, path.stat().st_mtime_ns, path.stat().st_size]
-        for path in directory.iterdir()
-        if path.is_file() and not path.name.startswith(".")
-    )
+    entries: list[list] = []
+    for path in directory.iterdir():
+        if path.name.startswith("."):
+            continue
+        if path.is_file():
+            entries.append([path.name, path.stat().st_mtime_ns, path.stat().st_size])
+        elif path.is_dir() and path.name.endswith(EXPANDED_SUFFIX):
+            # An expansion is part of what the index describes, so deleting one
+            # has to invalidate the cache that points into it.
+            entries.append([path.name, path.stat().st_mtime_ns, -1])
+    return sorted(entries)
 
 
 INDEX_CACHE_FILENAME = ".fqhc-document-index.json"
@@ -453,6 +461,66 @@ _DOCUMENT_INDEX: dict[tuple, dict[str, list[DocumentRef]]] = {}
 # Archives the scan could not fully read, per directory scan. Held apart from
 # the index so a partial scan still returns everything it did manage to read.
 _SCAN_PROBLEMS: dict[tuple, list[str]] = {}
+
+# Where an archive Python cannot read gets expanded to, beside the archive.
+EXPANDED_SUFFIX = ".expanded"
+
+# Tools that can decompress Deflate64, best first. ditto and bsdtar both ship
+# with macOS; bsdtar is common on Linux. Each entry builds the argument list
+# for "expand <archive> into <destination>".
+EXPANDERS: tuple[tuple[str, Callable[[Path, Path], list[str]]], ...] = (
+    ("ditto", lambda archive, dest: ["ditto", "-x", "-k", str(archive), str(dest)]),
+    ("bsdtar", lambda archive, dest: ["bsdtar", "-x", "-f", str(archive), "-C", str(dest)]),
+    ("7z", lambda archive, dest: ["7z", "x", "-y", f"-o{dest}", str(archive)]),
+)
+
+
+def find_expander() -> tuple[str, Callable[[Path, Path], list[str]]] | None:
+    """The first archive tool on this machine that handles Deflate64."""
+    for name, build in EXPANDERS:
+        if shutil.which(name):
+            return name, build
+    return None
+
+
+def expand_archive(
+    archive: Path, *, on_progress: ProgressFn | None = None
+) -> Path | None:
+    """Unpack an archive Python cannot read, using a system tool.
+
+    Returns the directory holding the expanded files, or None when no suitable
+    tool exists. An expansion that is already present is reused rather than
+    repeated -- these archives take minutes and gigabytes.
+    """
+    report = on_progress or (lambda _message: None)
+    destination = archive.with_name(archive.name + EXPANDED_SUFFIX)
+
+    if destination.is_dir() and any(destination.rglob("*.xml")):
+        return destination
+
+    found = find_expander()
+    if found is None:
+        return None
+    name, build = found
+
+    report(f"Expanding {archive.name} with {name} (Python cannot read it directly)")
+    destination.mkdir(parents=True, exist_ok=True)
+    try:
+        completed = subprocess.run(  # noqa: S603 - fixed argv, no shell
+            build(archive, destination),
+            capture_output=True,
+            check=False,
+        )
+    except OSError as exc:
+        report(f"Could not run {name}: {exc}")
+        return None
+
+    if completed.returncode != 0 and not any(destination.rglob("*.xml")):
+        detail = completed.stderr.decode("utf-8", "replace").strip()[:200]
+        report(f"{name} failed on {archive.name}: {detail}")
+        return None
+
+    return destination
 
 
 def _load_index_cache(directory: Path, signature: list) -> dict[str, list[DocumentRef]] | None:
@@ -501,7 +569,10 @@ def _save_index_cache(
 
 
 def document_index(
-    directory: Path, *, on_progress: ProgressFn | None = None
+    directory: Path,
+    *,
+    on_progress: ProgressFn | None = None,
+    expand: bool = True,
 ) -> dict[str, list[DocumentRef]]:
     """Map EIN to available documents, newest tax year first.
 
@@ -543,6 +614,19 @@ def document_index(
             DocumentRef(path=path, member=member, ein=ein, tax_year=year)
         )
 
+    def scan_expanded(source: Path, expanded: Path) -> int:
+        """Index the loose XML a system tool unpacked for us."""
+        count = 0
+        for xml in sorted(expanded.rglob("*.xml")):
+            try:
+                with xml.open("rb") as handle:
+                    record(xml, None, handle)
+                count += 1
+            except OSError:
+                continue
+        report(f"{source.name}: {count:,} documents recovered from the expansion")
+        return count
+
     def scan_archive(path: Path) -> None:
         unreadable = 0
         method: str | None = None
@@ -560,14 +644,35 @@ def document_index(
                     method = method or UNSUPPORTED_COMPRESSION.get(
                         info.compress_type, f"method {info.compress_type}"
                     )
-        if unreadable:
-            problems.append(
-                f"{path.name}: {unreadable:,} documents could not be read "
-                f"({method} compression, which Python cannot decompress)"
-            )
+
+        if not unreadable:
+            return
+
+        # Python is out of options, but the operating system is not: macOS and
+        # most Linux installs ship a tool that reads these. Unpack once and
+        # index the result, rather than making this the user's problem.
+        if expand:
+            expanded = expand_archive(path, on_progress=report)
+            if expanded is not None and scan_expanded(path, expanded):
+                return
+
+        problems.append(
+            f"{path.name}: {unreadable:,} documents could not be read "
+            f"({method} compression, which Python cannot decompress)"
+        )
 
     for path in sorted(directory.iterdir()):
-        if not path.is_file() or path.name.startswith("."):
+        if path.name.startswith("."):
+            continue
+        if path.is_dir():
+            # An expansion left by an earlier run, beside the archive it came
+            # from. Its archive picks it up; a stray one is indexed here.
+            if path.name.endswith(EXPANDED_SUFFIX) and not path.with_name(
+                path.name[: -len(EXPANDED_SUFFIX)]
+            ).exists():
+                scan_expanded(path, path)
+            continue
+        if not path.is_file():
             continue
         suffix = path.suffix.lower()
         try:
@@ -661,7 +766,9 @@ class SourceReport:
         ]
 
 
-def describe_source(config, *, on_progress: ProgressFn | None = None) -> SourceReport:
+def describe_source(
+    config, *, on_progress: ProgressFn | None = None
+) -> SourceReport:
     """Inspect the configured IRS directory and index it."""
     directory = config.resolve(config.irs.local_directory)
     if not directory.exists():
@@ -679,7 +786,11 @@ def describe_source(config, *, on_progress: ProgressFn | None = None) -> SourceR
         else:
             other_files += 1
 
-    index = document_index(directory, on_progress=on_progress)
+    index = document_index(
+        directory,
+        on_progress=on_progress,
+        expand=config.irs.expand_unreadable_archives,
+    )
     return SourceReport(
         directory=directory,
         exists=True,

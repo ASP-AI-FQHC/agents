@@ -574,3 +574,31 @@ def test_a_director_of_a_department_is_not_a_board_member(
         source_url="https://example.org",
     )
     assert not person.is_board_member
+
+
+def test_a_plain_text_email_is_captured_too() -> None:
+    """Many sites print the address rather than linking it. Same publication,
+    different markup."""
+    html = """
+      <div>
+        <h3>Marcus Bellweather</h3>
+        <p>Chief Operating Officer</p>
+        <p>mbellweather@example.org</p>
+      </div>
+    """
+    person = extract_people(html)[0]
+    assert person.name == "Marcus Bellweather"
+    assert person.email == "mbellweather@example.org"
+
+
+def test_a_shared_inbox_is_not_attached_to_the_wrong_person() -> None:
+    """An address far from any person stays unattached rather than being
+    handed to whoever happens to be nearby."""
+    html = """
+      <div><h3>Marcus Bellweather</h3><p>Chief Operating Officer</p></div>
+      <div><h3>Ingrid Salvatore</h3><p>Chief Financial Officer</p></div>
+      <footer><p>General enquiries: info@example.org</p></footer>
+    """
+    people = {p.name: p.email for p in extract_people(html)}
+    assert people["Marcus Bellweather"] is None
+    assert people["Ingrid Salvatore"] is None

@@ -159,7 +159,8 @@ survives because human EIN decisions hang off it.
 | Key personnel and board members | Form 990 Part VII Section A — names, titles, hours, compensation and role checkboxes | Available once Form 990 XML is loaded (see below) |
 | Key personnel, fallback | The organization's own leadership / board / "our team" pages | Available for organizations HRSA publishes a web address for. Shown in a separate, labelled block with a link to the page each name came from |
 | Vendors and service providers | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | Available once Form 990 XML is loaded |
-| Board member contact details | Only where the organization publishes them itself | **Mostly not available.** A 990 lists officers care-of the organization's own address; personal emails and direct phone numbers are not published, and the `people` table has no contact columns, so there is nowhere to put invented ones. Where a leadership page carries a `mailto:` address it is captured verbatim; nothing is ever constructed from a name and a domain. |
+| Salaries | Form 990 Part VII: reportable compensation from the organization, from related organizations, and other compensation | Available for everyone the filing lists. Board members usually report $0, which is a reported figure and is shown as $0 — distinct from "not available" |
+| Board member contact details | Only where the organization publishes them itself | **Mostly not available.** A 990 lists officers care-of the organization's own address; personal emails and direct phone numbers are not published, and the `people` table has no contact columns, so there is nowhere to put invented ones. On a leadership page an address printed beside a person is captured verbatim, linked or as plain text. Shared inboxes (`info@`, `reception@`, or any address that lands on more than one person) are dropped rather than passed off as somebody's direct line, and nothing is ever constructed from a name and a domain. |
 | Software and technology used | — | **Not available.** No free authoritative source publishes an organization's technology stack. The contractor rows are the closest proxy: an incumbent EHR, IT or billing vendor often appears there by name. |
 
 Where a data point cannot be sourced it is labelled "Not available" rather than
@@ -209,7 +210,7 @@ it indexed and how many distinct EINs those cover, and then one of:
 | `No IRS XML directory at …` | Create that folder and put the download in it. |
 | `… contains no .xml or .zip files` | The download is still in `~/Downloads`; copy it across. |
 | `… cover N other EINs` | The archive is real but for filing years that do not include your organizations; download another year. |
-| `… documents could not be read (Deflate64 …)` | The biggest IRS archives use a compression method Python cannot decompress. Run `pip install zipfile-deflate64` and re-run the stage, or expand those archives in Finder and delete the `.zip`. Everything read from the other archives is kept, and the run continues. |
+| `… documents could not be read (Deflate64 …)` | Handled automatically: the archive is unpacked once with `ditto` or `bsdtar` into `<archive>.expanded/` beside it and indexed from there. You only see this line if neither tool is present — then `pip install zipfile-deflate64`, or expand the archive in Finder. |
 
 Note that a packaged desktop build keeps its data in
 `~/Library/Application Support/Allstar Partners/FQHC Prospect Intelligence/`,

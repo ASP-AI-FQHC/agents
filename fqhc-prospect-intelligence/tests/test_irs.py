@@ -746,3 +746,130 @@ def test_a_partial_scan_is_not_cached_to_disk(irs_config: Config) -> None:
     document_index(directory)
 
     assert not (directory / INDEX_CACHE_FILENAME).exists()
+
+
+# ---------------------------------------------------------------------------
+# Falling back to a system tool for archives Python cannot open
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture()
+def fake_unzip(tmp_path: Path, monkeypatch):
+    """Stand in for ditto/bsdtar: unpack the readable members with unzip.
+
+    The point under test is the fallback path, not the Deflate64 codec, so the
+    stand-in only has to behave like a working expander.
+    """
+    calls: list[list[str]] = []
+
+    def build(archive: Path, destination: Path) -> list[str]:
+        return ["unzip", "-o", "-q", str(archive), "-d", str(destination)]
+
+    monkeypatch.setattr("pipeline.irs.find_expander", lambda: ("unzip", build))
+
+    real_run = __import__("subprocess").run
+
+    def spy(argv, **kwargs):
+        calls.append(argv)
+        return real_run(argv, **kwargs)
+
+    monkeypatch.setattr("pipeline.irs.subprocess.run", spy)
+    return calls
+
+
+def test_an_unreadable_archive_is_expanded_and_indexed(
+    tmp_path: Path, fake_unzip
+) -> None:
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    archive = directory / "bulk.zip"
+    # Two members, one of them marked as a compression Python refuses.
+    _archive_with_unsupported_member(archive, good=MODERN, bad_name="other.xml")
+
+    index = document_index(directory)
+
+    assert fake_unzip, "the system tool should have been invoked"
+    assert (directory / "bulk.zip.expanded").is_dir()
+    # Both filers are present now: the one Python could read and the one only
+    # the expansion recovered.
+    assert {"362167869", "391385403"} <= set(index)
+
+
+def test_an_expansion_clears_the_problem_report(tmp_path: Path, fake_unzip) -> None:
+    from pipeline.irs import scan_problems
+
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    _archive_with_unsupported_member(
+        directory / "bulk.zip", good=MODERN, bad_name="other.xml"
+    )
+
+    document_index(directory)
+    assert scan_problems(directory) == []
+
+
+def test_an_existing_expansion_is_reused(tmp_path: Path, fake_unzip) -> None:
+    """These archives take minutes and gigabytes; doing it twice is not free."""
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    _archive_with_unsupported_member(
+        directory / "bulk.zip", good=MODERN, bad_name="other.xml"
+    )
+
+    document_index(directory)
+    first = len(fake_unzip)
+    reset_document_index()
+    document_index(directory)
+
+    assert len(fake_unzip) == first
+
+
+def test_expansion_can_be_turned_off(tmp_path: Path, fake_unzip) -> None:
+    from pipeline.irs import scan_problems
+
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    _archive_with_unsupported_member(
+        directory / "bulk.zip", good=MODERN, bad_name="other.xml"
+    )
+
+    document_index(directory, expand=False)
+
+    assert fake_unzip == []
+    assert scan_problems(directory) != []
+
+
+def test_deleting_an_expansion_rebuilds_the_index(tmp_path: Path, fake_unzip) -> None:
+    """The saved index points into the expansion, so losing it must invalidate."""
+    import shutil as shutil_module
+
+    from pipeline.irs import _directory_signature
+
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    _archive_with_unsupported_member(
+        directory / "bulk.zip", good=MODERN, bad_name="other.xml"
+    )
+
+    document_index(directory)
+    before = _directory_signature(directory)
+    shutil_module.rmtree(directory / "bulk.zip.expanded")
+
+    assert _directory_signature(directory) != before
+
+
+def test_no_system_tool_falls_back_to_the_explanation(
+    irs_config: Config, session: Session, monkeypatch
+) -> None:
+    monkeypatch.setattr("pipeline.irs.find_expander", lambda: None)
+    add_org(session, "Erie Family Health", "362167869")
+    _archive_with_unsupported_member(
+        irs_config.irs.local_directory / "bulk.zip",
+        good=MODERN,
+        bad_name="other.xml",
+    )
+
+    result = enrich_people(session, irs_config)
+
+    assert result.status == RunStatus.SUCCESS
+    assert "zipfile-deflate64" in " ".join(result.messages)
