@@ -650,3 +650,99 @@ def test_documents_for_other_filers_are_reported_as_such(
     result = enrich_people(session, irs_config)
     assert result.without_documents == 1
     assert "cover 1 other EINs" in " ".join(result.messages)
+
+
+# ---------------------------------------------------------------------------
+# Archives Python cannot decompress
+# ---------------------------------------------------------------------------
+
+
+def _archive_with_unsupported_member(path: Path, *, good: bytes, bad_name: str) -> None:
+    """Write a zip holding one readable member and one Deflate64 member.
+
+    Deflate64 (method 9) is what the tooling behind the largest IRS downloads
+    produces, and the standard library cannot decompress it. There is no
+    Deflate64 encoder to hand, so the readable member is stored uncompressed
+    and the other is deflated, then every deflate marker in the headers is
+    rewritten to 9 -- which reproduces exactly the failure a real download
+    hits.
+    """
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr(zipfile.ZipInfo("readable.xml"), good)  # method 0
+        archive.writestr(bad_name, LEGACY, compress_type=zipfile.ZIP_DEFLATED)
+
+    raw = bytearray(path.read_bytes())
+    # Compression method sits at +8 in a local file header and +10 in a central
+    # directory entry. Patching by offset avoids hitting the same two bytes
+    # inside the compressed payload.
+    for signature, offset in ((b"PK\x03\x04", 8), (b"PK\x01\x02", 10)):
+        start = 0
+        while (found := raw.find(signature, start)) != -1:
+            if raw[found + offset : found + offset + 2] == b"\x08\x00":
+                raw[found + offset] = 9
+            start = found + 4
+    path.write_bytes(bytes(raw))
+
+
+def test_one_unreadable_member_does_not_lose_the_archive(tmp_path: Path) -> None:
+    directory = tmp_path / "irs_xml"
+    directory.mkdir()
+    _archive_with_unsupported_member(
+        directory / "bulk.zip", good=MODERN, bad_name="unreadable.xml"
+    )
+
+    index = document_index(directory)
+    from pipeline.irs import scan_problems
+
+    # Whatever could be read is still indexed, and the failure is reported
+    # rather than raised.
+    assert "362167869" in index
+    assert any("could not be read" in problem for problem in scan_problems(directory))
+
+
+def test_an_unreadable_archive_does_not_fail_the_stage(
+    irs_config: Config, session: Session
+) -> None:
+    """The run that prompted this crashed outright and lost four archives'
+    worth of indexing along with it."""
+    add_org(session, "Erie Family Health", "362167869")
+    _archive_with_unsupported_member(
+        irs_config.irs.local_directory / "bulk.zip",
+        good=MODERN,
+        bad_name="unreadable.xml",
+    )
+
+    result = enrich_people(session, irs_config)
+
+    assert result.status == RunStatus.SUCCESS
+    assert result.resolved == 1
+    assert result.people_written == 5
+
+
+def test_an_unreadable_archive_says_how_to_fix_it(
+    irs_config: Config, session: Session
+) -> None:
+    add_org(session, "Erie Family Health", "362167869")
+    _archive_with_unsupported_member(
+        irs_config.irs.local_directory / "bulk.zip",
+        good=MODERN,
+        bad_name="unreadable.xml",
+    )
+
+    result = enrich_people(session, irs_config)
+    joined = " ".join(result.messages)
+    assert "zipfile-deflate64" in joined and "Finder" in joined
+
+
+def test_a_partial_scan_is_not_cached_to_disk(irs_config: Config) -> None:
+    """Caching an incomplete scan would make the missing documents look
+    permanently absent once the cause was fixed."""
+    from pipeline.irs import INDEX_CACHE_FILENAME
+
+    directory = irs_config.irs.local_directory
+    _archive_with_unsupported_member(
+        directory / "bulk.zip", good=MODERN, bad_name="unreadable.xml"
+    )
+    document_index(directory)
+
+    assert not (directory / INDEX_CACHE_FILENAME).exists()

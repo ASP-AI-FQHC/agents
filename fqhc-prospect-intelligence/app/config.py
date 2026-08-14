@@ -42,6 +42,10 @@ class HrsaSettings(BaseModel):
     sites_filename: str = "hrsa_service_delivery_sites.csv"
     awardees_url: str
     awardees_filename: str = "hrsa_program_awardees.csv"
+    # HRSA renames these downloads between releases. Alternatives are tried in
+    # order when the primary URL fails, before falling back to the cache.
+    sites_url_fallbacks: list[str] = Field(default_factory=list)
+    awardees_url_fallbacks: list[str] = Field(default_factory=list)
     timeout_seconds: float = Field(default=180.0, gt=0)
     # Count only sites HRSA reports as active. Turning this off inflates site
     # counts with closed locations.

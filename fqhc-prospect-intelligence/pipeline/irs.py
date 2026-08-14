@@ -38,6 +38,15 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+try:  # pragma: no cover - depends on what is installed
+    # Optional. Importing it teaches the standard library's zipfile to read
+    # Deflate64 members, which the largest IRS archives use and Python cannot
+    # otherwise decompress. Absent, those archives are reported and skipped
+    # rather than failing the run.
+    import zipfile_deflate64  # noqa: F401
+except ImportError:  # pragma: no cover - the common case
+    pass
+
 ProgressFn = Callable[[str], None]
 
 
@@ -429,7 +438,21 @@ def _directory_signature(directory: Path) -> list[list]:
 
 INDEX_CACHE_FILENAME = ".fqhc-document-index.json"
 
+# Compression methods the standard library cannot decompress. Method 9 is
+# Deflate64, which is what the tools used to build very large archives reach for
+# once a member or the archive itself crosses the 4 GB mark -- and the IRS bulk
+# downloads do. Python raises NotImplementedError on these.
+UNSUPPORTED_COMPRESSION = {
+    9: "Deflate64",
+    1: "Shrink",
+    6: "Implode",
+    98: "PPMd",
+}
+
 _DOCUMENT_INDEX: dict[tuple, dict[str, list[DocumentRef]]] = {}
+# Archives the scan could not fully read, per directory scan. Held apart from
+# the index so a partial scan still returns everything it did manage to read.
+_SCAN_PROBLEMS: dict[tuple, list[str]] = {}
 
 
 def _load_index_cache(directory: Path, signature: list) -> dict[str, list[DocumentRef]] | None:
@@ -503,9 +526,11 @@ def document_index(
     from_disk = _load_index_cache(directory, signature)
     if from_disk is not None:
         _DOCUMENT_INDEX[memory_key] = from_disk
+        _SCAN_PROBLEMS[memory_key] = []
         return from_disk
 
     index: dict[str, list[DocumentRef]] = {}
+    problems: list[str] = []
     scanned = 0
 
     def record(path: Path, member: str | None, handle) -> None:
@@ -518,6 +543,29 @@ def document_index(
             DocumentRef(path=path, member=member, ein=ein, tax_year=year)
         )
 
+    def scan_archive(path: Path) -> None:
+        unreadable = 0
+        method: str | None = None
+        with zipfile.ZipFile(path) as archive:
+            for info in archive.infolist():
+                if not info.filename.lower().endswith(".xml"):
+                    continue
+                try:
+                    with archive.open(info) as handle:
+                        record(path, info.filename, handle)
+                except Exception:
+                    # One unreadable member must not cost the rest of the
+                    # archive, let alone the rest of the run.
+                    unreadable += 1
+                    method = method or UNSUPPORTED_COMPRESSION.get(
+                        info.compress_type, f"method {info.compress_type}"
+                    )
+        if unreadable:
+            problems.append(
+                f"{path.name}: {unreadable:,} documents could not be read "
+                f"({method} compression, which Python cannot decompress)"
+            )
+
     for path in sorted(directory.iterdir()):
         if not path.is_file() or path.name.startswith("."):
             continue
@@ -528,30 +576,39 @@ def document_index(
                     record(path, None, handle)
             elif suffix == ".zip":
                 report(f"Indexing {path.name}")
-                with zipfile.ZipFile(path) as archive:
-                    for member in archive.namelist():
-                        if not member.lower().endswith(".xml"):
-                            continue
-                        with archive.open(member) as handle:
-                            record(path, member, handle)
+                scan_archive(path)
                 report(f"{path.name}: {scanned:,} documents read so far")
-        except (OSError, zipfile.BadZipFile):
-            # A corrupt archive should cost its own contents, not the whole run.
-            report(f"Skipped {path.name}: not readable as an archive")
+        except Exception as exc:
+            # A corrupt or unreadable archive should cost its own contents, not
+            # the whole run: the other archives still hold usable filings.
+            problems.append(f"{path.name}: could not be opened ({exc})")
+            report(f"Skipped {path.name}: {exc}")
             continue
 
     for refs in index.values():
         refs.sort(key=lambda ref: (ref.tax_year or 0), reverse=True)
 
-    if index:
+    # Only a complete scan is saved. Caching a partial one would make the
+    # missing documents look permanently absent once the cause was fixed.
+    if index and not problems:
         _save_index_cache(directory, signature, index)
     _DOCUMENT_INDEX[memory_key] = index
+    _SCAN_PROBLEMS[memory_key] = problems
     return index
+
+
+def scan_problems(directory: Path) -> list[str]:
+    """Archives the last scan of this directory could not fully read."""
+    if not directory.exists():
+        return []
+    key = (str(directory), json.dumps(_directory_signature(directory)))
+    return list(_SCAN_PROBLEMS.get(key, []))
 
 
 def reset_document_index() -> None:
     """Forget any cached document index. Used by tests."""
     _DOCUMENT_INDEX.clear()
+    _SCAN_PROBLEMS.clear()
 
 
 @dataclass(frozen=True)
@@ -572,6 +629,7 @@ class SourceReport:
     other_files: int = 0
     documents: int = 0
     eins: int = 0
+    problems: tuple[str, ...] = ()
 
     @property
     def lines(self) -> list[str]:
@@ -587,6 +645,19 @@ class SourceReport:
             f"{self.zip_files:,} archives",
             f"Indexed {self.documents:,} Form 990 documents "
             f"for {self.eins:,} distinct EINs",
+        ]
+
+    @property
+    def warnings(self) -> list[str]:
+        """Archives that could not be read, and what to do about them."""
+        if not self.problems:
+            return []
+        return [
+            *self.problems,
+            "Fix: `pip install zipfile-deflate64`, then re-run this stage. If "
+            "that package will not install, expand those archives in Finder "
+            "instead (macOS can read them) and delete the .zip files. Nothing "
+            "read from the other archives was lost.",
         ]
 
 
@@ -617,6 +688,7 @@ def describe_source(config, *, on_progress: ProgressFn | None = None) -> SourceR
         other_files=other_files,
         documents=sum(len(refs) for refs in index.values()),
         eins=len(index),
+        problems=tuple(scan_problems(directory)),
     )
 
 
@@ -778,6 +850,7 @@ def enrich_people(
         for line in source.lines:
             report(line)
         result.source = source
+        result.messages.extend(source.warnings)
 
         statement = (
             select(Organization)

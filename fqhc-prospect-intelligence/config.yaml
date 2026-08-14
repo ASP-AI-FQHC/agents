@@ -26,6 +26,19 @@ hrsa:
   sites_filename: hrsa_service_delivery_sites.csv
   awardees_url: https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Program_Awardee_Data.csv
   awardees_filename: hrsa_program_awardees.csv
+  # Tried in order when the primary URL fails, before falling back to the
+  # cached copy. HRSA renames these files between releases; add whatever the
+  # current name is here rather than editing the URL above, so the original
+  # stays on record.
+  #
+  #   awardees_url_fallbacks:
+  #     - https://data.hrsa.gov/DataDownload/DD_Files/<current name>.csv
+  #
+  # Empty rather than pre-filled with guesses: a wrong URL here just adds noise
+  # to the failure message. Downloading the file by hand into data/raw/ under
+  # awardees_filename works equally well and is what the error message says.
+  sites_url_fallbacks: []
+  awardees_url_fallbacks: []
   timeout_seconds: 180
   # Count only sites HRSA reports as active.
   active_sites_only: true

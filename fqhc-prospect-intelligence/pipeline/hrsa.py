@@ -443,48 +443,65 @@ def load_source(
     force_refresh: bool = False,
     timeout: float = 180.0,
     client: httpx.Client | None = None,
+    fallback_urls: Sequence[str] = (),
 ) -> SourceLoad:
     """Return a usable copy of a source file, preferring a fresh cache hit.
 
     Order of preference: fresh cache (unless forced) -> live download -> stale
     cache with an explanatory error. Only a missing cache *and* a failed
     download raises.
+
+    HRSA renames these downloads from time to time, so ``fallback_urls`` are
+    tried in turn after the primary one 404s.
     """
     if not force_refresh and cache.is_fresh(filename):
         entry = cache.get(filename)
         assert entry is not None
         return SourceLoad(entry=entry, fetched_live=False)
 
+    owned_client = client is None
+    http = client or httpx.Client(
+        timeout=timeout,
+        follow_redirects=True,
+        headers={"User-Agent": "FQHC-Prospect-Intelligence/1.0 (+allstar.partners)"},
+    )
+
+    content: bytes | None = None
+    used_url = url
+    failures: list[str] = []
     try:
-        owned_client = client is None
-        http = client or httpx.Client(
-            timeout=timeout,
-            follow_redirects=True,
-            headers={"User-Agent": "FQHC-Prospect-Intelligence/1.0 (+allstar.partners)"},
-        )
-        try:
-            response = http.get(url)
-            response.raise_for_status()
-            content = _extract_csv_bytes(response.content, filename)
-        finally:
-            if owned_client:
-                http.close()
-    except Exception as exc:  # network, HTTP status, or malformed archive
+        for candidate in (url, *fallback_urls):
+            try:
+                response = http.get(candidate)
+                response.raise_for_status()
+                content = _extract_csv_bytes(response.content, filename)
+                used_url = candidate
+                break
+            except Exception as exc:  # network, HTTP status, malformed archive
+                failures.append(f"{candidate} unreachable ({type(exc).__name__}: {exc})")
+    finally:
+        if owned_client:
+            http.close()
+
+    if content is None:
+        detail = "; ".join(failures)
         stale = cache.get(filename)
         if stale is not None:
             return SourceLoad(
                 entry=stale,
                 fetched_live=False,
                 error=(
-                    f"{url} unreachable ({type(exc).__name__}: {exc}); using cached "
-                    f"copy from {stale.fetched_at:%Y-%m-%d}"
+                    f"{detail}; using cached copy from "
+                    f"{stale.fetched_at:%Y-%m-%d}"
                 ),
             )
         raise SourceUnavailable(
-            f"{url} unreachable and no cached copy exists in {cache.directory}: {exc}"
-        ) from exc
+            f"{detail}; no cached copy exists in {cache.directory}"
+        )
 
-    return SourceLoad(entry=cache.store(filename, content, source_url=url), fetched_live=True)
+    return SourceLoad(
+        entry=cache.store(filename, content, source_url=used_url), fetched_live=True
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -859,6 +876,7 @@ def ingest(
             force_refresh=force_refresh,
             timeout=config.hrsa.timeout_seconds,
             client=client,
+            fallback_urls=config.hrsa.sites_url_fallbacks,
         )
         if sites_load.error:
             result.source_reachable = False
@@ -900,6 +918,7 @@ def ingest(
                 force_refresh=force_refresh,
                 timeout=config.hrsa.timeout_seconds,
                 client=client,
+                fallback_urls=config.hrsa.awardees_url_fallbacks,
             )
             if awardee_load.error:
                 result.source_reachable = False
@@ -916,8 +935,13 @@ def ingest(
         except (SourceUnavailable, ValueError) as exc:
             result.source_reachable = False
             result.messages.append(
-                f"Awardee file unavailable ({exc}); grant-dependence scoring will be "
-                "unavailable for all organizations"
+                f"Awardee file unavailable ({exc}). Without it, "
+                "grant-dependence scoring is unavailable for all "
+                "organizations. To fix it by hand: "
+                "download \"Health Center Program Awardee Data\" from "
+                "https://data.hrsa.gov/data/download, save it as "
+                f"{config.cache_directory / config.hrsa.awardees_filename}, and "
+                "re-run `python -m pipeline.run --stage hrsa --stage scoring`"
             )
 
         org_count, site_count = persist(session, organizations)

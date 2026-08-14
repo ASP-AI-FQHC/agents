@@ -195,6 +195,7 @@ it indexed and how many distinct EINs those cover, and then one of:
 | `No IRS XML directory at …` | Create that folder and put the download in it. |
 | `… contains no .xml or .zip files` | The download is still in `~/Downloads`; copy it across. |
 | `… cover N other EINs` | The archive is real but for filing years that do not include your organizations; download another year. |
+| `… documents could not be read (Deflate64 …)` | The biggest IRS archives use a compression method Python cannot decompress. Run `pip install zipfile-deflate64` and re-run the stage, or expand those archives in Finder and delete the `.zip`. Everything read from the other archives is kept, and the run continues. |
 
 Note that a packaged desktop build keeps its data in
 `~/Library/Application Support/Allstar Partners/FQHC Prospect Intelligence/`,
@@ -284,9 +285,11 @@ These are enforced in code and covered by tests, not merely documented:
 - The organizations' own public websites, for leadership and board pages only —
   fetched politely, `robots.txt` honoured, nothing behind a login.
 
-**If HRSA moves a download:** update the URL in `config.yaml`, or download the
-CSV by hand and drop it into `data/raw/` under the configured filename — the
-pipeline uses whatever is cached when it cannot reach the network. Column names
+**If HRSA moves a download:** add the new address to `hrsa.sites_url_fallbacks`
+or `hrsa.awardees_url_fallbacks` in `config.yaml` — they are tried in turn when
+the primary URL fails — or download the CSV by hand and drop it into `data/raw/`
+under the configured filename. The pipeline uses whatever is cached when it
+cannot reach the network, and the error message names the exact path to save to. Column names
 are resolved by alias and keyword rather than exact position, so a renamed
 column degrades to an empty field instead of breaking the run.
 
