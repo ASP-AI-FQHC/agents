@@ -8,6 +8,7 @@ startup rather than silently changing how prospects are scored.
 from __future__ import annotations
 
 import functools
+import os
 from pathlib import Path
 from typing import Any
 
@@ -17,7 +18,12 @@ from pydantic import BaseModel, Field, model_validator
 # The project root is the directory containing config.yaml -- i.e. the parent of
 # this package. Relative paths in the config are resolved against it.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config.yaml"
+
+# FQHC_CONFIG lets the web app and the CLI run against an alternative config
+# (a second footprint, a staging database) without editing the shipped file.
+DEFAULT_CONFIG_PATH = Path(
+    os.environ.get("FQHC_CONFIG") or PROJECT_ROOT / "config.yaml"
+)
 
 
 class AppSettings(BaseModel):

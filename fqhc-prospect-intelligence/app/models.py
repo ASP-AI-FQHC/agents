@@ -135,6 +135,19 @@ class Organization(Base):
     )
 
     @property
+    def grantee_label(self) -> str:
+        """Display form of the grantee type.
+
+        SQLAlchemy round-trips the enum as a plain string, so this reads the
+        value either way rather than relying on ``.value`` existing.
+        """
+        value = getattr(self.grantee_type, "value", self.grantee_type)
+        return {
+            GranteeType.AWARDEE.value: "Section 330 awardee",
+            GranteeType.LOOK_ALIKE.value: "Look-alike",
+        }.get(value, "Grantee type not available")
+
+    @property
     def ein(self) -> str | None:
         """The EIN, but only when the match is auto-accepted or human-approved."""
         match = self.ein_match

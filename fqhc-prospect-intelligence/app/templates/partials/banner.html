@@ -1,0 +1,35 @@
+{# Data provenance, stated on every page. The rule is that the user should
+   never have to wonder whether what they are looking at is current. #}
+
+{% if not status.has_data %}
+  <div class="callout callout--warning u-mb-4">
+    <p class="callout__title">No data yet</p>
+    <p>
+      Run <code>python -m pipeline.run</code> from the project directory, or use
+      <strong>Refresh data</strong> below, to build the prospect database from
+      HRSA and ProPublica.
+    </p>
+  </div>
+{% elif status.any_source_unreachable %}
+  <div class="callout callout--warning u-mb-4">
+    <p class="callout__title">
+      Showing cached data{% if status.cache_date %} from {{ status.cache_date.strftime('%-d %B %Y') }}{% endif %}
+    </p>
+    <p>
+      A data source was unreachable during the last refresh, so these figures
+      are as of the cache date above rather than today.
+      {% for problem in status.problems %}<br><span class="u-small">{{ problem }}</span>{% endfor %}
+    </p>
+  </div>
+{% elif status.on_cached_data and status.cache_date %}
+  <p class="u-muted u-small u-mb-4">
+    Built {{ status.latest_run.finished_at.strftime('%-d %B %Y') }} from cached
+    source downloads dated {{ status.cache_date.strftime('%-d %B %Y') }}.
+    Form 990 figures lag 6&ndash;18 months behind the tax year they describe.
+  </p>
+{% elif status.latest_run and status.latest_run.finished_at %}
+  <p class="u-muted u-small u-mb-4">
+    Data refreshed {{ status.latest_run.finished_at.strftime('%-d %B %Y') }}.
+    Form 990 figures lag 6&ndash;18 months behind the tax year they describe.
+  </p>
+{% endif %}

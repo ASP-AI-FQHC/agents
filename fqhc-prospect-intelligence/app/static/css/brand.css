@@ -473,6 +473,8 @@ a:focus-visible {
 }
 
 .score-bar {
+  /* display:block matters: these are spans, and an inline box ignores height. */
+  display: block;
   flex: 1;
   min-width: 48px;
   height: 6px;
@@ -481,7 +483,11 @@ a:focus-visible {
   overflow: hidden;
 }
 
-.score-bar__fill { height: 100%; background: var(--allstar-blue); }
+.score-bar__fill {
+  display: block;
+  height: 100%;
+  background: var(--allstar-blue);
+}
 .score-bar__fill--strong { background: var(--allstar-green); }
 
 /* --------------------------------------------------------------------------
@@ -636,3 +642,97 @@ a:focus-visible {
   .star-band { position: static; }
   .nav, .filters, .toolbar { display: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Top prospects list
+   -------------------------------------------------------------------------- */
+
+.top-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.top-list__item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: 10px var(--space-4);
+  border-bottom: 1px solid var(--rule);
+  border-left: var(--pipe-width) solid transparent;
+}
+
+.top-list__item:last-child { border-bottom: none; }
+/* The three strongest prospects carry the green "recommended" pipe. */
+.top-list__item:nth-child(-n+3) { border-left-color: var(--allstar-green); }
+
+.top-list__rank {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--allstar-gray);
+  min-width: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.top-list__name { font-weight: 700; }
+
+.top-list__meta {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.top-list__score {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--allstar-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Review queue cards
+   -------------------------------------------------------------------------- */
+
+.review-card {
+  border: 1px solid var(--rule);
+  border-left: var(--pipe-width) solid var(--allstar-orange);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.review-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.review-card__title { margin: 0 0 var(--space-1); font-size: 17px; font-weight: 700; }
+.review-card__meta { margin: 0; font-size: 12px; color: var(--text-secondary); }
+
+.review-card__note {
+  margin: 0 0 var(--space-3);
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-left: 2px solid var(--rule-strong);
+  padding-left: var(--space-3);
+}
+
+.decision-form { display: inline; }
+
+/* --------------------------------------------------------------------------
+   Pagination
+   -------------------------------------------------------------------------- */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+[aria-busy="true"] { opacity: 0.55; transition: opacity 0.1s ease; }

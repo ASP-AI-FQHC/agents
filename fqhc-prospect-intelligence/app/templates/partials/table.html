@@ -1,0 +1,109 @@
+{# The master table. Rendered standalone by /table for live filtering, and
+   included in the dashboard for the initial page load. #}
+{% macro sort_link(key, label, numeric=False) -%}
+  {% set is_active = filters.sort == key %}
+  {% set next_direction = 'asc' if (is_active and filters.direction == 'desc') else 'desc' %}
+  <a href="/?{{ filters.query_string(sort=key, direction=next_direction, page=1) }}"
+     data-sort="{{ key }}" data-direction="{{ next_direction }}">
+    {{ label }}{% if is_active %}<span class="sort-indicator">{{ '▾' if filters.direction == 'desc' else '▴' }}</span>{% endif %}
+  </a>
+{%- endmacro %}
+
+{# The JS filter layer reads the row count from here to update the toolbar. #}
+<span class="visually-hidden" data-total="{{ '{:,}'.format(total) }} organization{{ '' if total == 1 else 's' }}"></span>
+
+{% if rows %}
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="min-width: 130px">{{ sort_link('score', 'ICP score') }}</th>
+          <th>{{ sort_link('name', 'Organization') }}</th>
+          <th>{{ sort_link('state', 'State') }}</th>
+          <th class="num">{{ sort_link('sites', 'Sites') }}</th>
+          <th class="num">{{ sort_link('revenue', 'Total revenue') }}</th>
+          <th>{{ sort_link('match', 'EIN') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td>
+              {% if row.composite is not none %}
+                <div class="score-cell">
+                  <span class="score-value">{{ '%.0f' % row.composite }}</span>
+                  <span class="score-bar">
+                    <span class="score-bar__fill {% if row.composite >= 75 %}score-bar__fill--strong{% endif %}"
+                          style="width: {{ row.composite }}%"></span>
+                  </span>
+                </div>
+              {% else %}
+                <span class="not-available">Not scored</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="/organizations/{{ row.organization.id }}">{{ row.organization.name }}</a>
+              <div class="u-small u-muted">
+                {{ row.organization.city | na }}
+                {% if row.organization.grantee_type == GranteeType.LOOK_ALIKE %}
+                  &middot; look-alike
+                {% endif %}
+              </div>
+            </td>
+            <td>{{ row.organization.state | na }}</td>
+            <td class="num">{{ row.organization.site_count | number }}</td>
+            <td class="num">
+              {% if row.revenue is not none %}
+                {{ row.revenue | money }}
+                <div class="u-small u-muted">
+                  FY{{ row.revenue_year }}
+                  {%- if row.revenue_period_end %}, {{ row.revenue_period_end | age }}{% endif %}
+                </div>
+              {% else %}
+                <span class="not-available">Not available</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if row.match_status == MatchStatus.AUTO or row.match_status == MatchStatus.ACCEPTED %}
+                <span class="u-nowrap">{{ row.ein | ein }}</span>
+                <div>
+                  {% if row.match_status == MatchStatus.ACCEPTED %}
+                    <span class="badge badge--qualified">Confirmed by reviewer</span>
+                  {% else %}
+                    <span class="badge badge--qualified">Match {{ '%.0f' % row.match.score }}</span>
+                  {% endif %}
+                </div>
+              {% elif row.match_status == MatchStatus.PENDING %}
+                <span class="badge badge--review">Needs review{% if row.match.score %} &middot; {{ '%.0f' % row.match.score }}{% endif %}</span>
+                <div class="u-small"><a href="/review">Review now</a></div>
+              {% elif row.match_status == MatchStatus.REJECTED %}
+                <span class="badge badge--alert">Rejected by reviewer</span>
+              {% else %}
+                <span class="badge badge--neutral">Unmatched</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page_count > 1 %}
+    <div class="pagination">
+      {% if filters.page > 1 %}
+        <a class="btn btn--secondary btn--small" data-page="{{ filters.page - 1 }}"
+           href="/?{{ filters.query_string(page=filters.page - 1) }}">Previous</a>
+      {% endif %}
+      <span class="u-small u-muted">Page {{ filters.page }} of {{ page_count }}</span>
+      {% if filters.page < page_count %}
+        <a class="btn btn--secondary btn--small" data-page="{{ filters.page + 1 }}"
+           href="/?{{ filters.query_string(page=filters.page + 1) }}">Next</a>
+      {% endif %}
+    </div>
+  {% endif %}
+{% else %}
+  <div class="callout callout--info">
+    <p class="callout__title">No organizations match these filters</p>
+    <p>Widen the filters, or clear them to see the full prospect universe.</p>
+  </div>
+{% endif %}

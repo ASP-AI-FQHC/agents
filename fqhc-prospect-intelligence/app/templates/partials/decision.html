@@ -1,0 +1,15 @@
+{# Returned to fetch callers after a review decision, replacing the card. #}
+<div class="callout {% if outcome == 'accepted' %}callout--success{% else %}callout--warning{% endif %}">
+  <p class="callout__title">
+    {% if outcome == 'accepted' %}Match confirmed{% else %}Match rejected{% endif %}
+  </p>
+  <p>
+    {% if outcome == 'accepted' %}
+      Form 990 financials for this EIN will be attributed to the organization on
+      the next scoring run.
+    {% else %}
+      This EIN is recorded as rejected and will not be proposed again.
+    {% endif %}
+    {{ remaining }} organization{{ '' if remaining == 1 else 's' }} still awaiting review.
+  </p>
+</div>

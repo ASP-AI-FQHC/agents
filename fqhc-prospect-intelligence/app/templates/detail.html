@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% set active_page = 'prospects' %}
+{% block title %}{{ organization.name }}{% endblock %}
+
+{% block content %}
+  <p class="u-small"><a href="/">&larr; All prospects</a></p>
+  <h2 class="page__title">{{ organization.name }}</h2>
+  <p class="page__subtitle">
+    {{ organization.city | na }}{% if organization.state %}, {{ organization.state }}{% endif %}
+    &middot; {{ organization.site_count }} delivery site{{ '' if organization.site_count == 1 else 's' }}
+    &middot; {{ organization.grantee_label }}
+  </p>
+
+  {# ---- Score breakdown --------------------------------------------------- #}
+  <section class="section">
+    <h3 class="section__header">ICP score</h3>
+    {% if score %}
+      <div class="grid grid--halves">
+        <div>
+          <div class="kpi {% if score.composite >= 75 %}pipe--green{% endif %}">
+            <p class="kpi__label">Composite score</p>
+            <p class="kpi__value">{{ '%.0f' % score.composite }}<span class="u-muted u-small"> / 100</span></p>
+            <p class="kpi__meta">
+              Scored {{ score.scored_at.strftime('%-d %B %Y') }}
+              {% if score.unavailable_factors %}
+                &middot; {{ score.unavailable_factors | length }} factor{{ '' if score.unavailable_factors | length == 1 else 's' }} unavailable
+              {% endif %}
+            </p>
+          </div>
+          {% if score.unavailable_factors %}
+            <div class="callout callout--warning" style="margin-top: 16px">
+              <p class="callout__title">Scored on partial data</p>
+              <p>
+                Factors that could not be computed were excluded and the
+                remaining weights renormalized, so this score reflects only
+                what is actually known about this organization.
+              </p>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr><th>Factor</th><th class="num">Score</th><th class="num">Weight</th><th>Basis</th></tr>
+            </thead>
+            <tbody>
+              {% for factor in score.breakdown %}
+                <tr>
+                  <td><strong>{{ factor.label }}</strong></td>
+                  <td class="num">
+                    {% if factor.score is not none %}{{ '%.0f' % factor.score }}{% else %}<span class="not-available">n/a</span>{% endif %}
+                  </td>
+                  <td class="num">
+                    {% if factor.available %}{{ '%.0f' % factor.effective_weight }}%{% else %}<span class="u-muted">&mdash;</span>{% endif %}
+                  </td>
+                  <td class="u-small">{{ factor.detail }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% else %}
+      <p class="not-available">Not available &mdash; run the scoring stage to score this organization.</p>
+    {% endif %}
+  </section>
+
+  {# ---- Identity ---------------------------------------------------------- #}
+  <section class="section">
+    <h3 class="section__header">Organization</h3>
+    <dl class="datalist">
+      <dt>Address</dt>
+      <dd>
+        {% if organization.street %}
+          {{ organization.street }}<br>
+          {{ organization.city | na }}{% if organization.state %}, {{ organization.state }}{% endif %} {{ organization.zip_code or '' }}
+        {% else %}<span class="not-available">Not available</span>{% endif %}
+      </dd>
+      <dt>Phone</dt>
+      <dd>{{ organization.phone | na }}</dd>
+      <dt>Website</dt>
+      <dd>
+        {% if organization.website %}
+          <a href="{{ organization.website }}" rel="noopener noreferrer" target="_blank">{{ organization.website }}</a>
+        {% else %}<span class="not-available">Not available</span>{% endif %}
+      </dd>
+      <dt>HRSA grant number</dt>
+      <dd>{{ organization.grant_number | na }}</dd>
+      <dt>Federal award</dt>
+      <dd>
+        {% if organization.federal_award_amount is not none %}
+          {{ organization.federal_award_amount | money }}
+          {% if organization.funding_program %}<span class="u-muted u-small">&middot; {{ organization.funding_program }}</span>{% endif %}
+        {% else %}<span class="not-available">Not available</span>{% endif %}
+      </dd>
+      <dt>EIN</dt>
+      <dd>
+        {% if match and match.ein and (match.status == MatchStatus.AUTO or match.status == MatchStatus.ACCEPTED) %}
+          <span class="u-nowrap">{{ match.ein | ein }}</span>
+          {% if match.status == MatchStatus.ACCEPTED %}
+            <span class="badge badge--qualified">Confirmed by {{ match.decided_by | na }}</span>
+          {% else %}
+            <span class="badge badge--qualified">Auto-matched at {{ '%.0f' % match.score }}</span>
+          {% endif %}
+          <div class="u-small u-muted">Matched to &ldquo;{{ match.matched_name }}&rdquo; in ProPublica Nonprofit Explorer</div>
+        {% elif match and match.status == MatchStatus.PENDING %}
+          <span class="badge badge--review">Needs review</span>
+          <div class="u-small">
+            Best candidate {{ match.matched_name }} ({{ match.ein | ein }}) at {{ '%.0f' % match.score }} &mdash;
+            <a href="/review">confirm or reject</a>
+          </div>
+        {% elif match and match.status == MatchStatus.REJECTED %}
+          <span class="badge badge--alert">Rejected by reviewer</span>
+          <div class="u-small u-muted">{{ match.note | na }}</div>
+        {% else %}
+          <span class="badge badge--neutral">Unmatched</span>
+          <div class="u-small u-muted">{{ (match.note if match else none) | na }}</div>
+        {% endif %}
+      </dd>
+    </dl>
+  </section>
+
+  {# ---- Financials -------------------------------------------------------- #}
+  <section class="section">
+    <h3 class="section__header">IRS Form 990 filings</h3>
+    {% if filings %}
+      {% set max_revenue = filings | map(attribute='total_revenue') | select('ne', None) | list | max | default(0) %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tax year</th>
+              <th class="num">Total revenue</th>
+              <th class="num">Total expenses</th>
+              <th class="num">Total assets</th>
+              <th>Data age</th>
+              <th>Filing</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for filing in filings %}
+              {% set age = filing.period_end | months_since %}
+              <tr>
+                <td><strong>FY{{ filing.tax_year }}</strong>
+                  {% if filing.form_type %}<div class="u-small u-muted">{{ filing.form_type }}</div>{% endif %}
+                </td>
+                <td class="num">
+                  {% if filing.total_revenue is not none %}
+                    {{ filing.total_revenue | money }}
+                    {% if max_revenue %}
+                      <span class="score-bar" style="display:block; margin-top:4px">
+                        <span class="score-bar__fill" style="width: {{ (filing.total_revenue / max_revenue * 100) | round(1) }}%"></span>
+                      </span>
+                    {% endif %}
+                  {% else %}<span class="not-available">Not available</span>{% endif %}
+                </td>
+                <td class="num">
+                  {% if filing.total_expenses is not none %}{{ filing.total_expenses | money }}{% else %}<span class="not-available">Not available</span>{% endif %}
+                </td>
+                <td class="num">
+                  {% if filing.total_assets is not none %}{{ filing.total_assets | money }}{% else %}<span class="not-available">Not available</span>{% endif %}
+                </td>
+                <td>
+                  {% if age is not none %}
+                    <span class="badge {% if age > stale_months %}badge--review{% else %}badge--info{% endif %}">
+                      {{ filing.period_end | age }}
+                    </span>
+                  {% else %}
+                    <span class="not-available">Not available</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if filing.pdf_url %}
+                    <a href="{{ filing.pdf_url }}" rel="noopener noreferrer" target="_blank">990 PDF</a>
+                  {% else %}<span class="not-available">Not available</span>{% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="u-small u-muted" style="margin-top: 12px">
+        Figures as reported to the IRS and published by ProPublica Nonprofit
+        Explorer. A 990 typically becomes available 6&ndash;18 months after the
+        tax year it covers, so the most recent year shown is not the current year.
+      </p>
+    {% else %}
+      <div class="callout callout--warning">
+        <p class="callout__title">No filings available</p>
+        <p>
+          {% if not organization.ein %}
+            This organization has no confirmed EIN, so no Form 990 data can be
+            attributed to it. Financial figures are never attached on the
+            strength of an unconfirmed match.
+          {% else %}
+            ProPublica Nonprofit Explorer holds no filings for EIN {{ organization.ein | ein }}.
+          {% endif %}
+        </p>
+      </div>
+    {% endif %}
+  </section>
+
+  {# ---- Sites ------------------------------------------------------------- #}
+  <section class="section">
+    <h3 class="section__header">Delivery sites ({{ organization.sites | length }})</h3>
+    {% if organization.sites %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Site</th><th>Address</th><th>City</th><th>Type</th></tr></thead>
+          <tbody>
+            {% for site in organization.sites %}
+              <tr>
+                <td>{{ site.name }}</td>
+                <td>{{ site.street | na }}</td>
+                <td>{{ site.city | na }}{% if site.state %}, {{ site.state }}{% endif %} {{ site.zip_code or '' }}</td>
+                <td class="u-small u-muted">{{ site.site_type | na }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="not-available">Not available</p>
+    {% endif %}
+  </section>
+{% endblock %}
