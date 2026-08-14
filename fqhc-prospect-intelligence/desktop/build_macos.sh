@@ -89,6 +89,36 @@ fi
 
 echo
 echo "Built: $APP"
+
+# ---------------------------------------------------------------------------
+# Disk image
+#
+# A .app is a folder; a .dmg is the single file you actually hand to someone.
+# Built with hdiutil, which ships with macOS -- no extra tooling.
+# ---------------------------------------------------------------------------
+
+if [[ "${FQHC_SKIP_DMG:-}" != "1" ]]; then
+  echo
+  echo "==> Building disk image"
+  DMG="dist/FQHC Prospect Intelligence.dmg"
+  STAGING="$(mktemp -d)/FQHC Prospect Intelligence"
+  mkdir -p "$STAGING"
+  cp -R "$APP" "$STAGING/"
+  # The conventional drag-to-install layout: the app beside an Applications
+  # shortcut, so opening the image explains what to do without instructions.
+  ln -s /Applications "$STAGING/Applications"
+
+  rm -f "$DMG"
+  hdiutil create \
+    -volname "FQHC Prospect Intelligence" \
+    -srcfolder "$STAGING" \
+    -ov -format UDZO \
+    "$DMG" >/dev/null
+
+  rm -rf "$(dirname "$STAGING")"
+  echo "Built: $DMG  ($(du -h "$DMG" | cut -f1))"
+fi
+
 echo
 echo "The bundle is unsigned, so Gatekeeper will refuse it on first open."
 echo "Right-click the app and choose Open, then confirm -- once per machine."

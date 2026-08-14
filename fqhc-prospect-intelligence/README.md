@@ -195,8 +195,14 @@ The same app, in a native window, with no terminal and no Python install:
 
 ```bash
 pip install -r requirements.txt -r requirements-desktop.txt
-./desktop/build_macos.sh          # produces dist/"FQHC Prospect Intelligence.app"
+./desktop/build_macos.sh
 ```
+
+That produces two things in `dist/`:
+
+- **`FQHC Prospect Intelligence.app`** — drag it to Applications and run it
+- **`FQHC Prospect Intelligence.dmg`** — the single file to hand to someone
+  else, laid out for drag-to-install (set `FQHC_SKIP_DMG=1` to skip it)
 
 Run it from a checkout without packaging:
 
