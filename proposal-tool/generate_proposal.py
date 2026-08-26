@@ -37,12 +37,31 @@ from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(HERE, "template.docx")
+TEMPLATE_CS = os.path.join(HERE, "template_connectsecure.docx")
 
 UNITS = ["Site", "User", "Identity", "Device", "Workstation", "Server"]
 
 # Product-line brand shown in every heading (cover, summary, SOS, price table).
 BRANDS = ["ASP Healthcare IT", "ASP Enterprise IT", "ASP Business IT"]
 DEFAULT_BRAND = BRANDS[0]
+
+# ConnectSecure is a different proposal, not a different name on the same one:
+# a single monthly line instead of six unit types, its own scope sections, and
+# a fixed onboarding cost. Selecting it swaps the template.
+CONNECTSECURE = "ASP Healthcare IT - ConnectSecure"
+CS_BRAND = "ASP Healthcare IT"
+CS_NRC = "$500.00"
+CS_MONTHLY = 500.00
+PRODUCT_LINES = BRANDS + [CONNECTSECURE]
+
+def is_connectsecure(product_line):
+    """Whether this proposal is the ConnectSecure one.
+
+    Matched loosely: the web form, saved JSON and hand-written input have all
+    spelled it slightly differently, and the cost of a false negative is
+    silently generating the wrong document.
+    """
+    return "connectsecure" in str(product_line or "").replace(" ", "").lower()
 
 # Default Executive Overview — {CLIENT} is replaced with the client name.
 # Used when the input JSON has no meta.executiveOverview.
@@ -62,6 +81,15 @@ DEFAULT_EXEC = [
     "philosophy is simple: build stability, bake in security, and provide leadership—not just "
     "support. This proposal reflects a long-term partnership focused on operational confidence, "
     "financial predictability, and measurable results.",
+]
+# Default Executive Overview for ConnectSecure -- the approved wording from the
+# signed-off proposal, with the client name parameterised.
+DEFAULT_EXEC_CS = [
+    "{CLIENT} delivers essential medical, dental, and behavioral healthcare with a mission "
+    "grounded in access, dignity, and high-quality care for all, regardless of ability to pay. "
+    "Supporting that mission requires more than responsive IT support; it requires a trusted "
+    "partner that can align technology with organizational priorities, execute with discipline, "
+    "and provide the financial predictability necessary to plan with confidence",
 ]
 # Default Proposal Summary intro paragraph ({CLIENT} -> client name).
 DEFAULT_SUMMARY = [
@@ -114,6 +142,13 @@ def money(v):
 def num2(v):                      # unit price shown inside "($X/Unit)"
     return "{:,.2f}".format(float(v))
 
+def money_or_text(v):
+    """Money for a number, verbatim for anything else (e.g. "Waived")."""
+    try:
+        return money(v)
+    except (TypeError, ValueError):
+        return str(v)
+
 def fmt_date(s):
     s = str(s).strip()
     for f in ("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y"):
@@ -130,17 +165,34 @@ def main():
     meta = data.get("meta", {})
     lines = data.get("lines", [])
 
+    connectsecure = is_connectsecure(meta.get("productLine"))
+    template = TEMPLATE_CS if connectsecure else TEMPLATE
+
     by_unit = {}
-    for ln in lines:
-        u = str(ln.get("perUnit", "")).strip().capitalize()
-        by_unit[u] = ln
-    missing = [u for u in UNITS if u not in by_unit]
-    if missing:
-        die(f"input is missing line item(s) for: {', '.join(missing)}")
+    if connectsecure:
+        # One line, priced per subscription. A "ConnectSecure" line in the
+        # input wins; otherwise the standard price applies.
+        cs_line = next(
+            (ln for ln in lines
+             if "connectsecure" in str(ln.get("perUnit", "")).replace(" ", "").lower()),
+            None,
+        ) or {"qty": 1, "monthly": CS_MONTHLY}
+        qty = cs_line.get("qty", 1)
+        monthly = cs_line.get("monthly")
+        if monthly is None:
+            monthly = float(cs_line.get("unitPrice", CS_MONTHLY)) * float(qty)
+    else:
+        for ln in lines:
+            u = str(ln.get("perUnit", "")).strip().capitalize()
+            by_unit[u] = ln
+        missing = [u for u in UNITS if u not in by_unit]
+        if missing:
+            die(f"input is missing line item(s) for: {', '.join(missing)}")
 
     monthly_total = data.get("totals", {}).get("monthlyTotal")
     if monthly_total is None:
-        monthly_total = sum(float(by_unit[u]["monthly"]) for u in UNITS)
+        monthly_total = float(monthly) if connectsecure else \
+            sum(float(by_unit[u]["monthly"]) for u in UNITS)
 
     prep_name  = meta.get("preparedByName", "Guy Fuller")
     prep_email = meta.get("preparedByEmail", "gfuller@allstarpartners.com")
@@ -152,29 +204,42 @@ def main():
         "{{PROPOSAL_ID}}":          xml_escape(meta.get("proposalId", "")),
         "{{PROPOSAL_DATE}}":        xml_escape(fmt_date(meta.get("proposalDate", ""))),
         "{{EXPIRATION_DATE}}":      xml_escape(fmt_date(meta.get("expirationDate", ""))),
-        "{{NRC}}":                  xml_escape(meta.get("nrc", "Waived")),
-        "{{TM_RATE}}":              xml_escape(meta.get("tmHourlyRate", "")),
+        "{{NRC}}":                  xml_escape(money_or_text(
+                                        meta.get("nrc", CS_NRC if connectsecure else "Waived"))),
+        # The ConnectSecure document reads "$195.00 per hour" and the Secure IT
+        # one "$175/hr." -- each keeps the form its own signed-off copy uses.
+        "{{TM_RATE}}":              xml_escape(
+                                        num2(meta.get("tmHourlyRate", 0))
+                                        if connectsecure and str(meta.get("tmHourlyRate", "")).strip()
+                                        else meta.get("tmHourlyRate", "")),
         "{{SERVICE_TERM_MONTHS}}":  xml_escape(meta.get("serviceTermMonths", "")),
         "{{MONTHLY_TOTAL}}":        money(monthly_total),
-        "{{BRAND}}":                xml_escape(meta.get("productLine", DEFAULT_BRAND)),
-        "{{EXEC_OVERVIEW}}":        build_paras(meta.get("executiveOverview"), DEFAULT_EXEC,
+        "{{BRAND}}":                xml_escape(
+                                        CS_BRAND if connectsecure
+                                        else meta.get("productLine", DEFAULT_BRAND)),
+        "{{EXEC_OVERVIEW}}":        build_paras(meta.get("executiveOverview"),
+                                                DEFAULT_EXEC_CS if connectsecure else DEFAULT_EXEC,
                                                 meta.get("clientName", "Client"), BODY_SEP),
         "{{PROPOSAL_SUMMARY}}":     build_paras(meta.get("proposalSummary"), DEFAULT_SUMMARY,
                                                 meta.get("clientName", "Client"), BODY_SEP),
         "{{TERMS}}":                build_paras(meta.get("additionalTerms"), DEFAULT_TERMS,
                                                 meta.get("clientName", "Client"), TERMS_SEP),
     }
-    for u in UNITS:
-        ln = by_unit[u]
-        U = u.upper()
-        repl[f"{{{{QTY_{U}}}}}"]  = xml_escape(ln["qty"])
-        repl[f"{{{{UNIT_{U}}}}}"] = num2(ln["unitPrice"])
-        repl[f"{{{{COST_{U}}}}}"] = money(ln["monthly"])
+    if connectsecure:
+        repl["{{QTY_CS}}"]  = xml_escape(qty)
+        repl["{{COST_CS}}"] = money(monthly)
+    else:
+        for u in UNITS:
+            ln = by_unit[u]
+            U = u.upper()
+            repl[f"{{{{QTY_{U}}}}}"]  = xml_escape(ln["qty"])
+            repl[f"{{{{UNIT_{U}}}}}"] = num2(ln["unitPrice"])
+            repl[f"{{{{COST_{U}}}}}"] = money(ln["monthly"])
 
     # Files that carry tokens: the body, and the relationships file (mailto hyperlink).
     token_files = ("word/document.xml", "word/_rels/document.xml.rels")
     filled = {}
-    with zipfile.ZipFile(TEMPLATE) as z:
+    with zipfile.ZipFile(template) as z:
         for name in token_files:
             s = z.read(name).decode("utf-8")
             for tok, val in repl.items():
@@ -185,10 +250,11 @@ def main():
     if left:
         die(f"unfilled tokens remain (bad/missing input): {left}")
 
+    stem = "ASP_ConnectSecure_Proposal" if connectsecure else "ASP_Secure_IT_Proposal"
     out = sys.argv[2] if len(sys.argv) > 2 else \
-        f"ASP_Secure_IT_Proposal_{re.sub(r'[^A-Za-z0-9]+','_', meta.get('clientName','Client'))}.docx"
+        f"{stem}_{re.sub(r'[^A-Za-z0-9]+','_', meta.get('clientName','Client'))}.docx"
 
-    shutil.copyfile(TEMPLATE, out)
+    shutil.copyfile(template, out)
     tmp = out + ".tmp"
     with zipfile.ZipFile(out) as zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
