@@ -17,7 +17,18 @@ function createWindow() {
       nodeIntegration: false
     }
   });
-  win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+  // Fail loudly if the UI file is missing/misplaced, instead of a blank window.
+  const page = path.join(__dirname, 'renderer', 'index.html');
+  if (!fs.existsSync(page)) {
+    win.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(
+      '<body style="font:15px -apple-system,Segoe UI,Arial;padding:40px;color:#16242b">' +
+      '<h2 style="color:#CF118C">Missing renderer/index.html</h2>' +
+      '<p>The app could not find its user interface file. It must be at:</p>' +
+      '<pre style="background:#f2f6f8;padding:12px;border-radius:8px">' + page + '</pre>' +
+      '<p>Make sure <b>index.html</b> is inside a folder named <b>renderer</b>, next to main.js.</p></body>'));
+    return;
+  }
+  win.loadFile(page);
   // Open external links (e.g. mailto:) in the OS default app, not a new window.
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (/^(https?:|mailto:)/i.test(url)) { shell.openExternal(url); }
