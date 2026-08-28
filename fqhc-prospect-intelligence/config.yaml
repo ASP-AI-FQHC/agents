@@ -138,6 +138,22 @@ irs:
   documents_per_org: 3
   timeout_seconds: 60
 
+uds:
+  # HRSA Uniform Data System -- the annual report every Section 330 grantee
+  # files. It carries what a Form 990 never will: how many patients the
+  # organization serves and how many staff it employs. Headcount is what drives
+  # users, workstations and devices, so this is the best free sizing signal
+  # there is.
+  #
+  # Not fetched automatically: the download URL changes between years. Get the
+  # health-center-level export from https://data.hrsa.gov/tools/data-reporting
+  # and drop the CSV or XLSX in the folder below, one file per year.
+  local_directory: data/raw/uds
+  # Ratios behind the sizing estimate on a profile. Derived, always labelled as
+  # such, and never mixed with reported figures.
+  devices_per_fte: 1.4
+  workstations_per_fte: 0.85
+
 website:
   # Fallback source for key personnel and board members: the leadership, board
   # and "our team" pages on the health center's own website, found from the web

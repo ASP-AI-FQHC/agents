@@ -492,6 +492,71 @@ class Contractor(Base):
     )
 
 
+class UdsReport(Base):
+    """One year of a health center's Uniform Data System report.
+
+    Every Section 330 grantee files UDS annually, and it carries the two facts
+    a 990 never will: how many people the organization actually serves, and how
+    many staff it employs. For sizing a managed-services engagement those are
+    worth more than revenue -- headcount is what drives users, workstations and
+    devices, and revenue is only a proxy for it.
+
+    Everything here is reported by the organization to HRSA and published in
+    aggregate. Nothing in UDS is patient-level.
+    """
+
+    __tablename__ = "uds_reports"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    organization_id: Mapped[int] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), index=True
+    )
+    year: Mapped[int] = mapped_column(Integer, index=True)
+
+    patients: Mapped[int | None] = mapped_column(Integer)
+    visits: Mapped[int | None] = mapped_column(Integer)
+    sites_reported: Mapped[int | None] = mapped_column(Integer)
+
+    # Full-time equivalents, as reported on UDS Table 5.
+    total_fte: Mapped[float | None] = mapped_column(Float)
+    provider_fte: Mapped[float | None] = mapped_column(Float)
+
+    # Payer mix, as a share of patients (0-1).
+    medicaid_share: Mapped[float | None] = mapped_column(Float)
+    medicare_share: Mapped[float | None] = mapped_column(Float)
+    uninsured_share: Mapped[float | None] = mapped_column(Float)
+
+    total_revenue: Mapped[float | None] = mapped_column(Float)
+    grant_revenue: Mapped[float | None] = mapped_column(Float)
+
+    source_file: Mapped[str | None] = mapped_column(String(240))
+    fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    organization: Mapped["Organization"] = relationship()
+
+    __table_args__ = (
+        Index("ix_uds_org_year", "organization_id", "year", unique=True),
+    )
+
+    @property
+    def has_payer_mix(self) -> bool:
+        return any(
+            share is not None
+            for share in (self.medicaid_share, self.medicare_share, self.uninsured_share)
+        )
+
+    @property
+    def support_fte(self) -> float | None:
+        """Non-provider staff: administration, enabling services, facilities.
+
+        Reported as the remainder rather than as its own column, so it is only
+        available when both totals are.
+        """
+        if self.total_fte is None or self.provider_fte is None:
+            return None
+        return max(self.total_fte - self.provider_fte, 0.0)
+
+
 class WebsitePerson(Base):
     """A person named on the organization's own website.
 

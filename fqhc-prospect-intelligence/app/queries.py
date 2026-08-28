@@ -588,6 +588,19 @@ def fetch_contacts(session: Session, filters: Filters) -> list[ContactRow]:
     return contacts
 
 
+def organization_uds(session: Session, organization_id: int):
+    """UDS reports for one organization, newest year first."""
+    from app.models import UdsReport
+
+    return list(
+        session.scalars(
+            select(UdsReport)
+            .where(UdsReport.organization_id == organization_id)
+            .order_by(UdsReport.year.desc())
+        ).all()
+    )
+
+
 def organization_website_people(session: Session, organization_id: int):
     """People named on the organization's own website, board roles first.
 

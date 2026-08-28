@@ -198,6 +198,22 @@ class IrsSettings(BaseModel):
     timeout_seconds: float = Field(default=60.0, gt=0)
 
 
+class UdsSettings(BaseModel):
+    """HRSA Uniform Data System: patients, staffing and payer mix.
+
+    Published as an annual workbook whose download URL moves between years, so
+    nothing is fetched: drop the health-center-level export in the directory
+    below and the stage reads whatever is there.
+    """
+
+    local_directory: Path = Path("data/raw/uds")
+    # Devices per staff FTE, used only for the sizing estimate shown on a
+    # profile. Deliberately conservative and clearly labelled as derived --
+    # it is a starting point for a conversation, not a reported figure.
+    devices_per_fte: float = Field(default=1.4, gt=0)
+    workstations_per_fte: float = Field(default=0.85, gt=0)
+
+
 class WebsiteSettings(BaseModel):
     """Leadership pages on an organization's own website.
 
@@ -253,6 +269,7 @@ class Config(BaseModel):
     scoring: ScoringSettings = Field(default_factory=ScoringSettings)
     pipeline: PipelineSettings = Field(default_factory=PipelineSettings)
     irs: IrsSettings = Field(default_factory=IrsSettings)
+    uds: UdsSettings = Field(default_factory=UdsSettings)
     website: WebsiteSettings = Field(default_factory=WebsiteSettings)
     ui: UiSettings = Field(default_factory=UiSettings)
 

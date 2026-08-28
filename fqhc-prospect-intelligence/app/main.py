@@ -40,6 +40,7 @@ from app.queries import (
     organization_contractors,
     organization_detail,
     organization_people,
+    organization_uds,
     organization_website_crawl,
     organization_website_people,
     review_queue,
@@ -49,6 +50,7 @@ from app.queries import (
 from app.refresh import manager
 from pipeline.changes import recent_changes
 from pipeline.propublica import format_ein
+from pipeline.uds import estimate_sizing
 
 BASE_DIR = Path(__file__).resolve().parent
 config = get_config()
@@ -213,6 +215,10 @@ def organization_page(
         history=organization_changes(session, organization.id),
         people=organization_people(session, organization.ein),
         contractors=organization_contractors(session, organization.ein),
+        uds_reports=(uds_reports := organization_uds(session, organization.id)),
+        sizing=estimate_sizing(
+            organization, uds_reports[0] if uds_reports else None, config
+        ),
         website_people=organization_website_people(session, organization.id),
         website_crawl=organization_website_crawl(session, organization.id),
     )

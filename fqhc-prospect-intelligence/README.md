@@ -54,10 +54,11 @@ country, at roughly ten times the API traffic.
 | 2. EIN resolution | `pipeline/matching.py` | Fuzzy-matches each organization to an EIN via ProPublica search, with a confidence score that routes the match. |
 | 3. Financials | `pipeline/propublica.py` | Pulls the three most recent Form 990 filings per EIN — revenue, expenses, assets, and the 990 PDF link. |
 | 4. People | `pipeline/irs.py` | Reads Form 990 Part VII from IRS e-file XML: officers, board members and contractors paid over $100,000. |
-| 5. Websites | `pipeline/website.py` | Falls back to the organization's own leadership and board pages for the health centers with no filing on hand. |
-| 6. Scoring | `pipeline/scoring.py` | Produces a 0–100 composite ICP score with a per-factor breakdown. |
-| 7. Changes | `pipeline/changes.py` | Compares every organization to the previous run and logs what moved. |
-| 8. Dashboard | `app/` | Master table, organization detail, EIN review queue, what-changed log, CSV/XLSX export, refresh. |
+| 5. UDS | `pipeline/uds.py` | Loads HRSA Uniform Data System exports: patients, visits, staffing FTEs and payer mix per organization per year. |
+| 6. Websites | `pipeline/website.py` | Falls back to the organization's own leadership and board pages for the health centers with no filing on hand. |
+| 7. Scoring | `pipeline/scoring.py` | Produces a 0–100 composite ICP score with a per-factor breakdown. |
+| 8. Changes | `pipeline/changes.py` | Compares every organization to the previous run and logs what moved. |
+| 9. Dashboard | `app/` | Master table, organization detail, EIN review queue, what-changed log, CSV/XLSX export, refresh. |
 
 Run stages individually while iterating:
 
@@ -156,6 +157,8 @@ survives because human EIN decisions hang off it.
 | Data update history | This database: first seen, last confirmed, and every detected change | Available |
 | Similar organizations | Computed here from state, footprint, revenue and IRS classification | Available |
 | Delivery sites | HRSA site file | Available |
+| Patients, visits, staffing FTEs, payer mix | HRSA Uniform Data System, per year | Available once a UDS export is loaded (see below) |
+| Estimated proposal quantities | Derived here from UDS staffing FTEs and the site count | Available where staffing is reported. Always labelled as derived |
 | Key personnel and board members | Form 990 Part VII Section A — names, titles, hours, compensation and role checkboxes | Available once Form 990 XML is loaded (see below) |
 | Key personnel, fallback | The organization's own leadership / board / "our team" pages | Available for organizations HRSA publishes a web address for. Shown in a separate, labelled block with a link to the page each name came from |
 | Vendors and service providers | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | Available once Form 990 XML is loaded |
@@ -417,3 +420,52 @@ the top edge of every page, left-edge color pipes on KPI cards and callouts
 section headers, and the standard two-line footer. See
 `app/static/css/brand.css` — the palette is defined once at the top and
 everything else refers to it.
+
+## Loading UDS
+
+The Uniform Data System is the annual return every Section 330 grantee files
+with HRSA. It carries the two facts a Form 990 never will, and the two that
+matter most for sizing an engagement:
+
+- **Patients and visits** — how big the organization is in the unit its own
+  leadership thinks in.
+- **Staffing FTEs** — what actually drives users, workstations and devices.
+  Revenue is a distant proxy for headcount; UDS reports headcount directly.
+
+Plus payer mix (Medicaid, Medicare, uninsured shares).
+
+There is no stable download URL — HRSA moves it between years — so nothing is
+fetched automatically:
+
+1. Get the health-center-level export from
+   [HRSA data reporting](https://data.hrsa.gov/tools/data-reporting).
+2. Drop the CSV or XLSX into `data/raw/uds/`, one file per year. Name it with
+   the year (`2023_UDS.csv`) if the file has no year column — several years'
+   exports don't.
+3. Run `python -m pipeline.run --stage uds`.
+
+Columns are resolved by alias and keyword, not by position, because UDS renames
+its headers between years: "Total Patients" has also shipped as "Patients
+Served" and "Total Number of Patients". A column that cannot be found becomes a
+null, not a zero. A file whose layout is unrecognisable is reported and skipped
+rather than guessed at.
+
+Rows are attached to organizations by HRSA ID first, then grant number, and only
+then by name — and a name match requires the state to agree and the name to be
+unique within it. Two centers a name cannot tell apart are matched to neither:
+attaching one organization's patient count to another is worse than a gap.
+
+### Estimated proposal quantities
+
+Where staffing is reported, the profile shows suggested quantities for a
+proposal — sites, users, workstations, devices — derived from staff FTEs at the
+ratios in `uds.devices_per_fte` and `uds.workstations_per_fte`.
+
+This is the one derived figure in the application, and it is labelled as derived
+everywhere it appears. It exists because the proposal builder prices per Site,
+User, Workstation and Device, and staff headcount is the only free public signal
+that predicts those numbers. Where staffing is not reported, no estimate is
+shown at all — revenue and patient counts predict device counts far too weakly,
+and a number nobody can defend is worse on a proposal than no number.
+
+Nothing in UDS is patient-level. Every figure is an organization total.
