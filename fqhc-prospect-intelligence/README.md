@@ -334,11 +334,18 @@ These are enforced in code and covered by tests, not merely documented:
 - The organizations' own public websites, for leadership and board pages only —
   fetched politely, `robots.txt` honoured, nothing behind a login.
 
-**If HRSA moves a download:** add the new address to `hrsa.sites_url_fallbacks`
-or `hrsa.awardees_url_fallbacks` in `config.yaml` — they are tried in turn when
-the primary URL fails — or download the CSV by hand and drop it into `data/raw/`
-under the configured filename. The pipeline uses whatever is cached when it
-cannot reach the network, and the error message names the exact path to save to. Column names
+**If HRSA moves a download** — which it does — the pipeline finds it. When the
+configured URL 404s it reads HRSA's own
+[download index](https://data.hrsa.gov/data/download) and looks for a CSV whose
+link names the file, then reports which URL actually worked so you can update
+`config.yaml`. Renames are the normal case, not the exception, so asking the
+publisher beats shipping a list of guesses.
+
+Failing that: add the new address to `hrsa.sites_url_fallbacks` or
+`hrsa.awardees_url_fallbacks`, which are tried before the index is searched, or
+download the CSV by hand into `data/raw/` under the configured filename. The
+pipeline uses whatever is cached when it cannot reach the network, and the error
+message names the exact path to save to. Column names
 are resolved by alias and keyword rather than exact position, so a renamed
 column degrades to an empty field instead of breaking the run.
 

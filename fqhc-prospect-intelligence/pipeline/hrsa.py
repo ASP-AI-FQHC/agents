@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import csv
 import io
+import re
 import zipfile
 from collections import Counter
 from collections.abc import Callable, Iterable, Sequence
@@ -435,6 +436,61 @@ def _extract_csv_bytes(content: bytes, filename: str) -> bytes:
         return archive.read(best)
 
 
+# HRSA's own download index. When a file URL 404s, the current name for it is
+# on this page -- so rather than shipping guesses at the new URL, the pipeline
+# reads the index and finds the link itself.
+DOWNLOAD_INDEX_URL = "https://data.hrsa.gov/data/download"
+
+_HREF = re.compile(
+    r"""<a\b[^>]*href\s*=\s*["']([^"']+)["'][^>]*>(.*?)</a>""",
+    re.IGNORECASE | re.DOTALL,
+)
+_TAGS = re.compile(r"<[^>]+>")
+
+
+def discover_download(
+    html: str, keywords: Sequence[str], *, base_url: str = DOWNLOAD_INDEX_URL
+) -> list[str]:
+    """CSV links on HRSA's download page matching every keyword, best first.
+
+    Matched against both the link text and the URL, because the page has used
+    each as the descriptive part at different times. Ranked so that a link
+    whose *text* names the file beats one that only matches in the path.
+    """
+    from urllib.parse import urljoin
+
+    wanted = [k.lower() for k in keywords]
+    scored: list[tuple[int, str]] = []
+
+    for href, inner in _HREF.findall(html):
+        text = _TAGS.sub(" ", inner)
+        text = re.sub(r"\s+", " ", text).strip().lower()
+        target = href.strip()
+        if not target or target.startswith(("#", "javascript:", "mailto:")):
+            continue
+
+        absolute = urljoin(base_url, target)
+        haystack = f"{absolute.lower()} {text}"
+        if not all(keyword in haystack for keyword in wanted):
+            continue
+        # A download link, not a landing page.
+        if not re.search(r"\.(csv|zip|xlsx?)(\?|$)", absolute, re.IGNORECASE):
+            continue
+
+        rank = 0 if all(keyword in text for keyword in wanted) else 1
+        if not absolute.lower().endswith(".csv"):
+            rank += 1
+        scored.append((rank, absolute))
+
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for _rank, absolute in sorted(scored, key=lambda pair: pair[0]):
+        if absolute not in seen:
+            seen.add(absolute)
+            ordered.append(absolute)
+    return ordered
+
+
 def load_source(
     cache: FileCache,
     url: str,
@@ -444,6 +500,8 @@ def load_source(
     timeout: float = 180.0,
     client: httpx.Client | None = None,
     fallback_urls: Sequence[str] = (),
+    discover_keywords: Sequence[str] = (),
+    index_url: str = DOWNLOAD_INDEX_URL,
 ) -> SourceLoad:
     """Return a usable copy of a source file, preferring a fresh cache hit.
 
@@ -452,7 +510,10 @@ def load_source(
     download raises.
 
     HRSA renames these downloads from time to time, so ``fallback_urls`` are
-    tried in turn after the primary one 404s.
+    tried in turn after the primary one 404s, and then -- if
+    ``discover_keywords`` are given -- HRSA's own download index is read to
+    find whatever the file is called now. Renames are the normal case, not the
+    exception, and asking the publisher beats shipping guesses.
     """
     if not force_refresh and cache.is_fresh(filename):
         entry = cache.get(filename)
@@ -468,22 +529,52 @@ def load_source(
 
     content: bytes | None = None
     used_url = url
+    discovered: list[str] = []
     failures: list[str] = []
+
+    def attempt(candidate: str) -> bytes | None:
+        try:
+            response = http.get(candidate)
+            response.raise_for_status()
+            return _extract_csv_bytes(response.content, filename)
+        except Exception as exc:  # network, HTTP status, malformed archive
+            failures.append(f"{candidate} unreachable ({type(exc).__name__}: {exc})")
+            return None
+
     try:
         for candidate in (url, *fallback_urls):
-            try:
-                response = http.get(candidate)
-                response.raise_for_status()
-                content = _extract_csv_bytes(response.content, filename)
+            content = attempt(candidate)
+            if content is not None:
                 used_url = candidate
                 break
-            except Exception as exc:  # network, HTTP status, malformed archive
-                failures.append(f"{candidate} unreachable ({type(exc).__name__}: {exc})")
+
+        if content is None and discover_keywords:
+            try:
+                index = http.get(index_url)
+                index.raise_for_status()
+                discovered = discover_download(
+                    index.text, discover_keywords, base_url=index_url
+                )
+            except Exception as exc:
+                failures.append(
+                    f"{index_url} could not be searched ({type(exc).__name__}: {exc})"
+                )
+            for candidate in discovered:
+                content = attempt(candidate)
+                if content is not None:
+                    used_url = candidate
+                    break
+
     finally:
         if owned_client:
             http.close()
 
     if content is None:
+        if discover_keywords and not discovered:
+            failures.append(
+                f"no link matching {', '.join(discover_keywords)} was found on "
+                f"{index_url}"
+            )
         detail = "; ".join(failures)
         stale = cache.get(filename)
         if stale is not None:
@@ -500,7 +591,15 @@ def load_source(
         )
 
     return SourceLoad(
-        entry=cache.store(filename, content, source_url=used_url), fetched_live=True
+        entry=cache.store(filename, content, source_url=used_url),
+        fetched_live=True,
+        # Worth saying out loud: the configured URL is stale and the one that
+        # worked should be copied into config.yaml.
+        error=(
+            None
+            if used_url == url
+            else f"{url} has moved; used {used_url} instead (update config.yaml)"
+        ),
     )
 
 
@@ -877,6 +976,7 @@ def ingest(
             timeout=config.hrsa.timeout_seconds,
             client=client,
             fallback_urls=config.hrsa.sites_url_fallbacks,
+            discover_keywords=("service delivery",),
         )
         if sites_load.error:
             result.source_reachable = False
@@ -919,6 +1019,7 @@ def ingest(
                 timeout=config.hrsa.timeout_seconds,
                 client=client,
                 fallback_urls=config.hrsa.awardees_url_fallbacks,
+                discover_keywords=("awardee",),
             )
             if awardee_load.error:
                 result.source_reachable = False

@@ -451,3 +451,131 @@ def test_missing_awardee_file_degrades_to_unavailable_grant_data(
         select(Organization).where(Organization.name.startswith("Erie"))
     ).one()
     assert erie.federal_award_amount is None
+
+
+# ---------------------------------------------------------------------------
+# Finding a download that HRSA has renamed
+# ---------------------------------------------------------------------------
+
+DOWNLOAD_PAGE = """
+<html><body>
+  <h1>Data Downloads</h1>
+  <ul>
+    <li><a href="/data/download">Data Downloads</a></li>
+    <li><a href="/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv">
+        Health Center Service Delivery and Look-Alike Sites</a></li>
+    <li><a href="/DataDownload/DD_Files/BPHC_HC_Awardee_Data_2026.csv">
+        <span>Health Center Program</span> Awardee Data</a></li>
+    <li><a href="/DataDownload/DD_Files/awardee_archive_2019.zip">Awardee Data (2019 archive)</a></li>
+    <li><a href="https://data.hrsa.gov/topics/health-centers/">Health Centers overview</a></li>
+    <li><a href="#top">Back to top</a></li>
+  </ul>
+</body></html>
+"""
+
+
+def test_a_renamed_download_is_found_on_the_index_page() -> None:
+    from pipeline.hrsa import discover_download
+
+    found = discover_download(DOWNLOAD_PAGE, ("awardee",))
+
+    assert found[0] == (
+        "https://data.hrsa.gov/DataDownload/DD_Files/BPHC_HC_Awardee_Data_2026.csv"
+    )
+    # The zip archive is a worse candidate but still offered.
+    assert any(url.endswith(".zip") for url in found)
+
+
+def test_discovery_ignores_pages_that_are_not_downloads() -> None:
+    from pipeline.hrsa import discover_download
+
+    found = discover_download(DOWNLOAD_PAGE, ("health", "center"))
+    assert all(url.endswith((".csv", ".zip")) for url in found)
+    assert not any(url.endswith("/topics/health-centers/") for url in found)
+
+
+def test_discovery_requires_every_keyword() -> None:
+    from pipeline.hrsa import discover_download
+
+    assert discover_download(DOWNLOAD_PAGE, ("awardee", "nonexistent")) == []
+
+
+def test_relative_links_are_resolved() -> None:
+    from pipeline.hrsa import discover_download
+
+    found = discover_download(DOWNLOAD_PAGE, ("service", "delivery"))
+    assert found and found[0].startswith("https://data.hrsa.gov/")
+
+
+def test_a_404_is_followed_by_a_search_of_the_index(tmp_path: Path) -> None:
+    """The awardee file has been renamed; the pipeline should find the new one
+    rather than reporting the old URL as gone."""
+    from pipeline.hrsa import load_source
+
+    moved = "https://data.hrsa.gov/DataDownload/DD_Files/BPHC_HC_Awardee_Data_2026.csv"
+    requested: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        url = str(request.url)
+        requested.append(url)
+        if url.endswith("/data/download"):
+            return httpx.Response(200, text=DOWNLOAD_PAGE)
+        if url == moved:
+            return httpx.Response(200, content=AWARDEES_CSV.encode())
+        return httpx.Response(404)
+
+    cache = FileCache(tmp_path, 30)
+    load = load_source(
+        cache,
+        "https://data.hrsa.gov/DataDownload/DD_Files/Old_Name.csv",
+        "hrsa_program_awardees.csv",
+        client=httpx.Client(transport=httpx.MockTransport(handler)),
+        discover_keywords=("awardee",),
+    )
+
+    assert load.fetched_live
+    assert moved in requested
+    assert "has moved" in (load.error or "")
+
+
+def test_discovery_is_only_attempted_after_the_configured_urls_fail(
+    tmp_path: Path,
+) -> None:
+    from pipeline.hrsa import load_source
+
+    requested: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requested.append(str(request.url))
+        return httpx.Response(200, content=AWARDEES_CSV.encode())
+
+    cache = FileCache(tmp_path, 30)
+    load = load_source(
+        cache,
+        "https://data.hrsa.gov/DataDownload/DD_Files/Works.csv",
+        "hrsa_program_awardees.csv",
+        client=httpx.Client(transport=httpx.MockTransport(handler)),
+        discover_keywords=("awardee",),
+    )
+
+    assert load.error is None
+    assert requested == ["https://data.hrsa.gov/DataDownload/DD_Files/Works.csv"]
+
+
+def test_when_the_index_has_no_match_the_message_says_so(tmp_path: Path) -> None:
+    from pipeline.hrsa import SourceUnavailable, load_source
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if str(request.url).endswith("/data/download"):
+            return httpx.Response(200, text="<html><body>nothing here</body></html>")
+        return httpx.Response(404)
+
+    cache = FileCache(tmp_path, 30)
+    with pytest.raises(SourceUnavailable, match="no link matching awardee"):
+        load_source(
+            cache,
+            "https://data.hrsa.gov/DataDownload/DD_Files/Gone.csv",
+            "hrsa_program_awardees.csv",
+            client=httpx.Client(transport=httpx.MockTransport(handler)),
+            discover_keywords=("awardee",),
+        )
