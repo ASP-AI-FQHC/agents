@@ -267,3 +267,48 @@ def test_wait_until_ready_gives_up_rather_than_hanging() -> None:
     server = ServerController(FastAPI(), port=free_port())
     # Never started, so nothing will ever answer.
     assert server.wait_until_ready(timeout=1.0, interval=0.05) is False
+
+
+# ---------------------------------------------------------------------------
+# The double-click installer
+# ---------------------------------------------------------------------------
+
+INSTALLER = Path(__file__).resolve().parent.parent / "Install FQHC Prospect Intelligence.command"
+
+
+def test_the_installer_is_double_clickable() -> None:
+    """Finder only runs a .command file if it is executable; without the bit it
+    opens in TextEdit, which is a confusing way to fail."""
+    assert INSTALLER.exists(), "the installer must keep its exact Finder-visible name"
+    assert os.access(INSTALLER, os.X_OK)
+
+
+def test_the_installer_is_valid_shell() -> None:
+    import subprocess
+
+    completed = subprocess.run(
+        ["bash", "-n", str(INSTALLER)], capture_output=True, check=False
+    )
+    assert completed.returncode == 0, completed.stderr.decode()
+
+
+def test_the_installer_builds_an_app_that_runs_the_checkout() -> None:
+    """The bundle must launch the code it was installed from, so that a git
+    pull updates the app rather than leaving a frozen copy behind."""
+    text = INSTALLER.read_text()
+    assert "desktop.main" in text
+    assert "$HOME/Applications" in text
+    assert "CFBundleExecutable" in text
+
+
+def test_the_installer_stops_when_setup_fails() -> None:
+    """Creating an app that cannot start is worse than not creating one."""
+    text = INSTALLER.read_text()
+    assert "if ! ./setup_macos.sh; then" in text
+    assert "Nothing was installed" in text
+
+
+def test_the_installer_asks_before_scheduling() -> None:
+    text = INSTALLER.read_text()
+    assert "Schedule a daily refresh" in text
+    assert "desktop.schedule install" in text

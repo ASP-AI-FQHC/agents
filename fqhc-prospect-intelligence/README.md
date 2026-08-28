@@ -7,10 +7,41 @@ Pro subscription with a local SQLite database and a branded web dashboard.
 
 No API keys. No paid data sources. No scraping behind logins.
 
-## Quick start
+## Install it (macOS)
 
-On macOS, one command sets everything up — it finds a suitable Python, builds
-the virtualenv, installs the dependencies and verifies the result:
+Double-click **`Install FQHC Prospect Intelligence.command`** in Finder.
+
+It builds the Python environment, puts a real app in `~/Applications` you can
+drag to the Dock, and offers to schedule a daily data refresh. Everything it
+does is printed as it happens, and if setup fails it stops rather than leaving
+an app that cannot start.
+
+The app it installs runs the code in this folder rather than a frozen copy, so
+`git pull` updates it with no reinstall.
+
+### Daily refresh
+
+The application is a window somebody opens, not a server, so a daily pull
+cannot live inside it — the app is shut most of the time. The installer sets up
+a macOS LaunchAgent instead, which runs the pipeline once a day whether or not
+the app is open, and catches up at the next login if the Mac was asleep.
+
+```bash
+python -m desktop.schedule install --hour 6   # or any hour, local time
+python -m desktop.schedule status             # what is scheduled, and where its log is
+python -m desktop.schedule remove
+```
+
+It runs at low priority, writes to `logs/daily-refresh.log` in the data
+directory, and does not start a run at the moment you install it. On Linux use
+cron or a systemd timer to run `python -m pipeline.run`; on Windows, Task
+Scheduler.
+
+Only the sources that move daily are worth a daily pull — HRSA republishes the
+site file every day. The 990, UDS and IRS Part VII data are annual, and the
+pipeline's own caching means a daily run re-reads them without re-fetching.
+
+## From a terminal instead
 
 ```bash
 ./setup_macos.sh
