@@ -23,10 +23,13 @@ from app.models import (
     Organization,
     RunStatus,
     Score,
+    UdsReport,
 )
 
-SortKey = Literal["score", "name", "state", "revenue", "sites", "match"]
-SORT_KEYS: tuple[str, ...] = ("score", "name", "state", "revenue", "sites", "match")
+SortKey = Literal["score", "name", "state", "revenue", "sites", "match", "patients", "staff"]
+SORT_KEYS: tuple[str, ...] = (
+    "score", "name", "state", "revenue", "sites", "match", "patients", "staff",
+)
 
 # Match-status filter groups, expressed in the language of the sales workflow
 # rather than the internal enum.
@@ -138,6 +141,10 @@ class ProspectRow:
     revenue: float | None
     revenue_year: int | None
     revenue_period_end: datetime | None
+    # Newest UDS year, where one has been loaded.
+    patients: int | None = None
+    staff_fte: float | None = None
+    uds_year: int | None = None
 
     @property
     def composite(self) -> float | None:
@@ -182,20 +189,56 @@ def latest_revenue_subquery():
     )
 
 
+def latest_uds_subquery():
+    """Per-organization newest UDS year, with the figures the table shows."""
+    newest = (
+        select(
+            UdsReport.organization_id.label("organization_id"),
+            func.max(UdsReport.year).label("year"),
+        )
+        .group_by(UdsReport.organization_id)
+        .subquery()
+    )
+    return (
+        select(
+            UdsReport.organization_id.label("organization_id"),
+            UdsReport.year.label("year"),
+            UdsReport.patients.label("patients"),
+            UdsReport.total_fte.label("total_fte"),
+        )
+        .join(
+            newest,
+            and_(
+                UdsReport.organization_id == newest.c.organization_id,
+                UdsReport.year == newest.c.year,
+            ),
+        )
+        .subquery()
+    )
+
+
 def base_query() -> tuple[Select, Any, Any, Any]:
     """Organizations joined to their score, EIN match and latest revenue."""
     revenue = latest_revenue_subquery()
+    uds = latest_uds_subquery()
     usable = EinMatch.status.in_(
         [MatchStatus.AUTO.value, MatchStatus.ACCEPTED.value]
     )
 
     statement = (
-        select(Organization, Score, EinMatch, revenue.c.revenue, revenue.c.tax_year, revenue.c.period_end)
+        select(
+            Organization, Score, EinMatch,
+            revenue.c.revenue, revenue.c.tax_year, revenue.c.period_end,
+            uds.c.patients, uds.c.total_fte, uds.c.year,
+        )
         .outerjoin(Score, Score.organization_id == Organization.id)
         .outerjoin(EinMatch, EinMatch.organization_id == Organization.id)
         # Revenue is attached only through a confirmed EIN, mirroring the rule
         # that unconfirmed matches never carry financials.
         .outerjoin(revenue, and_(revenue.c.ein == EinMatch.ein, usable))
+        # UDS attaches to the organization directly -- it is HRSA's own data
+        # about a HRSA grantee and needs no EIN to be trustworthy.
+        .outerjoin(uds, uds.c.organization_id == Organization.id)
         .options(selectinload(Organization.sites))
     )
     return statement, Score, EinMatch, revenue
@@ -248,6 +291,8 @@ def apply_sort(statement: Select, revenue, filters: Filters) -> Select:
         "revenue": revenue.c.revenue,
         "sites": Organization.site_count,
         "match": EinMatch.score,
+        "patients": statement.selected_columns.patients,
+        "staff": statement.selected_columns.total_fte,
     }
     column = columns.get(filters.sort, Score.composite)
 
@@ -288,10 +333,14 @@ def fetch_rows(
             revenue=rev,
             revenue_year=tax_year,
             revenue_period_end=period_end,
+            patients=patients,
+            staff_fte=total_fte,
+            uds_year=uds_year,
         )
-        for organization, score, match, rev, tax_year, period_end in session.execute(
-            statement
-        ).all()
+        for (
+            organization, score, match, rev, tax_year, period_end,
+            patients, total_fte, uds_year,
+        ) in session.execute(statement).all()
     ]
     return rows, total
 
@@ -375,10 +424,14 @@ def review_queue(session: Session, limit: int | None = None) -> list[ProspectRow
             revenue=rev,
             revenue_year=tax_year,
             revenue_period_end=period_end,
+            patients=patients,
+            staff_fte=total_fte,
+            uds_year=uds_year,
         )
-        for organization, score, match, rev, tax_year, period_end in session.execute(
-            statement
-        ).all()
+        for (
+            organization, score, match, rev, tax_year, period_end,
+            patients, total_fte, uds_year,
+        ) in session.execute(statement).all()
     ]
 
 

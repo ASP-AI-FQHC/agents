@@ -502,3 +502,91 @@ def test_persisted_events_still_expose_a_label(
     event = session.scalars(select(ChangeEvent)).one()
     assert isinstance(event.kind, str)
     assert event.kind_label == "Delivery sites"
+
+
+# ---------------------------------------------------------------------------
+# Patient volume
+# ---------------------------------------------------------------------------
+
+
+def test_a_newer_uds_year_reports_patient_growth(session, config) -> None:
+    """Patient volume moves before revenue does, and long before a 990 is
+    filed -- it is the earliest growth signal a health center publishes."""
+    from app.models import UdsReport
+
+    org = add_org(session, "Erie Family Health", sites=5)
+    session.add(UdsReport(organization_id=org.id, year=2022, patients=70_000))
+    session.commit()
+    detect_changes(session, config)          # baseline
+
+    session.add(UdsReport(organization_id=org.id, year=2023, patients=84_000))
+    session.commit()
+    result = detect_changes(session, config)
+
+    event = session.scalars(
+        select(ChangeEvent).where(ChangeEvent.kind == ChangeKind.PATIENTS)
+    ).one()
+    assert "84,000 patients" in event.summary
+    assert "up 20%" in event.summary
+    assert event.direction == 1
+    assert result.by_kind.get("patients") == 1
+
+
+def test_re_reading_the_same_year_is_not_movement(session, config) -> None:
+    from app.models import UdsReport
+
+    org = add_org(session, "Erie Family Health", sites=5)
+    session.add(UdsReport(organization_id=org.id, year=2023, patients=84_000))
+    session.commit()
+    detect_changes(session, config)
+
+    # The stage re-runs and rewrites the same year's row.
+    row = session.scalars(select(UdsReport)).one()
+    row.patients = 84_000
+    session.commit()
+    detect_changes(session, config)
+
+    assert (
+        session.scalars(
+            select(ChangeEvent).where(ChangeEvent.kind == ChangeKind.PATIENTS)
+        ).all()
+        == []
+    )
+
+
+def test_a_decline_is_reported_as_a_decline(session, config) -> None:
+    from app.models import UdsReport
+
+    org = add_org(session, "Erie Family Health", sites=5)
+    session.add(UdsReport(organization_id=org.id, year=2022, patients=90_000))
+    session.commit()
+    detect_changes(session, config)
+
+    session.add(UdsReport(organization_id=org.id, year=2023, patients=72_000))
+    session.commit()
+    detect_changes(session, config)
+
+    event = session.scalars(
+        select(ChangeEvent).where(ChangeEvent.kind == ChangeKind.PATIENTS)
+    ).one()
+    assert "down 20%" in event.summary
+    assert event.direction == -1
+
+
+def test_the_first_uds_year_is_reported_once(session, config) -> None:
+    from app.models import UdsReport
+
+    org = add_org(session, "Erie Family Health", sites=5)
+    session.commit()
+    detect_changes(session, config)          # baseline, no UDS yet
+
+    session.add(UdsReport(organization_id=org.id, year=2023, patients=84_000))
+    session.commit()
+    detect_changes(session, config)
+    detect_changes(session, config)          # and again: still one event
+
+    events = session.scalars(
+        select(ChangeEvent).where(ChangeEvent.kind == ChangeKind.PATIENTS)
+    ).all()
+    assert len(events) == 1
+    assert "First UDS on file" in events[0].summary

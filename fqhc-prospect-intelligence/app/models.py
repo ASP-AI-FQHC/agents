@@ -78,6 +78,7 @@ class ChangeKind(str, enum.Enum):
     FILING = "filing"                # a newer Form 990 became available
     AWARD = "award"                  # federal award amount moved
     GRANTEE_TYPE = "grantee_type"    # look-alike became an awardee, or back
+    PATIENTS = "patients"            # UDS patient volume moved year on year
 
     @property
     def label(self) -> str:
@@ -88,6 +89,7 @@ class ChangeKind(str, enum.Enum):
             ChangeKind.FILING: "New 990 filing",
             ChangeKind.AWARD: "Federal award",
             ChangeKind.GRANTEE_TYPE: "Grantee type",
+            ChangeKind.PATIENTS: "Patient volume",
         }[self]
 
 
@@ -363,6 +365,8 @@ class OrganizationSnapshot(Base):
     latest_tax_year: Mapped[int | None] = mapped_column(Integer)
     latest_revenue: Mapped[float | None] = mapped_column(Float)
     composite: Mapped[float | None] = mapped_column(Float)
+    latest_uds_year: Mapped[int | None] = mapped_column(Integer)
+    latest_patients: Mapped[int | None] = mapped_column(Integer)
 
     # True once HRSA stops publishing the organization, so a reappearance can
     # be distinguished from a first sighting.

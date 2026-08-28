@@ -48,6 +48,7 @@ from app.models import (
     Organization,
     RunStatus,
     Score,
+    UdsReport,
     utcnow,
 )
 
@@ -110,21 +111,35 @@ class ScoreResult:
 
 
 def score_revenue(
-    revenue: float | None, settings: RevenueScoring, *, tax_year: int | None = None
+    revenue: float | None,
+    settings: RevenueScoring,
+    *,
+    tax_year: int | None = None,
+    source: str = "Form 990",
 ) -> FactorResult:
-    """Full credit inside the sweet spot, tapering to zero at the bounds."""
+    """Full credit inside the sweet spot, tapering to zero at the bounds.
+
+    ``source`` names where the figure came from. A 990 and a UDS return are
+    both reported figures but not the same reported figure, and the profile
+    says which one is on screen.
+    """
     weight_key = "revenue"
     if revenue is None:
         return FactorResult(
             key=weight_key,
             score=None,
             weight=0.0,
-            detail="No Form 990 with reported revenue is available",
+            detail="No Form 990 or UDS report with revenue is available",
             value="Not available",
         )
 
     label = money(revenue)
-    year_suffix = f" (FY{tax_year})" if tax_year else ""
+    if tax_year and source == "Form 990":
+        year_suffix = f" (FY{tax_year})"
+    elif tax_year:
+        year_suffix = f" ({tax_year} {source})"
+    else:
+        year_suffix = f" ({source})" if source != "Form 990" else ""
 
     if revenue <= settings.floor:
         score, detail = 0.0, (
@@ -223,12 +238,21 @@ def score_grant_dependence(
     federal_award: float | None,
     revenue: float | None,
     settings: GrantDependenceScoring,
+    *,
+    source: str = "federal award",
 ) -> FactorResult:
-    """Federal award as a share of revenue. Unavailable unless both are known."""
+    """Federal award as a share of revenue. Unavailable unless both are known.
+
+    ``source`` describes the pair of figures behind the ratio, because there
+    are two ways to arrive at it and they are not equally good. A UDS return
+    reports grant revenue and total revenue for the same organization, the same
+    year and the same basis; a HRSA award amount over 990 revenue mixes two
+    periods and two reporting bases. When UDS has both, it is used.
+    """
     if federal_award is None or revenue is None:
         missing = []
         if federal_award is None:
-            missing.append("no federal award amount published by HRSA")
+            missing.append("no grant figure from HRSA or UDS")
         if revenue is None:
             missing.append("no reported revenue on file")
         return FactorResult(
@@ -251,23 +275,24 @@ def score_grant_dependence(
 
     ratio = federal_award / revenue
     display = percent(min(ratio, 1.0))
+    basis = f"{money(federal_award)} {source} is {display} of revenue"
 
     if ratio >= settings.full_credit_ratio:
         score = 100.0
         detail = (
-            f"{money(federal_award)} federal award is {display} of revenue, at or "
-            f"above the {percent(settings.full_credit_ratio)} threshold"
+            f"{basis}, at or above the "
+            f"{percent(settings.full_credit_ratio)} threshold"
         )
     elif ratio <= settings.zero_credit_ratio:
         score = 0.0
         detail = (
-            f"{money(federal_award)} federal award is {display} of revenue, at or "
-            f"below the {percent(settings.zero_credit_ratio)} threshold"
+            f"{basis}, at or below the "
+            f"{percent(settings.zero_credit_ratio)} threshold"
         )
     else:
         span = settings.full_credit_ratio - settings.zero_credit_ratio
         score = 100.0 * (ratio - settings.zero_credit_ratio) / span
-        detail = f"{money(federal_award)} federal award is {display} of revenue"
+        detail = basis
 
     return FactorResult(
         key="grant_dependence",
@@ -326,19 +351,58 @@ def score_organization(
     organization: Organization,
     filings: Sequence[Filing],
     settings: ScoringSettings,
+    uds: "UdsReport | None" = None,
 ) -> ScoreResult:
-    """Score one organization from its HRSA record and its filings."""
+    """Score one organization from its HRSA record, its filings and its UDS.
+
+    Two factors have more than one possible source, and the choice is not
+    arbitrary:
+
+    * **Revenue** prefers the Form 990, which is audited and comparable across
+      every nonprofit in the database. UDS fills in for the many health centers
+      whose EIN is unresolved or whose filing has not been pulled.
+    * **Grant dependence** prefers UDS, which reports the grant and the total
+      for the same organization, year and basis. The HRSA award over 990
+      revenue mixes two periods and two reporting bases, so it is the fallback
+      rather than the first choice.
+
+    Whichever was used is named in the factor's detail, so a score is never a
+    number with no provenance.
+    """
     latest = _latest_filing_with_revenue(filings)
     revenue = latest.total_revenue if latest else None
     tax_year = latest.tax_year if latest else None
+    revenue_source = "Form 990"
+
+    if revenue is None and uds is not None and uds.total_revenue is not None:
+        revenue = uds.total_revenue
+        tax_year = uds.year
+        revenue_source = "UDS"
+
+    if (
+        uds is not None
+        and uds.grant_revenue is not None
+        and uds.total_revenue is not None
+    ):
+        grant = score_grant_dependence(
+            uds.grant_revenue,
+            uds.total_revenue,
+            settings.grant_dependence,
+            source=f"{uds.year} UDS grant revenue",
+        )
+    else:
+        grant = score_grant_dependence(
+            organization.federal_award_amount, revenue, settings.grant_dependence,
+            source="federal award",
+        )
 
     factors = [
-        score_revenue(revenue, settings.revenue, tax_year=tax_year),
+        score_revenue(
+            revenue, settings.revenue, tax_year=tax_year, source=revenue_source
+        ),
         score_sites(organization.site_count, settings.sites),
         score_state(organization.state, settings.state),
-        score_grant_dependence(
-            organization.federal_award_amount, revenue, settings.grant_dependence
-        ),
+        grant,
     ]
     return combine(factors, settings)
 
@@ -401,6 +465,13 @@ def score_all(
         for filing in session.scalars(select(Filing)).all():
             filings_by_ein.setdefault(filing.ein, []).append(filing)
 
+        # Newest UDS year per organization, in one query rather than per row.
+        uds_by_org: dict[int, UdsReport] = {}
+        for uds_row in session.scalars(
+            select(UdsReport).order_by(UdsReport.year)
+        ).all():
+            uds_by_org[uds_row.organization_id] = uds_row
+
         existing = {
             score.organization_id: score
             for score in session.scalars(select(Score)).all()
@@ -411,7 +482,9 @@ def score_all(
             ein = organization.ein  # None unless the match is auto or accepted
             filings = filings_by_ein.get(ein, []) if ein else []
 
-            scored = score_organization(organization, filings, settings)
+            scored = score_organization(
+                organization, filings, settings, uds_by_org.get(organization.id)
+            )
 
             row = existing.get(organization.id)
             if row is None:

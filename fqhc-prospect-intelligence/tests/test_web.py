@@ -701,3 +701,99 @@ def test_the_dashboard_offers_the_contacts_export(populated) -> None:
     client, _, _ = populated
     body = client.get("/").text
     assert 'href="/contacts.csv' in body and 'href="/contacts.xlsx' in body
+
+
+# ---------------------------------------------------------------------------
+# UDS in the master table and exports
+# ---------------------------------------------------------------------------
+
+
+def test_patients_are_sortable(populated) -> None:
+    from app.models import UdsReport
+
+    client, session, _ = populated
+    erie = session.scalars(
+        select(Organization).where(Organization.name.like("Erie%"))
+    ).one()
+    milwaukee = session.scalars(
+        select(Organization).where(Organization.name.like("Milwaukee%"))
+    ).one()
+    session.add_all(
+        [
+            UdsReport(organization_id=erie.id, year=2023, patients=84532, total_fte=612.4),
+            UdsReport(organization_id=milwaukee.id, year=2023, patients=19204),
+        ]
+    )
+    session.commit()
+
+    rows, _ = fetch_rows(session, Filters(sort="patients", direction="desc"))
+    with_patients = [r for r in rows if r.patients is not None]
+    assert [r.patients for r in with_patients] == [84532, 19204]
+
+
+def test_organizations_without_uds_sort_last(populated) -> None:
+    """An unknown patient count is not a small patient count."""
+    from app.models import UdsReport
+
+    client, session, _ = populated
+    erie = session.scalars(
+        select(Organization).where(Organization.name.like("Erie%"))
+    ).one()
+    session.add(UdsReport(organization_id=erie.id, year=2023, patients=84532))
+    session.commit()
+
+    rows, _ = fetch_rows(session, Filters(sort="patients", direction="asc"))
+    assert rows[0].patients == 84532
+    assert rows[-1].patients is None
+
+
+def test_the_table_shows_patients_and_staffing(populated) -> None:
+    from app.models import UdsReport
+
+    client, session, _ = populated
+    erie = session.scalars(
+        select(Organization).where(Organization.name.like("Erie%"))
+    ).one()
+    session.add(
+        UdsReport(organization_id=erie.id, year=2023, patients=84532, total_fte=612.4)
+    )
+    session.commit()
+
+    body = client.get("/").text
+    assert "84,532" in body
+    assert "2023 UDS" in body
+    assert "612 FTE" in body
+
+
+def test_uds_reaches_the_export(populated) -> None:
+    from app.models import UdsReport
+
+    client, session, _ = populated
+    erie = session.scalars(
+        select(Organization).where(Organization.name.like("Erie%"))
+    ).one()
+    session.add(
+        UdsReport(organization_id=erie.id, year=2023, patients=84532, total_fte=612.4)
+    )
+    session.commit()
+
+    body = client.get("/export.csv").text
+    assert "Patients,Staff FTE,UDS year" in body
+    assert "84532" in body
+
+
+def test_uds_attaches_without_a_confirmed_ein(populated) -> None:
+    """UDS is HRSA's own data about a HRSA grantee: unlike a 990 it needs no
+    EIN match to be trustworthy, so it must show for unmatched organizations."""
+    from app.models import UdsReport
+
+    client, session, _ = populated
+    riverbend = session.scalars(
+        select(Organization).where(Organization.name.like("Riverbend%"))
+    ).one()
+    assert riverbend.ein is None
+    session.add(UdsReport(organization_id=riverbend.id, year=2023, patients=4100))
+    session.commit()
+
+    rows, _ = fetch_rows(session, Filters(q="riverbend"))
+    assert rows[0].patients == 4100

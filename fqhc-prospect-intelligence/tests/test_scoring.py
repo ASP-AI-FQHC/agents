@@ -480,3 +480,136 @@ def test_scoring_an_empty_database_is_not_a_failure(
 
     run = session.scalars(select(IngestRun).where(IngestRun.stage == "scoring")).one()
     assert run.status == RunStatus.SUCCESS
+
+
+# ---------------------------------------------------------------------------
+# UDS as a source for revenue and grant dependence
+# ---------------------------------------------------------------------------
+
+
+def _uds(**kwargs):
+    from app.models import UdsReport
+
+    defaults = {"organization_id": 1, "year": 2023}
+    defaults.update(kwargs)
+    return UdsReport(**defaults)
+
+
+def test_uds_supplies_revenue_when_there_is_no_filing(config) -> None:
+    """Most health centers have no resolved EIN. UDS still reports revenue."""
+    org = Organization(
+        dedup_key="k", name="Health Center", normalized_name="health center",
+        state="IL", site_count=6,
+    )
+    result = score_organization(
+        org, [], config.scoring, _uds(total_revenue=20_000_000)
+    )
+    revenue = next(f for f in result.factors if f.key == "revenue")
+
+    assert revenue.available
+    assert "UDS" in revenue.detail
+
+
+def test_a_filing_still_wins_over_uds_for_revenue(config) -> None:
+    """The 990 is audited and comparable across every nonprofit here; UDS is
+    the fallback, not the preference."""
+    org = Organization(
+        dedup_key="k", name="Health Center", normalized_name="health center",
+        state="IL", site_count=6,
+    )
+    filing = Filing(ein="123456789", tax_year=2023, total_revenue=30_000_000)
+
+    result = score_organization(
+        org, [filing], config.scoring, _uds(total_revenue=20_000_000)
+    )
+    revenue = next(f for f in result.factors if f.key == "revenue")
+
+    assert revenue.value.startswith("$30")
+    assert "FY2023" in revenue.detail
+    assert "UDS" not in revenue.detail
+
+
+def test_uds_repairs_grant_dependence(config) -> None:
+    """The factor that has been unavailable for every organization since HRSA
+    moved the awardee file."""
+    org = Organization(
+        dedup_key="k", name="Health Center", normalized_name="health center",
+        state="IL", site_count=6, federal_award_amount=None,
+    )
+    result = score_organization(
+        org, [], config.scoring,
+        _uds(total_revenue=20_000_000, grant_revenue=12_000_000),
+    )
+    grant = next(f for f in result.factors if f.key == "grant_dependence")
+
+    assert grant.available and grant.score == 100.0
+    assert "2023 UDS" in grant.detail
+
+
+def test_uds_is_preferred_over_mixing_two_reporting_bases(config) -> None:
+    """A HRSA award over 990 revenue spans two periods and two bases; UDS
+    reports both halves of the ratio itself."""
+    org = Organization(
+        dedup_key="k", name="Health Center", normalized_name="health center",
+        state="IL", site_count=6, federal_award_amount=1_000_000,
+    )
+    filing = Filing(ein="123456789", tax_year=2023, total_revenue=40_000_000)
+
+    result = score_organization(
+        org, [filing], config.scoring,
+        _uds(total_revenue=20_000_000, grant_revenue=12_000_000),
+    )
+    grant = next(f for f in result.factors if f.key == "grant_dependence")
+
+    assert "UDS" in grant.detail
+    assert grant.score == 100.0   # 60% from UDS, not 2.5% from the mixed pair
+
+
+def test_a_partial_uds_report_falls_back_rather_than_half_using_it(config) -> None:
+    org = Organization(
+        dedup_key="k", name="Health Center", normalized_name="health center",
+        state="IL", site_count=6, federal_award_amount=6_000_000,
+    )
+    filing = Filing(ein="123456789", tax_year=2023, total_revenue=20_000_000)
+
+    # Grant revenue present but no total: the ratio has no denominator, so the
+    # federal-award pair is used instead of inventing one.
+    result = score_organization(
+        org, [filing], config.scoring, _uds(grant_revenue=12_000_000)
+    )
+    grant = next(f for f in result.factors if f.key == "grant_dependence")
+
+    assert "federal award" in grant.detail
+    # $6M of $20M is 30%, between the 5% and 50% thresholds.
+    assert grant.score == pytest.approx(55.6, abs=0.1)
+
+
+def test_score_all_uses_uds_end_to_end(session, config) -> None:
+    """Exercises the stage itself, not just score_organization: a loop variable
+    here once shadowed the progress callback, which only showed up on a run
+    that actually had UDS rows to iterate."""
+    from app.models import UdsReport
+
+    org = Organization(
+        dedup_key="k", name="Health Center", normalized_name="health center",
+        state="IL", site_count=6,
+    )
+    session.add(org)
+    session.flush()
+    session.add(
+        UdsReport(
+            organization_id=org.id, year=2023,
+            total_revenue=20_000_000, grant_revenue=12_000_000,
+        )
+    )
+    session.commit()
+
+    messages: list[str] = []
+    result = score_all(session, config, on_progress=messages.append)
+
+    assert result.scored == 1
+    assert messages, "the stage must still report progress"
+
+    stored = session.scalars(select(Score)).one()
+    grant = next(f for f in stored.breakdown if f["factor"] == "grant_dependence")
+    assert grant["available"] and "2023 UDS" in grant["detail"]

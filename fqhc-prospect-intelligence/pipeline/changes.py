@@ -35,6 +35,7 @@ from app.models import (
     Organization,
     OrganizationSnapshot,
     RunStatus,
+    UdsReport,
     utcnow,
 )
 
@@ -74,6 +75,8 @@ class CurrentState:
     latest_tax_year: int | None
     latest_revenue: float | None
     composite: float | None
+    latest_uds_year: int | None = None
+    latest_patients: int | None = None
 
 
 @dataclass
@@ -90,12 +93,15 @@ class ChangeResult:
 
 
 def _current_state(
-    organization: Organization, filings_by_ein: dict[str, list[Filing]]
+    organization: Organization,
+    filings_by_ein: dict[str, list[Filing]],
+    uds_by_org: dict[int, UdsReport] | None = None,
 ) -> CurrentState:
     ein = organization.ein  # None unless the match is confirmed
     filings = filings_by_ein.get(ein, []) if ein else []
     with_revenue = [f for f in filings if f.total_revenue is not None]
     latest = max(with_revenue, key=lambda f: f.tax_year) if with_revenue else None
+    uds = (uds_by_org or {}).get(organization.id)
 
     return CurrentState(
         site_count=organization.site_count,
@@ -106,6 +112,8 @@ def _current_state(
         latest_tax_year=latest.tax_year if latest else None,
         latest_revenue=latest.total_revenue if latest else None,
         composite=organization.score.composite if organization.score else None,
+        latest_uds_year=uds.year if uds else None,
+        latest_patients=uds.patients if uds else None,
     )
 
 
@@ -215,7 +223,55 @@ def _grantee_type_event(
     )
 
 
-DETECTORS = (_site_event, _filing_event, _award_event, _grantee_type_event)
+def _patients_event(
+    organization: Organization, snapshot: OrganizationSnapshot, state: CurrentState
+) -> ChangeEvent | None:
+    """A newer UDS year is the event; the change in patients is the detail.
+
+    Patient volume is the clearest growth signal a health center publishes --
+    it moves before revenue does and long before a 990 is filed. Only a *new*
+    reporting year counts: re-reading the same year is not movement.
+    """
+    previous_year, current_year = snapshot.latest_uds_year, state.latest_uds_year
+    if current_year is None or (
+        previous_year is not None and current_year <= previous_year
+    ):
+        return None
+
+    previous, current = snapshot.latest_patients, state.latest_patients
+    if current is None:
+        return None
+
+    if previous_year is None or previous is None:
+        summary = f"First UDS on file: {current:,} patients in {current_year}"
+        direction = None
+    else:
+        delta = current - previous
+        share = abs(delta) / previous if previous else 0
+        movement = "up" if delta > 0 else "down" if delta < 0 else "unchanged"
+        if delta == 0:
+            summary = f"{current_year} UDS: {current:,} patients, unchanged"
+            direction = 0
+        else:
+            summary = (
+                f"{current_year} UDS: {current:,} patients, {movement} {share:.0%} "
+                f"from {previous:,} in {previous_year}"
+            )
+            direction = 1 if delta > 0 else -1
+
+    return ChangeEvent(
+        organization_id=organization.id,
+        kind=ChangeKind.PATIENTS,
+        summary=summary,
+        previous_value=None if previous is None else f"{previous:,}",
+        current_value=f"{current:,}",
+        direction=direction,
+    )
+
+
+DETECTORS = (
+    _site_event, _filing_event, _award_event, _grantee_type_event, _patients_event,
+)
 
 
 def _apply(snapshot: OrganizationSnapshot, state: CurrentState) -> None:
@@ -225,6 +281,8 @@ def _apply(snapshot: OrganizationSnapshot, state: CurrentState) -> None:
     snapshot.latest_tax_year = state.latest_tax_year
     snapshot.latest_revenue = state.latest_revenue
     snapshot.composite = state.composite
+    snapshot.latest_uds_year = state.latest_uds_year
+    snapshot.latest_patients = state.latest_patients
     snapshot.is_present = True
     snapshot.taken_at = utcnow()
 
@@ -256,6 +314,12 @@ def detect_changes(
         for filing in session.scalars(select(Filing)).all():
             filings_by_ein.setdefault(filing.ein, []).append(filing)
 
+        # Newest UDS year per organization, ordered so the last write wins.
+        uds_by_org: dict[int, UdsReport] = {
+            row.organization_id: row
+            for row in session.scalars(select(UdsReport).order_by(UdsReport.year)).all()
+        }
+
         organizations = session.scalars(
             select(Organization).options(
                 selectinload(Organization.ein_match),
@@ -268,7 +332,7 @@ def detect_changes(
             hrsa_started = _as_utc(hrsa_started)
 
         for organization in organizations:
-            state = _current_state(organization, filings_by_ein)
+            state = _current_state(organization, filings_by_ein, uds_by_org)
             snapshot = snapshots.get(organization.id)
             # Without an HRSA run to compare against, assume everything present.
             present = (

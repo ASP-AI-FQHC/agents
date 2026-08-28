@@ -150,6 +150,18 @@ Four factors, combined into a weighted 0–100 composite:
 | State footprint | 20 | IL, WI, IN, MI |
 | Grant dependence | 20 | Federal award ≥ 50% of revenue |
 
+Two factors have more than one possible source, and the order is deliberate:
+
+- **Revenue** prefers the Form 990 — audited, and comparable across every
+  nonprofit in the database. UDS fills in for the many health centers whose EIN
+  is unresolved or whose filing has not been pulled.
+- **Grant dependence** prefers UDS, which reports the grant and the total for the
+  same organization, year and basis. A HRSA award over 990 revenue mixes two
+  periods and two reporting bases, so it is the fallback.
+
+Whichever was used is named in the factor's detail on the profile, so no score is
+a number without provenance.
+
 **When a factor cannot be computed, it is dropped and the remaining weights are
 renormalized** — an organization with no 990 on file is scored on what is
 actually known about it. Scoring an unknown as zero would rank "we have no data"
@@ -163,7 +175,9 @@ Re-running the pipeline monthly is where this earns its keep over a static
 export. Each run compares every organization against the previous run and logs
 real movement, browsable at `/changes` and filterable by kind:
 
-- **Delivery sites** opened or closed — the clearest expansion signal there is
+- **Patient volume** moved, year on year, from a newer UDS report — the earliest
+  growth signal a health center publishes, well ahead of revenue
+- **Delivery sites** opened or closed
 - **A newer 990** became available, with the revenue move against the prior year
 - **Federal award** increased or decreased, as a percentage
 - **Grantee type** changed — a look-alike becoming a Section 330 awardee

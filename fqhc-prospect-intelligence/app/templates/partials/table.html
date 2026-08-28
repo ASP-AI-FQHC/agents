@@ -21,6 +21,7 @@
           <th>{{ sort_link('name', 'Organization') }}</th>
           <th>{{ sort_link('state', 'State') }}</th>
           <th class="num">{{ sort_link('sites', 'Sites') }}</th>
+          <th class="num">{{ sort_link('patients', 'Patients') }}</th>
           <th class="num">{{ sort_link('revenue', 'Total revenue') }}</th>
           <th>{{ sort_link('match', 'EIN') }}</th>
         </tr>
@@ -52,6 +53,15 @@
             </td>
             <td>{{ row.organization.state | na }}</td>
             <td class="num">{{ row.organization.site_count | number }}</td>
+            <td class="num">
+              {% if row.patients is not none %}
+                {{ row.patients | number }}
+                <div class="u-small u-muted">
+                  {{ row.uds_year }} UDS
+                  {%- if row.staff_fte is not none %} &middot; {{ '%.0f' % row.staff_fte }} FTE{% endif %}
+                </div>
+              {% else %}<span class="not-available">&mdash;</span>{% endif %}
+            </td>
             <td class="num">
               {% if row.revenue is not none %}
                 {{ row.revenue | money }}
