@@ -601,6 +601,14 @@ def inspect(path: Path) -> str:
     if not path.exists():
         return f"{path} does not exist."
 
+    if path.name.startswith("~$"):
+        # Excel's lock file for a workbook that is currently open. Reporting it
+        # as unreadable is technically true and completely unhelpful.
+        return (
+            f"{path.name}: skipped -- this is Excel's temporary lock file for "
+            f"{path.name[2:]}, not a document."
+        )
+
     try:
         headers, rows = read_rows(path)
     except Exception as exc:

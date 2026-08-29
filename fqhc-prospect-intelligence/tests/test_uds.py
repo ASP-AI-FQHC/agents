@@ -435,3 +435,16 @@ def test_inspect_handles_something_that_is_not_a_spreadsheet(tmp_path: Path) -> 
     path = tmp_path / "notes.xlsx"
     path.write_bytes(b"this is not a workbook")
     assert "could not be read" in inspect(path)
+
+
+def test_excel_lock_files_are_recognised_not_reported_as_corrupt(tmp_path: Path) -> None:
+    """A wildcard over a Downloads folder picks these up; calling them
+    unreadable is true and useless."""
+    from pipeline.uds import inspect
+
+    lock = tmp_path / "~$Some_Workbook.xlsx"
+    lock.write_bytes(b"not a zip")
+
+    text = inspect(lock)
+    assert "lock file" in text
+    assert "could not be read" not in text
