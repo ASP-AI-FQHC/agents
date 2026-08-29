@@ -131,6 +131,24 @@ UDS_FIELDS: dict[str, FieldSpec] = {
 
 REQUIRED_FIELDS = ("patients",)
 
+# A real UDS workbook is one sheet per UDS table, not a flat export. The
+# universal report has 23 of them, and several carry a column that looks like
+# "patients" -- Table 6B counts patients *screened* for a condition, which is
+# not a patient count at all. So sheets are preferred by name first, and only
+# then by whether their columns happen to resolve.
+#
+# Ranked best-first; matched case-insensitively on a normalized sheet name.
+PREFERRED_SHEETS: tuple[str, ...] = (
+    "table3a",              # patients by age and sex -- the patient count
+    "healthcenterinfo",     # identity, when a workbook has no table sheets
+    "table4",               # income and insurance -- payer mix
+    "table5",               # staffing and utilization -- FTEs
+)
+
+
+def _normalize_sheet(name: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", (name or "").lower())
+
 
 # ---------------------------------------------------------------------------
 # Parsing
@@ -261,16 +279,32 @@ def read_best_sheet(path: Path) -> tuple[str, list[str], Iterator[dict[str, str]
     """
     candidates = sheet_headers(path)
 
+    def resolves(headers: list[str]) -> bool:
+        return bool(headers) and not [
+            f for f in REQUIRED_FIELDS if f not in resolve_columns(headers, UDS_FIELDS)
+        ]
+
+    # A named UDS table wins over whichever sheet happens to resolve first.
+    ranked = {name: index for index, name in enumerate(PREFERRED_SHEETS)}
+    preferred = sorted(
+        (
+            (ranked[_normalize_sheet(name)], name)
+            for name, _headers in candidates
+            if _normalize_sheet(name) in ranked
+        ),
+    )
     chosen = next(
         (
             name
-            for name, headers in candidates
-            if headers
-            and not [f for f in REQUIRED_FIELDS
-                     if f not in resolve_columns(headers, UDS_FIELDS)]
+            for _rank, name in preferred
+            if resolves(dict(candidates).get(name, []))
         ),
         None,
     )
+    if chosen is None:
+        chosen = next(
+            (name for name, headers in candidates if resolves(headers)), None
+        )
     if chosen is None:
         # Nothing recognisable: hand back the widest sheet, so the inspector
         # reports the most informative column list it can.
@@ -731,6 +765,35 @@ def inspect(path: Path) -> str:
     return "\n".join(lines)
 
 
+def describe_sheets(path: Path, wanted: Sequence[str]) -> str:
+    """Every column of the named sheets, numbered.
+
+    The way to teach the reader a layout it has not seen: run this, send the
+    output, and the column names become aliases.
+    """
+    try:
+        sheets = dict(sheet_headers(path))
+    except Exception as exc:
+        return f"{path.name}: could not be read ({exc})"
+
+    lines = [f"{path.name}"]
+    by_normalized = {_normalize_sheet(name): name for name in sheets}
+
+    for request in wanted:
+        actual = by_normalized.get(_normalize_sheet(request))
+        if actual is None:
+            lines.append("")
+            lines.append(f"  No sheet called {request!r}. Available:")
+            lines.extend(f"    {name}" for name in sheets)
+            continue
+        headers = sheets[actual]
+        lines.append("")
+        lines.append(f"  {actual}  ({len(headers)} columns)")
+        for index, header in enumerate(headers, start=1):
+            lines.append(f"    {index:4d}. {header}")
+    return "\n".join(lines)
+
+
 def main(argv: list[str] | None = None) -> int:
     import argparse
 
@@ -739,10 +802,23 @@ def main(argv: list[str] | None = None) -> int:
         description="Check whether a downloaded file is usable UDS data.",
     )
     parser.add_argument("path", type=Path, nargs="+", help="File(s) to inspect.")
+    parser.add_argument(
+        "--sheet",
+        action="append",
+        default=[],
+        metavar="NAME",
+        help=(
+            "Print every column of this sheet instead of inspecting the file. "
+            "Repeatable. Use it to show what a workbook actually contains."
+        ),
+    )
     args = parser.parse_args(argv)
 
     for path in args.path:
-        print(inspect(path))
+        if args.sheet:
+            print(describe_sheets(path, args.sheet))
+        else:
+            print(inspect(path))
         print()
     return 0
 

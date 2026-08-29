@@ -524,3 +524,57 @@ def test_the_stage_ingests_a_multisheet_workbook(
     row = session.scalars(select(UdsReport)).one()
     assert row.year == 2025          # from the filename
     assert row.patients == 84532
+
+
+# ---------------------------------------------------------------------------
+# A real universal report: one sheet per UDS table
+# ---------------------------------------------------------------------------
+
+UNIVERSAL = FIXTURES / "uds_universal.xlsx"
+
+
+def test_the_patient_table_beats_the_clinical_measures_sheet() -> None:
+    """Table 6B counts patients *screened* for a condition. Several sheets
+    carry a column that looks like "patients", and picking the first one that
+    resolves lands on a clinical quality measure rather than a patient count."""
+    from pipeline.uds import read_best_sheet
+
+    name, headers, _rows = read_best_sheet(UNIVERSAL)
+
+    assert name == "Table3A"
+    assert "Total Patients" in headers
+
+
+def test_a_named_table_beats_sheet_order() -> None:
+    from pipeline.uds import inspect
+
+    text = inspect(UNIVERSAL)
+    assert "> Table3A" in text
+    assert "Table6BClinicalmeasures" in text     # listed, but not chosen
+
+
+def test_columns_of_a_named_sheet_can_be_dumped() -> None:
+    """How an unfamiliar layout gets taught to the reader."""
+    from pipeline.uds import describe_sheets
+
+    text = describe_sheets(UNIVERSAL, ["HealthCenterInfo"])
+
+    assert "HealthCenterInfo  (5 columns)" in text
+    assert "Health Center Name" in text
+    assert "City" in text
+
+
+def test_dumping_an_unknown_sheet_lists_what_is_there() -> None:
+    from pipeline.uds import describe_sheets
+
+    text = describe_sheets(UNIVERSAL, ["Table99"])
+
+    assert "No sheet called 'Table99'" in text
+    assert "Table3A" in text
+
+
+def test_sheet_names_are_matched_loosely() -> None:
+    """"Table 3A", "Table3A" and "table_3a" are the same sheet to a human."""
+    from pipeline.uds import describe_sheets
+
+    assert "5 columns" in describe_sheets(UNIVERSAL, ["table 3a"])
