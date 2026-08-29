@@ -220,3 +220,49 @@
     else badge.textContent = String(remaining);
   }
 })();
+
+/* --------------------------------------------------------------------------
+   Profile contents list
+   --------------------------------------------------------------------------
+   Highlights the section currently in view. Pure enhancement: without
+   JavaScript the links are ordinary in-page anchors and every section is
+   already on the page, so nothing is lost.
+   -------------------------------------------------------------------------- */
+(() => {
+  const links = Array.from(document.querySelectorAll("[data-profile-nav]"));
+  if (!links.length || !("IntersectionObserver" in window)) return;
+
+  const byId = new Map(links.map((link) => [link.dataset.profileNav, link]));
+  const sections = links
+    .map((link) => document.getElementById(link.dataset.profileNav))
+    .filter(Boolean);
+  if (!sections.length) return;
+
+  // Track which sections are on screen rather than reacting to whichever one
+  // fired last: scrolling fast can deliver entries out of order, and the
+  // topmost visible section is the one a reader considers current.
+  const visible = new Set();
+
+  const highlight = () => {
+    const current = sections.find((section) => visible.has(section.id));
+    links.forEach((link) => link.classList.remove("profile-nav__link--active"));
+    if (!current) return;
+    const link = byId.get(current.id);
+    if (link) link.classList.add("profile-nav__link--active");
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) visible.add(entry.target.id);
+        else visible.delete(entry.target.id);
+      });
+      highlight();
+    },
+    // A section counts as current once its heading has cleared the top of the
+    // viewport and until it has left through the bottom third.
+    { rootMargin: "-80px 0px -66% 0px", threshold: 0 }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+})();

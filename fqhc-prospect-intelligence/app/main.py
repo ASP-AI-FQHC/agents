@@ -36,13 +36,20 @@ from app.queries import (
     data_status,
     fetch_contacts,
     fetch_rows,
+    grouped_contractors,
+    headline_figures,
     organization_changes,
     organization_contractors,
     organization_detail,
     organization_people,
+    organization_profile,
+    organization_programs,
     organization_uds,
     organization_website_crawl,
     organization_website_people,
+    profile_facts,
+    profile_people,
+    profile_tags,
     review_queue,
     similar_organizations,
     summarize,
@@ -74,6 +81,11 @@ templates.env.filters.update(
     ntee=ntee.label,
     age=formatting.age_label,
     months_since=formatting.months_since,
+    signed_money=formatting.signed_money,
+    signed_percent=formatting.signed_percent,
+    since=formatting.relative_date,
+    person=formatting.person_name,
+    job=formatting.job_title,
 )
 
 
@@ -202,24 +214,40 @@ def organization_page(
     if organization is None:
         raise HTTPException(status_code=404, detail="Organization not found")
 
+    uds_reports = organization_uds(session, organization.id)
+    latest_uds = uds_reports[0] if uds_reports else None
+    profile = organization_profile(session, organization.ein)
+    contractors = organization_contractors(session, organization.ein)
+    filing_people = organization_people(session, organization.ein)
+    website_people = organization_website_people(session, organization.id)
+    key_personnel, board_members = profile_people(
+        filing_people, website_people, latest_uds
+    )
+
     context = page_context(session, request)
     context.update(
         organization=organization,
         score=score,
         match=match,
         filings=filings,
+        profile=profile,
+        programs=organization_programs(session, organization.ein),
+        headlines=headline_figures(filings, profile),
+        facts=profile_facts(organization, match, filings, profile, latest_uds),
+        tags=profile_tags(organization, filings, profile, latest_uds, contractors),
         stale_months=config.ui.filing_stale_months,
         ntee_specific=ntee.describe(organization.ntee_code)[0],
         ntee_group=ntee.describe(organization.ntee_code)[1],
         similar=similar_organizations(session, organization),
         history=organization_changes(session, organization.id),
-        people=organization_people(session, organization.ein),
-        contractors=organization_contractors(session, organization.ein),
-        uds_reports=(uds_reports := organization_uds(session, organization.id)),
-        sizing=estimate_sizing(
-            organization, uds_reports[0] if uds_reports else None, config
-        ),
-        website_people=organization_website_people(session, organization.id),
+        people=filing_people,
+        key_personnel=key_personnel,
+        board_members=board_members,
+        contractors=contractors,
+        vendor_groups=grouped_contractors(contractors),
+        uds_reports=uds_reports,
+        sizing=estimate_sizing(organization, latest_uds, config),
+        website_people=website_people,
         website_crawl=organization_website_crawl(session, organization.id),
     )
     return templates.TemplateResponse(request, "detail.html", context)

@@ -1,0 +1,146 @@
+{# Personnel: everyone named for this organization, in one table, with the
+   source of each row stated rather than implied by which table it sits in. #}
+<section class="section" id="personnel">
+  <h3 class="section__header">Personnel</h3>
+
+  {% if key_personnel or board_members %}
+    <p class="prose prose--quiet u-mb-4">
+      {{ (key_personnel | length) + (board_members | length) }} people found for
+      this organization from IRS Form 990 filings, the organization&rsquo;s own
+      website and its HRSA Uniform Data System return. Every row names its
+      source and the date that source describes.
+    </p>
+  {% endif %}
+
+  {% if key_personnel %}
+    <h4 class="subsection__header" style="margin-top: 24px">Key personnel ({{ key_personnel | length }})</h4>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th><th>Title</th><th>Email</th><th>Phone</th>
+            <th>Source</th><th>Date of data</th><th class="num">Compensation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for person in key_personnel %}
+            <tr>
+              <td>
+                <strong>{{ person.name | person }}</strong>
+                {% if person.roles %}
+                  <div class="u-small u-muted">{{ person.roles | join(', ') }}</div>
+                {% endif %}
+              </td>
+              <td>{{ person.title | job }}</td>
+              <td>
+                {% if person.email %}
+                  <a href="mailto:{{ person.email }}">{{ person.email }}</a>
+                {% else %}<span class="not-available">Not published</span>{% endif %}
+              </td>
+              <td class="u-nowrap">
+                {% if person.phone %}{{ person.phone }}
+                {% else %}<span class="not-available">Not published</span>{% endif %}
+              </td>
+              <td class="u-small">
+                {% for source in person.sources %}
+                  <span class="badge {% if source == 'Form 990' %}badge--qualified{% elif source == 'HRSA UDS' %}badge--info{% else %}badge--review{% endif %}">{{ source }}</span>
+                {% endfor %}
+                {% if person.source_url %}
+                  <div><a href="{{ person.source_url }}" target="_blank" rel="noopener noreferrer">View page</a></div>
+                {% endif %}
+              </td>
+              <td class="u-small u-nowrap">{{ person.as_of_label | na }}</td>
+              <td class="num">
+                {% if person.compensation is not none %}{{ person.compensation | money }}
+                {% else %}<span class="not-available">Not available</span>{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+
+  {% if board_members %}
+    <h4 class="subsection__header" style="margin-top: 28px">Board members ({{ board_members | length }})</h4>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th>Name</th><th>Title</th><th>Source</th><th>Date of data</th>
+              <th class="num">Hours/week</th><th class="num">Compensation</th></tr>
+        </thead>
+        <tbody>
+          {% for person in board_members %}
+            <tr>
+              <td>
+                <strong>{{ person.name | person }}</strong>
+                {% if person.roles %}
+                  <div class="u-small u-muted">{{ person.roles | join(', ') }}</div>
+                {% endif %}
+              </td>
+              <td>{{ person.title | job }}</td>
+              <td class="u-small">
+                {% for source in person.sources %}
+                  <span class="badge {% if source == 'Form 990' %}badge--qualified{% else %}badge--review{% endif %}">{{ source }}</span>
+                {% endfor %}
+              </td>
+              <td class="u-small u-nowrap">{{ person.as_of_label | na }}</td>
+              <td class="num">
+                {% if person.average_hours is not none %}{{ '%.0f' % person.average_hours }}
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+              <td class="num">
+                {% if person.compensation is not none %}{{ person.compensation | money }}
+                {% else %}<span class="not-available">Not available</span>{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="source-note">
+      A board member reporting no compensation is the normal case, and is shown
+      as &ldquo;Not available&rdquo; rather than as $0 unless the filing states
+      a figure.
+    </p>
+  {% endif %}
+
+  {% if not key_personnel and not board_members %}
+    <p class="not-available">
+      Not available &mdash;
+      {% if not organization.ein %}
+        this organization has no confirmed EIN, so no Form 990 Part VII data can
+        be attributed to it,
+      {% else %}
+        no Form 990 XML has been loaded for this organization
+        (see <code>irs.local_directory</code> in config.yaml),
+      {% endif %}
+      {% if website_crawl %}
+        and its website was checked
+        {% if website_crawl.fetched_at %}on {{ website_crawl.fetched_at.strftime('%-d %B %Y') }}{% endif %}
+        without finding a leadership listing ({{ website_crawl.outcome | na }}).
+      {% elif organization.website %}
+        and its website has not been checked yet
+        (run <code>python -m pipeline.run --stage website</code>).
+      {% else %}
+        and HRSA publishes no web address for it, so there is no site to fall
+        back to.
+      {% endif %}
+    </p>
+  {% endif %}
+
+  <div class="callout callout--warning" style="margin-top: 16px">
+    <p class="callout__title">What each source is worth</p>
+    <p>
+      <strong>Form 990</strong> rows come from a signed federal filing and
+      describe the tax year shown; the form lists officers care of the
+      organization&rsquo;s own address, so it carries no direct contact details.
+      <strong>HRSA UDS</strong> is the contact the health center itself gave its
+      funder &mdash; a named person and a direct line.
+      <strong>Website</strong> rows were read from a public page by a heuristic
+      that can be wrong; treat them as leads to confirm, and the source page is
+      linked on each line. Emails appear only where the organization published
+      them itself.
+    </p>
+  </div>
+</section>

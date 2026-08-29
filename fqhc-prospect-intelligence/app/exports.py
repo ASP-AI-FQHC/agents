@@ -15,6 +15,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
+from app import formatting
 from app.config import Config
 from app.formatting import NOT_AVAILABLE
 from app.queries import ContactRow, DataStatus, Filters, ProspectRow
@@ -262,8 +263,12 @@ def _contact_values(contact: ContactRow) -> dict[str, object]:
         "organization": contact.organization.name,
         "state": contact.organization.state,
         "score": contact.composite,
-        "person": contact.name,
-        "title": contact.title,
+        # Re-cased for the same reason the screen re-cases them: a 990 is filed
+        # in capitals, and a contact list gets pasted straight into an email.
+        "person": formatting.person_name(contact.name),
+        "title": (
+            formatting.job_title(contact.title) if contact.title else None
+        ),
         "role": contact.role,
         "email": contact.email,
         "source": contact.source,

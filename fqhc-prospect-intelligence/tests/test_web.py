@@ -622,7 +622,10 @@ def test_contacts_export_flattens_both_sources(populated) -> None:
     client, _, _ = populated
     body = client.get("/contacts.csv").text
 
-    assert "MARIA T ALVAREZ" in body       # from a Form 990
+    # Re-cased on the way out: a 990 is filed in capitals, and this file gets
+    # pasted straight into an email.
+    assert "Maria T Alvarez" in body        # from a Form 990
+    assert "Chief Executive Officer" in body
     assert "Denise Whitaker" in body        # from a website
     assert "IRS Form 990 Part VII" in body
     assert "Organization website" in body
@@ -638,7 +641,7 @@ def test_every_contact_row_names_its_source(populated) -> None:
     columns = header.split(",")
     assert "Source" in columns and "Source detail" in columns
 
-    alvarez = next(line for line in lines if "MARIA T ALVAREZ" in line)
+    alvarez = next(line for line in lines if "Maria T Alvarez" in line)
     whitaker = next(line for line in lines if "Denise Whitaker" in line)
     assert "Tax year 2023" in alvarez
     assert "https://example.org/board" in whitaker
@@ -655,7 +658,7 @@ def test_contacts_export_respects_the_current_filter(populated) -> None:
     body = client.get("/contacts.csv?state=WI").text
 
     assert "Denise Whitaker" in body
-    assert "MARIA T ALVAREZ" not in body
+    assert "Maria T Alvarez" not in body
     assert "state in WI" in body
 
 
@@ -665,7 +668,7 @@ def test_contacts_export_marks_missing_emails(populated) -> None:
     alvarez = next(
         line
         for line in client.get("/contacts.csv").text.splitlines()
-        if "MARIA T ALVAREZ" in line
+        if "Maria T Alvarez" in line
     )
     assert "Not available" in alvarez
 
@@ -687,7 +690,7 @@ def test_contacts_xlsx_is_a_readable_workbook(populated) -> None:
         for cell in row
         if cell.value
     ]
-    assert "MARIA T ALVAREZ" in values
+    assert "Maria T Alvarez" in values
     assert "Denise Whitaker" in values
 
 
@@ -843,5 +846,12 @@ def test_the_director_appears_on_the_profile(populated) -> None:
     session.commit()
 
     body = client.get(f"/organizations/{erie.id}").text
-    assert "Project director, reported to HRSA" in body
+    # This organization's 990 already names the same person as an officer, so
+    # the two sources merge into one row rather than listing her twice: the
+    # filing supplies the role, the UDS return supplies the email, and both
+    # sources are named on the row.
+    assert "Maria T Alvarez" in body  # re-cased from the 990's capitals
     assert "malvarez@eriefamilyhealth.org" in body
+    assert "HRSA UDS" in body
+    assert "Form 990" in body
+    assert body.count("<strong>Maria T Alvarez</strong>") == 1

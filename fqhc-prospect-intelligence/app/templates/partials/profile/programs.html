@@ -1,0 +1,95 @@
+{# Program areas: Form 990 Part III, in the filer's own words and order. #}
+<section class="section" id="programs">
+  <h3 class="section__header">Program areas</h3>
+
+  {% if programs %}
+    {% for program in programs %}
+      <article class="program">
+        <h4 class="program__title">
+          {% if program.title %}{{ program.title }}
+          {% else %}Program {{ loop.index }}{% endif %}
+        </h4>
+        <dl class="program__figures">
+          <div class="program__figure">
+            <dt>Expenses</dt>
+            <dd>
+              {% if program.expenses is not none %}{{ program.expenses | money }}
+              {% else %}<span class="not-available">Not available</span>{% endif %}
+            </dd>
+          </div>
+          <div class="program__figure">
+            <dt>Revenue</dt>
+            <dd>
+              {% if program.revenue is not none %}{{ program.revenue | money }}
+              {% else %}<span class="not-available">Not available</span>{% endif %}
+            </dd>
+          </div>
+          <div class="program__figure">
+            <dt>Grants made</dt>
+            <dd>
+              {% if program.grants is not none %}{{ program.grants | money }}
+              {% else %}<span class="not-available">Not available</span>{% endif %}
+            </dd>
+          </div>
+          <div class="program__figure">
+            <dt>Net cost</dt>
+            <dd>
+              {% if program.net_cost is not none %}{{ program.net_cost | money }}
+              {% else %}<span class="not-available">Not available</span>{% endif %}
+            </dd>
+          </div>
+        </dl>
+        {% if program.description and program.description != program.title %}
+          <details class="program__more">
+            <summary>Full description as filed</summary>
+            <p class="prose">{{ program.description }}</p>
+          </details>
+        {% endif %}
+      </article>
+    {% endfor %}
+    <p class="source-note">
+      Form 990 Part III, FY{{ programs[0].tax_year }}, in the order the
+      organization listed them &mdash; Part III asks for the largest programs
+      first. Descriptions are reproduced as filed.
+      <strong>Net cost</strong> is expenses less revenue for the program, and is
+      shown only where the filing reports both.
+    </p>
+  {% else %}
+    <p class="not-available">
+      Not available &mdash; no Form 990 XML has been loaded for this
+      organization, or its return describes no program service accomplishments.
+      See <code>irs.local_directory</code> in config.yaml.
+    </p>
+  {% endif %}
+
+  {# HRSA's own classification of what this organization is funded to do sits
+     alongside the filer's description, not inside it. #}
+  <h4 class="subsection__header" style="margin-top: 28px">As classified by its funders</h4>
+  <dl class="datalist">
+    <dt>HRSA programs</dt>
+    <dd>
+      {% if organization.funding_programs %}
+        {% for programme in organization.funding_programs %}
+          <span class="badge badge--info">{{ programme }}</span>
+        {% endfor %}
+      {% elif organization.funding_program %}
+        <span class="badge badge--info">{{ organization.funding_program }}</span>
+      {% else %}
+        <span class="not-available">Not available</span>
+      {% endif %}
+    </dd>
+    <dt>IRS classification</dt>
+    <dd>
+      {% if organization.ntee_code %}
+        {% if ntee_specific %}{{ ntee_specific }}{% elif ntee_group %}{{ ntee_group }}{% endif %}
+        <span class="u-muted u-small">
+          &middot; NTEE {{ organization.ntee_code }}{% if ntee_specific and ntee_group %} &middot; {{ ntee_group }}{% endif %}
+        </span>
+      {% else %}
+        <span class="not-available">Not available</span>
+      {% endif %}
+    </dd>
+    <dt>Grantee type</dt>
+    <dd>{{ organization.grantee_label }}</dd>
+  </dl>
+</section>

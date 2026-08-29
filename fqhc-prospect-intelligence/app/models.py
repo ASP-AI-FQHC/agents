@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import enum
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, ClassVar
 
 from sqlalchemy import (
     Boolean,
@@ -265,6 +265,12 @@ class Filing(Base):
     total_revenue: Mapped[float | None] = mapped_column(Float)
     total_expenses: Mapped[float | None] = mapped_column(Float)
     total_assets: Mapped[float | None] = mapped_column(Float)
+    # The other half of the balance sheet. Assets without liabilities says
+    # what an organization holds but nothing about what it owes.
+    total_liabilities: Mapped[float | None] = mapped_column(Float)
+    # Form 990 Part I line 5: employees on a W-2 in the calendar year. Headcount
+    # is the first thing a managed-services quote is sized on.
+    employee_count: Mapped[int | None] = mapped_column(Integer)
 
     # Revenue composition, where the IRS extract provides it. This is the
     # funding mix: how much comes from grants and contributions versus billing
@@ -299,6 +305,53 @@ class Filing(Base):
         if self.contributions is None or not self.total_revenue:
             return None
         return self.contributions / self.total_revenue
+
+    @property
+    def net_assets(self) -> float | None:
+        """Assets less liabilities, only when both were actually reported.
+
+        Deliberately not falling back to assets alone: an organization with
+        unreported liabilities is not an organization with none.
+        """
+        if self.total_assets is None or self.total_liabilities is None:
+            return None
+        return self.total_assets - self.total_liabilities
+
+    @property
+    def surplus(self) -> float | None:
+        """Revenue less expenses for the year, when both are known."""
+        if self.total_revenue is None or self.total_expenses is None:
+            return None
+        return self.total_revenue - self.total_expenses
+
+    def revenue_components(self) -> list[tuple[str, float]]:
+        """Reported revenue lines, largest first.
+
+        Government grants sit *inside* contributions on the Form 990 (Part VIII
+        line 1e is one of the lines summing to line 1h), so listing both as
+        given would count the same dollars twice. Where both are reported the
+        remainder is shown as "Other contributions"; where only one is, only
+        that one is shown. Nothing else is inferred -- no residual is invented
+        to make the components add up to the total, because on screen a
+        residual is indistinguishable from a reported figure.
+        """
+        components: list[tuple[str, float]] = []
+
+        government = self.government_grants
+        contributions = self.contributions
+        if government:
+            components.append(("Government grants", government))
+            if contributions and contributions - government > 0:
+                components.append(("Other contributions", contributions - government))
+        elif contributions:
+            components.append(("Contributions and grants", contributions))
+
+        if self.program_service_revenue:
+            components.append(("Program services", self.program_service_revenue))
+        if self.investment_income:
+            components.append(("Investment income", self.investment_income))
+
+        return sorted(components, key=lambda item: item[1], reverse=True)
 
     form_type: Mapped[str | None] = mapped_column(String(32))
     pdf_url: Mapped[str | None] = mapped_column(String(500))
@@ -494,6 +547,188 @@ class Contractor(Base):
     __table_args__ = (
         Index("ix_contractors_ein_year", "ein", "tax_year"),
     )
+
+
+class FilingProfile(Base):
+    """What one Form 990 says about the filer itself.
+
+    Kept apart from :class:`Filing` on purpose. ``Filing`` holds ProPublica's
+    extract of the headline figures; this holds what was read out of the IRS's
+    own e-file XML -- the mission statement, the year of formation, headcount,
+    the balance sheet, the functional expense split and the audit answers.
+    Two sources, two tables, each with its own provenance, so a row is never
+    half from one and half from the other.
+    """
+
+    __tablename__ = "filing_profiles"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    ein: Mapped[str] = mapped_column(String(16), index=True)
+    tax_year: Mapped[int] = mapped_column(Integer, index=True)
+
+    mission: Mapped[str | None] = mapped_column(Text)
+    formation_year: Mapped[int | None] = mapped_column(Integer)
+    domicile_state: Mapped[str | None] = mapped_column(String(2))
+    website: Mapped[str | None] = mapped_column(String(500))
+    employee_count: Mapped[int | None] = mapped_column(Integer)
+    volunteer_count: Mapped[int | None] = mapped_column(Integer)
+
+    total_revenue: Mapped[float | None] = mapped_column(Float)
+    total_expenses: Mapped[float | None] = mapped_column(Float)
+    total_assets: Mapped[float | None] = mapped_column(Float)
+    total_liabilities: Mapped[float | None] = mapped_column(Float)
+    net_assets: Mapped[float | None] = mapped_column(Float)
+
+    program_expenses: Mapped[float | None] = mapped_column(Float)
+    management_expenses: Mapped[float | None] = mapped_column(Float)
+    fundraising_expenses: Mapped[float | None] = mapped_column(Float)
+    grants_paid: Mapped[float | None] = mapped_column(Float)
+    salaries: Mapped[float | None] = mapped_column(Float)
+
+    # Three-state: True, False, or NULL where the return does not answer.
+    financials_audited: Mapped[bool | None] = mapped_column(Boolean)
+    single_audit_required: Mapped[bool | None] = mapped_column(Boolean)
+    single_audit_performed: Mapped[bool | None] = mapped_column(Boolean)
+    audit_committee: Mapped[bool | None] = mapped_column(Boolean)
+
+    fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    __table_args__ = (
+        UniqueConstraint("ein", "tax_year", name="uq_filing_profile_ein_year"),
+    )
+
+    @property
+    def age_years(self) -> int | None:
+        """Years since formation, as of now."""
+        if self.formation_year is None:
+            return None
+        return max(datetime.now(timezone.utc).year - self.formation_year, 0)
+
+    # Columns read off the return, in one place so the "did we learn anything"
+    # question below cannot drift out of step with the schema above.
+    FACT_COLUMNS: ClassVar[tuple[str, ...]] = (
+        "mission", "formation_year", "domicile_state", "website",
+        "employee_count", "volunteer_count", "total_revenue", "total_expenses",
+        "total_assets", "total_liabilities", "net_assets", "program_expenses",
+        "management_expenses", "fundraising_expenses", "grants_paid",
+        "salaries", "financials_audited", "single_audit_required",
+        "single_audit_performed", "audit_committee",
+    )
+
+    @property
+    def has_any(self) -> bool:
+        """Whether this row carries any fact at all."""
+        return any(
+            getattr(self, name) is not None for name in self.FACT_COLUMNS
+        )
+
+    @property
+    def has_balance_sheet(self) -> bool:
+        return any(
+            value is not None
+            for value in (self.total_assets, self.total_liabilities, self.net_assets)
+        )
+
+    @property
+    def has_expense_split(self) -> bool:
+        """Whether Part IX's functional columns were reported.
+
+        Mirrors the property of the same name on the parse-time record. Jinja
+        treats an undefined attribute as merely falsy, so a property that
+        exists on one of the two representations and not the other makes the
+        section vanish in silence rather than raising -- which is exactly what
+        happened here before this was added.
+        """
+        return any(
+            value is not None
+            for value in (
+                self.program_expenses,
+                self.management_expenses,
+                self.fundraising_expenses,
+            )
+        )
+
+    def expense_components(self) -> list[tuple[str, float]]:
+        """The Part IX functional split, largest first."""
+        named = (
+            ("Program services", self.program_expenses),
+            ("Management and general", self.management_expenses),
+            ("Fundraising", self.fundraising_expenses),
+        )
+        return sorted(
+            ((label, value) for label, value in named if value),
+            key=lambda item: item[1],
+            reverse=True,
+        )
+
+    @property
+    def program_expense_share(self) -> float | None:
+        """Share of expenses spent on programs rather than overhead."""
+        if not self.program_expenses or not self.total_expenses:
+            return None
+        return self.program_expenses / self.total_expenses
+
+    @property
+    def audit_summary(self) -> str | None:
+        """One line describing how the books were checked, or None if unstated."""
+        if self.single_audit_performed:
+            return "Single Audit performed under the Uniform Guidance"
+        if self.single_audit_required:
+            return "Subject to a Single Audit; the return does not confirm one was performed"
+        if self.single_audit_required is False and self.financials_audited:
+            return "Independently audited; not subject to a Single Audit"
+        if self.financials_audited:
+            return "Financial statements independently audited"
+        if self.financials_audited is False:
+            return "Financial statements not independently audited"
+        return None
+
+
+class ProgramArea(Base):
+    """One Form 990 Part III program service accomplishment.
+
+    The organization's own description of a program it runs, with the money
+    spent on it and the money it earned. Ordered as the filer listed them --
+    Part III puts the three largest first, which is itself information.
+    """
+
+    __tablename__ = "program_areas"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    ein: Mapped[str] = mapped_column(String(16), index=True)
+    tax_year: Mapped[int] = mapped_column(Integer, index=True)
+    position: Mapped[int] = mapped_column(Integer, default=0)
+
+    description: Mapped[str | None] = mapped_column(Text)
+    expenses: Mapped[float | None] = mapped_column(Float)
+    grants: Mapped[float | None] = mapped_column(Float)
+    revenue: Mapped[float | None] = mapped_column(Float)
+    activity_code: Mapped[str | None] = mapped_column(String(32))
+
+    fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    __table_args__ = (
+        Index("ix_program_areas_ein_year", "ein", "tax_year"),
+    )
+
+    @property
+    def title(self) -> str | None:
+        """A short label for the program, taken from its own first sentence."""
+        if not self.description:
+            return None
+        text = " ".join(self.description.split())
+        for stop in (". ", " - ", ": "):
+            cut = text.find(stop)
+            if 0 < cut <= 90:
+                return text[:cut].strip(" .:-")
+        return text if len(text) <= 90 else text[:87].rsplit(" ", 1)[0] + "..."
+
+    @property
+    def net_cost(self) -> float | None:
+        """Expenses less revenue: what the program costs after what it earns."""
+        if self.expenses is None or self.revenue is None:
+            return None
+        return self.expenses - self.revenue
 
 
 class UdsReport(Base):

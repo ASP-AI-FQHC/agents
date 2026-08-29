@@ -1,0 +1,54 @@
+{# The ICP score and, more usefully, what it is made of. #}
+<section class="section" id="score">
+  <h3 class="section__header">ICP score</h3>
+  {% if score %}
+    <div class="grid grid--halves">
+      <div>
+        <div class="kpi {% if score.composite >= 75 %}pipe--green{% else %}pipe--blue{% endif %}">
+          <p class="kpi__label">Composite score</p>
+          <p class="kpi__value">{{ '%.0f' % score.composite }}<span class="u-muted u-small"> / 100</span></p>
+          <p class="kpi__meta">
+            Scored {{ score.scored_at.strftime('%-d %B %Y') }}
+            {% if score.unavailable_factors %}
+              &middot; {{ score.unavailable_factors | length }} factor{{ '' if score.unavailable_factors | length == 1 else 's' }} unavailable
+            {% endif %}
+          </p>
+        </div>
+        {% if score.unavailable_factors %}
+          <div class="callout callout--warning" style="margin-top: 16px">
+            <p class="callout__title">Scored on partial data</p>
+            <p>
+              Factors that could not be computed were excluded and the remaining
+              weights renormalized, so this score reflects only what is actually
+              known about this organization.
+            </p>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr><th>Factor</th><th class="num">Score</th><th class="num">Weight</th><th>Basis</th></tr>
+          </thead>
+          <tbody>
+            {% for factor in score.breakdown %}
+              <tr>
+                <td><strong>{{ factor.label }}</strong></td>
+                <td class="num">
+                  {% if factor.score is not none %}{{ '%.0f' % factor.score }}{% else %}<span class="not-available">n/a</span>{% endif %}
+                </td>
+                <td class="num">
+                  {% if factor.available %}{{ '%.0f' % factor.effective_weight }}%{% else %}<span class="u-muted">&mdash;</span>{% endif %}
+                </td>
+                <td class="u-small">{{ factor.detail }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% else %}
+    <p class="not-available">Not available &mdash; run the scoring stage to score this organization.</p>
+  {% endif %}
+</section>

@@ -752,3 +752,341 @@ a:focus-visible {
 }
 
 [aria-busy="true"] { opacity: 0.55; transition: opacity 0.1s ease; }
+
+/* ==========================================================================
+   Organization profile
+   --------------------------------------------------------------------------
+   A profile is a reference document, not a narrative: someone opens it to
+   answer one question, so the sections are addressable from a standing
+   contents list rather than found by scrolling. The layout is two columns
+   above 1000px and a single column below it, where the contents list becomes
+   a horizontally scrolling strip rather than disappearing.
+   ========================================================================== */
+
+.profile {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: var(--space-7);
+  align-items: start;
+}
+
+.profile__main { min-width: 0; }
+
+.profile-nav {
+  position: sticky;
+  top: var(--space-4);
+  border-left: 2px solid var(--rule);
+  padding-left: var(--space-4);
+}
+
+.profile-nav__title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-3);
+}
+
+.profile-nav__list { list-style: none; margin: 0; padding: 0; }
+
+.profile-nav__link {
+  display: block;
+  padding: 5px 0;
+  font-size: 13px;
+  color: var(--text);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  margin-left: calc(-1 * var(--space-4) - 2px);
+  padding-left: var(--space-4);
+}
+
+.profile-nav__link:hover { color: var(--allstar-blue); text-decoration: none; }
+
+.profile-nav__link--active {
+  color: var(--allstar-blue);
+  font-weight: 700;
+  border-left-color: var(--allstar-blue);
+}
+
+/* A count of what is in a section, so the reader knows before clicking
+   whether there is anything there. */
+.profile-nav__count {
+  float: right;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+@media (max-width: 1000px) {
+  .profile { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+
+  .profile-nav {
+    position: static;
+    border-left: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 0 0 var(--space-3);
+  }
+
+  .profile-nav__list {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+  }
+
+  .profile-nav__link {
+    white-space: nowrap;
+    margin-left: 0;
+    padding: 4px var(--space-3);
+    border-left: none;
+    border-bottom: 2px solid transparent;
+  }
+
+  .profile-nav__link--active { border-bottom-color: var(--allstar-blue); }
+  .profile-nav__count { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Fact strip -- the identifying facts that open the profile
+   -------------------------------------------------------------------------- */
+
+.factstrip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.factstrip__item {
+  padding: var(--space-3) var(--space-4);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  min-width: 0;
+}
+
+.factstrip__label {
+  margin: 0 0 2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.factstrip__value {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  overflow-wrap: break-word;
+}
+
+.factstrip__value .not-available { font-size: 12px; font-weight: 400; }
+
+/* --------------------------------------------------------------------------
+   Headline cards -- a figure, how it moved, and what it is made of
+   -------------------------------------------------------------------------- */
+
+.headline {
+  border: 1px solid var(--rule);
+  border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-blue));
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.headline__label {
+  margin: 0 0 var(--space-1);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.headline__value {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.headline__value .not-available { font-size: 14px; font-weight: 400; }
+
+.headline__year { margin: 2px 0 0; font-size: 11px; color: var(--text-secondary); }
+
+.delta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The amount stays in ordinary text colour and only the arrow is tinted.
+   Colouring the whole figure green for "expenses up" or "liabilities up" reads
+   as approval, and whether a rise is good depends entirely on which line it
+   is -- a judgement this page has no business making. */
+.delta { color: var(--text); }
+.delta__arrow { font-size: 14px; line-height: 1; }
+.delta--up .delta__arrow { color: var(--allstar-green); }
+.delta--down .delta__arrow { color: var(--allstar-pink); }
+.delta--flat .delta__arrow { color: var(--text-secondary); }
+
+.delta__note { font-weight: 400; color: var(--text-secondary); }
+
+/* Absent movement is stated, not omitted: a card with nothing under the
+   number would read as "unchanged". */
+.delta--unknown { color: var(--text-secondary); font-weight: 400; font-style: italic; }
+
+.components {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--rule);
+}
+
+.components__item + .components__item { margin-top: var(--space-2); }
+
+.components__head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 12px;
+}
+
+.components__label { color: var(--text-secondary); min-width: 0; }
+.components__amount { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.components__bar {
+  display: block;
+  height: 4px;
+  margin-top: 3px;
+  background: var(--surface-muted);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.components__fill {
+  display: block;
+  height: 100%;
+  background: var(--pipe-color, var(--allstar-blue));
+  opacity: 0.75;
+}
+
+/* --------------------------------------------------------------------------
+   Classification pills
+   -------------------------------------------------------------------------- */
+
+.pill-group + .pill-group { margin-top: var(--space-4); }
+
+.pill-group__title {
+  margin: 0 0 var(--space-2);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.pill-group__items { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* Every pill carries a title attribute naming the filing it came from, so a
+   classification can always be traced rather than taken on trust. */
+.pill {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid;
+  cursor: help;
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  border-color: var(--rule);
+}
+
+.pill--blue { background: var(--blue-tint); color: #006d8a; border-color: #b5e0eb; }
+.pill--green { background: var(--green-tint); color: #3f7a2d; border-color: #bfe3b2; }
+.pill--orange { background: var(--orange-tint); color: #a85a10; border-color: #f8d3ac; }
+.pill--pink { background: var(--pink-tint); color: #a20d6e; border-color: #f0b9dd; }
+.pill--purple { background: #eeedf6; color: #413e88; border-color: #c9c7e4; }
+
+/* --------------------------------------------------------------------------
+   Narrative blocks -- mission statements and program descriptions
+   -------------------------------------------------------------------------- */
+
+.prose {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 76ch;
+}
+
+.prose--quiet { color: var(--text-secondary); font-size: 13px; }
+
+.program {
+  border: 1px solid var(--rule);
+  border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-purple));
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: var(--space-4) var(--space-5);
+}
+
+.program + .program { margin-top: var(--space-4); }
+
+.program__title { margin: 0 0 var(--space-2); font-size: 16px; font-weight: 700; }
+
+.program__figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.program__figure { font-size: 13px; }
+.program__figure dt {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.program__figure dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* A program narrative can run to several hundred words. It is collapsed by
+   default and opens in place -- no JavaScript, and the full text is in the
+   page for search and for printing. */
+.program__more { font-size: 13px; }
+.program__more summary {
+  cursor: pointer;
+  color: var(--allstar-blue);
+  font-weight: 700;
+  font-size: 12px;
+}
+.program__more[open] summary { margin-bottom: var(--space-2); }
+
+/* --------------------------------------------------------------------------
+   Source line -- what a section was built from, under the section
+   -------------------------------------------------------------------------- */
+
+.source-note {
+  margin: var(--space-3) 0 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.source-note strong { color: var(--text); font-weight: 700; }

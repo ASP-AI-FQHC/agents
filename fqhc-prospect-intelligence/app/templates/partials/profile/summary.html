@@ -1,0 +1,133 @@
+{# Summary: the identifying facts, the four headline figures, what the
+   organization says it does, and how it is classified. #}
+<section class="section" id="summary">
+  <h3 class="section__header">Summary</h3>
+
+  <div class="factstrip">
+    {% for fact in facts.items %}
+      <div class="factstrip__item">
+        <p class="factstrip__label">{{ fact.label }}</p>
+        <p class="factstrip__value">
+          {% if fact.value is none %}
+            <span class="not-available">Not available</span>
+          {% elif fact.kind == 'ein' %}
+            <span class="u-nowrap">{{ fact.value | ein }}</span>
+          {% elif fact.kind == 'count' %}
+            {{ fact.value | number }}
+          {% else %}
+            {# A year is a label, not a quantity: no thousands separator. #}
+            {{ fact.value }}
+          {% endif %}
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+
+  {# ---- Headline figures ------------------------------------------------- #}
+  {% if headlines %}
+    <div class="grid grid--kpi">
+      {% for card in headlines %}
+        {% set tone = ['pipe--blue', 'pipe--orange', 'pipe--green', 'pipe--purple'][loop.index0 % 4] %}
+        <div class="headline {{ tone }}">
+          <p class="headline__label">{{ card.label }}</p>
+          <p class="headline__value">
+            {% if card.value is not none %}{{ card.value | money }}
+            {% else %}<span class="not-available">Not available</span>{% endif %}
+          </p>
+          {% if card.year %}<p class="headline__year">FY{{ card.year }}</p>{% endif %}
+
+          {% if card.change is not none %}
+            <span class="delta {% if card.direction > 0 %}delta--up{% elif card.direction < 0 %}delta--down{% else %}delta--flat{% endif %}">
+              <span class="delta__arrow" aria-hidden="true">{% if card.direction > 0 %}&uarr;{% elif card.direction < 0 %}&darr;{% else %}&mdash;{% endif %}</span>
+              {{ card.change | signed_money }}
+              {% if card.change_share is not none %}
+                <span class="delta__note">{{ card.change_share | signed_percent }} vs FY{{ card.previous_year }}</span>
+              {% else %}
+                <span class="delta__note">vs FY{{ card.previous_year }}</span>
+              {% endif %}
+            </span>
+          {% elif card.value is not none %}
+            {# Said out loud rather than left blank: an empty space under a
+               number reads as "unchanged", which is a claim we cannot make. #}
+            <span class="delta delta--unknown">No prior year to compare</span>
+          {% endif %}
+
+          {% if card.components %}
+            <ul class="components">
+              {% for label, amount in card.components %}
+                <li class="components__item">
+                  <span class="components__head">
+                    <span class="components__label">{{ label }}</span>
+                    <span class="components__amount">{{ amount | money }}</span>
+                  </span>
+                  <span class="components__bar">
+                    <span class="components__fill" style="width: {{ (card.component_share(amount) * 100) | round(1) }}%"></span>
+                  </span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <p class="source-note">
+      As reported to the IRS on Form 990 and published by ProPublica Nonprofit
+      Explorer{% if profile %}, with the balance sheet and expense split read
+      from the IRS e-file XML for FY{{ profile.tax_year }}{% endif %}. Movement
+      is measured against the previous filed year, not against the current one:
+      a 990 becomes public 6&ndash;18 months after the year it covers. Arrows
+      show <strong>direction only</strong> &mdash; whether a rise is good news
+      depends on which line it is.
+      {% if headlines[0].components %}
+        Government grants are one of the lines that sum to total contributions
+        on the Form 990, so where both are reported the remainder is shown
+        separately as &ldquo;other contributions&rdquo; rather than counted twice.
+      {% endif %}
+    </p>
+  {% else %}
+    <div class="callout callout--warning">
+      <p class="callout__title">No financial figures available</p>
+      <p>
+        {% if not organization.ein %}
+          This organization has no confirmed EIN, so no Form 990 data can be
+          attributed to it. Figures are never attached on the strength of an
+          unconfirmed match.
+        {% else %}
+          ProPublica Nonprofit Explorer holds no filings for
+          EIN {{ organization.ein | ein }}.
+        {% endif %}
+      </p>
+    </div>
+  {% endif %}
+
+  {# ---- What the organization says it does -------------------------------- #}
+  {% if profile and profile.mission %}
+    <h4 class="subsection__header" style="margin-top: 32px">Description</h4>
+    <p class="prose">{{ profile.mission }}</p>
+    <p class="source-note">
+      The organization&rsquo;s own words, from its FY{{ profile.tax_year }}
+      Form 990. Not a summary and not paraphrased.
+    </p>
+  {% endif %}
+
+  {# ---- Classification ---------------------------------------------------- #}
+  {% if tags %}
+    <div style="margin-top: 32px">
+      {% for group, pills in tags %}
+        <div class="pill-group">
+          <p class="pill-group__title">{{ group }}</p>
+          <div class="pill-group__items">
+            {% for pill in pills %}
+              <span class="pill pill--{{ pill.tone }}" title="{{ pill.basis }}">{{ pill.label }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+      <p class="source-note">
+        Every label restates something already on this page. Hover one to see
+        the filing or file it came from &mdash; none of them is a judgement
+        made here.
+      </p>
+    </div>
+  {% endif %}
+</section>

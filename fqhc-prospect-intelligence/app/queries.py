@@ -7,6 +7,7 @@ screen was showing.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Literal
@@ -18,6 +19,7 @@ from app.config import Config
 from app.models import (
     EinMatch,
     Filing,
+    GranteeType,
     IngestRun,
     MatchStatus,
     Organization,
@@ -734,6 +736,591 @@ def organization_contractors(session: Session, ein: str | None):
             .order_by(Contractor.compensation.desc().nulls_last())
         ).all()
     )
+
+
+def organization_profile(session: Session, ein: str | None):
+    """The most recent Form 990 profile read from the IRS XML, if any."""
+    from app.models import FilingProfile
+
+    if not ein:
+        return None
+    return session.scalars(
+        select(FilingProfile)
+        .where(FilingProfile.ein == ein)
+        .order_by(FilingProfile.tax_year.desc())
+        .limit(1)
+    ).first()
+
+
+def organization_programs(session: Session, ein: str | None):
+    """Form 990 Part III program areas for the most recent year, as filed."""
+    from app.models import ProgramArea
+
+    if not ein:
+        return []
+    latest = session.scalar(
+        select(func.max(ProgramArea.tax_year)).where(ProgramArea.ein == ein)
+    )
+    if latest is None:
+        return []
+    return list(
+        session.scalars(
+            select(ProgramArea)
+            .where(ProgramArea.ein == ein, ProgramArea.tax_year == latest)
+            .order_by(ProgramArea.position, ProgramArea.id)
+        ).all()
+    )
+
+
+# ---------------------------------------------------------------------------
+# Headline figures with year-on-year movement
+# ---------------------------------------------------------------------------
+
+
+@dataclass
+class Headline:
+    """One KPI card: a figure, how it moved, and what it is made of.
+
+    ``previous`` and the deltas are None whenever the prior year is missing or
+    itself unreported. A card never shows a movement it cannot substantiate --
+    "no change" and "we have one year of data" look identical on a card and are
+    completely different facts.
+    """
+
+    label: str
+    value: float | None
+    year: int | None = None
+    previous: float | None = None
+    previous_year: int | None = None
+    components: list[tuple[str, float]] = field(default_factory=list)
+    source: str = "IRS Form 990"
+    note: str | None = None
+
+    @property
+    def change(self) -> float | None:
+        if self.value is None or self.previous is None:
+            return None
+        return self.value - self.previous
+
+    @property
+    def change_share(self) -> float | None:
+        """Movement as a share of the prior year. None when that year was zero."""
+        if self.change is None or not self.previous:
+            return None
+        return self.change / abs(self.previous)
+
+    @property
+    def direction(self) -> int:
+        """1 up, -1 down, 0 flat or unknown."""
+        change = self.change
+        if change is None or change == 0:
+            return 0
+        return 1 if change > 0 else -1
+
+    @property
+    def component_total(self) -> float:
+        return sum(value for _, value in self.components)
+
+    def component_share(self, value: float) -> float:
+        """A component's width on the mini bar, relative to the largest one."""
+        largest = max((amount for _, amount in self.components), default=0)
+        return (value / largest) if largest else 0.0
+
+
+def _by_year(filings, attribute: str) -> dict[int, float]:
+    return {
+        filing.tax_year: getattr(filing, attribute)
+        for filing in filings
+        if getattr(filing, attribute) is not None
+    }
+
+
+def headline_figures(filings, profile=None) -> list[Headline]:
+    """The four balance-sheet cards, newest year against the one before it.
+
+    Values come from the filings themselves; the Form 990 XML profile only
+    fills a gap ProPublica's extract left, and only for the same tax year, so
+    a card is never half from one source and half from another.
+    """
+    ordered = sorted(filings, key=lambda f: f.tax_year, reverse=True)
+    if not ordered:
+        return []
+
+    latest = ordered[0]
+    prior = ordered[1] if len(ordered) > 1 else None
+    use_profile = profile is not None and profile.tax_year == latest.tax_year
+
+    def value(attribute: str) -> float | None:
+        found = getattr(latest, attribute, None)
+        if found is None and use_profile:
+            return getattr(profile, attribute, None)
+        return found
+
+    cards = [
+        Headline(
+            label="Revenues",
+            value=value("total_revenue"),
+            year=latest.tax_year,
+            previous=getattr(prior, "total_revenue", None),
+            previous_year=getattr(prior, "tax_year", None),
+            components=latest.revenue_components(),
+        ),
+        Headline(
+            label="Expenses",
+            value=value("total_expenses"),
+            year=latest.tax_year,
+            previous=getattr(prior, "total_expenses", None),
+            previous_year=getattr(prior, "tax_year", None),
+            components=profile.expense_components() if use_profile else [],
+        ),
+        Headline(
+            label="Assets",
+            value=value("total_assets"),
+            year=latest.tax_year,
+            previous=getattr(prior, "total_assets", None),
+            previous_year=getattr(prior, "tax_year", None),
+        ),
+        Headline(
+            label="Liabilities",
+            value=value("total_liabilities"),
+            year=latest.tax_year,
+            previous=getattr(prior, "total_liabilities", None),
+            previous_year=getattr(prior, "tax_year", None),
+        ),
+    ]
+    return cards
+
+
+@dataclass
+class Fact:
+    """One entry in the header strip.
+
+    ``kind`` tells the template how to render the value, because a number is
+    not automatically a quantity: 262 employees is thousands-separated, the
+    year 1982 is not, and an EIN is punctuated differently from either.
+    """
+
+    label: str
+    value: object
+    kind: str = "text"  # text | count | year | ein
+
+
+@dataclass
+class ProfileFacts:
+    """The strip of identifying facts that opens the profile.
+
+    Every entry may have a value of None. The template renders "Not available"
+    for a None rather than dropping the row, so the reader can tell the
+    difference between a fact we do not hold and one we never look for.
+    """
+
+    items: list[Fact] = field(default_factory=list)
+
+    def add(self, label: str, value, kind: str = "text") -> None:
+        self.items.append(Fact(label, value, kind))
+
+
+def profile_facts(organization, match, filings, profile, uds=None) -> ProfileFacts:
+    """Assemble the header strip: identity, age, size, most recent filing."""
+    facts = ProfileFacts()
+
+    # ``status`` comes back as a bare string on rows loaded straight from
+    # SQLite, so it is coerced rather than assumed to be the enum.
+    usable_ein = None
+    if match is not None and match.ein:
+        try:
+            usable = MatchStatus(match.status).is_usable
+        except ValueError:
+            usable = False
+        usable_ein = match.ein if usable else None
+    facts.add("EIN", usable_ein, "ein")
+    facts.add(
+        "IRS classification",
+        "501(c)(3) public charity" if usable_ein and filings else None,
+    )
+
+    # Headcount: the 990 counts everyone on a W-2, UDS counts full-time
+    # equivalents. They are different measures and the label says which.
+    employees = next(
+        (f.employee_count for f in filings if f.employee_count is not None), None
+    )
+    if employees is None and profile is not None:
+        employees = profile.employee_count
+    facts.add("Employees", employees, "count")
+
+    facts.add("City", organization.city)
+    facts.add("State", organization.state)
+    facts.add(
+        "Year formed",
+        profile.formation_year if profile is not None else None,
+        "year",
+    )
+    facts.add(
+        "Most recent filing",
+        f"FY{filings[0].tax_year}" if filings else None,
+    )
+    facts.add("NTEE code", organization.ntee_code)
+    return facts
+
+
+# Contractor descriptions are free text a filer typed into Part VII Section B,
+# so they are grouped by keyword into the kinds of vendor a reader is looking
+# for. The grouping is a label on top of the filed text, never a replacement
+# for it -- the description as filed is always shown beside it.
+VENDOR_CATEGORIES: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("Health IT and software", (
+        "software", "electronic health", "ehr", "emr", "information technology",
+        "it services", "informatics", "hosting", "data center", "cloud",
+        "network", "cyber", "help desk", "helpdesk", "computer",
+    )),
+    ("Billing and revenue cycle", (
+        "billing", "revenue cycle", "coding", "claims", "collection",
+        "accounts receivable", "reimbursement",
+    )),
+    ("Audit and accounting", (
+        "audit", "accounting", "accountant", "cpa", "tax prep", "bookkeep",
+    )),
+    ("Clinical staffing and services", (
+        "physician", "nursing", "nurse", "dental", "medical services",
+        "clinical", "provider services", "locum", "behavioral", "pharmacy",
+        "laboratory", "radiology", "interpret", "telehealth",
+    )),
+    ("Facilities and construction", (
+        "construction", "renovation", "janitorial", "cleaning", "security",
+        "maintenance", "architect", "engineering", "hvac", "landscap",
+    )),
+    ("Insurance and benefits", (
+        "insurance", "benefit", "broker", "malpractice", "retirement",
+        "third party administrator", "tpa",
+    )),
+    ("Consulting and management", (
+        "consult", "management services", "advisory", "staffing", "recruit",
+        "marketing", "legal", "attorney", "law",
+    )),
+)
+
+# Keywords match at a word boundary on the left, and are free to run into a
+# suffix on the right ("consult" catching "consulting"). A plain substring test
+# put "independent AUDIT SERVICES" under health IT, because "it services" sits
+# inside "audit services" -- the same trap that once classified "Hector" as a
+# CTO.
+_VENDOR_PATTERNS: tuple[tuple[str, tuple[re.Pattern[str], ...]], ...] = tuple(
+    (label, tuple(re.compile(r"\b" + re.escape(word)) for word in words))
+    for label, words in VENDOR_CATEGORIES
+)
+
+
+def vendor_category(services: str | None) -> str:
+    """Group a Part VII Section B service description into a vendor kind.
+
+    Returns "Other services" when nothing matches and "Not described" when the
+    filer left the description blank -- two different facts, and neither is a
+    guess about what the vendor does.
+    """
+    if not services or not services.strip():
+        return "Not described"
+    text = services.lower()
+    for label, patterns in _VENDOR_PATTERNS:
+        if any(pattern.search(text) for pattern in patterns):
+            return label
+    return "Other services"
+
+
+def grouped_contractors(contractors) -> list[tuple[str, list]]:
+    """Contractors grouped by the kind of service they were paid for.
+
+    Groups are ordered by total spend, and within a group by amount paid: the
+    largest relationship in the most expensive category reads first.
+    """
+    groups: dict[str, list] = {}
+    for contractor in contractors:
+        groups.setdefault(vendor_category(contractor.services), []).append(contractor)
+
+    for rows in groups.values():
+        rows.sort(key=lambda c: -(c.compensation or 0))
+
+    return sorted(
+        groups.items(),
+        key=lambda item: -sum(c.compensation or 0 for c in item[1]),
+    )
+
+
+@dataclass
+class ProfilePerson:
+    """One named person on the profile, whatever source named them.
+
+    The three sources -- a signed Form 990, the organization's own website, and
+    the contact HRSA holds for the UDS return -- carry very different weight,
+    so ``sources`` travels with every row and the table shows it. Where the
+    same person appears in more than one, the row is merged and lists both:
+    that agreement is itself worth seeing.
+    """
+
+    name: str
+    title: str | None = None
+    email: str | None = None
+    phone: str | None = None
+    compensation: float | None = None
+    average_hours: float | None = None
+    roles: list[str] = field(default_factory=list)
+    sources: list[str] = field(default_factory=list)
+    as_of: datetime | None = None
+    as_of_label: str | None = None
+    source_url: str | None = None
+    is_board_member: bool = False
+
+    @property
+    def source_label(self) -> str:
+        return " + ".join(self.sources)
+
+
+def _merge_key(name: str) -> str:
+    """A comparison key for one person's name.
+
+    Deliberately conservative: case, punctuation and middle initials are
+    ignored, but nothing else is. Two people who share a first and last name at
+    the same organization stay two rows -- wrongly fusing a father and son on a
+    board is worse than listing one person twice with the source of each stated.
+    """
+    cleaned = "".join(ch if ch.isalnum() or ch.isspace() else " " for ch in name.lower())
+    parts = [part for part in cleaned.split() if len(part) > 1]
+    if len(parts) < 2:
+        return " ".join(parts)
+    return f"{parts[0]} {parts[-1]}"
+
+
+def profile_people(
+    filing_people, website_people, uds=None
+) -> tuple[list[ProfilePerson], list[ProfilePerson]]:
+    """Everyone named for this organization, split into staff and board.
+
+    Returns ``(key_personnel, board_members)``. Key personnel are sorted by
+    reported compensation, board members alphabetically -- the orders a reader
+    actually wants from each list.
+    """
+    merged: dict[str, ProfilePerson] = {}
+    order: list[str] = []
+
+    def absorb(person: ProfilePerson) -> None:
+        key = _merge_key(person.name)
+        existing = merged.get(key)
+        if existing is None:
+            merged[key] = person
+            order.append(key)
+            return
+        # Fill gaps only. A value already established by an earlier -- more
+        # authoritative -- source is never overwritten by a later one.
+        for attribute in (
+            "title",
+            "email",
+            "phone",
+            "compensation",
+            "average_hours",
+            "source_url",
+            "as_of",
+            "as_of_label",
+        ):
+            if getattr(existing, attribute) is None:
+                setattr(existing, attribute, getattr(person, attribute))
+        for role in person.roles:
+            if role not in existing.roles:
+                existing.roles.append(role)
+        for source in person.sources:
+            if source not in existing.sources:
+                existing.sources.append(source)
+        existing.is_board_member = existing.is_board_member or person.is_board_member
+
+    # Form 990 first: a signed federal filing outranks a web page.
+    for person in filing_people:
+        absorb(
+            ProfilePerson(
+                name=person.name,
+                title=person.title,
+                compensation=person.total_compensation,
+                average_hours=person.average_hours,
+                roles=list(person.roles or []),
+                sources=["Form 990"],
+                as_of=person.fetched_at,
+                as_of_label=f"FY{person.tax_year}" if person.tax_year else None,
+                is_board_member=person.is_board_member,
+            )
+        )
+
+    # The UDS project director: a named person with a direct line, given to
+    # HRSA by the health center itself.
+    if uds is not None and uds.director_name:
+        absorb(
+            ProfilePerson(
+                name=uds.director_name,
+                title="Project Director",
+                email=uds.director_email,
+                phone=uds.director_phone,
+                sources=["HRSA UDS"],
+                as_of=uds.fetched_at,
+                as_of_label=str(uds.year) if uds.year else None,
+            )
+        )
+
+    for person in website_people:
+        absorb(
+            ProfilePerson(
+                name=person.name,
+                title=person.title,
+                email=person.email,
+                sources=["Website"],
+                as_of=person.fetched_at,
+                as_of_label=(
+                    person.fetched_at.strftime("%b %Y") if person.fetched_at else None
+                ),
+                source_url=person.source_url,
+                is_board_member=person.is_board_member,
+            )
+        )
+
+    people = [merged[key] for key in order]
+    board = sorted(
+        (person for person in people if person.is_board_member),
+        key=lambda p: p.name,
+    )
+    staff = sorted(
+        (person for person in people if not person.is_board_member),
+        key=lambda p: (-(p.compensation or 0), p.name),
+    )
+    return staff, board
+
+
+@dataclass
+class Tag:
+    """One classification pill, with the source that justifies it."""
+
+    label: str
+    basis: str
+    tone: str = "info"
+
+
+def profile_tags(organization, filings, profile, uds=None, contractors=()) -> list[
+    tuple[str, list[Tag]]
+]:
+    """Grouped classification pills, each carrying why it is there.
+
+    Every pill is a restatement of something already on the page -- an NTEE
+    code, a HRSA program, a checkbox on the return. None is a judgement, and
+    hovering one shows the source, so a pill can always be traced back to a
+    filing rather than taken on trust.
+    """
+    from app import ntee as ntee_module
+
+    types: list[Tag] = []
+    issues: list[Tag] = []
+    characteristics: list[Tag] = []
+
+    if organization.grantee_type == GranteeType.AWARDEE:
+        types.append(
+            Tag(
+                "Federally Qualified Health Center",
+                "HRSA Section 330 grant awardee",
+                "green",
+            )
+        )
+    elif organization.grantee_type == GranteeType.LOOK_ALIKE:
+        types.append(
+            Tag(
+                "FQHC Look-Alike",
+                "Meets HRSA health center requirements without a Section 330 grant",
+                "blue",
+            )
+        )
+
+    if filings:
+        types.append(
+            Tag("501(c)(3) nonprofit", f"Files an IRS Form 990 (FY{filings[0].tax_year})")
+        )
+
+    specific, group = ntee_module.describe(organization.ntee_code)
+    if specific:
+        types.append(Tag(specific, f"NTEE code {organization.ntee_code}"))
+    if group and group != specific:
+        issues.append(Tag(group, f"NTEE group for code {organization.ntee_code}"))
+
+    for programme in organization.funding_programs or (
+        [organization.funding_program] if organization.funding_program else []
+    ):
+        issues.append(Tag(programme, "HRSA funding program awarded to this organization"))
+
+    if organization.site_count and organization.site_count > 1:
+        characteristics.append(
+            Tag(
+                f"{organization.site_count} delivery sites",
+                "HRSA health center service delivery site file",
+            )
+        )
+
+    if organization.federal_award_amount:
+        characteristics.append(
+            Tag("Receives federal funding", "HRSA award published for this grantee")
+        )
+
+    if profile is not None:
+        if profile.single_audit_performed:
+            characteristics.append(
+                Tag(
+                    "Single Audit performed",
+                    f"Form 990 FY{profile.tax_year} Part XII",
+                    "purple",
+                )
+            )
+        elif profile.financials_audited:
+            characteristics.append(
+                Tag("Independently audited", f"Form 990 FY{profile.tax_year} Part XII")
+            )
+        if profile.audit_committee:
+            characteristics.append(
+                Tag("Has an audit committee", f"Form 990 FY{profile.tax_year} Part XII")
+            )
+        if profile.volunteer_count:
+            characteristics.append(
+                Tag(
+                    f"{profile.volunteer_count:,} volunteers",
+                    f"Form 990 FY{profile.tax_year} Part I line 6",
+                )
+            )
+
+    if uds is not None:
+        if uds.patients:
+            characteristics.append(
+                Tag(
+                    f"{uds.patients:,} patients",
+                    f"HRSA Uniform Data System, {uds.year}",
+                    "orange",
+                )
+            )
+        if uds.ehr_vendor:
+            characteristics.append(
+                Tag(
+                    f"Uses {uds.ehr_vendor}",
+                    f"HRSA UDS health IT return, {uds.year}",
+                    "purple",
+                )
+            )
+        if uds.urban_rural:
+            characteristics.append(
+                Tag(uds.urban_rural, f"HRSA Uniform Data System, {uds.year}")
+            )
+
+    if contractors:
+        characteristics.append(
+            Tag(
+                f"{len(contractors)} disclosed contractors",
+                "Form 990 Part VII Section B, contractors paid over $100,000",
+            )
+        )
+
+    groups = [
+        ("Nonprofit types", types),
+        ("Issues and program areas", issues),
+        ("Characteristics", characteristics),
+    ]
+    return [(name, tags) for name, tags in groups if tags]
 
 
 def organization_changes(

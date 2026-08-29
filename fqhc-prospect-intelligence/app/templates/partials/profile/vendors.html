@@ -1,0 +1,83 @@
+{# Vendors: service providers named in the organization's own filing, grouped
+   by the kind of work they were paid for. For a managed services provider this
+   is the most commercially useful section on the page. #}
+<section class="section" id="vendors">
+  <h3 class="section__header">Vendors and service providers</h3>
+
+  {% if contractors %}
+    <p class="prose prose--quiet u-mb-4">
+      {{ contractors | length }} contractor{{ '' if contractors | length == 1 else 's' }}
+      named on this organization&rsquo;s Form 990, grouped by the kind of service
+      the filing describes.
+    </p>
+
+    {# One table, ordered by category spend then by amount, with the category
+       as a column. Repeating a header row above every one-line group buries
+       the rows in furniture. #}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th>Vendor</th><th>Kind of service</th>
+              <th>Service, as described in the filing</th>
+              <th>Tax year</th><th class="num">Paid</th></tr>
+        </thead>
+        <tbody>
+          {% for group, rows in vendor_groups %}
+            {% for vendor in rows %}
+              <tr>
+                <td><strong>{{ vendor.name }}</strong></td>
+                <td><span class="badge badge--info">{{ group }}</span></td>
+                <td>{{ vendor.services | na }}</td>
+                <td class="u-small u-nowrap">FY{{ vendor.tax_year }}</td>
+                <td class="num">
+                  {% if vendor.compensation is not none %}{{ vendor.compensation | money }}
+                  {% else %}<span class="not-available">Not available</span>{% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="source-note">
+      Form 990 Part VII Section B. <strong>Only contractors paid more than
+      $100,000 are disclosed</strong>, and only the five largest, so a vendor
+      absent from this list is not evidence the organization does not use one.
+      <strong>Kind of service</strong> is a label applied here by reading the
+      description text; the description as the organization filed it is shown
+      beside it on every row.
+      Software licensing below the threshold, and software bought through a
+      reseller, appear nowhere on a 990 at all.
+    </p>
+  {% else %}
+    <p class="not-available">
+      Not available &mdash; no Form 990 XML has been loaded for this
+      organization, or it reported no contractor paid over $100,000.
+    </p>
+  {% endif %}
+
+  {% set hit = (uds_reports | selectattr('ehr_vendor') | first) if uds_reports else none %}
+  {% if hit %}
+    <h4 class="subsection__header" style="margin-top: 28px">Software in use</h4>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>System</th><th>Vendor</th><th>Product</th><th>Reported</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Electronic health record</strong></td>
+            <td>{{ hit.ehr_vendor }}</td>
+            <td>{{ hit.ehr_product | na }}</td>
+            <td class="u-small">{{ hit.year }} UDS health IT return</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="source-note">
+      Named by the health center itself on its HRSA Uniform Data System return.
+      The EHR is the only system UDS asks about &mdash; nothing about the
+      network, endpoints, identity or backup around it is reported anywhere
+      public.
+    </p>
+  {% endif %}
+</section>

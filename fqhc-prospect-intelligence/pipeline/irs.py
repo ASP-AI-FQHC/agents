@@ -37,6 +37,7 @@ import xml.etree.ElementTree as ElementTree
 import zipfile
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -115,6 +116,29 @@ def first_number(element: ElementTree.Element, *names: str) -> float | None:
         return None
 
 
+def first_int(element: ElementTree.Element, *names: str) -> int | None:
+    """Whole-number value of the first matching descendant, or None."""
+    value = first_number(element, *names)
+    return int(value) if value is not None else None
+
+
+def tri_flag(element: ElementTree.Element, *names: str) -> bool | None:
+    """Three-state checkbox: True, False, or None when the box is absent.
+
+    ``flag_is_set`` collapses "the filer answered no" into "the filer did not
+    answer", which is fine for a Part VII role but wrong for a yes/no question:
+    "this organization is not subject to a single audit" is a fact worth
+    displaying, and "the return does not say" is not.
+    """
+    for match in iter_named(element, *names):
+        text = (match.text or "").strip().lower()
+        if text in {"1", "true", "x", "yes"}:
+            return True
+        if text in {"0", "false", "no"}:
+            return False
+    return None
+
+
 def flag_is_set(element: ElementTree.Element, *names: str) -> bool:
     """Whether a boolean checkbox element is present and true."""
     text = first_text(element, *names)
@@ -166,6 +190,86 @@ ROLE_FLAGS: tuple[tuple[str, tuple[str, ...]], ...] = (
 TAX_YEAR = ("TaxYr", "TaxYear")
 EIN_FIELDS = ("EIN",)
 
+# --- Part I / Part III: what the organization is and does -------------------
+#
+# These are the facts a profile page opens with -- how old the organization is,
+# how many people it employs, what it says it exists to do. All of them are on
+# the face of the return; none of them were being read.
+
+MISSION = (
+    "ActivityOrMissionDesc",       # Part I line 1, one line
+    "MissionDesc",                 # Part III line 1, the fuller statement
+    "PrimaryExemptPurposeTxt",
+    "ActivityOrMissionDescription",
+)
+FORMATION_YEAR = ("FormationYr", "YearFormation", "FormationYear")
+DOMICILE_STATE = ("LegalDomicileStateCd", "StateLegalDomicile", "LegalDomicileSt")
+WEBSITE = ("WebsiteAddressTxt", "WebSite", "InternetWebSiteAddress")
+EMPLOYEE_COUNT = (
+    "TotalEmployeeCnt",            # Part I line 5
+    "TotalNbrEmployees",
+    "TotalNumberEmployees",
+)
+VOLUNTEER_COUNT = ("TotalVolunteersCnt", "TotalNbrVolunteers", "TotalNumberVolunteers")
+
+# --- Balance sheet and functional expenses ---------------------------------
+#
+# Liabilities are the one headline figure ProPublica's summary does not carry,
+# and without them a balance sheet is half a story.
+
+TOTAL_ASSETS_EOY = ("TotalAssetsEOYAmt", "TotalAssetsEOY", "TotalAssetsEndOfYear")
+TOTAL_LIABILITIES_EOY = (
+    "TotalLiabilitiesEOYAmt",
+    "TotalLiabilitiesEOY",
+    "TotalLiabilitiesEndOfYear",
+)
+NET_ASSETS_EOY = (
+    "NetAssetsOrFundBalancesEOYAmt",
+    "NetAssetsOrFundBalancesEOY",
+    "TotalNetAssetsFundBalanceEOY",
+)
+CY_REVENUE = ("CYTotalRevenueAmt", "TotalRevenueCurrentYear")
+CY_EXPENSES = ("CYTotalExpensesAmt", "TotalExpensesCurrentYear")
+CY_FUNDRAISING_EXPENSE = ("CYTotalFundraisingExpenseAmt", "TotalFundrsngExpCurrentYear")
+CY_GRANTS_PAID = ("CYGrantsAndSimilarPaidAmt", "GrantsAndSimilarAmntsCY")
+CY_SALARIES = ("CYSalariesCompEmpBnftPaidAmt", "SalariesEtcCurrentYear")
+
+# Part IX totals row, split across the three functional columns.
+FUNCTIONAL_TOTALS_GROUP = ("TotalFunctionalExpensesGrp", "TotalFunctionalExpenses")
+PROGRAM_SERVICES_AMOUNT = ("ProgramServicesAmt", "ProgramServices")
+MANAGEMENT_AMOUNT = ("ManagementAndGeneralAmt", "ManagementAndGeneral")
+FUNDRAISING_AMOUNT = ("FundraisingAmt", "Fundraising")
+
+# --- Part XII / Schedule A: how the books were checked ----------------------
+#
+# A health center living on federal money is subject to a Single Audit, and
+# whether one was required and performed is a compliance fact -- exactly the
+# ground an IT proposal about controls and evidence stands on.
+
+FS_AUDITED = ("FSAuditedInd", "FinancialStatementsAudited", "AuditedInd")
+FS_REVIEWED = ("FSReviewedInd", "FinancialStatementsCompiled")
+SINGLE_AUDIT_REQUIRED = (
+    "FederalGrantAuditRequiredInd",
+    "FederalGrantAuditRequired",
+    "AuditRequiredOrPerformed",
+)
+SINGLE_AUDIT_PERFORMED = ("FederalGrantAuditPerformedInd", "FederalGrantAuditPerformed")
+AUDIT_COMMITTEE = ("AuditCommitteeInd", "AuditCommittee")
+
+# --- Part III: program service accomplishments -----------------------------
+
+PROGRAM_GROUPS = ("ProgramSrvcAccomplishmentGrp", "ProgramServiceAccomplishment")
+PROGRAM_DESCRIPTION = (
+    "Desc",
+    "DescriptionProgramSrvcAccomTxt",
+    "Description",
+    "ProgramServiceAccomplishmentDesc",
+)
+PROGRAM_EXPENSE = ("ExpenseAmt", "Expense", "ExpenseAmount")
+PROGRAM_GRANT = ("GrantAmt", "Grants", "GrantAmount")
+PROGRAM_REVENUE = ("RevenueAmt", "Revenue", "RevenueAmount")
+PROGRAM_ACTIVITY_CODE = ("ActivityCd", "ActivityCode")
+
 
 # ---------------------------------------------------------------------------
 # Parsed records
@@ -215,11 +319,129 @@ class ContractorRecord:
 
 
 @dataclass
+class ProgramRecord:
+    """One program service accomplishment from Form 990 Part III.
+
+    A health center describes each of its programs here in its own words, with
+    the money spent on it and the money it brought in. It is the only free
+    source that says what an organization actually *runs*, as opposed to what
+    it is classified as.
+    """
+
+    description: str | None = None
+    expenses: float | None = None
+    grants: float | None = None
+    revenue: float | None = None
+    activity_code: str | None = None
+
+    @property
+    def is_empty(self) -> bool:
+        return self.description is None and self.expenses is None and (
+            self.revenue is None
+        )
+
+    @property
+    def headline(self) -> str | None:
+        """The opening sentence, for a table cell that has one line to work with."""
+        if not self.description:
+            return None
+        text = " ".join(self.description.split())
+        cut = text.find(". ")
+        if 0 < cut < 160:
+            return text[: cut + 1]
+        return text if len(text) <= 160 else text[:157].rsplit(" ", 1)[0] + "..."
+
+
+@dataclass
+class OrganizationFacts:
+    """Facts about the filer itself, from the face of the return.
+
+    Everything here is nullable and nothing is derived by arithmetic from
+    something else. A return that omits a line leaves the field None, and the
+    UI says "Not available" -- an organization that reports no volunteers and
+    one whose return is silent about volunteers are different organizations.
+    """
+
+    mission: str | None = None
+    formation_year: int | None = None
+    domicile_state: str | None = None
+    website: str | None = None
+    employee_count: int | None = None
+    volunteer_count: int | None = None
+
+    total_revenue: float | None = None
+    total_expenses: float | None = None
+    total_assets: float | None = None
+    total_liabilities: float | None = None
+    net_assets: float | None = None
+
+    program_expenses: float | None = None
+    management_expenses: float | None = None
+    fundraising_expenses: float | None = None
+    grants_paid: float | None = None
+    salaries: float | None = None
+
+    financials_audited: bool | None = None
+    single_audit_required: bool | None = None
+    single_audit_performed: bool | None = None
+    audit_committee: bool | None = None
+
+    @property
+    def has_balance_sheet(self) -> bool:
+        return any(
+            value is not None
+            for value in (self.total_assets, self.total_liabilities, self.net_assets)
+        )
+
+    @property
+    def has_expense_split(self) -> bool:
+        return any(
+            value is not None
+            for value in (
+                self.program_expenses,
+                self.management_expenses,
+                self.fundraising_expenses,
+            )
+        )
+
+    @property
+    def has_any(self) -> bool:
+        """Whether the return yielded anything at all worth storing."""
+        return any(
+            value is not None
+            for value in (
+                self.mission,
+                self.formation_year,
+                self.domicile_state,
+                self.website,
+                self.employee_count,
+                self.volunteer_count,
+                self.total_revenue,
+                self.total_expenses,
+                self.total_assets,
+                self.total_liabilities,
+                self.net_assets,
+                self.program_expenses,
+                self.management_expenses,
+                self.fundraising_expenses,
+                self.grants_paid,
+                self.salaries,
+                self.financials_audited,
+                self.single_audit_required,
+                self.single_audit_performed,
+                self.audit_committee,
+            )
+        )
+
+
+@dataclass
 class Form990Return:
     ein: str | None = None
     tax_year: int | None = None
     people: list[PersonRecord] = field(default_factory=list)
     contractors: list[ContractorRecord] = field(default_factory=list)
+    programs: list[ProgramRecord] = field(default_factory=list)
+    facts: OrganizationFacts = field(default_factory=OrganizationFacts)
 
     @property
     def board_members(self) -> list[PersonRecord]:
@@ -238,6 +460,89 @@ def _entity_name(group: ElementTree.Element) -> str | None:
 
 def _roles(group: ElementTree.Element) -> list[str]:
     return [label for label, names in ROLE_FLAGS if flag_is_set(group, *names)]
+
+
+def _functional_expenses(root: ElementTree.Element) -> tuple[
+    float | None, float | None, float | None
+]:
+    """Program / management / fundraising totals from the Part IX totals row.
+
+    Read from inside the totals group only. The three column names repeat on
+    every one of the twenty-odd expense lines, so a document-wide search would
+    return the first line item -- grants paid -- and label it "program
+    services".
+    """
+    for group in iter_named(root, *FUNCTIONAL_TOTALS_GROUP):
+        return (
+            first_number(group, *PROGRAM_SERVICES_AMOUNT),
+            first_number(group, *MANAGEMENT_AMOUNT),
+            first_number(group, *FUNDRAISING_AMOUNT),
+        )
+    return (None, None, None)
+
+
+def _parse_facts(root: ElementTree.Element) -> OrganizationFacts:
+    """Read the filer's own description and headline figures off the return."""
+    program, management, fundraising = _functional_expenses(root)
+
+    year = first_int(root, *FORMATION_YEAR)
+    # A formation year outside living memory of the tax code is a parse
+    # accident, not a fact about the organization.
+    if year is not None and not 1600 <= year <= datetime.now().year:
+        year = None
+
+    domicile = first_text(root, *DOMICILE_STATE)
+
+    return OrganizationFacts(
+        mission=_clean_prose(first_text(root, *MISSION)),
+        formation_year=year,
+        domicile_state=domicile[:2].upper() if domicile and len(domicile) >= 2 else None,
+        website=first_text(root, *WEBSITE),
+        employee_count=first_int(root, *EMPLOYEE_COUNT),
+        volunteer_count=first_int(root, *VOLUNTEER_COUNT),
+        total_revenue=first_number(root, *CY_REVENUE),
+        total_expenses=first_number(root, *CY_EXPENSES),
+        total_assets=first_number(root, *TOTAL_ASSETS_EOY),
+        total_liabilities=first_number(root, *TOTAL_LIABILITIES_EOY),
+        net_assets=first_number(root, *NET_ASSETS_EOY),
+        program_expenses=program,
+        management_expenses=management,
+        fundraising_expenses=(
+            fundraising
+            if fundraising is not None
+            else first_number(root, *CY_FUNDRAISING_EXPENSE)
+        ),
+        grants_paid=first_number(root, *CY_GRANTS_PAID),
+        salaries=first_number(root, *CY_SALARIES),
+        financials_audited=tri_flag(root, *FS_AUDITED),
+        single_audit_required=tri_flag(root, *SINGLE_AUDIT_REQUIRED),
+        single_audit_performed=tri_flag(root, *SINGLE_AUDIT_PERFORMED),
+        audit_committee=tri_flag(root, *AUDIT_COMMITTEE),
+    )
+
+
+def _clean_prose(text: str | None) -> str | None:
+    """Collapse the whitespace a filer's word processor left in a narrative."""
+    if not text:
+        return None
+    collapsed = " ".join(text.split())
+    return collapsed or None
+
+
+def _parse_programs(root: ElementTree.Element) -> list[ProgramRecord]:
+    """Part III program service accomplishments, in the order the filer listed them."""
+    programs: list[ProgramRecord] = []
+    for group in iter_named(root, *PROGRAM_GROUPS):
+        record = ProgramRecord(
+            description=_clean_prose(first_text(group, *PROGRAM_DESCRIPTION)),
+            expenses=first_number(group, *PROGRAM_EXPENSE),
+            grants=first_number(group, *PROGRAM_GRANT),
+            revenue=first_number(group, *PROGRAM_REVENUE),
+            activity_code=first_text(group, *PROGRAM_ACTIVITY_CODE),
+        )
+        if not record.is_empty:
+            programs.append(record)
+    return programs
 
 
 def parse_return(content: bytes | str) -> Form990Return:
@@ -289,6 +594,9 @@ def parse_return(content: bytes | str) -> Form990Return:
                 compensation=first_number(group, *COMPENSATION),
             )
         )
+
+    result.programs = _parse_programs(root)
+    result.facts = _parse_facts(root)
 
     return result
 
@@ -819,6 +1127,23 @@ def best_return(returns: list[Form990Return]) -> Form990Return | None:
     return max(usable, key=lambda r: (r.tax_year or 0))
 
 
+def latest_matching(
+    returns: list[Form990Return], predicate: Callable[[Form990Return], bool]
+) -> Form990Return | None:
+    """The newest return satisfying ``predicate``, or None.
+
+    Sections do not all appear on every return: a filer may describe its
+    programs one year and leave Part III thin the next, and a 990-EZ carries
+    no Part IX at all. Each section is therefore taken from the newest return
+    that actually has it, rather than from whichever return happened to win on
+    Part VII -- which would silently discard a program list we hold.
+    """
+    matching = [r for r in returns if predicate(r)]
+    if not matching:
+        return None
+    return max(matching, key=lambda r: (r.tax_year or 0))
+
+
 def summarize(result: Form990Return) -> dict[str, Any]:
     """Counts used for progress reporting."""
     return {
@@ -842,6 +1167,8 @@ class PeopleResult:
     contractors_written: int = 0
     without_documents: int = 0
     failed: int = 0
+    profiles_written: int = 0
+    programs_written: int = 0
     source_reachable: bool = True
     messages: list[str] = field(default_factory=list)
     source: "SourceReport | None" = None
@@ -927,6 +1254,85 @@ def reset_index_cache() -> None:
     _INDEX_CACHE.clear()
 
 
+def _persist_profile(session, ein: str, source: "Form990Return") -> None:
+    """Upsert the organization-level facts read off one return."""
+    from sqlalchemy import select
+
+    from app.models import FilingProfile, utcnow
+
+    year = source.tax_year or 0
+    row = session.scalars(
+        select(FilingProfile).where(
+            FilingProfile.ein == ein, FilingProfile.tax_year == year
+        )
+    ).first()
+    if row is None:
+        row = FilingProfile(ein=ein, tax_year=year)
+        session.add(row)
+
+    facts = source.facts
+    for name in (
+        "mission",
+        "formation_year",
+        "domicile_state",
+        "website",
+        "employee_count",
+        "volunteer_count",
+        "total_revenue",
+        "total_expenses",
+        "total_assets",
+        "total_liabilities",
+        "net_assets",
+        "program_expenses",
+        "management_expenses",
+        "fundraising_expenses",
+        "grants_paid",
+        "salaries",
+        "financials_audited",
+        "single_audit_required",
+        "single_audit_performed",
+        "audit_committee",
+    ):
+        setattr(row, name, getattr(facts, name))
+    row.fetched_at = utcnow()
+    session.flush()
+
+
+def _persist_programs(session, ein: str, source: "Form990Return") -> int:
+    """Replace this EIN's program areas with those from ``source``."""
+    from sqlalchemy import select
+
+    from app.models import ProgramArea
+
+    year = source.tax_year or 0
+
+    # Programs are positional -- Part III lists the largest first -- so they are
+    # replaced as a set rather than matched row by row. Every year is cleared,
+    # not just this one: the page shows one year's programs, and leaving an
+    # older year behind would put two vintages of the same program on screen.
+    for row in session.scalars(
+        select(ProgramArea).where(ProgramArea.ein == ein)
+    ).all():
+        session.delete(row)
+    session.flush()
+
+    for position, program in enumerate(source.programs):
+        session.add(
+            ProgramArea(
+                ein=ein,
+                tax_year=year,
+                position=position,
+                description=program.description,
+                expenses=program.expenses,
+                grants=program.grants,
+                revenue=program.revenue,
+                activity_code=program.activity_code,
+            )
+        )
+    session.flush()
+    return len(source.programs)
+
+
 def enrich_people(
     session,
     config,
@@ -941,10 +1347,12 @@ def enrich_people(
     from app.models import (
         Contractor,
         EinMatch,
+        FilingProfile,
         IngestRun,
         MatchStatus,
         Organization,
         Person,
+        ProgramArea,
         RunStatus,
         utcnow,
     )
@@ -1013,54 +1421,72 @@ def enrich_people(
                     result.failed += 1
 
             chosen = best_return(parsed)
-            if chosen is None:
+            # Each section comes from the newest return that carries it. A
+            # filer can describe its programs one year and leave Part III thin
+            # the next, and a return with no Part VII at all still tells us the
+            # organization's mission, age, headcount and balance sheet.
+            facts_source = latest_matching(parsed, lambda r: r.facts.has_any)
+            programs_source = latest_matching(parsed, lambda r: bool(r.programs))
+
+            if chosen is None and facts_source is None and programs_source is None:
                 result.without_documents += 1
                 continue
 
-            year = chosen.tax_year or 0
             result.resolved += 1
 
-            # Replace this EIN and year wholesale: the filing is the unit of
-            # truth, and a re-parse should not leave half of a previous one.
-            for row in session.scalars(
-                select(Person).where(Person.ein == ein, Person.tax_year == year)
-            ).all():
-                session.delete(row)
-            for row in session.scalars(
-                select(Contractor).where(
-                    Contractor.ein == ein, Contractor.tax_year == year
-                )
-            ).all():
-                session.delete(row)
-            session.flush()
+            if chosen is not None:
+                year = chosen.tax_year or 0
 
-            for person in chosen.people:
-                session.add(
-                    Person(
-                        ein=ein,
-                        tax_year=year,
-                        name=person.name,
-                        title=person.title,
-                        roles=person.roles or None,
-                        average_hours=person.average_hours,
-                        compensation=person.compensation,
-                        related_compensation=person.related_compensation,
-                        other_compensation=person.other_compensation,
+                # Replace this EIN and year wholesale: the filing is the unit of
+                # truth, and a re-parse should not leave half of a previous one.
+                for row in session.scalars(
+                    select(Person).where(Person.ein == ein, Person.tax_year == year)
+                ).all():
+                    session.delete(row)
+                for row in session.scalars(
+                    select(Contractor).where(
+                        Contractor.ein == ein, Contractor.tax_year == year
                     )
-                )
-                result.people_written += 1
+                ).all():
+                    session.delete(row)
+                session.flush()
 
-            for contractor in chosen.contractors:
-                session.add(
-                    Contractor(
-                        ein=ein,
-                        tax_year=year,
-                        name=contractor.name,
-                        services=contractor.services,
-                        compensation=contractor.compensation,
+                for person in chosen.people:
+                    session.add(
+                        Person(
+                            ein=ein,
+                            tax_year=year,
+                            name=person.name,
+                            title=person.title,
+                            roles=person.roles or None,
+                            average_hours=person.average_hours,
+                            compensation=person.compensation,
+                            related_compensation=person.related_compensation,
+                            other_compensation=person.other_compensation,
+                        )
                     )
+                    result.people_written += 1
+
+                for contractor in chosen.contractors:
+                    session.add(
+                        Contractor(
+                            ein=ein,
+                            tax_year=year,
+                            name=contractor.name,
+                            services=contractor.services,
+                            compensation=contractor.compensation,
+                        )
+                    )
+                    result.contractors_written += 1
+
+            if facts_source is not None:
+                _persist_profile(session, ein, facts_source)
+                result.profiles_written += 1
+
+            if programs_source is not None:
+                result.programs_written += _persist_programs(
+                    session, ein, programs_source
                 )
-                result.contractors_written += 1
 
         session.commit()
     except Exception as exc:
@@ -1101,6 +1527,11 @@ def enrich_people(
         f"{result.contractors_written:,} contractors for {result.resolved:,} "
         "organizations"
     )
+    if result.profiles_written or result.programs_written:
+        report(
+            f"Read {result.profiles_written:,} organization profiles and "
+            f"{result.programs_written:,} program areas off the same returns"
+        )
 
     run.status = result.status
     run.finished_at = utcnow()

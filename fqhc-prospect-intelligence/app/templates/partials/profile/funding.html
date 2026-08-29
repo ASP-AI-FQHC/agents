@@ -1,0 +1,73 @@
+{# Funding: where the money comes from, and how dependent the budget is on it. #}
+{% set composed = filings | selectattr('has_composition') | list %}
+<section class="section" id="funding">
+  <h3 class="section__header">Funding</h3>
+
+  <dl class="datalist u-mb-4">
+    <dt>HRSA federal award</dt>
+    <dd>
+      {% if organization.federal_award_amount is not none %}
+        {{ organization.federal_award_amount | money }}
+        <span class="u-muted u-small">&middot; Section 330, current award</span>
+      {% else %}<span class="not-available">Not available</span>{% endif %}
+    </dd>
+    <dt>Grant number</dt>
+    <dd>{{ organization.grant_number | na }}</dd>
+    <dt>Funding programs</dt>
+    <dd>
+      {% if organization.funding_programs %}
+        {% for programme in organization.funding_programs %}
+          <span class="badge badge--info">{{ programme }}</span>
+        {% endfor %}
+      {% elif organization.funding_program %}
+        <span class="badge badge--info">{{ organization.funding_program }}</span>
+      {% else %}<span class="not-available">Not available</span>{% endif %}
+    </dd>
+  </dl>
+
+  {% if composed %}
+    <h4 class="subsection__header">Revenue by source, as filed</h4>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Tax year</th>
+            <th class="num">Contributions and grants</th>
+            <th class="num">Government grants</th>
+            <th class="num">Program service revenue</th>
+            <th class="num">Investment income</th>
+            <th class="num">Grant share</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for filing in composed %}
+            <tr>
+              <td><strong>FY{{ filing.tax_year }}</strong></td>
+              <td class="num">{% if filing.contributions is not none %}{{ filing.contributions | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+              <td class="num">{% if filing.government_grants is not none %}{{ filing.government_grants | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+              <td class="num">{% if filing.program_service_revenue is not none %}{{ filing.program_service_revenue | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+              <td class="num">{% if filing.investment_income is not none %}{{ filing.investment_income | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+              <td class="num">
+                {% if filing.contribution_share is not none %}
+                  <strong>{{ filing.contribution_share | percent }}</strong>
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="source-note">
+      Form 990 Part VIII. Government grants are a component of contributions,
+      not a figure to add to them. <strong>Grant share</strong> is contributions
+      as a proportion of total revenue &mdash; the funding-protection angle:
+      the higher it runs, the more of the budget depends on continued
+      compliance with federal award conditions.
+    </p>
+  {% else %}
+    <p class="not-available">
+      Not available &mdash; the IRS extract for this organization does not break
+      revenue down by source.
+    </p>
+  {% endif %}
+</section>

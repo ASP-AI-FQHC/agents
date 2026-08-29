@@ -1,0 +1,90 @@
+{# Regulatory status: how this organization's books and federal money are
+   checked. Compliance is the ground an IT proposal about controls stands on. #}
+<section class="section" id="regulatory">
+  <h3 class="section__header">Regulatory status</h3>
+
+  <dl class="datalist">
+    <dt>Federal funding</dt>
+    <dd>
+      {% if organization.federal_award_amount is not none %}
+        {{ organization.federal_award_amount | money }} under Section 330
+        {% if organization.grant_number %}
+          <span class="u-muted u-small">&middot; grant {{ organization.grant_number }}</span>
+        {% endif %}
+      {% else %}<span class="not-available">Not available</span>{% endif %}
+    </dd>
+    <dt>Health center status</dt>
+    <dd>
+      {{ organization.grantee_label }}
+      {% if organization.grantee_type == GranteeType.AWARDEE %}
+        <div class="u-small u-muted">
+          A Section 330 grantee, subject to the HRSA Health Center Program
+          Compliance Manual and to Uniform Guidance award conditions.
+        </div>
+      {% elif organization.grantee_type == GranteeType.LOOK_ALIKE %}
+        <div class="u-small u-muted">
+          Meets the Health Center Program requirements without receiving a
+          Section 330 grant, so Uniform Guidance award conditions do not
+          automatically apply.
+        </div>
+      {% endif %}
+    </dd>
+    <dt>Financial statements</dt>
+    <dd>
+      {% if profile and profile.financials_audited is not none %}
+        {% if profile.financials_audited %}
+          <span class="badge badge--qualified">Independently audited</span>
+        {% else %}
+          <span class="badge badge--neutral">Not independently audited</span>
+        {% endif %}
+        <span class="u-muted u-small">&middot; Form 990 FY{{ profile.tax_year }} Part XII</span>
+      {% else %}<span class="not-available">Not available</span>{% endif %}
+    </dd>
+    <dt>Single Audit</dt>
+    <dd>
+      {% if profile and (profile.single_audit_required is not none or profile.single_audit_performed is not none) %}
+        {% if profile.single_audit_performed %}
+          <span class="badge badge--qualified">Performed</span>
+        {% elif profile.single_audit_required %}
+          <span class="badge badge--review">Required &mdash; the return does not confirm one was performed</span>
+        {% else %}
+          <span class="badge badge--neutral">Not required</span>
+        {% endif %}
+        <span class="u-muted u-small">&middot; Form 990 FY{{ profile.tax_year }} Part XII line 3</span>
+      {% else %}<span class="not-available">Not available</span>{% endif %}
+    </dd>
+    <dt>Audit committee</dt>
+    <dd>
+      {% if profile and profile.audit_committee is not none %}
+        {% if profile.audit_committee %}
+          <span class="badge badge--qualified">Yes</span>
+        {% else %}
+          <span class="badge badge--neutral">No</span>
+        {% endif %}
+      {% else %}<span class="not-available">Not available</span>{% endif %}
+    </dd>
+    <dt>State of legal domicile</dt>
+    <dd>{{ (profile.domicile_state if profile else none) | na }}</dd>
+  </dl>
+
+  {% if profile and profile.audit_summary %}
+    <div class="callout callout--info" style="margin-top: 16px">
+      <p class="callout__title">{{ profile.audit_summary }}</p>
+      <p class="u-small">
+        Read from the organization&rsquo;s own FY{{ profile.tax_year }} Form 990.
+        An organization expending federal awards above the Uniform Guidance
+        threshold must have a Single Audit each year, which covers its internal
+        controls over federal programs &mdash; including the IT controls behind
+        them.
+      </p>
+    </div>
+  {% endif %}
+
+  <p class="source-note">
+    The name of the firm that performed the Single Audit, and the audit findings
+    themselves, are published by the Federal Audit Clearinghouse rather than on
+    the Form 990. That source is not yet loaded into this database, so no
+    auditor is named here &mdash; the answers above are only the organization&rsquo;s
+    own yes/no responses on its return.
+  </p>
+</section>

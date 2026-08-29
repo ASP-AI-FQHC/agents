@@ -1,0 +1,94 @@
+{# Service volume and staffing, from the annual HRSA Uniform Data System return.
+   This is the operational size of the organization, which no tax filing shows. #}
+<section class="section" id="service">
+  <h3 class="section__header">Service volume and staffing</h3>
+
+  {% if uds_reports %}
+    {% set latest = uds_reports[0] %}
+    <div class="grid grid--halves">
+      <div>
+        <div class="kpi pipe--blue">
+          <p class="kpi__label">Patients served</p>
+          <p class="kpi__value">
+            {% if latest.patients is not none %}{{ latest.patients | number }}
+            {% else %}<span class="not-available">Not available</span>{% endif %}
+          </p>
+          <p class="kpi__meta">
+            {{ latest.year }} UDS report
+            {% if latest.visits is not none %}&middot; {{ latest.visits | number }} visits{% endif %}
+          </p>
+        </div>
+        {% if sizing %}
+          <div class="callout callout--info" style="margin-top: 16px">
+            <p class="callout__title">Estimated proposal quantities</p>
+            <p>
+              <strong>{{ sizing.sites }}</strong> site{{ '' if sizing.sites == 1 else 's' }} &middot;
+              <strong>{{ sizing.users }}</strong> users &middot;
+              <strong>{{ sizing.workstations }}</strong> workstations &middot;
+              <strong>{{ sizing.devices }}</strong> devices
+            </p>
+            <p class="u-small">
+              Derived, not reported: {{ sizing.basis }}. A starting point for the
+              proposal builder, to be confirmed with the client &mdash; not a
+              figure this organization has published.
+            </p>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Year</th><th class="num">Patients</th><th class="num">Staff FTE</th>
+              <th class="num">Providers</th><th class="num">Medicaid</th><th class="num">Uninsured</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in uds_reports %}
+              <tr>
+                <td><strong>{{ row.year }}</strong></td>
+                <td class="num">{% if row.patients is not none %}{{ row.patients | number }}{% else %}<span class="not-available">&mdash;</span>{% endif %}</td>
+                <td class="num">{% if row.total_fte is not none %}{{ '%.1f' % row.total_fte }}{% else %}<span class="not-available">&mdash;</span>{% endif %}</td>
+                <td class="num">{% if row.provider_fte is not none %}{{ '%.1f' % row.provider_fte }}{% else %}<span class="not-available">&mdash;</span>{% endif %}</td>
+                <td class="num">{% if row.medicaid_share is not none %}{{ (row.medicaid_share * 100) | round(0) | int }}%{% else %}<span class="not-available">&mdash;</span>{% endif %}</td>
+                <td class="num">{% if row.uninsured_share is not none %}{{ (row.uninsured_share * 100) | round(0) | int }}%{% else %}<span class="not-available">&mdash;</span>{% endif %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% set hit = (uds_reports | selectattr('ehr_vendor') | first) if uds_reports else none %}
+    {% if hit %}
+      <div class="callout callout--success" style="margin-top: 16px">
+        <p class="callout__title">Electronic health record in use</p>
+        <p>
+          <strong>{{ hit.ehr_vendor }}</strong>{% if hit.ehr_product %} &mdash;
+          {{ hit.ehr_product }}{% endif %}, as reported to HRSA on the
+          {{ hit.year }} UDS health IT return.
+        </p>
+        <p class="u-small">
+          The incumbent system, named by the health center itself. What sits
+          around it &mdash; network, endpoints, identity, backup &mdash; is not
+          reported anywhere, and is the opening.
+        </p>
+      </div>
+    {% endif %}
+
+    <p class="source-note">
+      Reported by the organization to HRSA in its annual Uniform Data System
+      return. Organization totals only &mdash; UDS publishes nothing at patient
+      level. Note that <strong>staff FTE</strong> here and the
+      <strong>employee count</strong> on the Form 990 measure different things:
+      one is full-time equivalents, the other is everyone issued a W-2 during
+      the year.
+    </p>
+  {% else %}
+    <p class="not-available">
+      Not available &mdash; no UDS report has been loaded for this organization.
+      See <code>uds.local_directory</code> in config.yaml.
+    </p>
+  {% endif %}
+</section>

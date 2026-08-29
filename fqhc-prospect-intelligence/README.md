@@ -202,9 +202,30 @@ survives because human EIN decisions hang off it.
 
 ## What is on an organization's profile
 
+The profile is a reference document rather than a page to read top to bottom.
+It has a standing contents list down the left, and twelve sections addressable
+from it: Summary, Program areas, Funding, Financials, Service volume,
+Personnel, Vendors, Regulatory status, Delivery sites, ICP score, Data update
+history and Similar organizations. Each section states, underneath itself, the
+filing or file it was built from.
+
+The Summary opens with a strip of identifying facts (EIN, IRS classification,
+employees, city, state, year formed, most recent filing, NTEE code), four
+headline figures — revenues, expenses, assets and liabilities — each carrying
+its movement against the previous *filed* year and, where the filing reports
+them, the components underneath, then the organization's own description of
+itself and a set of classification pills. Every pill names the filing it came
+from on hover; none of them is a judgement made here.
+
 | Data point | Source | Availability |
 | --- | --- | --- |
-| Program areas | HRSA awardee file (all Section 330 funding streams) + IRS NTEE code | Available |
+| Headline revenues, expenses, assets and liabilities, with year-on-year movement | ProPublica Nonprofit Explorer, with the balance sheet completed from the IRS e-file XML for the same tax year | Available. Movement is shown only where the previous filed year reports the same figure — one filed year is not evidence of stability, and the card says so rather than leaving the space blank |
+| Description of the organization | Form 990 Part I / Part III mission statement, reproduced verbatim | Available once Form 990 XML is loaded |
+| Year formed, state of legal domicile, employees, volunteers | Form 990 Part I | Available once Form 990 XML is loaded; employee count also comes from ProPublica where the extract carries it |
+| Program areas, in the filer's own words | Form 990 Part III program service accomplishments — description, expenses, grants made and revenue per program | Available once Form 990 XML is loaded |
+| Functional expense split (program / management / fundraising) | Form 990 Part IX totals row | Available once Form 990 XML is loaded |
+| Regulatory status: audited statements, Single Audit required and performed, audit committee | Form 990 Part XII. Three-state: yes, no, or "the return does not answer" | Available once Form 990 XML is loaded. The *name* of the Single Audit firm is published by the Federal Audit Clearinghouse, not on the 990, and that source is not loaded — so no auditor is named |
+| Program areas as classified by funders | HRSA awardee file (all Section 330 funding streams) + IRS NTEE code | Available |
 | Financials and Form 990s | ProPublica Nonprofit Explorer, three most recent filings | Available |
 | Funding sources | Form 990 revenue composition: contributions and grants, program service revenue, government grants, investment income | Available where the IRS extract reports it |
 | Data update history | This database: first seen, last confirmed, and every detected change | Available |
@@ -212,9 +233,8 @@ survives because human EIN decisions hang off it.
 | Delivery sites | HRSA site file | Available |
 | Patients, visits, staffing FTEs, payer mix | HRSA Uniform Data System, per year | Available once a UDS export is loaded (see below) |
 | Estimated proposal quantities | Derived here from UDS staffing FTEs and the site count | Available where staffing is reported. Always labelled as derived |
-| Key personnel and board members | Form 990 Part VII Section A — names, titles, hours, compensation and role checkboxes | Available once Form 990 XML is loaded (see below) |
-| Key personnel, fallback | The organization's own leadership / board / "our team" pages | Available for organizations HRSA publishes a web address for. Shown in a separate, labelled block with a link to the page each name came from |
-| Vendors and service providers | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | Available once Form 990 XML is loaded |
+| Key personnel and board members | One table merging all three sources: Form 990 Part VII Section A, the HRSA UDS project director, and the organization's own leadership pages | Available. Every row names the source or sources that produced it and the date that source describes. Where the same person appears in more than one, the row is merged and lists both — the filing supplies the role and compensation, the website or UDS return supplies contact details — and the more authoritative source wins any disagreement. Names and titles filed in capitals are re-cased for reading; a name that already carries lower-case letters is left exactly as its source wrote it |
+| Vendors and service providers | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | Available once Form 990 XML is loaded. Grouped by kind of service (health IT, billing, audit, clinical staffing, facilities, insurance, consulting) by reading the description text; the description as filed is shown beside the label on every row, and a description that matches nothing is labelled "other services" rather than guessed at |
 | Salaries | Form 990 Part VII: reportable compensation from the organization, from related organizations, and other compensation | Available for everyone the filing lists. Board members usually report $0, which is a reported figure and is shown as $0 — distinct from "not available" |
 | Board member contact details | Only where the organization publishes them itself | **Mostly not available.** A 990 lists officers care-of the organization's own address; personal emails and direct phone numbers are not published, and the `people` table has no contact columns, so there is nowhere to put invented ones. On a leadership page an address printed beside a person is captured verbatim, linked or as plain text. Shared inboxes (`info@`, `reception@`, or any address that lands on more than one person) are dropped rather than passed off as somebody's direct line, and nothing is ever constructed from a name and a domain. |
 | Software and technology used | HRSA UDS health IT return | **Available.** The health center names its EHR vendor and product to HRSA. What sits around it — network, endpoints, identity, backup — is still not reported anywhere, and is the opening. Form 990 contractor rows remain a secondary proxy for IT and billing vendors. |
@@ -334,10 +354,23 @@ These are enforced in code and covered by tests, not merely documented:
   surfaces the next-best candidate instead.
 - **Uncertainty is displayed.** Match confidence appears on every matched row,
   and each filing is badged with the age of the tax year it describes.
-- **Sources are never blended.** People read from a Form 990 and people read
-  from a web page live in different tables and appear in different, labelled
-  blocks, each carrying where it came from. Weaker evidence is presented as
-  weaker evidence rather than quietly promoted.
+- **Sources are never blended anonymously.** People read from a Form 990 and
+  people read from a web page live in different tables in the database, and
+  always will. On the profile they are shown in one list — a reader wants the
+  people, not a tour of the filing system — but every row names the source or
+  sources behind it, and a row assembled from two sources says so and shows
+  both. Where they disagree the more authoritative source wins, and the weaker
+  one only ever fills a gap: a web page never overwrites a signed filing.
+  Weaker evidence is presented as weaker evidence rather than quietly promoted.
+- **A label is not a fact.** Where the app groups or classifies something it
+  read — the kind of service a contractor provides, a classification pill — the
+  underlying text is shown beside the label, and the label says it was applied
+  here. Nothing derived is allowed to look like something reported.
+- **Arithmetic on two reported figures is shown; a residual is not.** Net
+  assets, surplus and a program's net cost appear only when both of their
+  inputs were actually filed. No component is invented to make a breakdown add
+  up to its total, because on screen a residual is indistinguishable from a
+  reported figure.
 - **It degrades gracefully.** If HRSA or ProPublica is unreachable, the app runs
   on cached data and says so, with the cache date, on every page and inside
   every export.

@@ -364,6 +364,11 @@ def _as_utc(value: datetime) -> datetime:
 REVENUE_KEYS = ("totrevenue", "totrevnue", "revenue_amount")
 EXPENSE_KEYS = ("totfuncexpns", "totexpns", "totexpenses", "expenses_amount")
 ASSET_KEYS = ("totassetsend", "totassetsendofyear", "totassets", "assets_amount")
+LIABILITY_KEYS = ("totliabend", "totliabendofyear", "totliabilities", "liabilities_amount")
+
+# Employees on a W-2 in the calendar year (Form 990 Part I line 5). Not a
+# financial figure, but the one headcount the IRS publishes.
+EMPLOYEE_KEYS = ("noemplyeesw3cnt", "numberofemployees", "totemployee")
 
 # Revenue composition: the funding mix behind the total.
 CONTRIBUTION_KEYS = ("totcntrbgfts", "totcntrbs", "contributions_amount")
@@ -387,6 +392,12 @@ def _first_number(payload: dict[str, Any], keys: tuple[str, ...]) -> float | Non
         except (TypeError, ValueError):
             continue
     return None
+
+
+def _first_int(payload: dict[str, Any], keys: tuple[str, ...]) -> int | None:
+    """As ``_first_number``, for a count rather than an amount."""
+    value = _first_number(payload, keys)
+    return int(value) if value is not None else None
 
 
 def _parse_period_end(tax_prd: Any) -> datetime | None:
@@ -429,6 +440,8 @@ class FilingRecord:
     total_revenue: float | None = None
     total_expenses: float | None = None
     total_assets: float | None = None
+    total_liabilities: float | None = None
+    employee_count: int | None = None
     contributions: float | None = None
     program_service_revenue: float | None = None
     investment_income: float | None = None
@@ -494,6 +507,10 @@ def parse_filings(
                 total_revenue=_first_number(item, REVENUE_KEYS) if with_data else None,
                 total_expenses=_first_number(item, EXPENSE_KEYS) if with_data else None,
                 total_assets=_first_number(item, ASSET_KEYS) if with_data else None,
+                total_liabilities=(
+                    _first_number(item, LIABILITY_KEYS) if with_data else None
+                ),
+                employee_count=_first_int(item, EMPLOYEE_KEYS) if with_data else None,
                 contributions=(
                     _first_number(item, CONTRIBUTION_KEYS) if with_data else None
                 ),
@@ -712,6 +729,8 @@ def _persist_filings(session: Session, ein: str, filings: list[FilingRecord]) ->
         row.total_revenue = record.total_revenue
         row.total_expenses = record.total_expenses
         row.total_assets = record.total_assets
+        row.total_liabilities = record.total_liabilities
+        row.employee_count = record.employee_count
         row.contributions = record.contributions
         row.program_service_revenue = record.program_service_revenue
         row.investment_income = record.investment_income

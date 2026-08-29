@@ -1,0 +1,28 @@
+{# Organizations that resemble this one, computed from this database. #}
+<section class="section" id="similar">
+  <h3 class="section__header">Similar organizations</h3>
+  {% if similar %}
+    <ol class="top-list">
+      {% for item in similar %}
+        <li class="top-list__item">
+          <span class="top-list__rank">{{ loop.index }}</span>
+          <a class="top-list__name" href="/organizations/{{ item.row.organization.id }}">{{ item.row.organization.name }}</a>
+          <span class="top-list__meta">{{ item.reasons | join(' &middot; ') | safe }}</span>
+          <span class="top-list__score">
+            {% if item.row.composite is not none %}{{ '%.0f' % item.row.composite }}{% else %}&mdash;{% endif %}
+          </span>
+        </li>
+      {% endfor %}
+    </ol>
+    <p class="source-note">
+      Computed from this database by state, footprint, revenue and IRS
+      classification. This is a resemblance, not a stated relationship &mdash;
+      no public source publishes affiliations between health centers.
+    </p>
+  {% else %}
+    <p class="not-available">
+      Not available &mdash; no other organization in the database closely
+      resembles this one.
+    </p>
+  {% endif %}
+</section>

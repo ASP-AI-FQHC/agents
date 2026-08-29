@@ -1,0 +1,131 @@
+{# Financials: every filed year on one row each, plus the expense split. #}
+<section class="section" id="financials">
+  <h3 class="section__header">Financials</h3>
+
+  {% if filings %}
+    {% set max_revenue = filings | map(attribute='total_revenue') | select('ne', None) | list | max | default(0) %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Tax year</th>
+            <th class="num">Revenue</th>
+            <th class="num">Expenses</th>
+            <th class="num">Surplus</th>
+            <th class="num">Assets</th>
+            <th class="num">Liabilities</th>
+            <th class="num">Net assets</th>
+            <th class="num">Employees</th>
+            <th>Data age</th>
+            <th>Filing</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for filing in filings %}
+            {% set age = filing.period_end | months_since %}
+            <tr>
+              <td>
+                <strong>FY{{ filing.tax_year }}</strong>
+                {% if filing.form_type %}<div class="u-small u-muted">{{ filing.form_type }}</div>{% endif %}
+              </td>
+              <td class="num">
+                {% if filing.total_revenue is not none %}
+                  {{ filing.total_revenue | money }}
+                  {% if max_revenue %}
+                    <span class="score-bar" style="display:block; margin-top:4px">
+                      <span class="score-bar__fill" style="width: {{ (filing.total_revenue / max_revenue * 100) | round(1) }}%"></span>
+                    </span>
+                  {% endif %}
+                {% else %}<span class="not-available">Not available</span>{% endif %}
+              </td>
+              <td class="num">{% if filing.total_expenses is not none %}{{ filing.total_expenses | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+              <td class="num">
+                {% if filing.surplus is not none %}{{ filing.surplus | signed_money }}
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+              <td class="num">{% if filing.total_assets is not none %}{{ filing.total_assets | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+              <td class="num">{% if filing.total_liabilities is not none %}{{ filing.total_liabilities | money }}{% else %}<span class="not-available">Not available</span>{% endif %}</td>
+              <td class="num">
+                {% if filing.net_assets is not none %}{{ filing.net_assets | money }}
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+              <td class="num">
+                {% if filing.employee_count is not none %}{{ filing.employee_count | number }}
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+              <td>
+                {% if age is not none %}
+                  <span class="badge {% if age > stale_months %}badge--review{% else %}badge--info{% endif %}">
+                    {{ filing.period_end | age }}
+                  </span>
+                {% else %}<span class="not-available">Not available</span>{% endif %}
+              </td>
+              <td>
+                {% if filing.pdf_url %}
+                  <a href="{{ filing.pdf_url }}" rel="noopener noreferrer" target="_blank">990 PDF</a>
+                {% else %}<span class="not-available">Not available</span>{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="source-note">
+      As reported to the IRS and published by ProPublica Nonprofit Explorer.
+      <strong>Surplus</strong> and <strong>net assets</strong> are arithmetic on
+      two reported figures and appear only when both are present &mdash; nothing
+      here is estimated. A 990 typically becomes available 6&ndash;18 months
+      after the tax year it covers, so the most recent row is not the current
+      year.
+    </p>
+  {% else %}
+    <p class="not-available">
+      Not available &mdash;
+      {% if not organization.ein %}
+        this organization has no confirmed EIN, so no filing can be attributed
+        to it.
+      {% else %}
+        ProPublica Nonprofit Explorer holds no filings for
+        EIN {{ organization.ein | ein }}.
+      {% endif %}
+    </p>
+  {% endif %}
+
+  {% if profile and profile.has_expense_split %}
+    <h4 class="subsection__header" style="margin-top: 28px">
+      Where the money went, FY{{ profile.tax_year }}
+    </h4>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Function</th><th class="num">Amount</th><th class="num">Share of expenses</th></tr></thead>
+        <tbody>
+          {% for label, amount in profile.expense_components() %}
+            <tr>
+              <td><strong>{{ label }}</strong></td>
+              <td class="num">{{ amount | money }}</td>
+              <td class="num">
+                {% if profile.total_expenses %}{{ (amount / profile.total_expenses) | percent(decimals=1) }}
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          {% if profile.salaries is not none %}
+            <tr>
+              <td><strong>of which salaries and benefits</strong></td>
+              <td class="num">{{ profile.salaries | money }}</td>
+              <td class="num">
+                {% if profile.total_expenses %}{{ (profile.salaries / profile.total_expenses) | percent(decimals=1) }}
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <p class="source-note">
+      Form 990 Part IX, read from the IRS e-file XML. Salaries and benefits are
+      a line within the functional totals above, not a fourth category to add
+      to them.
+    </p>
+  {% endif %}
+</section>

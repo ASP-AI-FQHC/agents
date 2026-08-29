@@ -1,0 +1,106 @@
+{# When each part of this profile was last refreshed, and what has moved. #}
+<section class="section" id="history">
+  <h3 class="section__header">Data update history</h3>
+
+  <div class="table-wrap u-mb-4">
+    <table class="table">
+      <thead><tr><th>What</th><th>Last updated</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Health center listing</strong></td>
+          <td>{{ organization.last_seen_at | since }}
+            <div class="u-small u-muted">{{ organization.last_seen_at.strftime('%-d %B %Y') }}</div>
+          </td>
+          <td class="u-small">HRSA health center and site files</td>
+        </tr>
+        <tr>
+          <td><strong>EIN match</strong></td>
+          <td>
+            {% if match and match.searched_at %}{{ match.searched_at | since }}
+              <div class="u-small u-muted">{{ match.searched_at.strftime('%-d %B %Y') }}</div>
+            {% else %}<span class="not-available">Never</span>{% endif %}
+          </td>
+          <td class="u-small">ProPublica Nonprofit Explorer</td>
+        </tr>
+        <tr>
+          <td><strong>Form 990 filings</strong></td>
+          <td>
+            {% if filings and filings[0].fetched_at %}{{ filings[0].fetched_at | since }}
+              <div class="u-small u-muted">covering FY{{ filings[0].tax_year }}</div>
+            {% else %}<span class="not-available">Never</span>{% endif %}
+          </td>
+          <td class="u-small">ProPublica Nonprofit Explorer</td>
+        </tr>
+        <tr>
+          <td><strong>Personnel, programs and vendors</strong></td>
+          <td>
+            {% if profile %}{{ profile.fetched_at | since }}
+              <div class="u-small u-muted">covering FY{{ profile.tax_year }}</div>
+            {% else %}<span class="not-available">Never</span>{% endif %}
+          </td>
+          <td class="u-small">IRS Form 990 e-file XML</td>
+        </tr>
+        <tr>
+          <td><strong>Patients and staffing</strong></td>
+          <td>
+            {% if uds_reports %}{{ uds_reports[0].fetched_at | since }}
+              <div class="u-small u-muted">covering {{ uds_reports[0].year }}</div>
+            {% else %}<span class="not-available">Never</span>{% endif %}
+          </td>
+          <td class="u-small">HRSA Uniform Data System</td>
+        </tr>
+        <tr>
+          <td><strong>Website leadership page</strong></td>
+          <td>
+            {% if website_crawl and website_crawl.fetched_at %}{{ website_crawl.fetched_at | since }}
+              <div class="u-small u-muted">{{ website_crawl.outcome | na }}</div>
+            {% else %}<span class="not-available">Never</span>{% endif %}
+          </td>
+          <td class="u-small">The organization&rsquo;s own site</td>
+        </tr>
+        <tr>
+          <td><strong>ICP score</strong></td>
+          <td>
+            {% if score %}{{ score.scored_at | since }}{% else %}<span class="not-available">Never</span>{% endif %}
+          </td>
+          <td class="u-small">Computed from the above</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 class="subsection__header">What has changed</h4>
+  {% if history %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Detected</th><th>Change</th><th>What moved</th></tr></thead>
+        <tbody>
+          {% for event in history %}
+            <tr>
+              <td class="u-nowrap u-small u-muted">
+                {{ event.detected_at | since }}
+                <div>{{ event.detected_at.strftime('%-d %b %Y') }}</div>
+              </td>
+              <td>
+                {% if event.direction == 1 %}<span class="badge badge--qualified">{{ event.kind_label }}</span>
+                {% elif event.direction == -1 %}<span class="badge badge--alert">{{ event.kind_label }}</span>
+                {% else %}<span class="badge badge--info">{{ event.kind_label }}</span>{% endif %}
+              </td>
+              <td>{{ event.summary }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="u-small u-muted">
+      No changes recorded yet. Movement is reported from the second pipeline run
+      onwards, once there is a baseline to compare against.
+    </p>
+  {% endif %}
+
+  <p class="source-note">
+    First seen in this database {{ organization.first_seen_at | since }}
+    ({{ organization.first_seen_at.strftime('%-d %B %Y') }}).
+  </p>
+</section>
