@@ -797,3 +797,51 @@ def test_uds_attaches_without_a_confirmed_ein(populated) -> None:
 
     rows, _ = fetch_rows(session, Filters(q="riverbend"))
     assert rows[0].patients == 4100
+
+
+def test_the_project_director_reaches_the_contacts_export(populated) -> None:
+    """The one authoritative named contact with a direct line: reported by the
+    health center to HRSA, not read off a web page."""
+    from app.models import UdsReport
+
+    client, session, _ = populated
+    erie = session.scalars(
+        select(Organization).where(Organization.name.like("Erie%"))
+    ).one()
+    session.add(
+        UdsReport(
+            organization_id=erie.id, year=2025, patients=84532,
+            director_name="Maria T Alvarez",
+            director_email="malvarez@eriefamilyhealth.org",
+            director_phone="(312) 666-3494",
+        )
+    )
+    session.commit()
+
+    body = client.get("/contacts.csv").text
+    line = next(l for l in body.splitlines() if "Maria T Alvarez" in l)
+    assert "Project Director" in line
+    assert "malvarez@eriefamilyhealth.org" in line
+    assert "HRSA UDS" in line
+    assert "2025 UDS return" in line
+
+
+def test_the_director_appears_on_the_profile(populated) -> None:
+    from app.models import UdsReport
+
+    client, session, _ = populated
+    erie = session.scalars(
+        select(Organization).where(Organization.name.like("Erie%"))
+    ).one()
+    session.add(
+        UdsReport(
+            organization_id=erie.id, year=2025,
+            director_name="Maria T Alvarez",
+            director_email="malvarez@eriefamilyhealth.org",
+        )
+    )
+    session.commit()
+
+    body = client.get(f"/organizations/{erie.id}").text
+    assert "Project director, reported to HRSA" in body
+    assert "malvarez@eriefamilyhealth.org" in body

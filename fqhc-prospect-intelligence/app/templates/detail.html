@@ -442,6 +442,37 @@
       </p>
     {% endif %}
 
+    {% set director = (uds_reports | selectattr('director_name') | first) if uds_reports else none %}
+    {% if director %}
+      <h4 class="subsection__header">Project director, reported to HRSA</h4>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Phone</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>{{ director.director_name }}</strong></td>
+              <td>Project Director</td>
+              <td>
+                {% if director.director_email %}
+                  <a href="mailto:{{ director.director_email }}">{{ director.director_email }}</a>
+                {% else %}<span class="not-available">Not available</span>{% endif %}
+              </td>
+              <td>{{ director.director_phone | na }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--success" style="margin-top:16px">
+        <p class="callout__title">Reported by the organization to its funder</p>
+        <p>
+          The contact HRSA holds on file for the {{ director.year }} UDS return.
+          Unlike a Form 990 &mdash; which lists officers care of the
+          organization&rsquo;s own address &mdash; this is a named person and a
+          direct line, given to HRSA by the health center itself.
+        </p>
+      </div>
+    {% endif %}
+
     {% if website_people %}
       <h4 class="subsection__header">From the organization&rsquo;s website</h4>
       <div class="table-wrap">

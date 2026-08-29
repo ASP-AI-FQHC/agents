@@ -601,9 +601,39 @@ def fetch_contacts(session: Session, filters: Filters) -> list[ContactRow]:
     """
     rows, _ = fetch_rows(session, filters, page_size=None)
 
+    from app.models import UdsReport
+
+    directors = {
+        report.organization_id: report
+        for report in session.scalars(
+            select(UdsReport)
+            .where(UdsReport.director_name.is_not(None))
+            .order_by(UdsReport.year)
+        ).all()
+    }
+
     contacts: list[ContactRow] = []
     for row in rows:
         organization = row.organization
+
+        director = directors.get(organization.id)
+        if director is not None:
+            contacts.append(
+                ContactRow(
+                    organization=organization,
+                    composite=row.composite,
+                    ein=row.ein,
+                    name=director.director_name,
+                    title="Project Director",
+                    role=None,
+                    email=director.director_email,
+                    source="HRSA UDS",
+                    source_detail=(
+                        f"{director.year} UDS return"
+                        + (f" -- {director.director_phone}" if director.director_phone else "")
+                    ),
+                )
+            )
 
         for person in organization_people(session, row.ein):
             contacts.append(

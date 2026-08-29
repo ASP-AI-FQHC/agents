@@ -127,9 +127,54 @@ UDS_FIELDS: dict[str, FieldSpec] = {
         aliases=("BPHC Grant Revenue", "Section 330 Grant Revenue", "Total Grant Revenue"),
         contains=(("grant", "revenue"), ("bphc", "grant")),
     ),
+    # HealthCenterInfo in a universal report. The header style there is
+    # ProjectDirectorEmail rather than "Project Director Email", which the
+    # normalizer already reconciles.
+    "director_name": FieldSpec(
+        aliases=("Project Director", "ProjectDirector", "Director Name"),
+        contains=(("projectdirector",),),
+        exclude=("phone", "fax", "email", "ext"),
+    ),
+    "director_phone": FieldSpec(
+        aliases=("Project Director Phone", "ProjectDirectorPhone"),
+        contains=(("projectdirector", "phone"),),
+        exclude=("ext",),
+    ),
+    "director_email": FieldSpec(
+        aliases=("Project Director Email", "ProjectDirectorEmail"),
+        contains=(("projectdirector", "email"),),
+    ),
+    "urban_rural": FieldSpec(
+        aliases=("Urban Rural Flag", "UrbanRuralFlag", "Urban/Rural"),
+        contains=(("urban", "rural"),),
+    ),
 }
 
 REQUIRED_FIELDS = ("patients",)
+
+
+def missing_required(
+    columns: dict[str, str], *, identity_ok: bool = False
+) -> list[str]:
+    """What a sheet still needs before it is worth reading.
+
+    A file earns its place by carrying patient counts. ``identity_ok`` is the
+    single exception, and it is granted only to the HealthCenterInfo sheet of a
+    universal report: that sheet has no counts -- they live on the coded table
+    sheets -- but it does carry the identity, the address and the project
+    director.
+
+    The exception is narrow on purpose. HRSA's site file also has a health
+    center name and a BHCMIS id, and allowing identity alone in general made it
+    pass as UDS data.
+    """
+    if "patients" in columns:
+        return []
+    if identity_ok and "org_name" in columns and (
+        "hrsa_id" in columns or "grant_number" in columns
+    ):
+        return []
+    return list(REQUIRED_FIELDS)
 
 # A real UDS workbook is one sheet per UDS table, not a flat export. The
 # universal report has 23 of them, and several carry a column that looks like
@@ -139,11 +184,70 @@ REQUIRED_FIELDS = ("patients",)
 #
 # Ranked best-first; matched case-insensitively on a normalized sheet name.
 PREFERRED_SHEETS: tuple[str, ...] = (
-    "table3a",              # patients by age and sex -- the patient count
-    "healthcenterinfo",     # identity, when a workbook has no table sheets
+    "healthcenterinfo",     # identity, address and the project director
+    "table3a",              # patients by age and sex
     "table4",               # income and insurance -- payer mix
     "table5",               # staffing and utilization -- FTEs
 )
+
+# HealthCenterInfo is the only sheet in a universal report with readable column
+# names. The table sheets are UDS form coordinates -- T3a_L1_Ca is Table 3A,
+# line 1, column a -- which no amount of keyword matching will decode, so they
+# need a form map rather than an alias list. Identity and the project director
+# come from here today; the coded tables follow once their line numbers are
+# confirmed against real values rather than guessed at.
+IDENTITY_SHEET = "healthcenterinfo"
+PATIENTS_SHEET = "table3a"
+
+# T3a_L39_Ca is Table 3A, line 39, column a. The line numbers are age bands and
+# one of them is the total, but which one has moved between report years -- so
+# rather than hard-coding a line number that will quietly become wrong, the
+# total is found by arithmetic. See :func:`total_from_coded_lines`.
+_CODED_COLUMN = re.compile(
+    r"^T(?P<table>[0-9]+[a-z]?)_L(?P<line>[0-9]+[a-z]*)_C(?P<column>[a-z]+)$",
+    re.IGNORECASE,
+)
+
+
+def coded_values(row: dict[str, str], table: str) -> dict[str, float]:
+    """Values from one coded table in a row, summed across columns per line."""
+    per_line: dict[str, float] = {}
+    for header, raw in row.items():
+        match = _CODED_COLUMN.match(str(header).strip())
+        if not match or match.group("table").lower() != table.lower():
+            continue
+        value = parse_number(raw)
+        if value is None:
+            continue
+        per_line[match.group("line")] = per_line.get(match.group("line"), 0.0) + value
+    return per_line
+
+
+def total_from_coded_lines(per_line: dict[str, float]) -> float | None:
+    """The reported total for a coded table, or the sum of its parts.
+
+    A UDS table lists components on numbered lines and repeats their total on
+    one more line. Which line that is has changed between report years, and
+    guessing it wrong is silent: you get one age band presented as the patient
+    count.
+
+    So it is derived instead. If some line equals half the sum of every line,
+    that line is the total and the rest are its components -- including the
+    total in the sum is what doubles it. With no such line, the table has no
+    total row and the sum of the components is the answer.
+    """
+    if not per_line:
+        return None
+
+    grand = sum(per_line.values())
+    if grand <= 0:
+        return None
+
+    for value in per_line.values():
+        # Tolerance for rounding, not for disagreement.
+        if abs(value * 2 - grand) <= max(1.0, grand * 0.0005):
+            return value
+    return grand
 
 
 def _normalize_sheet(name: str) -> str:
@@ -175,6 +279,10 @@ class UdsRecord:
     uninsured_share: float | None = None
     total_revenue: float | None = None
     grant_revenue: float | None = None
+    director_name: str | None = None
+    director_phone: str | None = None
+    director_email: str | None = None
+    urban_rural: str | None = None
 
     @property
     def normalized_name(self) -> str:
@@ -279,10 +387,11 @@ def read_best_sheet(path: Path) -> tuple[str, list[str], Iterator[dict[str, str]
     """
     candidates = sheet_headers(path)
 
-    def resolves(headers: list[str]) -> bool:
-        return bool(headers) and not [
-            f for f in REQUIRED_FIELDS if f not in resolve_columns(headers, UDS_FIELDS)
-        ]
+    def resolves(headers: list[str], name: str = "") -> bool:
+        return bool(headers) and not missing_required(
+            resolve_columns(headers, UDS_FIELDS),
+            identity_ok=_normalize_sheet(name) == IDENTITY_SHEET,
+        )
 
     # A named UDS table wins over whichever sheet happens to resolve first.
     ranked = {name: index for index, name in enumerate(PREFERRED_SHEETS)}
@@ -297,13 +406,14 @@ def read_best_sheet(path: Path) -> tuple[str, list[str], Iterator[dict[str, str]
         (
             name
             for _rank, name in preferred
-            if resolves(dict(candidates).get(name, []))
+            if resolves(dict(candidates).get(name, []), name)
         ),
         None,
     )
     if chosen is None:
         chosen = next(
-            (name for name, headers in candidates if resolves(headers)), None
+            (name for name, headers in candidates if resolves(headers, name)),
+            None,
         )
     if chosen is None:
         # Nothing recognisable: hand back the widest sheet, so the inspector
@@ -339,6 +449,17 @@ def _stream_sheet(
         workbook.close()
 
 
+def has_sheet(path: Path, wanted: str) -> bool:
+    if path.suffix.lower() not in {".xlsx", ".xlsm"}:
+        return False
+    try:
+        return any(
+            _normalize_sheet(name) == wanted for name, _headers in sheet_headers(path)
+        )
+    except Exception:
+        return False
+
+
 @dataclass
 class ParseResult:
     records: list[UdsRecord] = field(default_factory=list)
@@ -348,12 +469,16 @@ class ParseResult:
 
 
 def parse_uds(
-    headers: Sequence[str], rows: Iterable[dict[str, str]], *, default_year: int | None = None
+    headers: Sequence[str],
+    rows: Iterable[dict[str, str]],
+    *,
+    default_year: int | None = None,
+    identity_ok: bool = False,
 ) -> ParseResult:
     """Turn one UDS export into records, whatever the year named its columns."""
     columns = resolve_columns(list(headers), UDS_FIELDS)
     result = ParseResult(
-        missing_fields=[f for f in REQUIRED_FIELDS if f not in columns]
+        missing_fields=missing_required(columns, identity_ok=identity_ok)
     )
     if result.missing_fields:
         return result
@@ -369,7 +494,8 @@ def parse_uds(
         hrsa_id = (cell(row, "hrsa_id") or "").strip() or None
         grant_number = (cell(row, "grant_number") or "").strip() or None
 
-        if patients is None and not (hrsa_id or grant_number or name):
+        if patients is None and not (hrsa_id or grant_number):
+            # Nothing to file it against and nothing to file.
             result.rows_skipped += 1
             continue
 
@@ -390,6 +516,10 @@ def parse_uds(
                 uninsured_share=parse_share(cell(row, "uninsured_share")),
                 total_revenue=parse_number(cell(row, "total_revenue")),
                 grant_revenue=parse_number(cell(row, "grant_revenue")),
+                director_name=(cell(row, "director_name") or "").strip() or None,
+                director_phone=(cell(row, "director_phone") or "").strip() or None,
+                director_email=(cell(row, "director_email") or "").strip() or None,
+                urban_rural=(cell(row, "urban_rural") or "").strip() or None,
             )
         )
     return result
@@ -397,6 +527,58 @@ def parse_uds(
 
 def _as_int(value: float | None) -> int | None:
     return None if value is None else int(value)
+
+
+def parse_universal(path: Path, *, default_year: int | None = None) -> ParseResult:
+    """Read a universal report, whose facts are spread across sheets.
+
+    HealthCenterInfo carries the identity, the address and the project
+    director under readable column names. The counts live on coded table
+    sheets, joined back on the same identifiers. Everything not yet decoded is
+    simply left null rather than approximated from what is.
+    """
+    sheets = {_normalize_sheet(name): name for name, _h in sheet_headers(path)}
+
+    identity_sheet = sheets[IDENTITY_SHEET]
+    _name, headers, rows = (
+        identity_sheet,
+        dict(sheet_headers(path))[identity_sheet],
+        None,
+    )
+    rows = _stream_sheet(path, identity_sheet, headers)
+    result = parse_uds(
+        headers, rows, default_year=default_year, identity_ok=True
+    )
+    if result.missing_fields:
+        return result
+
+    by_key: dict[str, UdsRecord] = {}
+    for record in result.records:
+        key = record.hrsa_id or record.grant_number
+        if key:
+            by_key[key] = record
+
+    patients_sheet = sheets.get(PATIENTS_SHEET)
+    if patients_sheet:
+        patient_headers = dict(sheet_headers(path))[patients_sheet]
+        for row in _stream_sheet(path, patients_sheet, patient_headers):
+            columns = resolve_columns(patient_headers, UDS_FIELDS)
+            key = None
+            for field_name in ("hrsa_id", "grant_number"):
+                column = columns.get(field_name)
+                if column and (row.get(column) or "").strip():
+                    key = (row.get(column) or "").strip()
+                    if key in by_key:
+                        break
+                    key = None
+            record = by_key.get(key) if key else None
+            if record is None:
+                continue
+            total = total_from_coded_lines(coded_values(row, "3a"))
+            if total is not None:
+                record.patients = int(total)
+
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -523,10 +705,13 @@ def ingest(
         }
 
         for path in files:
-            headers, rows = read_rows(path)
-            parsed = parse_uds(
-                headers, rows, default_year=year_from_filename(path.name)
-            )
+            default_year = year_from_filename(path.name)
+            if has_sheet(path, IDENTITY_SHEET):
+                # A universal report: identity on one sheet, counts on others.
+                parsed = parse_universal(path, default_year=default_year)
+            else:
+                headers, rows = read_rows(path)
+                parsed = parse_uds(headers, rows, default_year=default_year)
             result.files_read += 1
             result.rows_read += parsed.rows_read
 
@@ -568,6 +753,10 @@ def ingest(
                 row.uninsured_share = record.uninsured_share
                 row.total_revenue = record.total_revenue
                 row.grant_revenue = record.grant_revenue
+                row.director_name = record.director_name
+                row.director_phone = record.director_phone
+                row.director_email = record.director_email
+                row.urban_rural = record.urban_rural
                 row.source_file = path.name
                 row.fetched_at = utcnow()
                 written_here += 1
@@ -697,21 +886,37 @@ def inspect(path: Path) -> str:
 
     sheets: list[tuple[str, list[str]]] = []
     used_sheet = ""
+    universal = has_sheet(path, IDENTITY_SHEET)
     try:
-        if path.suffix.lower() in {".xlsx", ".xlsm"}:
+        if universal:
+            sheets = sheet_headers(path)
+            used_sheet = dict(
+                (_normalize_sheet(name), name) for name, _h in sheets
+            )[IDENTITY_SHEET]
+            headers = dict(sheets)[used_sheet]
+            parsed = parse_universal(
+                path, default_year=year_from_filename(path.name)
+            )
+        elif path.suffix.lower() in {".xlsx", ".xlsm"}:
             sheets = sheet_headers(path)
             used_sheet, headers, rows = read_best_sheet(path)
+            parsed = parse_uds(headers, rows, default_year=year_from_filename(path.name))
         else:
             headers, rows = read_rows(path)
+            parsed = parse_uds(headers, rows, default_year=year_from_filename(path.name))
     except Exception as exc:
         return f"{path.name}: could not be read as CSV or Excel ({exc})"
-
-    parsed = parse_uds(headers, rows, default_year=year_from_filename(path.name))
     lines = [f"{path.name}  ({path.stat().st_size / 1_048_576:.1f} MB)"]
 
     if len(sheets) > 1:
         lines.append("")
-        lines.append(f"  {len(sheets)} sheets; reading \"{used_sheet}\":")
+        note = (
+            " (a universal report: identity here, counts joined from the "
+            "coded table sheets)"
+            if universal
+            else ""
+        )
+        lines.append(f"  {len(sheets)} sheets; reading \"{used_sheet}\"{note}:")
         for name, sheet_columns in sheets:
             mark = ">" if name == used_sheet else " "
             lines.append(f"    {mark} {name}  ({len(sheet_columns)} columns)")
@@ -738,7 +943,14 @@ def inspect(path: Path) -> str:
 
     found = resolve_columns(list(headers), UDS_FIELDS)
     have = [key for key in UDS_FIELDS if key in found]
-    missing = [key for key in UDS_FIELDS if key not in found]
+    if universal and any(r.patients is not None for r in parsed.records):
+        have.append("patients (from Table3A)")
+    missing = [
+        key
+        for key in UDS_FIELDS
+        if key not in found
+        and not (key == "patients" and "patients (from Table3A)" in have)
+    ]
 
     lines.append("")
     lines.append(f"  Looks like UDS data: {parsed.rows_read:,} rows.")
@@ -762,6 +974,36 @@ def inspect(path: Path) -> str:
             lines.append(
                 f"    {record.name} ({record.state or '??'}) -- {patients} patients"
             )
+    return "\n".join(lines)
+
+
+def preview_sheet(path: Path, sheet: str, rows: int = 2) -> str:
+    """Column names beside the values in the first rows.
+
+    A coded sheet's headers say nothing -- T3a_L39_Ca could be any of thirty-nine
+    age bands or the total. The values tell you which, and a total is obvious on
+    sight next to its components.
+    """
+    try:
+        sheets = dict(sheet_headers(path))
+    except Exception as exc:
+        return f"{path.name}: could not be read ({exc})"
+
+    by_normalized = {_normalize_sheet(name): name for name in sheets}
+    actual = by_normalized.get(_normalize_sheet(sheet))
+    if actual is None:
+        return f"No sheet called {sheet!r}. Available: {', '.join(sheets)}"
+
+    headers = sheets[actual]
+    lines = [f"{path.name} -- {actual}"]
+    for index, row in enumerate(_stream_sheet(path, actual, headers)):
+        if index >= rows:
+            break
+        lines.append("")
+        lines.append(f"  Row {index + 1}:")
+        for column, value in row.items():
+            text = str(value).strip()
+            lines.append(f"    {column:<28} {text[:60]}")
     return "\n".join(lines)
 
 
@@ -812,10 +1054,23 @@ def main(argv: list[str] | None = None) -> int:
             "Repeatable. Use it to show what a workbook actually contains."
         ),
     )
+    parser.add_argument(
+        "--preview",
+        metavar="NAME",
+        help=(
+            "Print the first rows of this sheet with each value beside its "
+            "column name. Use it on a sheet whose headers are form codes."
+        ),
+    )
+    parser.add_argument(
+        "--rows", type=int, default=2, help="Rows to show with --preview."
+    )
     args = parser.parse_args(argv)
 
     for path in args.path:
-        if args.sheet:
+        if args.preview:
+            print(preview_sheet(path, args.preview, rows=args.rows))
+        elif args.sheet:
             print(describe_sheets(path, args.sheet))
         else:
             print(inspect(path))

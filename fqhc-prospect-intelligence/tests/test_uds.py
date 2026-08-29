@@ -541,16 +541,20 @@ def test_the_patient_table_beats_the_clinical_measures_sheet() -> None:
 
     name, headers, _rows = read_best_sheet(UNIVERSAL)
 
-    assert name == "Table3A"
-    assert "Total Patients" in headers
+    # HealthCenterInfo wins outright in a universal report -- it is the sheet
+    # that identifies the organizations. The point stands: the clinical
+    # measures sheet is never the one chosen.
+    assert name != "Table6BClinicalmeasures"
+    assert name == "HealthCenterInfo"
 
 
 def test_a_named_table_beats_sheet_order() -> None:
     from pipeline.uds import inspect
 
     text = inspect(UNIVERSAL)
-    assert "> Table3A" in text
+    assert "> HealthCenterInfo" in text
     assert "Table6BClinicalmeasures" in text     # listed, but not chosen
+    assert "universal report" in text
 
 
 def test_columns_of_a_named_sheet_can_be_dumped() -> None:
@@ -559,9 +563,9 @@ def test_columns_of_a_named_sheet_can_be_dumped() -> None:
 
     text = describe_sheets(UNIVERSAL, ["HealthCenterInfo"])
 
-    assert "HealthCenterInfo  (5 columns)" in text
-    assert "Health Center Name" in text
-    assert "City" in text
+    assert "HealthCenterInfo  (12 columns)" in text
+    assert "HealthCenterName" in text
+    assert "ProjectDirectorEmail" in text
 
 
 def test_dumping_an_unknown_sheet_lists_what_is_there() -> None:
@@ -577,4 +581,81 @@ def test_sheet_names_are_matched_loosely() -> None:
     """"Table 3A", "Table3A" and "table_3a" are the same sheet to a human."""
     from pipeline.uds import describe_sheets
 
-    assert "5 columns" in describe_sheets(UNIVERSAL, ["table 3a"])
+    assert "Table3A  (80 columns)" in describe_sheets(UNIVERSAL, ["table 3a"])
+
+
+# ---------------------------------------------------------------------------
+# Decoding the coded table sheets
+# ---------------------------------------------------------------------------
+
+
+def test_the_total_line_is_found_by_arithmetic_not_by_line_number() -> None:
+    """UDS repeats a table's total on one more line, and which line that is has
+    moved between report years. Guessing it wrong is silent -- you get one age
+    band presented as the patient count."""
+    from pipeline.uds import total_from_coded_lines
+
+    # Lines 1-3 are components; line 39 repeats their total.
+    assert total_from_coded_lines({"1": 10.0, "2": 20.0, "3": 70.0, "39": 100.0}) == 100.0
+    # A table with no total row: the components are the answer.
+    assert total_from_coded_lines({"1": 10.0, "2": 20.0, "3": 70.0}) == 100.0
+    assert total_from_coded_lines({}) is None
+
+
+def test_coded_values_are_summed_across_columns() -> None:
+    """Table 3A splits every age band into column a (male) and b (female)."""
+    from pipeline.uds import coded_values
+
+    row = {
+        "BHCMISID": "010010",
+        "T3a_L1_Ca": "10", "T3a_L1_Cb": "15",
+        "T3a_L2_Ca": "20", "T3a_L2_Cb": "5",
+        "T4_L1_Ca": "999",          # a different table, ignored
+    }
+    assert coded_values(row, "3a") == {"1": 25.0, "2": 25.0}
+
+
+def test_patients_are_joined_from_the_coded_sheet() -> None:
+    """End to end on a workbook shaped like the real one: identity from
+    HealthCenterInfo, the count decoded from T3a_L*_C* and joined back."""
+    from pipeline.uds import parse_universal
+
+    parsed = parse_universal(UNIVERSAL, default_year=2025)
+    by_name = {r.name: r for r in parsed.records}
+
+    assert by_name["Erie Family Health Centers, Inc."].patients == 84532
+    assert by_name["Milwaukee Health Services Inc"].patients == 19204
+
+
+def test_the_project_director_is_captured() -> None:
+    """A named person with a direct line, reported by the health center to its
+    own funder -- which a Form 990 never carries."""
+    from pipeline.uds import parse_universal
+
+    record = parse_universal(UNIVERSAL).records[0]
+
+    assert record.director_name == "Maria T Alvarez"
+    assert record.director_email == "malvarez@eriefamilyhealth.org"
+    assert record.director_phone == "(312) 666-3494"
+    assert record.urban_rural == "Urban"
+
+
+def test_the_site_file_is_still_rejected() -> None:
+    """It has a health center name and a BHCMIS id, so an identity-only rule
+    let it through as UDS data. The exception is for the universal report's
+    own identity sheet, nothing else."""
+    from pipeline.uds import inspect
+
+    assert "NOT a UDS health-center file" in inspect(FIXTURES / "hrsa_sites.csv")
+
+
+def test_the_stage_stores_the_director(uds_config: Config, session: Session) -> None:
+    add_org(session, "Erie Family Health Centers, Inc.", hrsa_id="010010")
+    shutil.copy(UNIVERSAL, uds_config.uds.local_directory / "LAL-2025.xlsx")
+
+    ingest(session, uds_config)
+
+    row = session.scalars(select(UdsReport)).one()
+    assert row.patients == 84532
+    assert row.director_email == "malvarez@eriefamilyhealth.org"
+    assert row.year == 2025

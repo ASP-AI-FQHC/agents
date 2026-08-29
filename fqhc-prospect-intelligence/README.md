@@ -513,6 +513,45 @@ fetched automatically:
    exports don't.
 3. Run `python -m pipeline.run --stage uds`.
 
+### Two shapes of UDS export
+
+**A flat export** — one row per health center, readable column names — is read
+directly.
+
+**A universal report** is 23 sheets, one per UDS table, and needs assembling:
+
+| Sheet | Carries |
+| --- | --- |
+| `HealthCenterInfo` | identity, address, and the **project director** with a direct phone and email |
+| `Table3A` | patients |
+| `Table4` | payer mix |
+| `Table5` | staffing FTEs |
+| `Table8A`, `Table9D`, `Table9E` | costs, revenue, grants |
+| `HITInformation` | health IT adoption |
+
+Only `HealthCenterInfo` has readable column names. The table sheets are UDS form
+coordinates — `T3a_L39_Ca` is Table 3A, line 39, column a — which no amount of
+keyword matching decodes.
+
+Where a total is needed, it is **derived rather than looked up by line number**.
+A UDS table lists components on numbered lines and repeats their total on one
+more line, and which line that is has moved between report years. So the total
+is the line equal to half the sum of every line — including the total in the sum
+is what doubles it — and where no such line exists, the components are summed.
+Guessing a line number would fail silently, presenting one age band as the
+patient count.
+
+Sheets not yet decoded are left null rather than approximated from those that
+are.
+
+### The project director
+
+`HealthCenterInfo` names the project director with a direct phone and email,
+reported by the health center to its own funder. It is the one authoritative
+named contact in the whole application — a Form 990 lists officers care of the
+organization's address, and a website may or may not publish anyone. It appears
+on the profile and in the contacts export, sourced as *HRSA UDS*.
+
 Columns are resolved by alias and keyword, not by position, because UDS renames
 its headers between years: "Total Patients" has also shipped as "Patients
 Served" and "Total Number of Patients". A column that cannot be found becomes a

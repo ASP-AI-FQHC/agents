@@ -533,6 +533,15 @@ class UdsReport(Base):
     total_revenue: Mapped[float | None] = mapped_column(Float)
     grant_revenue: Mapped[float | None] = mapped_column(Float)
 
+    # The project director HRSA holds on file, with the contact details the
+    # organization itself gave them. Unlike a 990 -- which lists officers care
+    # of the organization's address -- this is a named person and a direct
+    # line, reported by the health center to its own funder.
+    director_name: Mapped[str | None] = mapped_column(String(240))
+    director_phone: Mapped[str | None] = mapped_column(String(64))
+    director_email: Mapped[str | None] = mapped_column(String(240))
+    urban_rural: Mapped[str | None] = mapped_column(String(16))
+
     source_file: Mapped[str | None] = mapped_column(String(240))
     fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
