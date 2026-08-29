@@ -542,10 +542,9 @@ def test_the_patient_table_beats_the_clinical_measures_sheet() -> None:
     name, headers, _rows = read_best_sheet(UNIVERSAL)
 
     # HealthCenterInfo wins outright in a universal report -- it is the sheet
-    # that identifies the organizations. The point stands: the clinical
-    # measures sheet is never the one chosen.
-    assert name != "Table6BClinicalmeasures"
+    # that identifies the organizations, and the counts are joined to it.
     assert name == "HealthCenterInfo"
+    assert "HealthCenterName" in headers
 
 
 def test_a_named_table_beats_sheet_order() -> None:
@@ -553,7 +552,7 @@ def test_a_named_table_beats_sheet_order() -> None:
 
     text = inspect(UNIVERSAL)
     assert "> HealthCenterInfo" in text
-    assert "Table6BClinicalmeasures" in text     # listed, but not chosen
+    assert "Table3A" in text                     # listed, but not the one read
     assert "universal report" in text
 
 
@@ -659,3 +658,90 @@ def test_the_stage_stores_the_director(uds_config: Config, session: Session) -> 
     assert row.patients == 84532
     assert row.director_email == "malvarez@eriefamilyhealth.org"
     assert row.year == 2025
+
+
+# ---------------------------------------------------------------------------
+# The description row: a workbook that explains itself
+# ---------------------------------------------------------------------------
+
+
+def test_the_description_row_is_a_header_not_a_health_center() -> None:
+    """A universal report puts form codes on row 1 and what each one means on
+    row 2. Read as data it becomes a health center whose name is a question."""
+    from pipeline.uds import parse_universal
+
+    records = parse_universal(UNIVERSAL).records
+
+    assert len(records) == 2
+    assert all(r.name and "?" not in r.name for r in records)
+
+
+def test_the_description_row_becomes_the_column_names() -> None:
+    """Which is what makes the coded sheets readable: no hand-built map of
+    line numbers, because the file says what every column holds."""
+    from pipeline.uds import describe_sheets
+
+    text = describe_sheets(UNIVERSAL, ["Table5"])
+
+    assert "Total Personnel-FTEs Column A" in text
+    assert "T5_L29_Ca" not in text
+
+
+@pytest.mark.parametrize(
+    "row,expected",
+    [
+        (["-", "-", "Does your health center have an EHR system installed?", "Vendor-HIT"], True),
+        (["-", "-", "Family Physicians-FTEs Column A", "General Practitioners-FTEs"], True),
+        (["010010", "H80CS00123", 24.5, 3.0], False),
+        (["010010", "H80CS00123", "Yes", "Epic Systems Corporation"], False),
+        (["", "", ""], False),
+    ],
+)
+def test_description_rows_are_told_from_data_rows(row, expected) -> None:
+    from pipeline.uds import looks_like_descriptions
+
+    assert looks_like_descriptions(row) is expected
+
+
+def test_a_sheet_with_no_description_row_keeps_every_data_row() -> None:
+    """Skipping a row unconditionally would quietly lose a health center."""
+    headers, rows = read_rows(FIXTURES / "uds_2023.csv")
+    assert parse_uds(headers, rows).rows_read == 4
+
+
+def test_staffing_comes_from_the_labelled_column() -> None:
+    from pipeline.uds import parse_universal
+
+    by_name = {r.name: r for r in parse_universal(UNIVERSAL).records}
+    assert by_name["Erie Family Health Centers, Inc."].total_fte == pytest.approx(612.4)
+
+
+def test_the_patient_total_sums_the_male_and_female_columns() -> None:
+    """Both are labelled "Total Patients"; taking one would halve the count."""
+    from pipeline.uds import parse_universal
+
+    by_name = {r.name: r for r in parse_universal(UNIVERSAL).records}
+    assert by_name["Erie Family Health Centers, Inc."].patients == 84532
+
+
+def test_the_ehr_vendor_is_read() -> None:
+    """What the health center actually runs, named by the health center."""
+    from pipeline.uds import parse_universal
+
+    by_name = {r.name: r for r in parse_universal(UNIVERSAL).records}
+    erie = by_name["Erie Family Health Centers, Inc."]
+
+    assert erie.ehr_vendor == "Epic Systems Corporation"
+    assert erie.ehr_product == "Epic"
+    assert by_name["Milwaukee Health Services Inc"].ehr_vendor == "NextGen Healthcare"
+
+
+def test_the_stage_stores_the_ehr(uds_config: Config, session: Session) -> None:
+    add_org(session, "Erie Family Health Centers, Inc.", hrsa_id="010010")
+    shutil.copy(UNIVERSAL, uds_config.uds.local_directory / "LAL-2025.xlsx")
+
+    ingest(session, uds_config)
+
+    row = session.scalars(select(UdsReport)).one()
+    assert row.ehr_vendor == "Epic Systems Corporation"
+    assert row.total_fte == pytest.approx(612.4)

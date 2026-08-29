@@ -537,6 +537,12 @@ class UdsReport(Base):
     # organization itself gave them. Unlike a 990 -- which lists officers care
     # of the organization's address -- this is a named person and a direct
     # line, reported by the health center to its own funder.
+    # From the UDS health-IT sheet: what the health center actually runs. The
+    # single most commercially interesting fact in the file for an MSP, and the
+    # one this application previously reported as unavailable anywhere free.
+    ehr_vendor: Mapped[str | None] = mapped_column(String(240))
+    ehr_product: Mapped[str | None] = mapped_column(String(240))
+
     director_name: Mapped[str | None] = mapped_column(String(240))
     director_phone: Mapped[str | None] = mapped_column(String(64))
     director_email: Mapped[str | None] = mapped_column(String(240))

@@ -30,6 +30,7 @@ COLUMNS: tuple[tuple[str, str], ...] = (
     ("Patients", "patients"),
     ("Staff FTE", "staff_fte"),
     ("UDS year", "uds_year"),
+    ("EHR vendor", "ehr_vendor"),
     ("Grantee type", "grantee_type"),
     ("EIN", "ein"),
     ("EIN match status", "match_status"),
@@ -61,6 +62,7 @@ def _cell_values(row: ProspectRow) -> dict[str, object]:
         "patients": row.patients,
         "staff_fte": row.staff_fte,
         "uds_year": row.uds_year,
+        "ehr_vendor": row.ehr_vendor,
         "grantee_type": getattr(organization.grantee_type, "value", organization.grantee_type),
         "ein": format_ein(row.ein),
         "match_status": getattr(match.status, "value", match.status) if match else "unmatched",
@@ -156,6 +158,7 @@ WIDTHS = {
     "patients": 12,
     "staff_fte": 12,
     "uds_year": 10,
+    "ehr_vendor": 26,
     "compensation": 16,
     "phone": 16,
 }

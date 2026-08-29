@@ -145,6 +145,7 @@ class ProspectRow:
     patients: int | None = None
     staff_fte: float | None = None
     uds_year: int | None = None
+    ehr_vendor: str | None = None
 
     @property
     def composite(self) -> float | None:
@@ -205,6 +206,7 @@ def latest_uds_subquery():
             UdsReport.year.label("year"),
             UdsReport.patients.label("patients"),
             UdsReport.total_fte.label("total_fte"),
+            UdsReport.ehr_vendor.label("ehr_vendor"),
         )
         .join(
             newest,
@@ -229,7 +231,7 @@ def base_query() -> tuple[Select, Any, Any, Any]:
         select(
             Organization, Score, EinMatch,
             revenue.c.revenue, revenue.c.tax_year, revenue.c.period_end,
-            uds.c.patients, uds.c.total_fte, uds.c.year,
+            uds.c.patients, uds.c.total_fte, uds.c.year, uds.c.ehr_vendor,
         )
         .outerjoin(Score, Score.organization_id == Organization.id)
         .outerjoin(EinMatch, EinMatch.organization_id == Organization.id)
@@ -336,10 +338,11 @@ def fetch_rows(
             patients=patients,
             staff_fte=total_fte,
             uds_year=uds_year,
+            ehr_vendor=ehr_vendor,
         )
         for (
             organization, score, match, rev, tax_year, period_end,
-            patients, total_fte, uds_year,
+            patients, total_fte, uds_year, ehr_vendor,
         ) in session.execute(statement).all()
     ]
     return rows, total
@@ -427,10 +430,11 @@ def review_queue(session: Session, limit: int | None = None) -> list[ProspectRow
             patients=patients,
             staff_fte=total_fte,
             uds_year=uds_year,
+            ehr_vendor=ehr_vendor,
         )
         for (
             organization, score, match, rev, tax_year, period_end,
-            patients, total_fte, uds_year,
+            patients, total_fte, uds_year, ehr_vendor,
         ) in session.execute(statement).all()
     ]
 

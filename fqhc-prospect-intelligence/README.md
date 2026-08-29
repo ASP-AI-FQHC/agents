@@ -209,7 +209,7 @@ survives because human EIN decisions hang off it.
 | Vendors and service providers | Form 990 Part VII Section B — contractors paid over $100,000, with the service described | Available once Form 990 XML is loaded |
 | Salaries | Form 990 Part VII: reportable compensation from the organization, from related organizations, and other compensation | Available for everyone the filing lists. Board members usually report $0, which is a reported figure and is shown as $0 — distinct from "not available" |
 | Board member contact details | Only where the organization publishes them itself | **Mostly not available.** A 990 lists officers care-of the organization's own address; personal emails and direct phone numbers are not published, and the `people` table has no contact columns, so there is nowhere to put invented ones. On a leadership page an address printed beside a person is captured verbatim, linked or as plain text. Shared inboxes (`info@`, `reception@`, or any address that lands on more than one person) are dropped rather than passed off as somebody's direct line, and nothing is ever constructed from a name and a domain. |
-| Software and technology used | — | **Not available.** No free authoritative source publishes an organization's technology stack. The contractor rows are the closest proxy: an incumbent EHR, IT or billing vendor often appears there by name. |
+| Software and technology used | HRSA UDS health IT return | **Available.** The health center names its EHR vendor and product to HRSA. What sits around it — network, endpoints, identity, backup — is still not reported anywhere, and is the opening. Form 990 contractor rows remain a secondary proxy for IT and billing vendors. |
 
 Where a data point cannot be sourced it is labelled "Not available" rather than
 approximated, and the profile says which of the two reasons applies: the source
@@ -527,22 +527,27 @@ directly.
 | `Table4` | payer mix |
 | `Table5` | staffing FTEs |
 | `Table8A`, `Table9D`, `Table9E` | costs, revenue, grants |
-| `HITInformation` | health IT adoption |
+| `HITInformation` | **the EHR the health center runs**, by vendor and product |
 
-Only `HealthCenterInfo` has readable column names. The table sheets are UDS form
-coordinates — `T3a_L39_Ca` is Table 3A, line 39, column a — which no amount of
-keyword matching decodes.
+**The workbook explains itself.** Every sheet has two header rows: the form
+codes (`T3a_L39_Ca` — Table 3A, line 39, column a) and, beneath them, what each
+column actually holds ("Total Patients-Male Patients Column A", "Does your
+health center currently have an electronic health record system installed and
+in use?"). The reader merges the two, so a coded column resolves through the
+same alias and keyword machinery as a plainly named one and nothing needs a
+hand-built map of line numbers.
 
-Where a total is needed, it is **derived rather than looked up by line number**.
-A UDS table lists components on numbered lines and repeats their total on one
-more line, and which line that is has moved between report years. So the total
-is the line equal to half the sum of every line — including the total in the sum
-is what doubles it — and where no such line exists, the components are summed.
-Guessing a line number would fail silently, presenting one age band as the
-patient count.
+That second row has to be recognised, not read: taken as data it becomes a
+health center whose name is a question. It is identified by its own shape —
+several long prose labels, with the identifier columns dashed out — and a sheet
+without one keeps all its rows.
 
-Sheets not yet decoded are left null rather than approximated from those that
-are.
+Totals are summed across every column carrying the label, because UDS splits
+them: "Total Patients" is two columns, male and female, and taking one halves
+the count. Where a workbook has no description row at all, a fallback derives
+the total arithmetically — the line equal to half the sum of every line, since
+including a total in the sum is what doubles it — rather than trusting a line
+number that moves between report years.
 
 ### The project director
 

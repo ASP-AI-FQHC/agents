@@ -379,6 +379,23 @@
           </table>
         </div>
       </div>
+      {% set hit = (uds_reports | selectattr('ehr_vendor') | first) if uds_reports else none %}
+      {% if hit %}
+        <div class="callout callout--success" style="margin-top:16px">
+          <p class="callout__title">Electronic health record in use</p>
+          <p>
+            <strong>{{ hit.ehr_vendor }}</strong>{% if hit.ehr_product %} &mdash;
+            {{ hit.ehr_product }}{% endif %}, as reported to HRSA on the
+            {{ hit.year }} UDS health IT return.
+          </p>
+          <p class="u-small">
+            The incumbent system, named by the health center itself. What sits
+            around it &mdash; network, endpoints, identity, backup &mdash; is
+            not reported anywhere, and is the opening.
+          </p>
+        </div>
+      {% endif %}
+
       <p class="u-small u-muted" style="margin-top:12px">
         Reported by the organization to HRSA in its annual Uniform Data System
         return. Organization totals only &mdash; UDS publishes nothing at

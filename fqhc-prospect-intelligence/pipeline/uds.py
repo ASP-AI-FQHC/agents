@@ -43,7 +43,7 @@ from app.models import (
     utcnow,
 )
 from pipeline.hrsa import FieldSpec, resolve_columns
-from pipeline.text import normalize_name, normalize_state
+from pipeline.text import normalize_header, normalize_name, normalize_state
 
 ProgressFn = Callable[[str], None]
 
@@ -198,6 +198,8 @@ PREFERRED_SHEETS: tuple[str, ...] = (
 # confirmed against real values rather than guessed at.
 IDENTITY_SHEET = "healthcenterinfo"
 PATIENTS_SHEET = "table3a"
+STAFFING_SHEET = "table5"
+HIT_SHEET = "hitinformation"
 
 # T3a_L39_Ca is Table 3A, line 39, column a. The line numbers are age bands and
 # one of them is the total, but which one has moved between report years -- so
@@ -279,6 +281,8 @@ class UdsRecord:
     uninsured_share: float | None = None
     total_revenue: float | None = None
     grant_revenue: float | None = None
+    ehr_vendor: str | None = None
+    ehr_product: str | None = None
     director_name: str | None = None
     director_phone: str | None = None
     director_email: str | None = None
@@ -363,16 +367,67 @@ def _header_row(values_iter) -> list[str]:
     return []
 
 
+def looks_like_descriptions(values: Sequence[object]) -> bool:
+    """Whether a row is a second header of human-readable labels.
+
+    A universal report puts the form codes on row 1 and what each one *means*
+    on row 2 -- "Does your health center currently have an electronic health
+    record?" -- with a dash in the identifier columns. Read as data it becomes
+    a health center whose name is a question; read as a header it is the key to
+    the whole workbook, because it says what every coded column holds.
+    """
+    texts = [str(v).strip() for v in values if v is not None and str(v).strip()]
+    if len(texts) < 3:
+        return False
+    prose = [t for t in texts if len(t) > 25 and " " in t]
+    if len(prose) >= 2:
+        return True
+    # A narrower sheet may carry only one long label, but HRSA marks the row by
+    # dashing out the identifier columns -- a health center is never called "-".
+    dashes = [t for t in texts if t in {"-", "--"}]
+    return bool(prose) and bool(dashes)
+
+
+def merge_headers(codes: Sequence[str], descriptions: Sequence[str]) -> list[str]:
+    """Prefer the readable label, falling back to the code that names it.
+
+    So a coded column resolves through the same alias and keyword machinery as
+    a plainly named one, and nothing needs a hand-built map of line numbers.
+    """
+    merged: list[str] = []
+    for index, code in enumerate(codes):
+        description = descriptions[index] if index < len(descriptions) else ""
+        description = (description or "").strip()
+        if description and description not in {"-", "--"}:
+            merged.append(description)
+        else:
+            merged.append(code)
+    return merged
+
+
 def sheet_headers(path: Path) -> list[tuple[str, list[str]]]:
-    """Every sheet in a workbook, with the header row each one starts with."""
+    """Every sheet, with its effective header row.
+
+    Effective, because a universal report has two: the form codes, and beneath
+    them what each column means. Where both exist they are merged, so callers
+    see readable names whatever the sheet.
+    """
     from openpyxl import load_workbook
 
     workbook = load_workbook(path, read_only=True, data_only=True)
     try:
-        return [
-            (name, _header_row(workbook[name].iter_rows(values_only=True)))
-            for name in workbook.sheetnames
-        ]
+        result: list[tuple[str, list[str]]] = []
+        for name in workbook.sheetnames:
+            rows = workbook[name].iter_rows(values_only=True)
+            codes = _header_row(rows)
+            descriptions = next(rows, None)
+            if codes and descriptions and looks_like_descriptions(descriptions):
+                codes = merge_headers(
+                    codes,
+                    [("" if v is None else str(v)) for v in descriptions],
+                )
+            result.append((name, codes))
+        return result
     finally:
         workbook.close()
 
@@ -426,6 +481,11 @@ def read_best_sheet(path: Path) -> tuple[str, list[str], Iterator[dict[str, str]
     return chosen, headers, _stream_sheet(path, chosen, headers)
 
 
+def _chain(first, rest) -> Iterator:
+    yield first
+    yield from rest
+
+
 def _stream_sheet(
     path: Path, sheet_name: str, headers: list[str]
 ) -> Iterator[dict[str, str]]:
@@ -437,6 +497,11 @@ def _stream_sheet(
     try:
         rows = workbook[sheet_name].iter_rows(values_only=True)
         _header_row(rows)   # advance past the header
+        first = next(rows, None)
+        if first is not None and not looks_like_descriptions(first):
+            # Not a description row after all: it is data, and skipping it
+            # would quietly lose a health center.
+            rows = _chain(first, rows)
         for values in rows:
             if all(v is None or str(v).strip() == "" for v in values):
                 continue
@@ -529,6 +594,38 @@ def _as_int(value: float | None) -> int | None:
     return None if value is None else int(value)
 
 
+def sum_labelled(row: dict[str, str], *keywords: str) -> float | None:
+    """Sum every column whose label contains all of ``keywords``.
+
+    Once the description row is in play, a coded sheet describes itself: Table
+    3A's total is two columns -- male and female -- both labelled "Total
+    Patients", and summing every column that matches is both simpler and more
+    honest than deciding which single one to trust.
+    """
+    total = 0.0
+    found = False
+    for header, raw in row.items():
+        normalized = normalize_header(str(header))
+        if not all(keyword in normalized for keyword in keywords):
+            continue
+        value = parse_number(raw)
+        if value is not None:
+            total += value
+            found = True
+    return total if found else None
+
+
+def first_labelled(row: dict[str, str], *keywords: str) -> str | None:
+    """The first non-empty value whose column label contains all keywords."""
+    for header, raw in row.items():
+        normalized = normalize_header(str(header))
+        if all(keyword in normalized for keyword in keywords):
+            text = str(raw or "").strip()
+            if text and text not in {"-", "--"}:
+                return text
+    return None
+
+
 def parse_universal(path: Path, *, default_year: int | None = None) -> ParseResult:
     """Read a universal report, whose facts are spread across sheets.
 
@@ -558,25 +655,44 @@ def parse_universal(path: Path, *, default_year: int | None = None) -> ParseResu
         if key:
             by_key[key] = record
 
-    patients_sheet = sheets.get(PATIENTS_SHEET)
-    if patients_sheet:
-        patient_headers = dict(sheet_headers(path))[patients_sheet]
-        for row in _stream_sheet(path, patients_sheet, patient_headers):
-            columns = resolve_columns(patient_headers, UDS_FIELDS)
-            key = None
-            for field_name in ("hrsa_id", "grant_number"):
-                column = columns.get(field_name)
-                if column and (row.get(column) or "").strip():
-                    key = (row.get(column) or "").strip()
-                    if key in by_key:
-                        break
-                    key = None
+    all_headers = dict(sheet_headers(path))
+
+    def each_row(sheet: str):
+        """Rows of a joined sheet, paired with the record they belong to."""
+        actual = sheets.get(sheet)
+        if not actual:
+            return
+        headers = all_headers[actual]
+        columns = resolve_columns(headers, UDS_FIELDS)
+        for row in _stream_sheet(path, actual, headers):
+            key = next(
+                (
+                    (row.get(columns[f]) or "").strip()
+                    for f in ("hrsa_id", "grant_number")
+                    if columns.get(f) and (row.get(columns[f]) or "").strip() in by_key
+                ),
+                None,
+            )
             record = by_key.get(key) if key else None
-            if record is None:
-                continue
+            if record is not None:
+                yield record, row
+
+    for record, row in each_row(PATIENTS_SHEET):
+        # The label first -- "Total Patients" across the male and female
+        # columns. Only where a workbook has no description row does the line
+        # arithmetic have to stand in.
+        total = sum_labelled(row, "total", "patients")
+        if total is None:
             total = total_from_coded_lines(coded_values(row, "3a"))
-            if total is not None:
-                record.patients = int(total)
+        if total is not None:
+            record.patients = int(total)
+
+    for record, row in each_row(STAFFING_SHEET):
+        record.total_fte = sum_labelled(row, "total", "personnel", "fte")
+
+    for record, row in each_row(HIT_SHEET):
+        record.ehr_vendor = first_labelled(row, "vendor")
+        record.ehr_product = first_labelled(row, "product", "name")
 
     return result
 
@@ -753,6 +869,8 @@ def ingest(
                 row.uninsured_share = record.uninsured_share
                 row.total_revenue = record.total_revenue
                 row.grant_revenue = record.grant_revenue
+                row.ehr_vendor = record.ehr_vendor
+                row.ehr_product = record.ehr_product
                 row.director_name = record.director_name
                 row.director_phone = record.director_phone
                 row.director_email = record.director_email
