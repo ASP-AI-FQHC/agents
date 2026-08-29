@@ -215,42 +215,94 @@ def year_from_filename(name: str) -> int | None:
 
 
 def read_rows(path: Path) -> tuple[list[str], Iterator[dict[str, str]]]:
-    """Header row plus data rows, from a CSV or the first sheet of an XLSX."""
+    """Header row plus data rows from a CSV, or the best sheet of a workbook."""
     if path.suffix.lower() in {".xlsx", ".xlsm"}:
-        return _read_xlsx(path)
+        _name, headers, rows = read_best_sheet(path)
+        return headers, rows
     text = path.read_text(encoding="utf-8-sig", errors="replace")
     reader = csv.DictReader(io.StringIO(text))
     return list(reader.fieldnames or []), iter(reader)
 
 
-def _read_xlsx(path: Path) -> tuple[list[str], Iterator[dict[str, str]]]:
+def _header_row(values_iter) -> list[str]:
+    """The first row that looks like a header rather than a title banner.
+
+    HRSA workbooks routinely open with a merged title cell and a blank line, so
+    the header is whichever early row first carries several non-empty cells.
+    """
+    for values in values_iter:
+        filled = [v for v in values if v is not None and str(v).strip()]
+        if len(filled) >= 3:
+            return [("" if v is None else str(v).strip()) for v in values]
+    return []
+
+
+def sheet_headers(path: Path) -> list[tuple[str, list[str]]]:
+    """Every sheet in a workbook, with the header row each one starts with."""
     from openpyxl import load_workbook
 
     workbook = load_workbook(path, read_only=True, data_only=True)
-    sheet = workbook.active
+    try:
+        return [
+            (name, _header_row(workbook[name].iter_rows(values_only=True)))
+            for name in workbook.sheetnames
+        ]
+    finally:
+        workbook.close()
 
-    rows = sheet.iter_rows(values_only=True)
-    header: list[str] = []
-    # UDS workbooks often carry a title row or two before the real header, so
-    # the first row with several non-empty cells wins.
-    for values in rows:
-        candidates = [str(v).strip() for v in values if v is not None and str(v).strip()]
-        if len(candidates) >= 3:
-            header = [("" if v is None else str(v).strip()) for v in values]
-            break
 
-    def generate() -> Iterator[dict[str, str]]:
+def read_best_sheet(path: Path) -> tuple[str, list[str], Iterator[dict[str, str]]]:
+    """The sheet that actually holds the data, not whichever one was saved last.
+
+    A HRSA workbook opens on a cover sheet -- DataDumpType, ReportingYear, a
+    refresh date -- and keeps the health centers on a later one. Reading only
+    the active sheet finds four columns of metadata and concludes the file is
+    the wrong one, which is exactly backwards.
+    """
+    candidates = sheet_headers(path)
+
+    chosen = next(
+        (
+            name
+            for name, headers in candidates
+            if headers
+            and not [f for f in REQUIRED_FIELDS
+                     if f not in resolve_columns(headers, UDS_FIELDS)]
+        ),
+        None,
+    )
+    if chosen is None:
+        # Nothing recognisable: hand back the widest sheet, so the inspector
+        # reports the most informative column list it can.
+        chosen = max(
+            candidates, key=lambda pair: len(pair[1]), default=("", [])
+        )[0]
+
+    headers = dict(candidates).get(chosen, [])
+    return chosen, headers, _stream_sheet(path, chosen, headers)
+
+
+def _stream_sheet(
+    path: Path, sheet_name: str, headers: list[str]
+) -> Iterator[dict[str, str]]:
+    """Rows of one sheet as dicts. Opened fresh: a read-only worksheet does not
+    reliably survive being iterated twice."""
+    from openpyxl import load_workbook
+
+    workbook = load_workbook(path, read_only=True, data_only=True)
+    try:
+        rows = workbook[sheet_name].iter_rows(values_only=True)
+        _header_row(rows)   # advance past the header
         for values in rows:
             if all(v is None or str(v).strip() == "" for v in values):
                 continue
             yield {
-                header[i] if i < len(header) else f"col{i}":
+                headers[i] if i < len(headers) else f"col{i}":
                     ("" if v is None else str(v))
                 for i, v in enumerate(values)
             }
+    finally:
         workbook.close()
-
-    return header, generate()
 
 
 @dataclass
@@ -609,13 +661,26 @@ def inspect(path: Path) -> str:
             f"{path.name[2:]}, not a document."
         )
 
+    sheets: list[tuple[str, list[str]]] = []
+    used_sheet = ""
     try:
-        headers, rows = read_rows(path)
+        if path.suffix.lower() in {".xlsx", ".xlsm"}:
+            sheets = sheet_headers(path)
+            used_sheet, headers, rows = read_best_sheet(path)
+        else:
+            headers, rows = read_rows(path)
     except Exception as exc:
         return f"{path.name}: could not be read as CSV or Excel ({exc})"
 
     parsed = parse_uds(headers, rows, default_year=year_from_filename(path.name))
     lines = [f"{path.name}  ({path.stat().st_size / 1_048_576:.1f} MB)"]
+
+    if len(sheets) > 1:
+        lines.append("")
+        lines.append(f"  {len(sheets)} sheets; reading \"{used_sheet}\":")
+        for name, sheet_columns in sheets:
+            mark = ">" if name == used_sheet else " "
+            lines.append(f"    {mark} {name}  ({len(sheet_columns)} columns)")
 
     if parsed.missing_fields:
         lines.append("")

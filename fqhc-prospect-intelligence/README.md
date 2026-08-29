@@ -495,7 +495,13 @@ python -m pipeline.uds ~/Downloads/whatever_you_downloaded.csv
 
 It says whether the file is usable UDS data, which columns it will read, which
 it will leave blank, the reporting year, and the first few organizations by
-name — or, if it is the wrong file, what it found instead.
+name — or, if it is the wrong file, every column it found instead.
+
+For a workbook it also lists the sheets and marks the one it read. HRSA
+workbooks open on a cover sheet (`DataDumpType`, `ReportingYear`, a refresh
+date) and keep the health centers behind it, so the reader searches every sheet
+for the one that carries the data rather than trusting whichever was saved
+last.
 
 There is no stable download URL — HRSA moves it between years — so nothing is
 fetched automatically:

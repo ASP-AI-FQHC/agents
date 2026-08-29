@@ -448,3 +448,79 @@ def test_excel_lock_files_are_recognised_not_reported_as_corrupt(tmp_path: Path)
     text = inspect(lock)
     assert "lock file" in text
     assert "could not be read" not in text
+
+
+# ---------------------------------------------------------------------------
+# Workbooks that open on a cover sheet
+# ---------------------------------------------------------------------------
+
+MULTISHEET = FIXTURES / "uds_multisheet.xlsx"
+
+
+def test_the_data_sheet_is_found_behind_a_cover_sheet() -> None:
+    """A real HRSA workbook opens on DataDumpType / ReportingYear / a refresh
+    date and keeps the health centers on a later sheet. Reading only the active
+    sheet finds four columns of metadata and concludes the file is the wrong
+    one, which is exactly backwards."""
+    from pipeline.uds import read_best_sheet
+
+    name, headers, rows = read_best_sheet(MULTISHEET)
+
+    assert name == "HealthCenterData"
+    assert "Total Patients" in headers
+    assert len(list(rows)) == 2
+
+
+def test_the_workbook_parses_end_to_end() -> None:
+    headers, rows = read_rows(MULTISHEET)
+    parsed = parse_uds(headers, rows)
+
+    assert not parsed.missing_fields
+    assert [r.patients for r in parsed.records] == [84532, 19204]
+    assert parsed.records[0].total_fte == pytest.approx(612.4)
+
+
+def test_inspect_names_the_sheets_and_which_one_it_used() -> None:
+    from pipeline.uds import inspect
+
+    text = inspect(MULTISHEET)
+
+    assert "3 sheets" in text
+    assert "> HealthCenterData" in text
+    assert "ReportInfo" in text
+    assert "Looks like UDS data: 2 rows" in text
+
+
+def test_a_workbook_with_no_data_sheet_reports_the_widest_one(tmp_path: Path) -> None:
+    """Nothing recognisable anywhere: show the most informative sheet rather
+    than whichever happened to be saved first."""
+    from openpyxl import Workbook
+
+    from pipeline.uds import inspect
+
+    workbook = Workbook()
+    workbook.active.title = "Cover"
+    workbook.active.append(["DataDumpType", "ReportingYear", "Refreshed"])
+    wide = workbook.create_sheet("Sites")
+    wide.append(["Site Name", "Site Address", "Site City", "State", "Grant #"])
+    wide.append(["A Clinic", "1 Main St", "Chicago", "IL", "H80"])
+    path = tmp_path / "sites.xlsx"
+    workbook.save(path)
+
+    text = inspect(path)
+    assert "NOT a UDS health-center file" in text
+    assert "Site Address" in text
+
+
+def test_the_stage_ingests_a_multisheet_workbook(
+    uds_config: Config, session: Session
+) -> None:
+    add_org(session, "Erie Family Health Centers, Inc.", state="IL")
+    shutil.copy(MULTISHEET, uds_config.uds.local_directory / "2025_UDS.xlsx")
+
+    result = ingest(session, uds_config)
+
+    assert result.matched == 1
+    row = session.scalars(select(UdsReport)).one()
+    assert row.year == 2025          # from the filename
+    assert row.patients == 84532
