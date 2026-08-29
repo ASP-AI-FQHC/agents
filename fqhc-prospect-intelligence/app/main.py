@@ -41,6 +41,7 @@ from app.queries import (
     organization_changes,
     organization_contractors,
     organization_detail,
+    organization_grants,
     organization_people,
     organization_profile,
     organization_programs,
@@ -218,6 +219,7 @@ def organization_page(
     latest_uds = uds_reports[0] if uds_reports else None
     profile = organization_profile(session, organization.ein)
     contractors = organization_contractors(session, organization.ein)
+    federal_grants, philanthropic_grants = organization_grants(session, organization.id)
     filing_people = organization_people(session, organization.ein)
     website_people = organization_website_people(session, organization.id)
     key_personnel, board_members = profile_people(
@@ -232,6 +234,8 @@ def organization_page(
         filings=filings,
         profile=profile,
         programs=organization_programs(session, organization.ein),
+        federal_grants=federal_grants,
+        philanthropic_grants=philanthropic_grants,
         headlines=headline_figures(filings, profile),
         facts=profile_facts(organization, match, filings, profile, latest_uds),
         tags=profile_tags(organization, filings, profile, latest_uds, contractors),

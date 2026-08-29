@@ -94,10 +94,11 @@ country, at roughly ten times the API traffic.
 | 3. Financials | `pipeline/propublica.py` | Pulls the three most recent Form 990 filings per EIN — revenue, expenses, assets, and the 990 PDF link. |
 | 4. People | `pipeline/irs.py` | Reads Form 990 Part VII from IRS e-file XML: officers, board members and contractors paid over $100,000. |
 | 5. UDS | `pipeline/uds.py` | Loads HRSA Uniform Data System exports: patients, visits, staffing FTEs and payer mix per organization per year. |
-| 6. Websites | `pipeline/website.py` | Falls back to the organization's own leadership and board pages for the health centers with no filing on hand. |
-| 7. Scoring | `pipeline/scoring.py` | Produces a 0–100 composite ICP score with a per-factor breakdown. |
-| 8. Changes | `pipeline/changes.py` | Compares every organization to the previous run and logs what moved. |
-| 9. Dashboard | `app/` | Master table, organization detail, EIN review queue, what-changed log, CSV/XLSX export, refresh. |
+| 6. Grants | `pipeline/grants.py` | Loads federal award files you download, and — when switched on — finds grants made to these organizations in every other nonprofit's Form 990 Schedule I. |
+| 7. Websites | `pipeline/website.py` | Falls back to the organization's own leadership and board pages for the health centers with no filing on hand. |
+| 8. Scoring | `pipeline/scoring.py` | Produces a 0–100 composite ICP score with a per-factor breakdown. |
+| 9. Changes | `pipeline/changes.py` | Compares every organization to the previous run and logs what moved. |
+| 10. Dashboard | `app/` | Master table, organization detail, EIN review queue, what-changed log, CSV/XLSX export, refresh. |
 
 Run stages individually while iterating:
 
@@ -226,6 +227,8 @@ from on hover; none of them is a judgement made here.
 | Functional expense split (program / management / fundraising) | Form 990 Part IX totals row | Available once Form 990 XML is loaded |
 | Regulatory status: audited statements, Single Audit required and performed, audit committee | Form 990 Part XII. Three-state: yes, no, or "the return does not answer" | Available once Form 990 XML is loaded. The *name* of the Single Audit firm is published by the Federal Audit Clearinghouse, not on the 990, and that source is not loaded — so no auditor is named |
 | Program areas as classified by funders | HRSA awardee file (all Section 330 funding streams) + IRS NTEE code | Available |
+| Active and awarded federal grants | A federal award export you download (USAspending, or an agency's own), matched on an exact EIN | Available once an award file is loaded (see below). Only these rows can say whether an award is still running, because only they carry a period of performance; a row with no reported end date is shown as "not stated" rather than assumed to be active or ended |
+| Grants received from other nonprofits | Other organizations' Form 990 Schedule I, where this organization is the named recipient | Available once Schedule I scanning is switched on. A nonprofit reports the grants it makes and never the ones it receives, so this is read out of everybody else's filing. History, never a current position, and only as complete as the Form 990 download on the machine |
 | Financials and Form 990s | ProPublica Nonprofit Explorer, three most recent filings | Available |
 | Funding sources | Form 990 revenue composition: contributions and grants, program service revenue, government grants, investment income | Available where the IRS extract reports it |
 | Data update history | This database: first seen, last confirmed, and every detected change | Available |
@@ -386,6 +389,9 @@ These are enforced in code and covered by tests, not merely documented:
 - IRS Form 990 series downloads —
   <https://www.irs.gov/charities-non-profits/form-990-series-downloads>
   (downloaded by hand, read locally, never fetched during a run by default).
+- USAspending — <https://www.usaspending.gov/> (assistance award exports,
+  downloaded by hand and read locally; Assistance Listing 93.224 is the Health
+  Center Program).
 - The organizations' own public websites, for leadership and board pages only —
   fetched politely, `robots.txt` honoured, nothing behind a login.
 
@@ -623,3 +629,68 @@ shown at all — revenue and patient counts predict device counts far too weakly
 and a number nobody can defend is worse on a proposal than no number.
 
 Nothing in UDS is patient-level. Every figure is an organization total.
+
+## Loading grants
+
+Two different questions, and only one source can answer each.
+
+### Active and awarded federal grants
+
+Download an assistance award export from
+[usaspending.gov](https://www.usaspending.gov/) — filter by recipient state, and
+by Assistance Listing **93.224** for the Health Center Program — and drop the CSV
+in `data/raw/grants`. Then:
+
+```bash
+python -m pipeline.run --stage grants
+```
+
+Columns are resolved by name rather than by position, so an agency's own export
+in a different shape loads too: `recipient_ein`, `award_id_fain`,
+`total_obligated_amount`, `period_of_performance_current_end_date` and their
+common variants are all understood, and a column that cannot be found becomes a
+null rather than failing the file.
+
+**A file with no recipient EIN column is refused**, and the stage says so. There
+is no safe way to attach a federal award to an organization by name, and a grant
+credited to the wrong health center is worse than no grant at all.
+
+This is the only source that supports the word *active*: it carries a period of
+performance. A row whose end date the file does not report is shown as **not
+stated** — neither active nor ended, because neither is known.
+
+### Grants received from other nonprofits
+
+A nonprofit reports every grant it **makes**, on Form 990 Schedule I, and none
+of the grants it **receives**. There is no line anywhere on a health center's
+own return listing its funders. So the only way to see who has funded one is to
+read every other return in the IRS download and look for its EIN:
+
+```yaml
+grants:
+  scan_schedule_i: true
+```
+
+```bash
+python -m pipeline.run --stage grants
+```
+
+This opens every document in `irs.local_directory`, which is why it is off by
+default. Most returns carry no Schedule I at all, and those are rejected by a
+substring test on the raw bytes before any XML is parsed; each archive is opened
+once rather than once per document. It is still the slowest thing in the
+pipeline, and it prints progress as it goes.
+
+What comes back is what Cause IQ shows as "received grants": a named grantor,
+their EIN, the purpose as they described it, and the amount — split into cash
+and non-cash, because non-cash assistance is not money and adding the two
+silently would overstate the cash.
+
+Every row is matched on an **exact nine-digit EIN**. Never on a name.
+
+Two honest limits. This is **history, not a current position**: a Schedule I row
+carries the grantor's tax year and no period of performance, so nothing here is
+ever labelled active. And the list is **only as complete as the Form 990
+download on your machine** — a funder whose return you do not have is a funder
+you will not see, which is a gap in coverage rather than evidence the grant does
+not exist. The profile says both.

@@ -752,6 +752,38 @@ def organization_profile(session: Session, ein: str | None):
     ).first()
 
 
+def organization_grants(session: Session, organization_id: int):
+    """Grants awarded to one organization, split by what kind of claim they are.
+
+    Returns ``(federal_awards, philanthropic)``. They are kept apart because
+    only one of them can say whether an award is still running: a federal award
+    file carries a period of performance, and a Schedule I row -- which is a
+    line on somebody else's tax return -- carries only a year.
+    """
+    from app.models import Grant, GrantSource
+
+    rows = list(
+        session.scalars(
+            select(Grant).where(Grant.organization_id == organization_id)
+        ).all()
+    )
+
+    federal = sorted(
+        (row for row in rows if row.source == GrantSource.FEDERAL_AWARD),
+        # Current awards first, then the largest.
+        key=lambda g: (
+            g.end_date is None,
+            -(g.end_date.timestamp() if g.end_date else 0),
+            -(g.amount or 0),
+        ),
+    )
+    philanthropic = sorted(
+        (row for row in rows if row.source == GrantSource.SCHEDULE_I),
+        key=lambda g: (-(g.tax_year or 0), -(g.amount or 0)),
+    )
+    return federal, philanthropic
+
+
 def organization_programs(session: Session, ein: str | None):
     """Form 990 Part III program areas for the most recent year, as filed."""
     from app.models import ProgramArea

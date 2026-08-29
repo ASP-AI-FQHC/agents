@@ -214,6 +214,31 @@ class UdsSettings(BaseModel):
     workstations_per_fte: float = Field(default=0.85, gt=0)
 
 
+class GrantSettings(BaseModel):
+    """Grants awarded to health centers, from two very different sources.
+
+    *Schedule I* is read out of the Form 990 XML already on disk. A nonprofit
+    reports the grants it makes, never the ones it receives, so this means
+    scanning every return in the download and looking for our EINs in
+    somebody else's Schedule I. That is the expensive part, and why it is a
+    stage of its own rather than folded into the people stage.
+
+    *Federal awards* come from a file the user downloads -- USAspending's
+    assistance export, or an agency's own -- dropped in ``local_directory``.
+    Nothing is fetched: the download URLs move, and a file on disk works
+    offline.
+    """
+
+    local_directory: Path = Path("data/raw/grants")
+    # Scan the IRS XML corpus for Schedule I grants. Off by default: on a
+    # national download it means parsing hundreds of thousands of documents,
+    # and the user should choose to spend that time.
+    scan_schedule_i: bool = False
+    # Ignore grants below this, which are usually pass-through and clutter the
+    # profile without changing the picture. Zero keeps everything.
+    minimum_amount: float = Field(default=0.0, ge=0)
+
+
 class WebsiteSettings(BaseModel):
     """Leadership pages on an organization's own website.
 
@@ -270,6 +295,7 @@ class Config(BaseModel):
     pipeline: PipelineSettings = Field(default_factory=PipelineSettings)
     irs: IrsSettings = Field(default_factory=IrsSettings)
     uds: UdsSettings = Field(default_factory=UdsSettings)
+    grants: GrantSettings = Field(default_factory=GrantSettings)
     website: WebsiteSettings = Field(default_factory=WebsiteSettings)
     ui: UiSettings = Field(default_factory=UiSettings)
 

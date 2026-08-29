@@ -270,6 +270,41 @@ PROGRAM_GRANT = ("GrantAmt", "Grants", "GrantAmount")
 PROGRAM_REVENUE = ("RevenueAmt", "Revenue", "RevenueAmount")
 PROGRAM_ACTIVITY_CODE = ("ActivityCd", "ActivityCode")
 
+# --- Schedule I: grants this filer made to other organizations -------------
+#
+# Read from the *grantor's* return, which is the only place a grant is
+# reported: a nonprofit does not list the grants it receives anywhere on its
+# own 990. So the way to learn what an FQHC was granted is to read everybody
+# else's Schedule I and look for its EIN.
+
+SCHEDULE_I_MARKER = "ScheduleI"
+GRANT_GROUPS = (
+    "RecipientTable",
+    "GrantsOtherAsstToDomesticOrgGrp",
+    "RecipientEinTbl",
+)
+GRANT_RECIPIENT_EIN = ("RecipientEIN", "EINOfRecipient", "RecipientEin")
+GRANT_RECIPIENT_NAME = (
+    "RecipientBusinessName",
+    "RecipientNameBusiness",
+    "BusinessNameLine1Txt",
+    "BusinessNameLine1",
+)
+GRANT_CASH = ("CashGrantAmt", "AmountOfCashGrant", "CashGrantAmount")
+GRANT_NON_CASH = (
+    "NonCashAssistanceAmt",
+    "AmountOfNonCashAssistance",
+    "NonCashAssistanceAmount",
+)
+GRANT_PURPOSE = (
+    "PurposeOfGrantTxt",
+    "PurposeOfGrant",
+    "PurposeOfGrantOrAssistance",
+)
+GRANT_SECTION = ("IRCSectionDesc", "IRCSectionTxt", "IRCSection")
+GRANT_STATE = ("StateAbbreviationCd", "State")
+FILER_NAME = ("BusinessNameLine1Txt", "BusinessNameLine1", "Name")
+
 
 # ---------------------------------------------------------------------------
 # Parsed records
@@ -350,6 +385,35 @@ class ProgramRecord:
         if 0 < cut < 160:
             return text[: cut + 1]
         return text if len(text) <= 160 else text[:157].rsplit(" ", 1)[0] + "..."
+
+
+@dataclass
+class GrantRecord:
+    """One Schedule I row: a grant this filer made to another organization."""
+
+    recipient_ein: str | None = None
+    recipient_name: str | None = None
+    cash: float | None = None
+    non_cash: float | None = None
+    purpose: str | None = None
+    section: str | None = None
+    state: str | None = None
+
+    @property
+    def total(self) -> float | None:
+        """Cash plus non-cash, counting only what was actually reported."""
+        parts = [value for value in (self.cash, self.non_cash) if value is not None]
+        return sum(parts) if parts else None
+
+
+@dataclass
+class GrantorReturn:
+    """A filer's Schedule I: who it is, and everyone it granted money to."""
+
+    grantor_ein: str | None = None
+    grantor_name: str | None = None
+    tax_year: int | None = None
+    grants: list[GrantRecord] = field(default_factory=list)
 
 
 @dataclass
@@ -527,6 +591,64 @@ def _clean_prose(text: str | None) -> str | None:
         return None
     collapsed = " ".join(text.split())
     return collapsed or None
+
+
+def has_schedule_i(data: bytes) -> bool:
+    """Cheap pre-check: does this document contain a Schedule I at all?
+
+    Reading grants means looking at every return in the download, not just the
+    ones belonging to health centers, because any nonprofit might be the
+    grantor. Most returns carry no Schedule I, and a substring test on the raw
+    bytes rejects them for a fraction of the cost of building an element tree.
+    A false positive here is harmless -- the parse simply finds no grant rows.
+    """
+    return SCHEDULE_I_MARKER.encode("ascii") in data
+
+
+def parse_schedule_i(content: bytes | str) -> GrantorReturn:
+    """Parse the grants one filer reported making, from its Schedule I.
+
+    Rows without a recipient EIN are skipped: Schedule I also covers grants to
+    individuals and to organizations the filer did not identify, and neither
+    can be attached to a health center with any confidence. A grant is only
+    ever attributed on an exact nine-digit EIN match -- never on a name.
+    """
+    try:
+        root = ElementTree.fromstring(
+            content if isinstance(content, bytes) else content.encode("utf-8")
+        )
+    except ElementTree.ParseError as exc:
+        raise ValueError(f"Not valid XML: {exc}") from exc
+
+    result = GrantorReturn(grantor_ein=normalize_ein(first_text(root, *EIN_FIELDS)))
+
+    year_text = first_text(root, *TAX_YEAR)
+    if year_text and year_text[:4].isdigit():
+        result.tax_year = int(year_text[:4])
+
+    # The filer's own name comes from the header, where the only business name
+    # is its own. Searching the whole document would find a grant recipient's.
+    for header in iter_named(root, "ReturnHeader", "ReturnHeaderType"):
+        result.grantor_name = _clean_prose(first_text(header, *FILER_NAME))
+        break
+
+    for group in iter_named(root, *GRANT_GROUPS):
+        recipient_ein = normalize_ein(first_text(group, *GRANT_RECIPIENT_EIN))
+        if not recipient_ein:
+            continue
+        result.grants.append(
+            GrantRecord(
+                recipient_ein=recipient_ein,
+                recipient_name=_clean_prose(first_text(group, *GRANT_RECIPIENT_NAME)),
+                cash=first_number(group, *GRANT_CASH),
+                non_cash=first_number(group, *GRANT_NON_CASH),
+                purpose=_clean_prose(first_text(group, *GRANT_PURPOSE)),
+                section=first_text(group, *GRANT_SECTION),
+                state=first_text(group, *GRANT_STATE),
+            )
+        )
+
+    return result
 
 
 def _parse_programs(root: ElementTree.Element) -> list[ProgramRecord]:

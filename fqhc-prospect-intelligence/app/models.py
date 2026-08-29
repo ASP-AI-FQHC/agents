@@ -684,6 +684,104 @@ class FilingProfile(Base):
         return None
 
 
+class GrantSource(str, enum.Enum):
+    """Where a grant record came from, which decides what it means."""
+
+    # Another nonprofit's Form 990 Schedule I named this organization as a
+    # recipient. Historic, precise, and the grantor is named.
+    SCHEDULE_I = "schedule-i"
+    # A federal award file (USAspending or an agency's own export) loaded from
+    # disk. Carries a period of performance, so it can be current.
+    FEDERAL_AWARD = "federal-award"
+
+    @property
+    def label(self) -> str:
+        return {
+            GrantSource.SCHEDULE_I: "Form 990 Schedule I",
+            GrantSource.FEDERAL_AWARD: "Federal award file",
+        }[self]
+
+
+class Grant(Base):
+    """One grant awarded to an organization in this database.
+
+    Two quite different things live here, told apart by ``source``.
+
+    A **Schedule I** row was read from the *grantor's* Form 990. A nonprofit
+    reports the grants it makes and never the grants it receives, so the only
+    way to learn what a health center was given is to read everybody else's
+    return and look for its EIN. That match is on an exact nine-digit EIN and
+    nothing else -- never on a name -- and the grantor is named because the
+    filing names it.
+
+    A **federal award** row was read from a file the user downloaded. It
+    carries a period of performance, so unlike a 990 it can say whether an
+    award is still running.
+    """
+
+    __tablename__ = "grants"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    organization_id: Mapped[int] = mapped_column(
+        ForeignKey("organizations.id", ondelete="CASCADE"), index=True
+    )
+    source: Mapped[GrantSource] = mapped_column(String(24), index=True)
+
+    # Who gave it. For Schedule I this is the filer whose return named us.
+    grantor_name: Mapped[str | None] = mapped_column(String(320))
+    grantor_ein: Mapped[str | None] = mapped_column(String(16), index=True)
+
+    amount: Mapped[float | None] = mapped_column(Float)
+    # Split out where the filing reports both, because non-cash assistance is
+    # not money and lumping the two together would overstate the cash.
+    cash_amount: Mapped[float | None] = mapped_column(Float)
+    non_cash_amount: Mapped[float | None] = mapped_column(Float)
+
+    purpose: Mapped[str | None] = mapped_column(Text)
+    # Tax year of the grantor's return, for a Schedule I row.
+    tax_year: Mapped[int | None] = mapped_column(Integer, index=True)
+
+    # Federal award fields. All null for a Schedule I row.
+    award_number: Mapped[str | None] = mapped_column(String(64))
+    awarding_agency: Mapped[str | None] = mapped_column(String(240))
+    program_title: Mapped[str | None] = mapped_column(String(320))
+    cfda_number: Mapped[str | None] = mapped_column(String(32))
+    start_date: Mapped[datetime | None] = mapped_column(DateTime)
+    end_date: Mapped[datetime | None] = mapped_column(DateTime)
+
+    source_file: Mapped[str | None] = mapped_column(String(320))
+    fetched_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    organization: Mapped["Organization"] = relationship()
+
+    __table_args__ = (
+        Index("ix_grants_org_source", "organization_id", "source"),
+    )
+
+    @property
+    def is_active(self) -> bool | None:
+        """Whether the award period covers today.
+
+        None when no end date was reported -- which is the usual case for a
+        Schedule I row, and the reason those are never described as "active".
+        """
+        if self.end_date is None:
+            return None
+        end = self.end_date
+        if end.tzinfo is None:
+            end = end.replace(tzinfo=timezone.utc)
+        return end >= datetime.now(timezone.utc)
+
+    @property
+    def period_label(self) -> str | None:
+        """The award period, as far as it was reported."""
+        if self.start_date is None and self.end_date is None:
+            return None
+        start = self.start_date.strftime("%b %Y") if self.start_date else "?"
+        end = self.end_date.strftime("%b %Y") if self.end_date else "?"
+        return f"{start} to {end}"
+
+
 class ProgramArea(Base):
     """One Form 990 Part III program service accomplishment.
 

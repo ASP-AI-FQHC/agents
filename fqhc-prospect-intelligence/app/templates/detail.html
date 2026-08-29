@@ -13,6 +13,7 @@
     ('summary', 'Summary', none),
     ('programs', 'Program areas', programs | length),
     ('funding', 'Funding', none),
+    ('grants', 'Grants awarded', (federal_grants | length) + (philanthropic_grants | length)),
     ('financials', 'Financials', filings | length),
     ('service', 'Service volume', uds_reports | length),
     ('personnel', 'Personnel', (key_personnel | length) + (board_members | length)),
@@ -51,6 +52,7 @@
       {% include "partials/profile/summary.html" %}
       {% include "partials/profile/programs.html" %}
       {% include "partials/profile/funding.html" %}
+      {% include "partials/profile/grants.html" %}
       {% include "partials/profile/financials.html" %}
       {% include "partials/profile/service.html" %}
       {% include "partials/profile/personnel.html" %}

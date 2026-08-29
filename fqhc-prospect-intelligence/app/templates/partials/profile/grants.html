@@ -1,0 +1,141 @@
+{# Grants awarded to this organization. Two sources that answer different
+   questions: a federal award file can say what is still running, a Form 990
+   Schedule I can only say what was given, by whom, in a stated year. #}
+<section class="section" id="grants">
+  <h3 class="section__header">Grants awarded</h3>
+
+  <h4 class="subsection__header">Active and awarded federal grants</h4>
+  {% if federal_grants %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Award</th><th>Awarding agency</th><th>Program</th>
+            <th>Period of performance</th><th>Status</th><th class="num">Obligated</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for grant in federal_grants %}
+            <tr>
+              <td>
+                <strong>{{ grant.award_number | na }}</strong>
+                {% if grant.cfda_number %}
+                  <div class="u-small u-muted">Assistance Listing {{ grant.cfda_number }}</div>
+                {% endif %}
+              </td>
+              <td>{{ grant.awarding_agency | na }}</td>
+              <td>
+                {{ grant.program_title | na }}
+                {% if grant.purpose and grant.purpose != grant.program_title %}
+                  <div class="u-small u-muted">{{ grant.purpose }}</div>
+                {% endif %}
+              </td>
+              <td class="u-small u-nowrap">{{ grant.period_label | na }}</td>
+              <td>
+                {% if grant.is_active is none %}
+                  {# No end date was reported, so neither "active" nor "ended"
+                     can be claimed. #}
+                  <span class="not-available">Not stated</span>
+                {% elif grant.is_active %}
+                  <span class="badge badge--qualified">Active</span>
+                {% else %}
+                  <span class="badge badge--neutral">Ended</span>
+                {% endif %}
+              </td>
+              <td class="num">
+                {% if grant.amount is not none %}{{ grant.amount | money }}
+                {% else %}<span class="not-available">Not available</span>{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="source-note">
+      From the federal award file loaded into this database
+      {% if federal_grants[0].source_file %}({{ federal_grants[0].source_file }}){% endif %},
+      matched to this organization on an exact EIN and never on a name.
+      <strong>Active</strong> means the reported period of performance covers
+      today; a row whose end date the file does not carry is shown as not
+      stated rather than assumed to be either.
+    </p>
+  {% else %}
+    <p class="not-available">
+      Not available &mdash; no federal award file has been loaded, or none of
+      its rows carries this organization&rsquo;s EIN. Download an assistance
+      award export from
+      <a href="https://www.usaspending.gov/" target="_blank" rel="noopener noreferrer">usaspending.gov</a>
+      and drop the CSV in <code>grants.local_directory</code>.
+      {% if organization.federal_award_amount is not none %}
+        HRSA does publish a current Section 330 award of
+        <strong>{{ organization.federal_award_amount | money }}</strong> for
+        this organization, shown under Funding above.
+      {% endif %}
+    </p>
+  {% endif %}
+
+  <h4 class="subsection__header" style="margin-top: 28px">
+    Grants received from other nonprofits
+  </h4>
+  {% if philanthropic_grants %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th>Grantor</th><th>Purpose, as filed</th><th>Tax year</th>
+              <th class="num">Cash</th><th class="num">Non-cash</th><th class="num">Total</th></tr>
+        </thead>
+        <tbody>
+          {% for grant in philanthropic_grants %}
+            <tr>
+              <td>
+                <strong>{{ grant.grantor_name | na }}</strong>
+                {% if grant.grantor_ein %}
+                  <div class="u-small u-muted">EIN {{ grant.grantor_ein | ein }}</div>
+                {% endif %}
+              </td>
+              <td>{{ grant.purpose | na }}</td>
+              <td class="u-small u-nowrap">FY{{ grant.tax_year }}</td>
+              <td class="num">
+                {% if grant.cash_amount is not none %}{{ grant.cash_amount | money }}
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+              <td class="num">
+                {% if grant.non_cash_amount is not none %}{{ grant.non_cash_amount | money }}
+                {% else %}<span class="not-available">&mdash;</span>{% endif %}
+              </td>
+              <td class="num">
+                {% if grant.amount is not none %}<strong>{{ grant.amount | money }}</strong>
+                {% else %}<span class="not-available">Not available</span>{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="source-note">
+      Read from the <strong>grantor&rsquo;s</strong> Form 990 Schedule I, not
+      from this organization&rsquo;s own return: a nonprofit reports every grant
+      it makes and none of the grants it receives, so the only way to see who
+      funded a health center is to read everybody else&rsquo;s filing. Each row
+      was matched on an exact nine-digit EIN. This is history and not a current
+      position &mdash; a Schedule I row carries a tax year and no period of
+      performance &mdash; and the list is only as complete as the Form 990
+      download on this machine.
+    </p>
+  {% else %}
+    <p class="not-available">
+      Not available &mdash;
+      {% if not config.grants.scan_schedule_i %}
+        Schedule I scanning is switched off. Set
+        <code>grants.scan_schedule_i</code> to <code>true</code> in config.yaml
+        and run <code>python -m pipeline.run --stage grants</code> to read who
+        has funded this organization out of other nonprofits&rsquo; filings.
+        It reads every return in the IRS download, so it takes a while.
+      {% else %}
+        no grant to this organization&rsquo;s EIN was found in the Form 990
+        filings on this machine. Its funders may simply not be in the download
+        you have.
+      {% endif %}
+    </p>
+  {% endif %}
+</section>

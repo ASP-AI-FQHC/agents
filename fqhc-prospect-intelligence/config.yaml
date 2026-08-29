@@ -154,6 +154,31 @@ uds:
   devices_per_fte: 1.4
   workstations_per_fte: 0.85
 
+grants:
+  # Grants awarded to health centers, from two sources that answer different
+  # questions.
+  #
+  # 1. A federal award file you download. USAspending exports carry an award
+  #    number, the awarding agency, an Assistance Listing (CFDA) number and a
+  #    period of performance -- which is what makes it possible to say an award
+  #    is still running. Get one from https://www.usaspending.gov/ (filter by
+  #    recipient state, and Assistance Listing 93.224 for the Health Center
+  #    Program) and drop the CSV in the folder below. Columns are resolved by
+  #    name, so an agency's own export in a different shape still loads. A file
+  #    with no recipient EIN column is refused rather than matched on name.
+  local_directory: data/raw/grants
+  #
+  # 2. Form 990 Schedule I, which is where a foundation reports the grants it
+  #    makes. A nonprofit never reports the grants it *receives*, so the only
+  #    way to see who funded a health center is to read every other return in
+  #    the IRS download and look for its EIN. That is why this is off by
+  #    default: on a national download it means opening hundreds of thousands
+  #    of documents. Turn it on when you want to know who the funders are, and
+  #    expect it to take a while.
+  scan_schedule_i: false
+  # Ignore grants below this amount. Zero keeps everything.
+  minimum_amount: 0
+
 website:
   # Fallback source for key personnel and board members: the leadership, board
   # and "our team" pages on the health center's own website, found from the web

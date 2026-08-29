@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
 from app.config import Config, load_config
 from app.db import init_db, session_scope
 from app.models import RunStatus
-from pipeline import changes, hrsa, irs, matching, scoring, uds, website
+from pipeline import changes, grants, hrsa, irs, matching, scoring, uds, website
 from pipeline.propublica import ProPublicaClient, enrich_financials
 
 
@@ -104,6 +104,12 @@ def _run_uds(
     return uds.ingest(session, config, on_progress=report)
 
 
+def _run_grants(
+    session: Session, config: Config, _options: StageOptions, report: Callable[[str], None]
+) -> grants.GrantResult:
+    return grants.ingest(session, config, on_progress=report)
+
+
 def _run_websites(
     session: Session, config: Config, options: StageOptions, report: Callable[[str], None]
 ) -> website.WebsiteResult:
@@ -139,6 +145,7 @@ STAGES: tuple[Stage, ...] = (
         honours_limit=True,
     ),
     Stage("uds", "Load HRSA UDS patients, staffing and payer mix", _run_uds),
+    Stage("grants", "Load awarded grants from award files and Schedule I", _run_grants),
     Stage(
         "website",
         "Read leadership pages for organizations with no Part VII people",
