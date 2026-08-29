@@ -398,7 +398,11 @@ def test_inspect_rejects_the_wrong_file_and_says_why() -> None:
 
     assert "NOT a UDS health-center file" in text
     assert "total-patients column" in text
-    assert "Site Name" in text          # shows what it did find
+    # Every column, numbered -- this is exactly when the full list is wanted,
+    # either to recognise the file or to send it on for the aliases to be fixed.
+    assert "Site Name" in text
+    assert "Site Postal Code" in text
+    assert "All 14 columns:" in text
 
 
 def test_inspect_names_the_columns_it_will_ignore() -> None:

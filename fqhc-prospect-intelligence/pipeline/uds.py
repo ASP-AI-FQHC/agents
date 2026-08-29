@@ -615,7 +615,13 @@ def inspect(path: Path) -> str:
         lines.append(
             f"  No column that looks like: {', '.join(parsed.missing_fields)}."
         )
-        lines.append(f"  Columns found: {', '.join(str(h) for h in headers[:12])}")
+        lines.append("")
+        # Every column, not a sample. This is the moment somebody needs the
+        # full list -- either to recognise the file, or to send it on so the
+        # aliases can be taught the names this year's export uses.
+        lines.append(f"  All {len(headers)} columns:")
+        for index, header in enumerate(headers, start=1):
+            lines.append(f"    {index:3d}. {header}")
         lines.append("")
         lines.append(
             "  A usable file has one row per health center and a total-patients "
