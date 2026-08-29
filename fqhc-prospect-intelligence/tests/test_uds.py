@@ -372,3 +372,62 @@ def test_support_staff_is_the_remainder(session: Session) -> None:
     )
     assert report.support_fte == pytest.approx(464.2)
     assert UdsReport(organization_id=org.id, year=2023, total_fte=10.0).support_fte is None
+
+
+# ---------------------------------------------------------------------------
+# Checking a downloaded file before running anything
+# ---------------------------------------------------------------------------
+
+
+def test_inspect_confirms_a_usable_file() -> None:
+    from pipeline.uds import inspect
+
+    text = inspect(FIXTURES / "uds_2023.csv")
+
+    assert "Looks like UDS data: 4 rows" in text
+    assert "Reporting year: 2023" in text
+    assert "patients" in text
+    assert "Erie Family Health Centers, Inc. (IL) -- 84,532 patients" in text
+
+
+def test_inspect_rejects_the_wrong_file_and_says_why() -> None:
+    """HRSA publishes many similarly named files; this is how you tell."""
+    from pipeline.uds import inspect
+
+    text = inspect(FIXTURES / "hrsa_sites.csv")
+
+    assert "NOT a UDS health-center file" in text
+    assert "total-patients column" in text
+    assert "Site Name" in text          # shows what it did find
+
+
+def test_inspect_names_the_columns_it_will_ignore() -> None:
+    from pipeline.uds import inspect
+
+    text = inspect(FIXTURES / "uds_2022_renamed.csv")
+    assert "Not present (left blank)" in text
+    assert "total_revenue" in text
+
+
+def test_inspect_says_when_the_year_is_missing(tmp_path: Path) -> None:
+    from pipeline.uds import inspect
+
+    path = tmp_path / "HealthCenterData.csv"
+    path.write_text("Health Center Name,State,Total Patients\nA Center,IL,1000\n")
+
+    text = inspect(path)
+    assert "rename it to include the year" in text
+
+
+def test_inspect_handles_a_missing_file(tmp_path: Path) -> None:
+    from pipeline.uds import inspect
+
+    assert "does not exist" in inspect(tmp_path / "nope.csv")
+
+
+def test_inspect_handles_something_that_is_not_a_spreadsheet(tmp_path: Path) -> None:
+    from pipeline.uds import inspect
+
+    path = tmp_path / "notes.xlsx"
+    path.write_bytes(b"this is not a workbook")
+    assert "could not be read" in inspect(path)

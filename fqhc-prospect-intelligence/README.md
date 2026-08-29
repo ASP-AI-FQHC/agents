@@ -486,6 +486,17 @@ matter most for sizing an engagement:
 
 Plus payer mix (Medicaid, Medicare, uninsured shares).
 
+**Not sure you downloaded the right file?** Point the inspector at it before
+running anything:
+
+```bash
+python -m pipeline.uds ~/Downloads/whatever_you_downloaded.csv
+```
+
+It says whether the file is usable UDS data, which columns it will read, which
+it will leave blank, the reporting year, and the first few organizations by
+name — or, if it is the wrong file, what it found instead.
+
 There is no stable download URL — HRSA moves it between years — so nothing is
 fetched automatically:
 

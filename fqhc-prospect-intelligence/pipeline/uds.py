@@ -583,3 +583,90 @@ def estimate_sizing(
             f"{settings.devices_per_fte:g} devices per FTE"
         ),
     )
+
+
+# ---------------------------------------------------------------------------
+# Inspecting a downloaded file
+# ---------------------------------------------------------------------------
+
+
+def inspect(path: Path) -> str:
+    """Describe a downloaded file: is this the right one, and what is in it?
+
+    HRSA publishes many files with similar names and no stable URLs, so the
+    fastest way to answer "did I download the right thing" is to point this at
+    it and read the answer, rather than running the pipeline and inferring it
+    from a row count.
+    """
+    if not path.exists():
+        return f"{path} does not exist."
+
+    try:
+        headers, rows = read_rows(path)
+    except Exception as exc:
+        return f"{path.name}: could not be read as CSV or Excel ({exc})"
+
+    parsed = parse_uds(headers, rows, default_year=year_from_filename(path.name))
+    lines = [f"{path.name}  ({path.stat().st_size / 1_048_576:.1f} MB)"]
+
+    if parsed.missing_fields:
+        lines.append("")
+        lines.append("  NOT a UDS health-center file.")
+        lines.append(
+            f"  No column that looks like: {', '.join(parsed.missing_fields)}."
+        )
+        lines.append(f"  Columns found: {', '.join(str(h) for h in headers[:12])}")
+        lines.append("")
+        lines.append(
+            "  A usable file has one row per health center and a total-patients "
+            "column. If this is a national or state summary, it is the wrong one."
+        )
+        return "\n".join(lines)
+
+    found = resolve_columns(list(headers), UDS_FIELDS)
+    have = [key for key in UDS_FIELDS if key in found]
+    missing = [key for key in UDS_FIELDS if key not in found]
+
+    lines.append("")
+    lines.append(f"  Looks like UDS data: {parsed.rows_read:,} rows.")
+    years = sorted({r.year for r in parsed.records if r.year})
+    lines.append(
+        f"  Reporting year: {', '.join(str(y) for y in years)}"
+        if years
+        else "  Reporting year: not in the file -- rename it to include the year, "
+        "e.g. 2023_UDS.csv"
+    )
+    lines.append(f"  Will read: {', '.join(have)}")
+    if missing:
+        lines.append(f"  Not present (left blank): {', '.join(missing)}")
+
+    sample = [r for r in parsed.records if r.name][:3]
+    if sample:
+        lines.append("")
+        lines.append("  First few organizations:")
+        for record in sample:
+            patients = f"{record.patients:,}" if record.patients is not None else "?"
+            lines.append(
+                f"    {record.name} ({record.state or '??'}) -- {patients} patients"
+            )
+    return "\n".join(lines)
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        prog="python -m pipeline.uds",
+        description="Check whether a downloaded file is usable UDS data.",
+    )
+    parser.add_argument("path", type=Path, nargs="+", help="File(s) to inspect.")
+    args = parser.parse_args(argv)
+
+    for path in args.path:
+        print(inspect(path))
+        print()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
