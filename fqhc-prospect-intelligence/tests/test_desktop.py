@@ -312,3 +312,49 @@ def test_the_installer_asks_before_scheduling() -> None:
     text = INSTALLER.read_text()
     assert "Schedule a daily refresh" in text
     assert "desktop.schedule install" in text
+
+
+# ---------------------------------------------------------------------------
+# The double-click refresh
+# ---------------------------------------------------------------------------
+
+REFRESH = Path(__file__).resolve().parent.parent / "Update and Refresh.command"
+
+
+def test_the_refresh_is_double_clickable() -> None:
+    assert REFRESH.exists()
+    assert os.access(REFRESH, os.X_OK)
+
+
+def test_the_refresh_is_valid_shell() -> None:
+    import subprocess
+
+    completed = subprocess.run(
+        ["bash", "-n", str(REFRESH)], capture_output=True, check=False
+    )
+    assert completed.returncode == 0, completed.stderr.decode()
+
+
+def test_the_refresh_runs_from_its_own_folder() -> None:
+    """Being in the wrong directory, and forgetting to activate the
+    environment, are the two things that go wrong doing this by hand."""
+    text = REFRESH.read_text()
+    assert 'cd "$(dirname "$0")"' in text
+    assert "./.venv/bin/python" in text
+
+
+def test_the_refresh_copies_rather_than_moves_downloads() -> None:
+    """A mistake in the matching must never lose somebody's download."""
+    text = REFRESH.read_text()
+    assert "cp " in text
+    assert "mv " not in text
+
+
+def test_the_refresh_stops_if_the_environment_is_missing() -> None:
+    text = REFRESH.read_text()
+    assert "Install FQHC Prospect Intelligence.command" in text
+
+
+def test_the_refresh_keeps_a_log() -> None:
+    """So the output survives the window being closed."""
+    assert "tee run.log" in REFRESH.read_text()

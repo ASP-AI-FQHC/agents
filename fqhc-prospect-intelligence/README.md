@@ -19,6 +19,14 @@ an app that cannot start.
 The app it installs runs the code in this folder rather than a frozen copy, so
 `git pull` updates it with no reinstall.
 
+### Updating and rebuilding
+
+Double-click **`Update and Refresh.command`**. It runs from its own folder, so
+there is no directory to be in and no environment to activate — the two things
+that go wrong doing this by hand. It pulls the latest version, files any UDS or
+IRS downloads sitting in `~/Downloads` (copying, never moving), rebuilds the
+data, and leaves the whole log in `run.log`.
+
 ### Daily refresh
 
 The application is a window somebody opens, not a server, so a daily pull
