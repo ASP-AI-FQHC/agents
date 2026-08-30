@@ -520,6 +520,44 @@ section headers, and the standard two-line footer. See
 `app/static/css/brand.css` — the palette is defined once at the top and
 everything else refers to it.
 
+The structure underneath the brand follows the prospect page in the
+`healthcare-market-intelligence` skill, restated in Allstar's colors: a faintly
+warm paper ground rather than flat white, so a card separates from the page
+without needing a heavier border; a three-step ink scale, because most of what
+is on these pages is a label, a value or a caveat and those are three different
+weights of voice; hairline rules drawn as a 1px grid gap, which stays one
+hairline however the cells wrap; sticky column headers on the tables long enough
+to lose them; tabular figures on every number meant to be compared with the one
+above it; and the brand's color pipe repeated at badge scale as an inset rule.
+None of the brand's required elements moved.
+
+### Light, dark and auto
+
+The masthead carries a three-position theme control. **Auto** follows the
+operating system and is the default — a Mac that switches at dusk takes the app
+with it. **Light** and **Dark** override that in either direction and persist in
+the browser.
+
+Three details are load-bearing, and each has a test:
+
+- The saved choice is applied by a small inline script in `<head>`, before the
+  stylesheet loads. Applied any later, a dark preference shows a white page
+  first and then repaints.
+- The dark block is written twice — once under `prefers-color-scheme` guarded by
+  `:not([data-theme="light"])`, once under `[data-theme="dark"]` — so an
+  explicit choice wins in *both* directions. Guarded only one way, the toggle
+  appears to work going dark and does nothing going light.
+- Printing forces a white ground and black ink whatever the screen was showing,
+  and unpins the sticky headers. A profile printed for a meeting out of the dark
+  theme would otherwise arrive as light text on a dark page.
+
+The control is hidden entirely when JavaScript is off, and the page still
+follows the system setting: a switch that cannot switch anything is worse than
+no switch. The brand colors themselves do not change between themes — the star
+band is the same six colors either way — but each accent gets a lighter sibling
+of the same hue for text, because #0094bb on a near-black ground is unreadable
+at label size.
+
 ## Loading UDS
 
 The Uniform Data System is the annual return every Section 330 grantee files

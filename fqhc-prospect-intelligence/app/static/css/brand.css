@@ -3,10 +3,17 @@
    Implements the Allstar Partners Brand Style Guide: the six brand colors,
    Open Sans, the six-color star band, the left-edge color pipe, blue page
    titles / uppercase green section headers, and the standard footer.
-   Color comes from accents -- surfaces stay white.
+
+   The brand supplies the color and the type. The structure underneath it --
+   a paper ground rather than flat white, a three-step ink scale, hairline
+   rules, a layered shadow, and a real dark theme -- is the system used by the
+   healthcare-market-intelligence skill's prospect page, restated in Allstar's
+   palette. None of the brand's required elements move.
    ========================================================================== */
 
 :root {
+  color-scheme: light;
+
   /* --- Brand palette (exact values from the style guide) ----------------- */
   --allstar-blue: #0094bb;
   --allstar-purple: #524fa2;
@@ -17,19 +24,50 @@
   --allstar-black: #000000;
   --allstar-gray: #999999;
 
-  /* --- Derived neutrals (tints only; never new hues) --------------------- */
+  /* Darkened brand blues and greens for text and small marks. The brand
+     colors are pitched for large areas: #0094bb on white is about 3:1, which
+     is fine for a heading and not fine for a 12px label. These keep the hue
+     and buy the contrast. */
+  --accent: var(--allstar-blue);
+  --accent-ink: #006d8a;
+  --green-ink: #3f7a2d;
+  --pink-ink: #a20d6e;
+  --orange-ink: #a85a10;
+  --purple-ink: #413e88;
+
+  /* --- Ground and surfaces ---------------------------------------------- */
+  /* A faintly warm paper rather than white: it separates the cards from the
+     page without a single border, and it suits a palette that runs from cyan
+     to yellow. */
+  --ground: #f4f4f1;
   --surface: #ffffff;
-  --surface-muted: #f7f9fa;
-  --rule: #e4e8ea;
-  --rule-strong: #cfd6d9;
-  --text: var(--allstar-black);
-  --text-secondary: var(--allstar-gray);
+  --raised: #faf9f7;
+  --field: #ffffff;
+  --surface-muted: var(--raised);
+
+  /* --- Ink scale --------------------------------------------------------- */
+  /* Three steps, not two. Most of what is on these pages is a label, a value
+     or a caveat, and they are three different weights of voice. */
+  --ink: #16191c;
+  --ink-2: #4a5157;
+  --ink-3: #767f86;
+  --text: var(--ink);
+  --text-secondary: var(--ink-3);
   --text-on-color: #ffffff;
+
+  --line: #e0e0da;
+  --line-2: #ecece7;
+  --rule: var(--line);
+  --rule-strong: #cbcbc4;
 
   --blue-tint: #e6f5f9;
   --green-tint: #eef8ea;
   --orange-tint: #fef2e7;
   --pink-tint: #fbe7f3;
+  --purple-tint: #eeedf6;
+
+  --shadow: 0 1px 2px rgba(22, 25, 28, 0.05),
+            0 8px 24px -16px rgba(22, 25, 28, 0.3);
 
   /* --- Type ------------------------------------------------------------- */
   --font-stack: "Open Sans", Helvetica, Verdana, Arial, sans-serif;
@@ -50,6 +88,96 @@
 }
 
 /* --------------------------------------------------------------------------
+   Dark theme
+   --------------------------------------------------------------------------
+   Three states, because the toggle has three positions. Bare :root is light.
+   The media query covers "system", and is guarded so an explicit choice of
+   light still wins under a dark OS. The attribute block repeats the values so
+   an explicit choice of dark wins under a light OS.
+
+   The brand hues are lifted, not swapped: #0094bb against #16181c is unreadable
+   at label size, so each accent gets a lighter sibling of the same hue. The
+   star band is untouched -- it is the brand mark and it is the same six colors
+   in either theme.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --accent: #4dc3e3;
+    --accent-ink: #7fd4ec;
+    --green-ink: #8fd47a;
+    --pink-ink: #f07ac0;
+    --orange-ink: #f0a55e;
+    --purple-ink: #a6a3e0;
+
+    --ground: #101215;
+    --surface: #191c20;
+    --raised: #21252a;
+    --field: #14171a;
+    --surface-muted: var(--raised);
+
+    --ink: #e9eaec;
+    --ink-2: #b5bac1;
+    --ink-3: #848b93;
+    --text: var(--ink);
+    --text-secondary: var(--ink-3);
+
+    --line: #2f333a;
+    --line-2: #262a30;
+    --rule: var(--line);
+    --rule-strong: #3c414a;
+
+    --blue-tint: #162b33;
+    --green-tint: #1c2b1a;
+    --orange-tint: #2f2317;
+    --pink-tint: #2e1725;
+    --purple-tint: #21203a;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4),
+              0 10px 26px -18px rgba(0, 0, 0, 0.85);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --accent: #4dc3e3;
+  --accent-ink: #7fd4ec;
+  --green-ink: #8fd47a;
+  --pink-ink: #f07ac0;
+  --orange-ink: #f0a55e;
+  --purple-ink: #a6a3e0;
+
+  --ground: #101215;
+  --surface: #191c20;
+  --raised: #21252a;
+  --field: #14171a;
+  --surface-muted: var(--raised);
+
+  --ink: #e9eaec;
+  --ink-2: #b5bac1;
+  --ink-3: #848b93;
+  --text: var(--ink);
+  --text-secondary: var(--ink-3);
+
+  --line: #2f333a;
+  --line-2: #262a30;
+  --rule: var(--line);
+  --rule-strong: #3c414a;
+
+  --blue-tint: #162b33;
+  --green-tint: #1c2b1a;
+  --orange-tint: #2f2317;
+  --pink-tint: #2e1725;
+  --purple-tint: #21203a;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4),
+            0 10px 26px -18px rgba(0, 0, 0, 0.85);
+}
+
+/* --------------------------------------------------------------------------
    Base
    -------------------------------------------------------------------------- */
 
@@ -65,7 +193,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--surface);
+  background: var(--ground);
   color: var(--text);
   font-family: var(--font-stack);
   font-weight: 400;
@@ -74,21 +202,39 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings break where the sense breaks rather than where the box ends. */
+h1, h2, h3, h4 {
+  text-wrap: balance;
 }
 
 a {
-  color: var(--allstar-blue);
+  color: var(--accent-ink);
   text-decoration: none;
 }
 
 a:hover,
 a:focus-visible {
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 :focus-visible {
-  outline: 2px solid var(--allstar-blue);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* Every figure on these pages is meant to be compared with the one above it,
+   so digits line up by default rather than only inside a .num cell. */
+.kpi__value,
+.headline__value,
+.factstrip__value,
+.num,
+.components__amount,
+.delta {
+  font-variant-numeric: tabular-nums;
 }
 
 /* --------------------------------------------------------------------------
@@ -170,7 +316,7 @@ a:focus-visible {
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--allstar-gray);
+  color: var(--ink-3);
   margin: 0 0 var(--space-1);
 }
 
@@ -196,7 +342,7 @@ a:focus-visible {
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--allstar-gray);
+  color: var(--ink-3);
   padding-bottom: var(--space-1);
   border-bottom: 2px solid transparent;
 }
@@ -301,10 +447,11 @@ a:focus-visible {
 
 .kpi {
   background: var(--surface);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--line);
   border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-blue));
-  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-4);
+  padding: var(--space-4);
   border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: var(--shadow);
 }
 
 .kpi__label {
@@ -312,7 +459,7 @@ a:focus-visible {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--allstar-gray);
+  color: var(--ink-3);
   margin: 0 0 var(--space-2);
 }
 
@@ -376,7 +523,7 @@ a:focus-visible {
   transition: background-color 0.12s ease, color 0.12s ease;
 }
 
-.btn:hover { background: #007a9b; border-color: #007a9b; text-decoration: none; }
+.btn:hover { filter: brightness(1.08); text-decoration: none; }
 
 .btn--secondary {
   background: var(--surface);
@@ -390,7 +537,7 @@ a:focus-visible {
   border-color: var(--allstar-green);
 }
 
-.btn--accept:hover { background: #5faa48; border-color: #5faa48; }
+.btn--accept:hover { filter: brightness(1.08); }
 
 .btn--reject {
   background: var(--surface);
@@ -410,8 +557,10 @@ a:focus-visible {
 
 .badge {
   display: inline-block;
-  padding: 2px 8px;
-  border-radius: 10px;
+  padding: 3px 9px;
+  /* Square-ish, not a pill: the color pipe below is a straight left edge, and
+     on a fully rounded badge it renders as a crescent. */
+  border-radius: 2px;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -419,15 +568,33 @@ a:focus-visible {
   border: 1px solid transparent;
 }
 
-.badge--qualified { background: var(--green-tint); color: #3f7a2d; border-color: #bfe3b2; }
-.badge--info { background: var(--blue-tint); color: #006d8a; border-color: #b5e0eb; }
-.badge--review { background: var(--orange-tint); color: #a85a10; border-color: #f8d3ac; }
-.badge--alert { background: var(--pink-tint); color: #a20d6e; border-color: #f0b9dd; }
-.badge--neutral { background: var(--surface-muted); color: var(--text-secondary); border-color: var(--rule); }
+/* Each badge carries the same left-edge color pipe the callouts and KPI cards
+   do, drawn as an inset shadow so it costs no layout. The border goes: at this
+   size a tint plus a pipe reads more cleanly than a tint inside an outline. */
+.badge--qualified {
+  background: var(--green-tint); color: var(--green-ink);
+  border-color: transparent; box-shadow: inset 2px 0 0 var(--allstar-green);
+}
+.badge--info {
+  background: var(--blue-tint); color: var(--accent-ink);
+  border-color: transparent; box-shadow: inset 2px 0 0 var(--allstar-blue);
+}
+.badge--review {
+  background: var(--orange-tint); color: var(--orange-ink);
+  border-color: transparent; box-shadow: inset 2px 0 0 var(--allstar-orange);
+}
+.badge--alert {
+  background: var(--pink-tint); color: var(--pink-ink);
+  border-color: transparent; box-shadow: inset 2px 0 0 var(--allstar-pink);
+}
+.badge--neutral {
+  background: var(--raised); color: var(--ink-3);
+  border-color: transparent; box-shadow: inset 2px 0 0 var(--rule-strong);
+}
 
 /* Missing data is always stated, never filled in. */
 .not-available {
-  color: var(--allstar-gray);
+  color: var(--ink-3);
   font-style: italic;
   font-size: 12px;
 }
@@ -438,8 +605,18 @@ a:focus-visible {
 
 .table-wrap {
   overflow-x: auto;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+/* A table long enough to lose its header on the way down gets a scroller of
+   its own, so the column names stay put. Opt in -- a five-row table inside a
+   fixed-height box is worse, not better. */
+.table-wrap--tall {
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .table {
@@ -452,31 +629,36 @@ a:focus-visible {
 .table td {
   padding: 10px var(--space-3);
   text-align: left;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--line);
   vertical-align: top;
 }
 
 .table thead th {
-  background: var(--surface-muted);
+  position: sticky;
+  /* Clears the star band, which is sticky at the very top edge and 8px tall. */
+  top: 8px;
+  z-index: 2;
+  background: var(--raised);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--allstar-gray);
+  color: var(--ink-3);
   white-space: nowrap;
-  border-bottom: 2px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
 }
 
 .table thead th a { color: inherit; }
-.table thead th a:hover { color: var(--allstar-blue); }
+.table thead th a:hover { color: var(--accent-ink); }
 
-.table tbody tr:hover { background: var(--surface-muted); }
+.table tbody td { border-bottom: 1px solid var(--line-2); }
+.table tbody tr:hover { background: var(--raised); }
 
 .table tbody tr:last-child td { border-bottom: none; }
 
 .table .num { text-align: right; font-variant-numeric: tabular-nums; }
 
-.sort-indicator { color: var(--allstar-blue); }
+.sort-indicator { color: var(--accent-ink); }
 
 /* Score cell: number plus a proportional bar in brand blue. */
 .score-cell { display: flex; align-items: center; gap: var(--space-2); }
@@ -529,7 +711,7 @@ a:focus-visible {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--allstar-gray);
+  color: var(--ink-3);
 }
 
 .field input,
@@ -574,7 +756,7 @@ a:focus-visible {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--allstar-gray);
+  color: var(--ink-3);
   padding-top: 2px;
 }
 
@@ -629,7 +811,7 @@ a:focus-visible {
   margin: 0;
   font-size: 12px;
   line-height: 1.7;
-  color: var(--allstar-gray);
+  color: var(--ink-3);
 }
 
 .site-footer__name { font-weight: 700; letter-spacing: 0.04em; }
@@ -656,7 +838,43 @@ a:focus-visible {
 
 @media print {
   .star-band { position: static; }
-  .nav, .filters, .toolbar { display: none; }
+  .nav, .filters, .toolbar, .theme { display: none; }
+
+  /* Paper is white whatever the screen was. A profile printed for a meeting
+     out of the dark theme would otherwise arrive as light text on a dark
+     ground -- unreadable on paper, and most of a cartridge. */
+  :root,
+  :root[data-theme="dark"] {
+    color-scheme: light;
+    --ground: #ffffff;
+    --surface: #ffffff;
+    --raised: #ffffff;
+    --field: #ffffff;
+    --ink: #000000;
+    --ink-2: #333333;
+    --ink-3: #666666;
+    --text: var(--ink);
+    --text-secondary: var(--ink-3);
+    --line: #cccccc;
+    --line-2: #dddddd;
+    --rule: var(--line);
+    --rule-strong: #999999;
+    --accent-ink: #006d8a;
+    --green-ink: #3f7a2d;
+    --pink-ink: #a20d6e;
+    --orange-ink: #a85a10;
+    --purple-ink: #413e88;
+    --blue-tint: #e6f5f9;
+    --green-tint: #eef8ea;
+    --orange-tint: #fef2e7;
+    --pink-tint: #fbe7f3;
+    --purple-tint: #eeedf6;
+    --shadow: none;
+  }
+
+  /* A table cannot scroll on paper, and a pinned header repeats over content. */
+  .table-wrap--tall { max-height: none; overflow: visible; }
+  .table thead th { position: static; }
 }
 
 /* --------------------------------------------------------------------------
@@ -687,7 +905,7 @@ a:focus-visible {
 .top-list__rank {
   font-size: 11px;
   font-weight: 700;
-  color: var(--allstar-gray);
+  color: var(--ink-3);
   min-width: 20px;
   font-variant-numeric: tabular-nums;
 }
@@ -854,18 +1072,21 @@ a:focus-visible {
 .factstrip {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0;
-  border: 1px solid var(--rule);
+  /* The seams are the grid's own background showing through a 1px gap, so
+     every rule is exactly one hairline whatever the cells wrap to. Per-cell
+     borders double up at the wrap and leave a ragged trailing edge. */
+  gap: 1px;
+  border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: var(--line);
   overflow: hidden;
+  box-shadow: var(--shadow);
   margin-bottom: var(--space-6);
 }
 
 .factstrip__item {
   padding: var(--space-3) var(--space-4);
-  border-right: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
   min-width: 0;
 }
 
@@ -892,10 +1113,11 @@ a:focus-visible {
    -------------------------------------------------------------------------- */
 
 .headline {
-  border: 1px solid var(--rule);
+  border: 1px solid var(--line);
   border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-blue));
   border-radius: var(--radius);
   background: var(--surface);
+  box-shadow: var(--shadow);
   padding: var(--space-4);
   display: flex;
   flex-direction: column;
@@ -1016,11 +1238,14 @@ a:focus-visible {
   border-color: var(--rule);
 }
 
-.pill--blue { background: var(--blue-tint); color: #006d8a; border-color: #b5e0eb; }
-.pill--green { background: var(--green-tint); color: #3f7a2d; border-color: #bfe3b2; }
-.pill--orange { background: var(--orange-tint); color: #a85a10; border-color: #f8d3ac; }
-.pill--pink { background: var(--pink-tint); color: #a20d6e; border-color: #f0b9dd; }
-.pill--purple { background: #eeedf6; color: #413e88; border-color: #c9c7e4; }
+/* The tints and inks both flip with the theme, so a pill stays legible in
+   either. The border is dropped in favour of the tint alone: at this size a
+   third colour on the outline is noise. */
+.pill--blue { background: var(--blue-tint); color: var(--accent-ink); border-color: transparent; }
+.pill--green { background: var(--green-tint); color: var(--green-ink); border-color: transparent; }
+.pill--orange { background: var(--orange-tint); color: var(--orange-ink); border-color: transparent; }
+.pill--pink { background: var(--pink-tint); color: var(--pink-ink); border-color: transparent; }
+.pill--purple { background: var(--purple-tint); color: var(--purple-ink); border-color: transparent; }
 
 /* --------------------------------------------------------------------------
    Narrative blocks -- mission statements and program descriptions
@@ -1036,10 +1261,11 @@ a:focus-visible {
 .prose--quiet { color: var(--text-secondary); font-size: 13px; }
 
 .program {
-  border: 1px solid var(--rule);
+  border: 1px solid var(--line);
   border-left: var(--pipe-width) solid var(--pipe-color, var(--allstar-purple));
   border-radius: var(--radius);
   background: var(--surface);
+  box-shadow: var(--shadow);
   padding: var(--space-4) var(--space-5);
 }
 
@@ -1090,3 +1316,49 @@ a:focus-visible {
 }
 
 .source-note strong { color: var(--text); font-weight: 700; }
+
+/* --------------------------------------------------------------------------
+   Theme toggle
+   --------------------------------------------------------------------------
+   Three positions, because "system" is a real answer and not the absence of
+   one: a user whose Mac switches at dusk wants the app to switch with it.
+   Hidden entirely without JavaScript -- a control that cannot do anything is
+   worse than no control -- and the page still follows the system setting.
+   -------------------------------------------------------------------------- */
+
+.theme {
+  display: none;
+  align-items: center;
+  gap: 1px;
+  padding: 2px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.js .theme { display: inline-flex; }
+
+.theme__option {
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: var(--surface);
+  border: none;
+  padding: 4px 10px;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.theme__option:hover { color: var(--ink); }
+
+.theme__option[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--text-on-color);
+}
+
+@media (max-width: 700px) {
+  .theme { order: 3; }
+}

@@ -8,6 +8,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{{ config.app.name }}{% endblock %} | {{ config.app.company }}</title>
 
+  {# Applied before the stylesheet so a saved dark preference never shows a
+     white page first. Inline and synchronous for the same reason: an external
+     file would be fetched after the first paint. `js` is what reveals the
+     theme control, so a browser with scripting off gets no dead switch. #}
+  <script>
+    (() => {
+      document.documentElement.classList.add("js");
+      try {
+        const saved = localStorage.getItem("fqhc-theme");
+        if (saved === "light" || saved === "dark") {
+          document.documentElement.dataset.theme = saved;
+        }
+      } catch (error) {
+        /* Private browsing can throw on read. The system setting still applies. */
+      }
+    })();
+  </script>
+
   {# Open Sans 300/400/700/800 per the brand guide; the CSS fallback stack is
      Helvetica, Verdana, Arial, sans-serif if the font cannot be reached. #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,6 +64,12 @@
           Review queue
           {% if review_count %}<span class="nav__count">{{ review_count }}</span>{% endif %}
         </a>
+
+        <div class="theme" role="group" aria-label="Colour theme">
+          <button type="button" class="theme__option" data-theme-choice="light" aria-pressed="false">Light</button>
+          <button type="button" class="theme__option" data-theme-choice="system" aria-pressed="true">Auto</button>
+          <button type="button" class="theme__option" data-theme-choice="dark" aria-pressed="false">Dark</button>
+        </div>
       </nav>
     </div>
   </header>

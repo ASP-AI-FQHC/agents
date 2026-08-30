@@ -13,7 +13,8 @@
 <span class="visually-hidden" data-total="{{ '{:,}'.format(total) }} organization{{ '' if total == 1 else 's' }}"></span>
 
 {% if rows %}
-  <div class="table-wrap">
+  {# Paged at 50 rows: tall enough that the column names are worth pinning. #}
+  <div class="table-wrap table-wrap--tall">
     <table class="table">
       <thead>
         <tr>

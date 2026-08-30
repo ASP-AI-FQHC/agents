@@ -266,3 +266,56 @@
 
   sections.forEach((section) => observer.observe(section));
 })();
+
+/* --------------------------------------------------------------------------
+   Theme toggle
+   --------------------------------------------------------------------------
+   Three positions. "Auto" removes the attribute entirely rather than writing
+   the current system value, so a Mac that switches at dusk carries the app
+   with it instead of freezing whatever it was at the moment of the click.
+
+   The head script has already applied any saved choice; this only wires the
+   buttons and keeps them in step.
+   -------------------------------------------------------------------------- */
+(() => {
+  const buttons = Array.from(document.querySelectorAll("[data-theme-choice]"));
+  if (!buttons.length) return;
+
+  const KEY = "fqhc-theme";
+
+  const read = () => {
+    try {
+      const saved = localStorage.getItem(KEY);
+      return saved === "light" || saved === "dark" ? saved : "system";
+    } catch (error) {
+      return "system";
+    }
+  };
+
+  const paint = (choice) => {
+    buttons.forEach((button) =>
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.themeChoice === choice)
+      )
+    );
+  };
+
+  const apply = (choice) => {
+    if (choice === "system") delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = choice;
+
+    try {
+      if (choice === "system") localStorage.removeItem(KEY);
+      else localStorage.setItem(KEY, choice);
+    } catch (error) {
+      /* Storage can be unavailable; the choice still holds for this page. */
+    }
+    paint(choice);
+  };
+
+  paint(read());
+  buttons.forEach((button) =>
+    button.addEventListener("click", () => apply(button.dataset.themeChoice))
+  );
+})();
