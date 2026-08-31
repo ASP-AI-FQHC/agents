@@ -32,7 +32,7 @@ The input JSON uses the same shape your pricing tool already produces:
 Internal-only fields (unitCost, margin, blendedMargin, annualTotal) are ignored —
 they never appear on a client-facing proposal.
 """
-import sys, json, zipfile, shutil, re, os
+import sys, json, zipfile, shutil, re, os, time
 from datetime import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -136,6 +136,17 @@ def xml_escape(s):
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
             .replace('"', "&quot;"))
 
+_B36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def new_proposal_id():
+    """'SPR-' + the current Unix epoch (seconds) in base 36, e.g. SPR-TKNLKP."""
+    n = int(time.time())
+    out = ""
+    while n:
+        n, r = divmod(n, 36)
+        out = _B36[r] + out
+    return "SPR-" + (out or "0")
+
 def money(v):
     return "${:,.2f}".format(float(v))
 
@@ -194,6 +205,7 @@ def main():
         monthly_total = float(monthly) if connectsecure else \
             sum(float(by_unit[u]["monthly"]) for u in UNITS)
 
+    proposal_id = str(meta.get("proposalId") or "").strip() or new_proposal_id()
     prep_name  = meta.get("preparedByName", "Guy Fuller")
     prep_email = meta.get("preparedByEmail", "gfuller@allstarpartners.com")
 
@@ -201,7 +213,7 @@ def main():
         "{{CLIENT_NAME}}":          xml_escape(meta.get("clientName", "Client")),
         "{{PREPARED_BY_NAME}}":     xml_escape(prep_name),
         "{{PREPARED_BY_EMAIL}}":    xml_escape(prep_email),
-        "{{PROPOSAL_ID}}":          xml_escape(meta.get("proposalId", "")),
+        "{{PROPOSAL_ID}}":          xml_escape(proposal_id),
         "{{PROPOSAL_DATE}}":        xml_escape(fmt_date(meta.get("proposalDate", ""))),
         "{{EXPIRATION_DATE}}":      xml_escape(fmt_date(meta.get("expirationDate", ""))),
         "{{NRC}}":                  xml_escape(money_or_text(
@@ -263,7 +275,7 @@ def main():
             zout.writestr(item, b)
     os.replace(tmp, out)
     print(f"Wrote {out}")
-    print(f"  Client: {meta.get('clientName')}   Proposal: {meta.get('proposalId')}   "
+    print(f"  Client: {meta.get('clientName')}   Proposal: {proposal_id}   "
           f"Monthly: {money(monthly_total)}")
     print("  Open in Word, then Ctrl+A -> F9 to refresh the Table of Contents / page numbers.")
 

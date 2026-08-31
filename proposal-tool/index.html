@@ -75,6 +75,7 @@
     .exec-card{margin-top:20px;}
     .exec-card textarea{min-height:200px;resize:vertical;line-height:1.55;font-family:inherit;}
     .linklike{color:var(--teal);font-weight:600;text-decoration:underline;cursor:pointer;}
+    .idlink{margin-left:6px;font-size:.72rem;text-transform:none;letter-spacing:0;}
     .linklike:hover{filter:brightness(1.1);}
     input::placeholder{color:color-mix(in srgb,var(--muted) 70%,transparent);}
     input[aria-invalid="true"]{border-color:var(--magenta);box-shadow:0 0 0 3px color-mix(in srgb,var(--magenta) 20%,transparent);}
@@ -206,8 +207,8 @@
                     </div>
                     <div class="row2">
                         <div class="fld">
-                            <label for="pid">Proposal ID</label>
-                            <input id="pid" placeholder="SPR-82MVA4" value="SPR-82MVA4">
+                            <label for="pid">Proposal ID <a href="#" id="newPid" class="linklike idlink">new</a></label>
+                            <input id="pid" placeholder="SPR-XXXXXX">
                         </div>
                         <div class="fld">
                             <label for="term">Service term (months)</label>
@@ -356,6 +357,10 @@ const num2 =v=>Number(v||0).toLocaleString('en-US',{minimumFractionDigits:2,maxi
 const xe=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const fmtDate=v=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');return m?`${m[2]}/${m[3]}/${m[1]}`:(v||'');};
 const $=id=>document.getElementById(id);
+
+// Proposal ID: 'SPR-' + current Unix epoch seconds in base 36 (e.g. SPR-TKNLKP).
+function newProposalId(){ return 'SPR-'+Math.floor(Date.now()/1000).toString(36).toUpperCase(); }
+function setNewProposalId(){ $('pid').value=newProposalId(); }
 
 const touched={};
 function secDefaultText(sec){
@@ -611,7 +616,8 @@ function applyJSON(data){
     applyMode();
     setVal('pname',meta.preparedByName);
     setVal('pemail',meta.preparedByEmail);
-    setVal('pid',meta.proposalId);
+    if(meta.proposalId && String(meta.proposalId).trim()){ $('pid').value=String(meta.proposalId); }
+    else { setNewProposalId(); }
     if(meta.serviceTermMonths!==undefined) setVal('term',meta.serviceTermMonths);
     const pd=toISODate(meta.proposalDate); if(pd) $('pdate').value=pd;
     const ed=toISODate(meta.expirationDate); if(ed) $('edate').value=ed;
@@ -675,6 +681,8 @@ EDITABLE.forEach(sec=>{
 $('client').addEventListener('input',()=>{ EDITABLE.forEach(sec=>{ if(sec.useClient && !touched[sec.id]) setSecDefault(sec); }); });
 
 $('brand').addEventListener('change',applyMode);
+setNewProposalId();   // every proposal gets its own ID
+$('newPid').addEventListener('click',e=>{e.preventDefault(); setNewProposalId(); setStatus('New Proposal ID: '+$('pid').value,'ok');});
 $('go').addEventListener('click',generate);
 $('goJson').addEventListener('click',downloadJSON);
 if(inIframe() && !capDownloads()) $('embedNote').hidden=false;   // warn only when no download capability is available
