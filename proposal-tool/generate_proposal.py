@@ -33,7 +33,7 @@ Internal-only fields (unitCost, margin, blendedMargin, annualTotal) are ignored 
 they never appear on a client-facing proposal.
 """
 import sys, json, zipfile, shutil, re, os, time
-from datetime import datetime
+from datetime import datetime, timedelta, date
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(HERE, "template.docx")
@@ -147,6 +147,20 @@ def new_proposal_id():
         out = _B36[r] + out
     return "SPR-" + (out or "0")
 
+# A proposal is dated today and stays valid for this many days, unless the
+# input says otherwise.
+VALID_DAYS = 30
+
+def parse_date(s):
+    """Parse a date in any accepted input format; None if unrecognised/blank."""
+    s = str(s or "").strip()
+    for f in ("%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y"):
+        try:
+            return datetime.strptime(s, f).date()
+        except ValueError:
+            pass
+    return None
+
 def money(v):
     return "${:,.2f}".format(float(v))
 
@@ -206,6 +220,8 @@ def main():
             sum(float(by_unit[u]["monthly"]) for u in UNITS)
 
     proposal_id = str(meta.get("proposalId") or "").strip() or new_proposal_id()
+    p_date = parse_date(meta.get("proposalDate")) or date.today()
+    e_date = parse_date(meta.get("expirationDate")) or (p_date + timedelta(days=VALID_DAYS))
     prep_name  = meta.get("preparedByName", "Guy Fuller")
     prep_email = meta.get("preparedByEmail", "gfuller@allstarpartners.com")
 
@@ -214,8 +230,8 @@ def main():
         "{{PREPARED_BY_NAME}}":     xml_escape(prep_name),
         "{{PREPARED_BY_EMAIL}}":    xml_escape(prep_email),
         "{{PROPOSAL_ID}}":          xml_escape(proposal_id),
-        "{{PROPOSAL_DATE}}":        xml_escape(fmt_date(meta.get("proposalDate", ""))),
-        "{{EXPIRATION_DATE}}":      xml_escape(fmt_date(meta.get("expirationDate", ""))),
+        "{{PROPOSAL_DATE}}":        xml_escape(p_date.strftime("%m/%d/%Y")),
+        "{{EXPIRATION_DATE}}":      xml_escape(e_date.strftime("%m/%d/%Y")),
         "{{NRC}}":                  xml_escape(money_or_text(
                                         meta.get("nrc", CS_NRC if connectsecure else "Waived"))),
         # The ConnectSecure document reads "$195.00 per hour" and the Secure IT

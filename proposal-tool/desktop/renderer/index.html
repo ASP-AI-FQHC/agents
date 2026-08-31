@@ -218,11 +218,11 @@
                     <div class="row2">
                         <div class="fld">
                             <label for="pdate">Proposal date</label>
-                            <input id="pdate" type="date" value="2026-08-11">
+                            <input id="pdate" type="date">
                         </div>
                         <div class="fld" id="fld_edate">
                             <label for="edate">Expiration date</label>
-                            <input id="edate" type="date" value="2026-09-10">
+                            <input id="edate" type="date">
                         </div>
                     </div>
                     <div class="row2">
@@ -361,6 +361,19 @@ const $=id=>document.getElementById(id);
 // Proposal ID: 'SPR-' + current Unix epoch seconds in base 36 (e.g. SPR-TKNLKP).
 function newProposalId(){ return 'SPR-'+Math.floor(Date.now()/1000).toString(36).toUpperCase(); }
 function setNewProposalId(){ $('pid').value=newProposalId(); }
+
+// Dates: the proposal is dated today; it stays valid for VALID_DAYS after that.
+const VALID_DAYS=30;
+let edateTouched=false;
+function todayISO(){ const d=new Date(), p=n=>String(n).padStart(2,'0');
+    return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
+function isoPlusDays(iso,n){ const a=String(iso||'').split('-').map(Number);
+    if(a.length!==3||!a[0]) return '';
+    const d=new Date(a[0],a[1]-1,a[2]); d.setDate(d.getDate()+n);
+    const p=v=>String(v).padStart(2,'0');
+    return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
+function setDefaultDates(){ const t=todayISO(); $('pdate').value=t;
+    $('edate').value=isoPlusDays(t,VALID_DAYS); edateTouched=false; }
 
 const touched={};
 function secDefaultText(sec){
@@ -633,7 +646,9 @@ function applyJSON(data){
     else { setNewProposalId(); }
     if(meta.serviceTermMonths!==undefined) setVal('term',meta.serviceTermMonths);
     const pd=toISODate(meta.proposalDate); if(pd) $('pdate').value=pd;
-    const ed=toISODate(meta.expirationDate); if(ed) $('edate').value=ed;
+    const ed=toISODate(meta.expirationDate);
+    if(ed){ $('edate').value=ed; edateTouched=true; }
+    else if(pd){ $('edate').value=isoPlusDays(pd,VALID_DAYS); edateTouched=false; }
     setVal('nrc',meta.nrc);
     if(meta.tmHourlyRate!==undefined) setVal('tm',meta.tmHourlyRate);
     ['nrc','term','tm'].forEach(id=>{ if(meta[{nrc:'nrc',term:'serviceTermMonths',tm:'tmHourlyRate'}[id]]!==undefined) typed[id]=true; });
@@ -694,6 +709,9 @@ EDITABLE.forEach(sec=>{
 $('client').addEventListener('input',()=>{ EDITABLE.forEach(sec=>{ if(sec.useClient && !touched[sec.id]) setSecDefault(sec); }); });
 
 $('brand').addEventListener('change',applyMode);
+setDefaultDates();    // dated today, valid for 30 days
+$('edate').addEventListener('input',()=>{edateTouched=true;});
+$('pdate').addEventListener('input',()=>{ if(!edateTouched) $('edate').value=isoPlusDays($('pdate').value,VALID_DAYS); });
 setNewProposalId();   // every proposal gets its own ID
 $('newPid').addEventListener('click',e=>{e.preventDefault(); setNewProposalId(); setStatus('New Proposal ID: '+$('pid').value,'ok');});
 $('go').addEventListener('click',generate);
