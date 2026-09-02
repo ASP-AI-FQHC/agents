@@ -689,3 +689,56 @@ def test_the_sites_own_links_are_still_tried_first(config: Config) -> None:
 
     pages = [url for url in requested if not url.endswith("/robots.txt")]
     assert pages.index("https://lakeviewchc.org") == 0
+
+
+# ---------------------------------------------------------------------------
+# Headings that are not people
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "heading",
+    [
+        # Read as the chief executive of a health center on a real run.
+        "Our Mission",
+        "Our Vision",
+        "Our Values",
+        "Our Team",
+        "The Board",
+        "Meet Our Staff",
+        "Why Choose Us",
+        "Learn More",
+        "Read Our Story",
+        "Our History",
+    ],
+)
+def test_a_section_heading_is_not_a_person(heading) -> None:
+    assert not looks_like_name(heading)
+
+
+def test_a_truncated_surname_is_rejected() -> None:
+    """"Shannon C." off a testimonial reached an outreach list as a CEO.
+
+    Somebody who cannot be addressed properly is not a usable contact, so the
+    row is dropped rather than carried with a stub for a name.
+    """
+    assert not looks_like_name("Shannon C.")
+    assert not looks_like_name("Robert B")
+    assert looks_like_name("Mary J. Blige")   # three tokens, real surname
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        "Jane Okafor",
+        "Amara Nwosu",
+        "Kiran Siddiqui",
+        "Dr. Muhammad Paracha",
+        "Tristé Lieteau Smith",
+        "Linnea Windel",
+        "Verneda Bachus",
+    ],
+)
+def test_a_real_name_still_passes(name) -> None:
+    """Every one of these came off a real Illinois health center's site."""
+    assert looks_like_name(name)

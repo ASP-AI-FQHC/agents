@@ -517,9 +517,65 @@ class Form990Return:
 # ---------------------------------------------------------------------------
 
 
+# Words that begin a note the filer appended to the name field. Part VII has
+# no column for "served part of the year", so filers put it in the name:
+# "DANIEL FULWILER TERM 6225", "JANE SMITH (THRU 6/30)", "A RUIZ - RESIGNED".
+# Everything from the first of these onwards is annotation, not name.
+_NAME_ANNOTATION = re.compile(
+    r"""\s+(?:
+          term | thru | through | until | till | resigned | retired | departed
+        | elected | appointed | reappointed | partial | began | begin | began
+        | ended | end | ending | effective | eff | outgoing | incoming
+        | interim\s+thru | as\s+of | start | started | starting | left | thru\.
+        | former\s+as\s+of
+      )\b.*$""",
+    re.IGNORECASE | re.VERBOSE,
+)
+
+# A trailing parenthetical or bracketed note, whatever it says.
+_NAME_PARENTHETICAL = re.compile(r"\s*[(\[][^)\]]*[)\]]\s*$")
+
+# A trailing dash-separated note: "JANE SMITH - CFO THROUGH JUNE".
+_NAME_TRAILING_DASH = re.compile(r"\s+[-–—]\s+.*$")
+
+
+def clean_person_name(value: str | None) -> str | None:
+    """A Part VII name with the filer's annotations removed.
+
+    Part VII gives a filer one free-text box for a name and no box for "served
+    until June", so the note goes in the name: this is where
+    "DANIEL FULWILER TERM 6225" comes from. Left alone it reaches an outreach
+    list and gets read out on a phone call.
+
+    Conservative: only trailing material is removed, only from a recognised
+    marker onwards, and only when something is left. A name that shrinks to
+    nothing is returned as filed rather than emptied -- an odd name is still a
+    name, and a blank is not an improvement.
+    """
+    if value is None:
+        return None
+
+    cleaned = " ".join(value.split())
+    if not cleaned:
+        return None
+
+    for pattern in (_NAME_PARENTHETICAL, _NAME_ANNOTATION, _NAME_TRAILING_DASH):
+        cleaned = pattern.sub("", cleaned).strip(" ,;-–—")
+
+    # Digits never belong to a name. What is left of "SMITH 6/30/22" after the
+    # markers above is a stray date fragment.
+    cleaned = " ".join(
+        token for token in cleaned.split() if not any(ch.isdigit() for ch in token)
+    ).strip(" ,;-–—")
+
+    return cleaned or " ".join(value.split())
+
+
 def _entity_name(group: ElementTree.Element) -> str | None:
     """A person's name, or the business name when the filer listed an entity."""
-    return first_text(group, *PERSON_NAME) or first_text(group, *BUSINESS_NAME)
+    return clean_person_name(
+        first_text(group, *PERSON_NAME) or first_text(group, *BUSINESS_NAME)
+    )
 
 
 def _roles(group: ElementTree.Element) -> list[str]:

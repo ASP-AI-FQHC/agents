@@ -113,6 +113,22 @@ NON_PERSON_WORDS = frozenset(
         "providers", "qualified", "resources", "senior", "service", "services",
         "solutions", "staff", "systems", "team", "university", "volunteer",
         "welcome", "wellness",
+        # Abstract nouns that head an "About us" block. "Our Mission" was read
+        # as the chief executive of a health center, which is the exact failure
+        # this list exists to prevent.
+        "mission", "vision", "values", "history", "story", "overview",
+        "testimonials", "impact", "philosophy", "commitment", "purpose",
+    }
+)
+
+# A name never begins with one of these. Checked against the first word only,
+# so a surname that happens to be an ordinary word elsewhere in the line is
+# unaffected.
+SECTION_OPENERS = frozenset(
+    {
+        "our", "your", "my", "the", "we", "us", "why", "what", "who", "how",
+        "when", "where", "join", "meet", "learn", "read", "see", "view",
+        "explore", "discover", "find", "get", "make", "help", "support",
     }
 )
 
@@ -183,11 +199,22 @@ def looks_like_name(text: str) -> bool:
     ):
         return False
 
+    words = lowered.split()
+    if words and re.sub(r"[^a-zà-ÿ]", "", words[0]) in SECTION_OPENERS:
+        return False
+
     tokens = [token for token in text.split() if token]
     # Drop trailing credentials: "Ana Ruiz MD" is a two-word name.
     while tokens and _is_credential(tokens[-1]):
         tokens.pop()
     if not 2 <= len(tokens) <= 5:
+        return False
+
+    # A one-letter surname is a truncated listing -- "Shannon C." off a
+    # testimonial, not a chief executive. Somebody who cannot be addressed
+    # properly is not a usable contact, so the row is dropped rather than
+    # carried with a stub for a name.
+    if len(re.sub(r"[^A-Za-zà-ÿ]", "", tokens[-1])) < 2:
         return False
 
     for token in tokens:

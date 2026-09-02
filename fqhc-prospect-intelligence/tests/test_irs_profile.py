@@ -222,3 +222,73 @@ def test_facts_default_to_all_unknown() -> None:
     assert facts.has_any is False
     assert facts.has_balance_sheet is False
     assert facts.has_expense_split is False
+
+
+# ---------------------------------------------------------------------------
+# Names as filers actually type them
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "filed, expected",
+    [
+        # Part VII has no column for "served part of the year", so filers put
+        # it in the name box. All of these are real shapes.
+        ("DANIEL FULWILER TERM 6225", "DANIEL FULWILER"),
+        ("JANE SMITH (THRU 6/30)", "JANE SMITH"),
+        ("A RUIZ - RESIGNED", "A RUIZ"),
+        ("MARY JONES, PARTIAL YEAR", "MARY JONES"),
+        ("JOHN DOE EFFECTIVE 1/1/2024", "JOHN DOE"),
+        ("LEE ADAMS RETIRED", "LEE ADAMS"),
+        ("PAT LOWE [OUTGOING]", "PAT LOWE"),
+    ],
+)
+def test_a_filers_term_note_is_not_part_of_the_name(filed, expected) -> None:
+    from pipeline.irs import clean_person_name
+
+    assert clean_person_name(filed) == expected
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        "BERNEICE MILLS-THOMAS",
+        "Tristé Lieteau Smith, MD, JD",
+        "SEAN O'BRIEN MD",
+        "ELENA RUIZ-GARCIA",
+        "JAMES T CARRINGTON",
+        "ANNA VAN DER BERG",
+        "Kiran Siddiqui, M.Ed, LPC",
+        # Words that merely start with a marker must survive intact.
+        "MARTIN LUTHER KING III",
+        "ENDERBY WELLS",
+        "TERMAINE ENDICOTT",
+    ],
+)
+def test_a_real_name_is_left_exactly_as_filed(name) -> None:
+    from pipeline.irs import clean_person_name
+
+    assert clean_person_name(name) == name
+
+
+def test_a_name_is_never_emptied_by_cleaning() -> None:
+    """An odd name is still a name; a blank row is not an improvement."""
+    from pipeline.irs import clean_person_name
+
+    assert clean_person_name(None) is None
+    assert clean_person_name("   ") is None
+    assert clean_person_name("(RESIGNED)") == "(RESIGNED)"
+
+
+def test_the_cleaning_runs_on_the_way_out_of_a_return() -> None:
+    xml = """<Return xmlns="http://www.irs.gov/efile"><ReturnData><IRS990>
+      <Form990PartVIISectionAGrp>
+        <PersonNm>DANIEL FULWILER TERM 6225</PersonNm>
+        <TitleTxt>CHIEF EXECUTIVE OFFICER</TitleTxt>
+        <OfficerInd>X</OfficerInd>
+      </Form990PartVIISectionAGrp>
+    </IRS990></ReturnData></Return>"""
+
+    person = parse_return(xml).people[0]
+    assert person.name == "DANIEL FULWILER"
+    assert person.title == "CHIEF EXECUTIVE OFFICER"
