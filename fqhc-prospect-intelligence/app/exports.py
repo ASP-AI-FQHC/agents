@@ -147,6 +147,7 @@ WIDTHS = {
     "person": 28,
     "title": 30,
     "role": 26,
+    "role_kind": 20,
     "email": 30,
     "source": 24,
     "source_detail": 46,
@@ -248,6 +249,7 @@ CONTACT_COLUMNS: tuple[tuple[str, str], ...] = (
     ("ICP score", "score"),
     ("Name", "person"),
     ("Title", "title"),
+    ("Decision-maker role", "role_kind"),
     ("Form 990 role", "role"),
     ("Email", "email"),
     ("Source", "source"),
@@ -269,6 +271,7 @@ def _contact_values(contact: ContactRow) -> dict[str, object]:
         "title": (
             formatting.job_title(contact.title) if contact.title else None
         ),
+        "role_kind": contact.role_label,
         "role": contact.role,
         "email": contact.email,
         "source": contact.source,

@@ -198,6 +198,31 @@ website:
   timeout_seconds: 20
   # Homepage plus this many candidate leadership pages per organization.
   max_pages_per_org: 4
+  #
+  # Apify search fallback. Roughly a fifth of health centers link their
+  # leadership page from a menu this crawler cannot see -- built in
+  # JavaScript, or at a path nothing links to. A search engine already knows
+  # the URL, so when this is on and a site yields nothing, Apify's Google
+  # Search actor is asked for candidate URLs on that organization's own
+  # domain. Those pages are then read by the ordinary crawler: same
+  # robots.txt, same rate limit, same extraction rules.
+  #
+  # Search is used to find a page, never to read one, and no email ever comes
+  # out of a search result. LinkedIn and the contact-broker sites are dropped
+  # from every result set in code rather than by configuration -- LinkedIn
+  # profiles are behind a login, which is the line this project drew at the
+  # start.
+  #
+  # Off by default because Apify charges per run. The token is read from the
+  # APIFY_TOKEN environment variable and never from this file, which is
+  # committed to git:
+  #
+  #     export APIFY_TOKEN=apify_api_...
+  #     python -m pipeline.run --stage website
+  use_apify_search: false
+  apify_max_searches: 200
+  apify_results_per_query: 10
+  apify_timeout_seconds: 90
   max_people_per_org: 60
   refresh_after_days: 30
 

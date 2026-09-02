@@ -268,6 +268,28 @@ class WebsiteSettings(BaseModel):
         "contact via allstar.partners)"
     )
 
+    # --- Apify search fallback ---------------------------------------------
+    #
+    # Some health centers link their leadership page from a menu the crawler
+    # cannot see -- built in JavaScript, or at a path nothing links to. A
+    # search engine already knows the URL. When this is on and the site crawl
+    # found nothing, Apify's Google Search actor is asked for candidate URLs on
+    # that organization's own domain, and those pages are then fetched by the
+    # ordinary crawler: same robots.txt, same rate limit, same extraction.
+    #
+    # Apify is a paid service, so this is off by default and costs nothing
+    # until it is turned on. The token comes from the APIFY_TOKEN environment
+    # variable and never from this file, which is committed.
+    #
+    # Search is used to locate a page, never to read one. LinkedIn and the
+    # contact-broker sites are dropped from every result set in code, not by
+    # configuration.
+    use_apify_search: bool = False
+    # Cap the spend: at most this many organizations get a search per run.
+    apify_max_searches: int = Field(default=200, ge=0)
+    apify_results_per_query: int = Field(default=10, ge=1, le=100)
+    apify_timeout_seconds: float = Field(default=90.0, gt=0)
+
 
 class PipelineSettings(BaseModel):
     # Resolve EINs and pull 990s only for organizations in the scoring

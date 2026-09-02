@@ -39,6 +39,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta, timezone
 from html.parser import HTMLParser
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import httpx
@@ -55,6 +56,7 @@ from app.models import (
     WebsitePerson,
     utcnow,
 )
+from pipeline import apify
 from pipeline.propublica import RateLimiter
 
 ProgressFn = Callable[[str], None]
@@ -618,7 +620,12 @@ class SiteResult:
     outcome: str = "ok"
 
 
-def collect_from_site(fetcher: SiteFetcher, website: str | None) -> SiteResult:
+def collect_from_site(
+    fetcher: SiteFetcher,
+    website: str | None,
+    *,
+    extra_urls: list[str] | None = None,
+) -> SiteResult:
     """Read the home page, follow the most promising leadership links, extract."""
     url = normalize_website(website)
     if url is None:
@@ -643,6 +650,16 @@ def collect_from_site(fetcher: SiteFetcher, website: str | None) -> SiteResult:
             result.people.append(record)
 
     candidates = rank_links(url, parse_page(homepage).links)
+
+    # URLs a search engine found that the home page does not link to. They go
+    # after the site's own links, never instead of them, and they are fetched
+    # through this same fetcher -- robots.txt, rate limit and extraction rules
+    # all unchanged. Search located the page; it did not read it.
+    for extra in extra_urls or ():
+        cleaned = extra.split("#", 1)[0].rstrip("/")
+        if same_site(url, cleaned) and cleaned not in candidates:
+            candidates.append(cleaned)
+
     for candidate in candidates[: fetcher.settings.max_pages_per_org]:
         html = fetcher.fetch(candidate)
         if html is None:
@@ -659,6 +676,13 @@ def collect_from_site(fetcher: SiteFetcher, website: str | None) -> SiteResult:
         result.outcome = (
             "no leadership page found" if not candidates else "no names on leadership pages"
         )
+    elif extra_urls and any(
+        page in (extra_urls or ()) or page.rstrip("/") in [
+            u.split("#", 1)[0].rstrip("/") for u in extra_urls
+        ]
+        for page in result.source_urls.values()
+    ):
+        result.outcome = "found via search"
     return result
 
 
@@ -673,6 +697,10 @@ class WebsiteResult:
     crawled: int = 0
     skipped_recent: int = 0
     without_website: int = 0
+    # Apify search fallback, when it is switched on.
+    searched: int = 0
+    found_via_search: int = 0
+    blocked_results: int = 0
     people_written: int = 0
     organizations_with_people: int = 0
     messages: list[str] = field(default_factory=list)
@@ -714,6 +742,7 @@ def enrich_websites(
     limit: int | None = None,
     force: bool = False,
     on_progress: ProgressFn | None = None,
+    search_client_factory: Callable[[], Any] | None = None,
 ) -> WebsiteResult:
     """Populate ``website_people`` from organization leadership pages."""
     report = on_progress or (lambda _message: None)
@@ -734,6 +763,29 @@ def enrich_websites(
     owns_fetcher = fetcher is None
     fetcher = fetcher or SiteFetcher(config)
     cutoff = utcnow() - timedelta(days=config.website.refresh_after_days)
+
+    # The search fallback is opt-in and costs money, so it announces itself --
+    # both when it is on and when it is on but unusable for want of a token.
+    apify_token = None
+    search_client = None
+    if config.website.use_apify_search:
+        apify_token = apify.token()
+        if apify_token:
+            search_client = search_client_factory or (lambda: httpx.Client())
+            search_client = search_client()
+            report(
+                "Apify search is on: organizations whose own site yields no "
+                "leadership page will have one looked up, up to "
+                f"{config.website.apify_max_searches:,} of them"
+            )
+        else:
+            result.messages.append(
+                "website.use_apify_search is on but APIFY_TOKEN is not set in "
+                "the environment, so no search was run. Export the token in "
+                "the shell you run the pipeline from; it is deliberately not "
+                "read from config.yaml, which is committed."
+            )
+            report(result.messages[-1])
 
     try:
         organizations = _eligible_organizations(session, config)
@@ -759,6 +811,34 @@ def enrich_websites(
                 continue
 
             site = collect_from_site(fetcher, organization.website)
+
+            # Only when the organization's own site yielded nothing, and only
+            # while there is budget left. A search that confirms what we
+            # already have is money spent for no new fact.
+            if (
+                apify_token
+                and not site.people
+                and site.url is not None
+                and site.outcome != "blocked by robots.txt"
+                and result.searched < config.website.apify_max_searches
+            ):
+                result.searched += 1
+                urls, blocked = apify.find_leadership_pages(
+                    search_client,
+                    site.url,
+                    organization.name,
+                    api_token=apify_token,
+                    results_per_query=config.website.apify_results_per_query,
+                    timeout_seconds=config.website.apify_timeout_seconds,
+                )
+                result.blocked_results += blocked
+                if urls:
+                    site = collect_from_site(
+                        fetcher, organization.website, extra_urls=urls
+                    )
+                    if site.people:
+                        result.found_via_search += 1
+
             if site.url is None:
                 result.without_website += 1
             else:
@@ -809,6 +889,18 @@ def enrich_websites(
     finally:
         if owns_fetcher:
             fetcher.close()
+
+    if result.searched:
+        report(
+            f"Searched for a leadership page at {result.searched:,} organizations "
+            f"and found one at {result.found_via_search:,}"
+            + (
+                f"; {result.blocked_results:,} results were dropped as LinkedIn "
+                "or contact-broker sites"
+                if result.blocked_results
+                else ""
+            )
+        )
 
     if result.without_website:
         result.messages.append(

@@ -602,3 +602,90 @@ def test_a_shared_inbox_is_not_attached_to_the_wrong_person() -> None:
     people = {p.name: p.email for p in extract_people(html)}
     assert people["Marcus Bellweather"] is None
     assert people["Ingrid Salvatore"] is None
+
+
+# ---------------------------------------------------------------------------
+# The Apify search fallback
+# ---------------------------------------------------------------------------
+
+# A site whose home page links to nothing useful: the leadership page exists at
+# a path nothing links to, which is exactly the case search is for.
+HIDDEN_PAGES = {
+    "https://hiddenchc.org": """
+        <html><body>
+          <nav><a href="/services">Services</a><a href="/locations">Locations</a></nav>
+          <p>Welcome to Hidden Community Health Center.</p>
+        </body></html>
+    """,
+    "https://hiddenchc.org/who-we-serve/executive-suite": """
+        <html><body>
+          <h1>Executive Suite</h1>
+          <ul>
+            <li>Amara Nwosu, Chief Executive Officer</li>
+            <li>Daniel Ruiz, Chief Information Officer</li>
+          </ul>
+        </body></html>
+    """,
+}
+
+
+def test_the_home_page_crawl_alone_finds_nothing_here(config: Config) -> None:
+    """The premise of the fallback, checked so the next test means something."""
+    fetcher, _ = make_fetcher(config, pages=HIDDEN_PAGES)
+    with fetcher:
+        result = collect_from_site(fetcher, "hiddenchc.org")
+
+    assert result.people == []
+    assert result.outcome == "no leadership page found"
+
+
+def test_a_searched_url_is_read_by_the_ordinary_crawler(config: Config) -> None:
+    """Search supplies the URL; the existing fetcher reads the page."""
+    fetcher, requested = make_fetcher(config, pages=HIDDEN_PAGES)
+    with fetcher:
+        result = collect_from_site(
+            fetcher,
+            "hiddenchc.org",
+            extra_urls=["https://hiddenchc.org/who-we-serve/executive-suite"],
+        )
+
+    names = {person.name for person in result.people}
+    assert "Amara Nwosu" in names
+    assert "Daniel Ruiz" in names
+
+    # The page was fetched by us, so robots.txt was consulted first.
+    assert any(url.endswith("/robots.txt") for url in requested)
+    # And every name still points at the organization's own page.
+    assert all(
+        url.startswith("https://hiddenchc.org") for url in result.source_urls.values()
+    )
+
+
+def test_a_searched_url_on_another_domain_is_refused(config: Config) -> None:
+    """Even if a search returned it, only the organization's own site is read.
+
+    This is the second line of defence behind the blocked-host list: a name
+    lifted from someone else's page could not be sourced to the organization.
+    """
+    fetcher, requested = make_fetcher(config, pages=HIDDEN_PAGES)
+    with fetcher:
+        result = collect_from_site(
+            fetcher,
+            "hiddenchc.org",
+            extra_urls=["https://www.linkedin.com/company/hiddenchc/people"],
+        )
+
+    assert result.people == []
+    assert not any("linkedin" in url for url in requested)
+
+
+def test_the_sites_own_links_are_still_tried_first(config: Config) -> None:
+    """Search appends candidates; it never displaces the site's own navigation."""
+    fetcher, requested = make_fetcher(config)
+    with fetcher:
+        collect_from_site(
+            fetcher, "lakeviewchc.org", extra_urls=["https://lakeviewchc.org/late"]
+        )
+
+    pages = [url for url in requested if not url.endswith("/robots.txt")]
+    assert pages.index("https://lakeviewchc.org") == 0

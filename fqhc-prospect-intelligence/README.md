@@ -668,6 +668,104 @@ and a number nobody can defend is worse on a proposal than no number.
 
 Nothing in UDS is patient-level. Every figure is an organization total.
 
+## Building a contact list
+
+### The export
+
+Filter the dashboard to what you want, then take the contacts export. Both
+formats accept `executives=true`, which drops board seats and anyone whose
+title does not say what they do:
+
+```
+http://127.0.0.1:8000/contacts.csv?state=IL&executives=true
+http://127.0.0.1:8000/contacts.xlsx?state=IL&executives=true
+```
+
+One row per person per organization, chief executive first. Where two sources
+named the same person the row is merged and lists both: the HRSA UDS return
+leads, because it is the only source carrying a direct email and telephone
+number, and the Form 990 fills in what UDS has no field for — principally
+reported compensation.
+
+A **Decision-maker role** column places each person as chief executive,
+technology, finance, operations, clinical, compliance, other executive, board or
+staff. It is a reading of the filed title and nothing more: nobody is promoted
+into a bucket, and a person whose title says nothing useful lands in "Not
+stated" and is left out of the narrowed list rather than guessed at.
+
+### Where the emails come from
+
+Only two places, and neither is inferred:
+
+1. **The HRSA UDS project director.** HRSA asks each health center for the
+   person who runs it, with a direct telephone number and email address, and the
+   health center answers. This is the single best contact source in the
+   application and it is free. Loading the UDS export for a state is the largest
+   available gain in email coverage.
+2. **A page the organization published itself**, read with `robots.txt`
+   honoured, with the page linked on every row so it can be checked.
+
+**No address is ever constructed from a name and a domain.** Shared inboxes
+(`info@`, `reception@`, or any address that lands on more than one person) are
+dropped rather than passed off as somebody's direct line. A Form 990 lists
+officers care of the organization's own address and carries no email at all, so
+those rows show "Not available" — which is a fact, not a gap to fill with a
+guess.
+
+### What is missing, and why
+
+```
+python -m pipeline.coverage --state IL
+```
+
+Prints who has a named chief executive, who has a direct email, and for every
+organization that has neither, the reason and the next action: EIN not searched,
+match waiting in the review queue, no Form 990 XML on this machine, a filing
+with nobody whose title says they run the place, no web address published, or a
+site that was crawled and yielded nothing.
+
+A list of thirty names out of a universe of forty-five looks complete until
+somebody notices the other fifteen. This prints the other fifteen.
+
+### Finding leadership pages with Apify
+
+Roughly a fifth of health centers link their leadership page from somewhere the
+crawler cannot see — a menu built in JavaScript, or a path nothing links to. A
+search engine already knows the URL.
+
+```yaml
+website:
+  use_apify_search: true
+```
+
+```
+export APIFY_TOKEN=apify_api_...
+python -m pipeline.run --stage website
+```
+
+When a site yields nothing, Apify's Google Search actor is asked for candidate
+URLs **on that organization's own domain**. Those pages are then fetched by the
+ordinary crawler — same `robots.txt`, same rate limit, same extraction — so every
+name still comes from the organization's own page and still links back to it.
+
+Three limits are in the code rather than in configuration:
+
+- **LinkedIn is dropped from every result set**, along with ZoomInfo, RocketReach,
+  Apollo and the rest of the contact brokers. LinkedIn profiles sit behind a
+  login, which is the line this project drew at the start, and reading them is
+  against LinkedIn's terms. A candidate URL on any domain other than the
+  organization's own is refused a second time at fetch, so a blocked host that
+  slipped through still would not be read.
+- **No email comes out of a search result**, even when a snippet contains one.
+- **No snippet text is kept.** Titles and descriptions are used to rank
+  candidates and then discarded: a snippet is a search engine's summary, not the
+  organization's own words, and this database quotes only what it has read
+  directly.
+
+Apify charges per run, so this is off by default and `apify_max_searches` caps
+the spend per run. The token is read from the environment and never from
+`config.yaml`, which is committed.
+
 ## Loading grants
 
 Two different questions, and only one source can answer each.

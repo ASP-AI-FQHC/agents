@@ -16,6 +16,7 @@ from sqlalchemy import Select, and_, func, or_, select
 from sqlalchemy.orm import Session, selectinload
 
 from app.config import Config
+from app.roles import Role, classify
 from app.models import (
     EinMatch,
     Filing,
@@ -597,13 +598,29 @@ class ContactRow:
     source_detail: str | None
     compensation: float | None = None
     is_board_member: bool = False
+    role_kind: "Role" = None  # type: ignore[assignment]
+
+    @property
+    def role_label(self) -> str:
+        return self.role_kind.label if self.role_kind else Role.UNKNOWN.label
+
+    @property
+    def is_executive(self) -> bool:
+        return bool(self.role_kind and self.role_kind.is_executive)
 
 
-def fetch_contacts(session: Session, filters: Filters) -> list[ContactRow]:
+def fetch_contacts(
+    session: Session, filters: Filters, *, executives_only: bool = False
+) -> list[ContactRow]:
     """Every named person at the organizations the current filters select.
 
-    Ordered the way the list gets worked: best-fitting organization first,
-    board members ahead of staff within each one.
+    Ordered the way the list gets worked: best-fitting organization first, and
+    within an organization the chief executive ahead of everyone else, because
+    that is who the first call goes to.
+
+    ``executives_only`` drops board seats and unclassifiable rows. It never
+    promotes anyone: a person whose title does not say what they do is left out
+    of the narrowed list rather than guessed into it.
     """
     rows, _ = fetch_rows(session, filters, page_size=None)
 
@@ -638,6 +655,10 @@ def fetch_contacts(session: Session, filters: Filters) -> list[ContactRow]:
                         f"{director.year} UDS return"
                         + (f" -- {director.director_phone}" if director.director_phone else "")
                     ),
+                    # HRSA asks for the person who runs the health center, so
+                    # the project director is a chief executive by definition
+                    # of the field rather than by reading a title.
+                    role_kind=Role.CHIEF_EXECUTIVE,
                 )
             )
 
@@ -655,6 +676,7 @@ def fetch_contacts(session: Session, filters: Filters) -> list[ContactRow]:
                     source_detail=f"Tax year {person.tax_year}",
                     compensation=person.total_compensation,
                     is_board_member=person.is_board_member,
+                    role_kind=classify(person.title, form_990_roles=person.roles),
                 )
             )
 
@@ -671,10 +693,91 @@ def fetch_contacts(session: Session, filters: Filters) -> list[ContactRow]:
                     source="Organization website",
                     source_detail=person.source_url,
                     is_board_member=person.is_board_member,
+                    role_kind=classify(person.title),
                 )
             )
 
+    contacts = _merge_contacts(contacts)
+
+    if executives_only:
+        contacts = [contact for contact in contacts if contact.is_executive]
+
+    # Within an organization, the chief executive first. The order the list
+    # gets worked is the order the calls get made.
+    priority = {role: index for index, role in enumerate(_ROLE_ORDER)}
+    contacts.sort(
+        key=lambda c: (
+            -(c.composite or 0),
+            c.organization.name,
+            priority.get(c.role_kind, len(priority)),
+            c.name,
+        )
+    )
     return contacts
+
+
+def _merge_contacts(contacts: list[ContactRow]) -> list[ContactRow]:
+    """One row per person per organization, however many sources named them.
+
+    The profile page has always merged these; the export did not, so the same
+    chief executive appeared twice -- once from the filing with a compensation
+    figure and no email, once from the UDS return with an email and no
+    compensation. Two half-rows are worse than one whole one on a list somebody
+    is working through by phone.
+
+    Order is significant, and here it is deliberately not the profile's. This
+    list is worked by phone, so the HRSA UDS return leads: it is the only
+    source carrying a direct email and telephone number, and it keeps HRSA's
+    own name for the role. The Form 990 then fills what UDS has no field for --
+    principally reported compensation -- and the website fills what is still
+    missing. Every source that named the person is listed on the row.
+    """
+    merged: dict[tuple[int, str], ContactRow] = {}
+    order: list[tuple[int, str]] = []
+
+    for contact in contacts:
+        key = (contact.organization.id, _merge_key(contact.name))
+        existing = merged.get(key)
+        if existing is None:
+            merged[key] = contact
+            order.append(key)
+            continue
+
+        for attribute in ("title", "email", "compensation", "role"):
+            if getattr(existing, attribute) is None:
+                setattr(existing, attribute, getattr(contact, attribute))
+
+        # A role read from a real title beats one inferred from a checkbox.
+        if existing.role_kind in (None, Role.UNKNOWN, Role.STAFF) and contact.role_kind:
+            existing.role_kind = contact.role_kind
+
+        if contact.source not in existing.source:
+            existing.source = f"{existing.source} + {contact.source}"
+        if contact.source_detail and contact.source_detail not in (
+            existing.source_detail or ""
+        ):
+            existing.source_detail = " | ".join(
+                part for part in (existing.source_detail, contact.source_detail) if part
+            )
+        existing.is_board_member = existing.is_board_member or contact.is_board_member
+
+    return [merged[key] for key in order]
+
+
+# The order a salesperson works an organization: whoever signs, then whoever
+# owns the system being replaced, then the rest.
+_ROLE_ORDER: tuple[Role, ...] = (
+    Role.CHIEF_EXECUTIVE,
+    Role.TECHNOLOGY,
+    Role.OPERATIONS,
+    Role.FINANCE,
+    Role.COMPLIANCE,
+    Role.CLINICAL,
+    Role.OTHER_EXECUTIVE,
+    Role.STAFF,
+    Role.BOARD,
+    Role.UNKNOWN,
+)
 
 
 def organization_uds(session: Session, organization_id: int):
