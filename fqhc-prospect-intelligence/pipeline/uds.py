@@ -388,6 +388,56 @@ def looks_like_descriptions(values: Sequence[object]) -> bool:
     return bool(prose) and bool(dashes)
 
 
+# Things that appear in a data row and never in a column label. One is enough:
+# no header is an email address, and no header is a telephone number.
+_EMAIL_CELL = re.compile(r"[^@\s]+@[^@\s]+\.[A-Za-z]{2,}")
+_PHONE_CELL = re.compile(r"^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}(\s*(x|ext)\s*\d+)?$", re.I)
+_ZIP_CELL = re.compile(r"^\d{5}(-\d{4})?$")
+_YEAR_CELL = re.compile(r"^(19|20)\d{2}$")
+_ID_CELL = re.compile(r"^[0-9A-Z]{2,}\d{3,}$")          # 01E00188, LALCS00085
+_BOOLEAN_CELL = frozenset({"true", "false", "yes", "no", "y", "n"})
+_STATE_CELL = re.compile(r"^[A-Z]{2}$")
+
+
+def looks_like_data_row(values: Sequence[object]) -> bool:
+    """Whether a row carries values only a data row can carry.
+
+    The veto on treating a row as a second header. A real Illinois run merged
+    the first *data* row of ``HealthCenterInfo`` into the header, producing a
+    column list where six entries were a health center's name, address and the
+    project director's email address -- and where the three genuine headers
+    that survived were the three columns that happened to be empty for that
+    organization.
+
+    Asking "is this row prose?" was not enough, because one long organization
+    name reads as prose. Asking "does this row contain things a header never
+    contains?" is decidable: no column is ever called
+    ``celias@communityclinicalservices.org``.
+    """
+    texts = [str(v).strip() for v in values if v is not None and str(v).strip()]
+    if not texts:
+        return False
+
+    for text in texts:
+        if _EMAIL_CELL.search(text):
+            return True
+        if _PHONE_CELL.match(text):
+            return True
+
+    tells = sum(
+        1
+        for text in texts
+        if _ZIP_CELL.match(text)
+        or _YEAR_CELL.match(text)
+        or _ID_CELL.match(text)
+        or _STATE_CELL.match(text)
+        or text.lower() in _BOOLEAN_CELL
+    )
+    # Two independent tells, so a sheet whose header genuinely contains "2025"
+    # or a two-letter code is not vetoed on that alone.
+    return tells >= 2
+
+
 def merge_headers(codes: Sequence[str], descriptions: Sequence[str]) -> list[str]:
     """Prefer the readable label, falling back to the code that names it.
 
@@ -421,7 +471,15 @@ def sheet_headers(path: Path) -> list[tuple[str, list[str]]]:
             rows = workbook[name].iter_rows(values_only=True)
             codes = _header_row(rows)
             descriptions = next(rows, None)
-            if codes and descriptions and looks_like_descriptions(descriptions):
+            if (
+                codes
+                and descriptions
+                and looks_like_descriptions(descriptions)
+                # The veto. A row carrying an email address or a phone number
+                # is the first health center, not a second header, whatever
+                # else about it reads as prose.
+                and not looks_like_data_row(descriptions)
+            ):
                 codes = merge_headers(
                     codes,
                     [("" if v is None else str(v)) for v in descriptions],
@@ -430,6 +488,34 @@ def sheet_headers(path: Path) -> list[tuple[str, list[str]]]:
         return result
     finally:
         workbook.close()
+
+
+def raw_rows(path: Path, sheet: str, *, rows: int = 2) -> list[list[object]]:
+    """The first rows of one sheet, exactly as stored.
+
+    No header detection, no merging, no interpretation. Used by the inspector
+    when a file is rejected, because the useful question at that moment is what
+    the file actually contains rather than what this module made of it.
+    """
+    if path.suffix.lower() not in {".xlsx", ".xlsm"}:
+        return []
+    try:
+        from openpyxl import load_workbook
+
+        workbook = load_workbook(path, read_only=True, data_only=True)
+        try:
+            if sheet not in workbook.sheetnames:
+                return []
+            out: list[list[object]] = []
+            for values in workbook[sheet].iter_rows(values_only=True):
+                out.append(list(values))
+                if len(out) >= rows:
+                    break
+            return out
+        finally:
+            workbook.close()
+    except Exception:
+        return []
 
 
 def read_best_sheet(path: Path) -> tuple[str, list[str], Iterator[dict[str, str]]]:
@@ -1052,6 +1138,23 @@ def inspect(path: Path) -> str:
         lines.append(f"  All {len(headers)} columns:")
         for index, header in enumerate(headers, start=1):
             lines.append(f"    {index:3d}. {header}")
+
+        # The raw first rows of the sheet, unmerged and uninterpreted. When a
+        # column list above looks like a health center rather than a set of
+        # labels, this is what says why in one paste -- it shows what the file
+        # holds before any of this module's opinions were applied.
+        if used_sheet:
+            raw = raw_rows(path, used_sheet, rows=2)
+            if raw:
+                lines.append("")
+                lines.append(f"  First rows of \"{used_sheet}\" exactly as stored:")
+                for number, values in enumerate(raw, start=1):
+                    shown = ", ".join(
+                        "(empty)" if v is None or not str(v).strip() else str(v).strip()
+                        for v in values[:8]
+                    )
+                    more = f" ... +{len(values) - 8} more" if len(values) > 8 else ""
+                    lines.append(f"    row {number}: {shown}{more}")
         lines.append("")
         lines.append(
             "  A usable file has one row per health center and a total-patients "

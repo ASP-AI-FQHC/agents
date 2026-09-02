@@ -745,3 +745,141 @@ def test_the_stage_stores_the_ehr(uds_config: Config, session: Session) -> None:
     row = session.scalars(select(UdsReport)).one()
     assert row.ehr_vendor == "Epic Systems Corporation"
     assert row.total_fte == pytest.approx(612.4)
+
+
+# ---------------------------------------------------------------------------
+# A data row must never be mistaken for a second header
+# ---------------------------------------------------------------------------
+
+# The exact row a real Illinois run turned into column names. Six of the
+# nineteen "columns" were this health center's name, address, director and
+# email; the three that survived as real headers were the three columns that
+# happened to be empty for this organization.
+LEWISTON_ROW = [
+    "01E00188", "LALCS00085", 2025, "COMMUNITY CLINICAL SERVICES INC",
+    "57 BIRCH ST STE 201", None, "LEWISTON", "ME", "04240", "Coleen  Elias",
+    "(207)513-3897", None, None, "celias@communityclinicalservices.org",
+    False, False, False, False, "Urban",
+]
+
+HEALTH_CENTER_INFO_HEADER = [
+    "BHCMISID", "GrantNumber", "ReportingYear", "HealthCenterName",
+    "HealthCenterAddress", "HealthCenterOtherAddress", "HealthCenterCity",
+    "HealthCenterState", "HealthCenterZipCode", "ProjectDirector",
+    "ProjectDirectorPhone", "ProjectDirectorPhoneExt", "ProjectDirectorFax",
+    "ProjectDirectorEmail", "HasSubrecipient", "IsMigrant", "IsHomeless",
+    "IsPublicHousing", "UrbanRural",
+]
+
+
+def test_a_row_carrying_an_email_is_data_not_a_header() -> None:
+    from pipeline.uds import looks_like_data_row
+
+    assert looks_like_data_row(LEWISTON_ROW)
+
+
+def test_an_email_alone_is_enough_to_veto() -> None:
+    """No column is ever named after somebody's address."""
+    from pipeline.uds import looks_like_data_row
+
+    assert looks_like_data_row(["a", "b", "someone@example.org"])
+
+
+def test_a_phone_number_alone_is_enough_to_veto() -> None:
+    from pipeline.uds import looks_like_data_row
+
+    assert looks_like_data_row(["a", "b", "(207)513-3897"])
+    assert looks_like_data_row(["a", "b", "207-513-3897"])
+
+
+def test_the_genuine_description_row_is_not_vetoed() -> None:
+    """The feature this guard must not break.
+
+    HRSA's coded table sheets really do carry a second header of plain-English
+    labels, with the identifier columns dashed out. That row is the key to the
+    whole workbook and must still be read as a header.
+    """
+    from pipeline.uds import looks_like_data_row, looks_like_descriptions
+
+    descriptions = [
+        "-", "-", "-",
+        "Total patients",
+        "Patients age 0-17",
+        "Does your health center currently have an electronic health record "
+        "system installed and in use?",
+        "Name of the EHR vendor",
+    ]
+    assert looks_like_descriptions(descriptions)
+    assert not looks_like_data_row(descriptions)
+
+
+def test_one_incidental_tell_does_not_veto_a_header() -> None:
+    """A header may legitimately contain a year or a two-letter code."""
+    from pipeline.uds import looks_like_data_row
+
+    assert not looks_like_data_row(
+        ["Total patients", "2025 reported patients", "Patients age 0-17"]
+    )
+
+
+def test_the_header_survives_the_first_data_row(tmp_path) -> None:
+    """End to end: the column list is labels, not a health center."""
+    from openpyxl import Workbook
+
+    from pipeline.uds import sheet_headers
+
+    path = tmp_path / "LAL-2025.xlsx"
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "HealthCenterInfo"
+    sheet.append(HEALTH_CENTER_INFO_HEADER)
+    sheet.append(LEWISTON_ROW)
+    workbook.save(path)
+
+    headers = dict(sheet_headers(path))["HealthCenterInfo"]
+
+    assert headers == HEALTH_CENTER_INFO_HEADER
+    assert not any("@" in header for header in headers)
+    assert "COMMUNITY CLINICAL SERVICES INC" not in headers
+
+
+def test_the_inspector_shows_the_raw_rows_when_it_rejects_a_file(tmp_path) -> None:
+    """So the next failure of this kind is diagnosable from one paste."""
+    from openpyxl import Workbook
+
+    from pipeline.uds import inspect
+
+    path = tmp_path / "wrong-file.xlsx"
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Summary"
+    sheet.append(["Region", "Centers", "States", "Note"])
+    sheet.append(["Midwest", 210, 6, "national rollup"])
+    workbook.save(path)
+
+    text = inspect(path)
+
+    assert "NOT a UDS health-center file" in text
+    assert "exactly as stored" in text
+    assert "row 1:" in text
+    assert "Midwest" in text
+
+
+def test_raw_rows_reads_without_interpreting(tmp_path) -> None:
+    from openpyxl import Workbook
+
+    from pipeline.uds import raw_rows
+
+    path = tmp_path / "book.xlsx"
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "HealthCenterInfo"
+    sheet.append(HEALTH_CENTER_INFO_HEADER)
+    sheet.append(LEWISTON_ROW)
+    workbook.save(path)
+
+    rows = raw_rows(path, "HealthCenterInfo", rows=2)
+
+    assert rows[0][:2] == ["BHCMISID", "GrantNumber"]
+    assert rows[1][3] == "COMMUNITY CLINICAL SERVICES INC"
+    assert raw_rows(path, "NoSuchSheet") == []
