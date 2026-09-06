@@ -766,6 +766,37 @@ Apify charges per run, so this is off by default and `apify_max_searches` caps
 the spend per run. The token is read from the environment and never from
 `config.yaml`, which is committed.
 
+## Importing a third-party spreadsheet
+
+```
+python -m pipeline.review_import ~/Downloads/some-fqhc-list.csv --state IL
+```
+
+Spreadsheets of health centers with CEO names and email addresses circulate
+widely, and some of them are substantially generated. This database is worth
+having because every figure in it can be traced to a filing, so a file gets
+audited before it is trusted rather than after.
+
+**The reviewer writes nothing.** It reads the file, matches each row against the
+organizations already known — which answers the duplicate question directly —
+and reports what the file claims against what the filings say.
+
+It looks for the specific ways these files go wrong:
+
+| Check | What it catches |
+| --- | --- |
+| Constructed addresses | A generic mailbox on a domain that is the organization's name cut off **mid-word** — `info@howardbrownheal.org` for Howard Brown Health Center. A shortened domain is normal (`howardbrown.org` is real); a cut inside "health" is a string truncated to a fixed width. |
+| Placeholder names | `Contact Organization`, `N/A`, `TBD` and the rest, sitting where a person's name should be. |
+| Borrowed contacts | A CEO email containing no part of the CEO's name — usually a real address belonging to somebody else. |
+| Domain mismatch | A CEO email on a different domain than the organization's own website. |
+| Generated counts | A column where a dozen values each account for about the same number of rows. Real counts of anything are skewed; a flat one came from a random number generator. |
+| Default values | Hundreds of rows sharing one founding year, or reporting zero employees. |
+| Contradicted figures | Revenue or site counts that disagree with the organization's own Form 990 and HRSA's site file. |
+
+None of these is proof on its own, and the report shows its workings so the
+decision stays with a person. A clean file produces no findings — the audit can
+say yes, or it is not worth running.
+
 ## Loading grants
 
 Two different questions, and only one source can answer each.
