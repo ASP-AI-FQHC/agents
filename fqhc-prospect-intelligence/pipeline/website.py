@@ -501,6 +501,45 @@ _SKIP_LINK = re.compile(
     r"\.(pdf|jpe?g|png|gif|svg|zip|docx?|xlsx?|mp4|mp3)($|\?)", re.IGNORECASE
 )
 
+# Paths this crawler will not fetch, whatever robots.txt permits.
+#
+# robots.txt is a publisher's request and is always honoured, but it is not the
+# boundary that matters here. A health center's patient portal, bill payment
+# page and appointment booking form are patient-facing by definition: they are
+# where a person's own health and payment details live, they frequently sit
+# behind a login, and none of them has ever contained a leadership listing.
+# There is nothing to gain by reading them and a great deal to lose, so they
+# are refused by name and independently of any file on the server.
+PATIENT_FACING = (
+    "portal", "mychart", "my-chart", "myhealth", "my-health", "patientportal",
+    "login", "log-in", "signin", "sign-in", "signup", "sign-up", "register",
+    "account", "myaccount", "dashboard",
+    "pay-bill", "paybill", "payment", "pay-online", "bill-pay", "billpay",
+    "appointment", "book-online", "booking", "schedule-visit", "scheduling",
+    "medical-record", "medicalrecord", "health-record", "records-request",
+    "telehealth-visit", "virtual-visit", "e-visit", "check-in", "checkin",
+    "prescription", "refill", "rx-refill",
+    "intake", "new-patient-form", "patient-form",
+)
+
+_PATIENT_FACING = re.compile(
+    # A trailing "s" is allowed so /appointments matches /appointment.
+    r"(^|[/._?=-])(" + "|".join(re.escape(w) for w in PATIENT_FACING) + r")s?([/._?=-]|$)",
+    re.IGNORECASE,
+)
+
+
+def is_patient_facing(url: str) -> bool:
+    """Whether a URL is a patient's own area rather than an organization's.
+
+    Matched on path segments and query values, never as a bare substring: a
+    health center called "Portal Health" must not disqualify its own site, and
+    "reporting" contains "port" but is not a portal.
+    """
+    parsed = urlparse(url)
+    target = f"{parsed.path}?{parsed.query}" if parsed.query else parsed.path
+    return bool(_PATIENT_FACING.search(target))
+
 
 def same_site(base: str, candidate: str) -> bool:
     """Whether two URLs share a registrable host, ignoring a leading www."""
@@ -522,6 +561,8 @@ def rank_links(base_url: str, links: list[tuple[str, str]]) -> list[str]:
         if not absolute.lower().startswith(("http://", "https://")):
             continue
         if _SKIP_LINK.search(absolute) or not same_site(base_url, absolute):
+            continue
+        if is_patient_facing(absolute):
             continue
         if absolute.rstrip("/") == base_url.rstrip("/"):
             continue
@@ -621,6 +662,11 @@ class SiteFetcher:
     # -- pages -------------------------------------------------------------
     def fetch(self, url: str) -> str | None:
         """HTML for one URL, or None if it is disallowed, missing or not HTML."""
+        # Checked here rather than only where links are ranked, so a URL from
+        # any source -- the site's own navigation, a search result, a redirect
+        # -- passes the same gate.
+        if is_patient_facing(url):
+            return None
         if not self.allowed(url):
             return None
         try:

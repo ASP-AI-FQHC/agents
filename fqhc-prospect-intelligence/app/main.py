@@ -26,6 +26,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app import exports, formatting
+from app.outreach import load_suppression
 from app.config import get_config
 from app.db import get_db, init_db
 from app.models import ChangeEvent, ChangeKind, GranteeType, MatchStatus, utcnow
@@ -430,7 +431,13 @@ def contacts_csv(
     executives: bool = Query(False),
 ):
     contacts = fetch_contacts(session, filters, executives_only=executives)
-    body = exports.contacts_to_csv(contacts, config, filters, data_status(session))
+    body = exports.contacts_to_csv(
+        contacts,
+        config,
+        filters,
+        data_status(session),
+        suppression=load_suppression(config.resolve(config.app.suppression_file)),
+    )
     return Response(
         content=body,
         media_type="text/csv; charset=utf-8",
@@ -449,7 +456,13 @@ def contacts_xlsx(
     executives: bool = Query(False),
 ):
     contacts = fetch_contacts(session, filters, executives_only=executives)
-    body = exports.contacts_to_xlsx(contacts, config, filters, data_status(session))
+    body = exports.contacts_to_xlsx(
+        contacts,
+        config,
+        filters,
+        data_status(session),
+        suppression=load_suppression(config.resolve(config.app.suppression_file)),
+    )
     return Response(
         content=body,
         media_type=(

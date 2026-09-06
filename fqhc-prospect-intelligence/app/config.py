@@ -29,6 +29,17 @@ DEFAULT_CONFIG_PATH = Path(
 class AppSettings(BaseModel):
     name: str = "FQHC Prospect Intelligence"
     company: str = "Allstar Partners"
+    # Required in the footer of any commercial email under CAN-SPAM, so it is
+    # configuration rather than something typed into each campaign.
+    postal_address: str = (
+        "954 W. Washington Blvd. Ste 535, Chicago, IL 60607"
+    )
+    # How a recipient opts out. Published in every message and carried at the
+    # top of every contact export.
+    opt_out_contact: str = "Reply with UNSUBSCRIBE, or email allstar.partners"
+    # Addresses, domains and organizations that must never be exported.
+    # Relative paths resolve against the data directory.
+    suppression_file: Path = Path("suppression.txt")
     database_path: Path = Path("data/fqhc.db")
 
 

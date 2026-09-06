@@ -855,3 +855,38 @@ def test_the_director_appears_on_the_profile(populated) -> None:
     assert "HRSA UDS" in body
     assert "Form 990" in body
     assert body.count("<strong>Maria T Alvarez</strong>") == 1
+
+
+def test_the_contacts_export_carries_the_compliance_block(populated) -> None:
+    """CAN-SPAM applies to B2B email, and the obligations travel with the file."""
+    client, _, _ = populated
+    body = client.get("/contacts.csv").text
+
+    assert "OUTREACH COMPLIANCE" in body
+    assert "business-to-business" in body
+    assert "10 business" in body
+    assert "954 W. Washington Blvd" in body
+    assert "No patient information" in body
+
+
+def test_the_contacts_export_honours_the_suppression_list(populated, tmp_path) -> None:
+    """An opt-out has to be enforced where the list is produced."""
+    from app import main
+    from app.outreach import Suppression
+    from app.queries import Filters, fetch_contacts
+    from app import exports
+
+    client, session, _ = populated
+    contacts = fetch_contacts(session, Filters().normalized())
+    assert any(c.name == "Denise Whitaker" for c in contacts)
+
+    body = exports.contacts_to_csv(
+        contacts,
+        main.config,
+        Filters().normalized(),
+        None,
+        suppression=Suppression(organizations={"milwaukeehealthservices"}),
+    )
+
+    assert "Denise Whitaker" not in body
+    assert "removed as opted out" in body

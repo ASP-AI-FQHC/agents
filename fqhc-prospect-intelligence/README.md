@@ -766,6 +766,83 @@ Apify charges per run, so this is off by default and `apify_max_searches` caps
 the spend per run. The token is read from the environment and never from
 `config.yaml`, which is committed.
 
+## Outreach
+
+### The research brief
+
+```
+python -m pipeline.dossier --state IL > illinois-brief.md
+python -m pipeline.dossier --state IL --gaps-only    # only where no name is known
+```
+
+Six sections per organization: official name and website; main location and
+service area; operational priorities and service lines; published general
+contact; up to three decision-maker roles; source URLs and a verification date.
+
+Three rules make it worth reading:
+
+- **Every claim carries its source and the date that source describes.** A name
+  from a Form 990 says which tax year; a name from a web page links the page and
+  gives the day it was read.
+- **A role is always given; a name only sometimes.** "Chief Information Officer,
+  name not established" is a usable research task. A guessed name is a liability,
+  so the section lists the roles worth approaching whether or not anyone is named
+  — and a role this database *can* name is preferred over one it cannot.
+- **Anything unconfirmed is flagged with its reason**: a name read off a page by
+  a heuristic, a crawl older than a year, an EIN still in the review queue.
+
+No email address is ever constructed. Where none is published the brief says so
+and tells you to establish the official domain first — which is the point at
+which a finder tool becomes appropriate, aimed at a *role* rather than at a
+guessed address.
+
+### Compliance guardrails
+
+CAN-SPAM applies to commercial email **including business-to-business**. The
+obligations are properties of the message you send, not of this database, so
+they travel at the top of every contacts export where whoever writes the message
+will see them: accurate sender and headers, a non-deceptive subject, a physical
+postal address, a working opt-out, honoured within **ten business days**.
+
+Set your own in `config.yaml`:
+
+```yaml
+app:
+  postal_address: "954 W. Washington Blvd. Ste 535, Chicago, IL 60607"
+  opt_out_contact: "Reply with UNSUBSCRIBE, or email allstar.partners"
+  suppression_file: suppression.txt
+```
+
+A missing postal address is called out in the export rather than quietly
+omitted — silently leaving it out is how a message ships without one.
+
+**The suppression list** at `data/suppression.txt` is honoured by every contacts
+export, every time. One entry per line; `#` starts a comment, so the file can
+record who asked and when:
+
+```
+# asked to be removed by phone, 4 September
+grace.okoro@example.org       # one person
+@blockedcenter.org            # everyone at one health center
+Erie Family Health Centers    # one organization, however matched
+```
+
+Matching rows are **removed** from the export, not marked — a row still in the
+file is a row somebody can still email — and the header says how many went.
+
+**What the crawler will not read.** `robots.txt` is always honoured, but it is
+not the boundary that matters. Patient portals, logins, bill payment, appointment
+booking, medical records and prescription refills are refused **by name and
+independently of any file on the server**, at the fetcher, so a URL from any
+source — the site's own navigation, a search result, a redirect — passes the same
+gate. None of them has ever held a leadership listing.
+
+**What this database has no column for**: patient information of any kind,
+residential addresses, personal (non-work) email, mobile numbers, and biometric
+identifiers or biometric information — the last of which matters particularly in
+Illinois under BIPA. Contact details are work addresses and main telephone
+numbers an organization published about itself.
+
 ## Importing a third-party spreadsheet
 
 ```

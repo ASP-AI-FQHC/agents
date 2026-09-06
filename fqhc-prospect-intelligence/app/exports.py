@@ -17,6 +17,7 @@ from openpyxl.utils import get_column_letter
 
 from app import formatting
 from app.config import Config
+from app.outreach import Suppression, compliance_block
 from app.formatting import NOT_AVAILABLE
 from app.queries import ContactRow, DataStatus, Filters, ProspectRow
 from pipeline.propublica import format_ein
@@ -282,20 +283,76 @@ def _contact_values(contact: ContactRow) -> dict[str, object]:
     }
 
 
+def apply_suppression(
+    contacts: list[ContactRow], suppression: Suppression | None
+) -> tuple[list[ContactRow], int]:
+    """Drop everyone who has opted out. Returns the survivors and the count.
+
+    Removed, not marked: a row that is still in the file is a row somebody can
+    still email. The count is reported in the header so a shrinking list is
+    explained rather than mysterious.
+    """
+    if suppression is None or suppression.is_empty:
+        return contacts, 0
+
+    kept = [
+        contact
+        for contact in contacts
+        if suppression.blocks(
+            email=contact.email, organization=contact.organization.name
+        )
+        is None
+    ]
+    return kept, len(contacts) - len(kept)
+
+
+def _contact_header(
+    config: Config,
+    filters: Filters,
+    row_count: int,
+    status: DataStatus | None,
+    generated_at: datetime | None,
+    suppressed: int,
+) -> list[list[str]]:
+    """Provenance, then the compliance block, then the source caveat."""
+    block = _header_block(config, filters, row_count, status, generated_at)[:-1]
+    if suppressed:
+        block.append(
+            [f"Suppressed: {suppressed:,} contact(s) removed as opted out"]
+        )
+    block.append([])
+    block.extend(
+        [line]
+        for line in compliance_block(
+            config.app.company,
+            config.app.postal_address,
+            config.app.opt_out_contact,
+            generated_at=generated_at,
+        )
+    )
+    block.append([])
+    block.append(list(_CONTACT_CAVEAT))
+    block.append([])
+    return block
+
+
 def contacts_to_csv(
     contacts: list[ContactRow],
     config: Config,
     filters: Filters,
     status: DataStatus | None = None,
     generated_at: datetime | None = None,
+    suppression: Suppression | None = None,
 ) -> str:
+    contacts, suppressed = apply_suppression(contacts, suppression)
+
     buffer = io.StringIO()
     writer = csv.writer(buffer, lineterminator="\n")
 
-    for line in _header_block(config, filters, len(contacts), status, generated_at):
+    for line in _contact_header(
+        config, filters, len(contacts), status, generated_at, suppressed
+    ):
         writer.writerow(line)
-    writer.writerow(_CONTACT_CAVEAT)
-    writer.writerow([])
 
     writer.writerow([label for label, _ in CONTACT_COLUMNS])
     for contact in contacts:
@@ -315,17 +372,21 @@ def contacts_to_xlsx(
     filters: Filters,
     status: DataStatus | None = None,
     generated_at: datetime | None = None,
+    suppression: Suppression | None = None,
 ) -> bytes:
+    contacts, suppressed = apply_suppression(contacts, suppression)
+
     workbook = Workbook()
     sheet = workbook.active
     sheet.title = "Contacts"
 
-    header_block = _header_block(config, filters, len(contacts), status, generated_at)
-    # Slot the caveat in before the closing blank line of the block.
-    header_block = [*header_block[:-1], list(_CONTACT_CAVEAT), []]
-
     _write_sheet(
-        sheet, CONTACT_COLUMNS, [_contact_values(c) for c in contacts], header_block
+        sheet,
+        CONTACT_COLUMNS,
+        [_contact_values(c) for c in contacts],
+        _contact_header(
+            config, filters, len(contacts), status, generated_at, suppressed
+        ),
     )
 
     stream = io.BytesIO()
