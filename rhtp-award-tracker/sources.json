@@ -1,0 +1,80 @@
+{
+  "_comment": "Sources the RHTP Award Tracker checks every run. Edit freely; the routine reads this file fresh each time. 'kind' is a hint for how to read the page.",
+  "recipients": ["gfuller@allstarpartners.com", "jdudek@allstarpartners.com"],
+  "states": {
+    "AR": {
+      "name": "Arkansas",
+      "agency": "Arkansas Department of Health / Arkansas RHTP",
+      "fy2026_award": "$208,779,396",
+      "program_site": "https://arkansasrhtp.com/",
+      "sources": [
+        {"url": "https://arkansasrhtp.com/", "kind": "program-home"},
+        {"url": "https://arkansasrhtp.com/resources/", "kind": "nofo-and-documents"},
+        {"url": "https://arkansasrhtp.com/thrive/", "kind": "initiative"},
+        {"url": "https://arkansasrhtp.com/pact/", "kind": "initiative"},
+        {"url": "https://arkansasrhtp.com/rise/", "kind": "initiative", "note": "Awards not yet announced as of 2026-09-10"},
+        {"url": "https://arkansasrhtp.com/heart/", "kind": "initiative", "note": "Awards not yet announced as of 2026-09-10"},
+        {"url": "https://governor.arkansas.gov/newsroom/", "kind": "press-releases"},
+        {"url": "https://senate.arkansas.gov/senate-news/", "kind": "press-releases"},
+        {"url": "https://www.arkansas.gov/tss/procurement/bids/index.php", "kind": "procurement", "search_terms": ["rural health", "RHTP", "telehealth"]}
+      ]
+    },
+    "IL": {
+      "name": "Illinois",
+      "agency": "Illinois Department of Healthcare and Family Services (HFS)",
+      "fy2026_award": "$193,400,000",
+      "program_site": "https://hfs.illinois.gov/info/fedresctr/ruralhealthtp.html",
+      "sources": [
+        {"url": "https://hfs.illinois.gov/info/fedresctr/ruralhealthtp.html", "kind": "program-home"},
+        {"url": "https://il.amplifund.com/Public/Opportunities", "kind": "nofo-portal", "note": "HFS posts RHTP NOFOs here (Euna Grants / AmpliFund). Look for Department of Healthcare and Family Services opportunities."},
+        {"url": "https://hfs.illinois.gov/info/fedresctr.html", "kind": "program-parent"},
+        {"url": "https://www.illinois.gov/news.html", "kind": "press-releases", "search_terms": ["rural health", "HFS"]},
+        {"url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332055&arg_ProgOfficeCode=190", "kind": "federal-award-record", "note": "CMS award to Illinois. A new amendment or action here means a new federal tranche."},
+        {"url": "https://www.bidbuy.illinois.gov/", "kind": "procurement", "search_terms": ["rural health", "RHTP"]}
+      ]
+    },
+    "IN": {
+      "name": "Indiana",
+      "agency": "Indiana Department of Health (IDOH) and FSSA — 'Grow Rural Health'",
+      "fy2026_award": "$206,900,000",
+      "program_site": "https://www.in.gov/grow-rural-health/",
+      "sources": [
+        {"url": "https://www.in.gov/grow-rural-health/", "kind": "program-home"},
+        {"url": "https://www.in.gov/grow-rural-health/regional-grants/", "kind": "nofo-and-documents", "note": "GROW Regional Grants, $120M year one. Awards expected by October 2026."},
+        {"url": "https://www.in.gov/grow-rural-health/initiatives/", "kind": "initiative-index", "note": "11 statewide initiatives, each with its own page /initiatives/initiative-N"},
+        {"url": "https://www.in.gov/grow-rural-health/resources/", "kind": "nofo-and-documents"},
+        {"url": "https://www.in.gov/gov/newsroom/", "kind": "press-releases", "search_terms": ["rural health", "GROW"]},
+        {"url": "https://events.in.gov/", "kind": "press-releases", "search_terms": ["IDOH news release rural health"]},
+        {"url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332070&arg_ProgOfficeCode=190", "kind": "federal-award-record"},
+        {"url": "https://www.in.gov/idoa/procurement/", "kind": "procurement", "search_terms": ["rural health", "RHTP"]}
+      ]
+    },
+    "WI": {
+      "name": "Wisconsin",
+      "agency": "Wisconsin Department of Health Services (DHS)",
+      "fy2026_award": "$203,700,000",
+      "program_site": "https://www.dhs.wisconsin.gov/rhtp/index.htm",
+      "sources": [
+        {"url": "https://www.dhs.wisconsin.gov/rhtp/index.htm", "kind": "program-home"},
+        {"url": "https://www.dhs.wisconsin.gov/business/solicitations-list.htm", "kind": "nofo-portal", "note": "DHS grant and contract solicitations. Filter for RHTP / rural."},
+        {"url": "https://www.dhs.wisconsin.gov/news/releases.htm", "kind": "press-releases"},
+        {"url": "https://dwd.wisconsin.gov/det/heart/", "kind": "partner-grant", "note": "Workforce Development HEART grants funded by RHTP"},
+        {"url": "https://dpi.wi.gov/cte/rhtp-grant", "kind": "partner-grant", "note": "Dept of Public Instruction RHTP grant"},
+        {"url": "https://vendornet.wi.gov/", "kind": "procurement", "search_terms": ["rural health", "RHTP", "DHS"]}
+      ]
+    }
+  },
+  "federal": [
+    {"url": "https://www.cms.gov/newsroom/press-releases", "kind": "press-releases", "note": "Only items mentioning Arkansas, Illinois, Indiana, or Wisconsin, or program-wide funding actions."},
+    {"url": "https://www.medicaid.gov/resources-for-states/rural-health", "kind": "program-home", "note": "CMS program page (cms.gov RHT URL redirects here)."}
+  ],
+  "web_search_fallback": {
+    "enabled": true,
+    "queries_per_state": [
+      "\"{state}\" \"Rural Health Transformation\" awards",
+      "\"{state}\" \"Rural Health Transformation\" grant applications open",
+      "\"{state}\" RHTP RFP OR solicitation OR vendor"
+    ],
+    "lookback_days": 4
+  }
+}
