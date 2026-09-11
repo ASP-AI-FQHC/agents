@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-09-10",
+  "last_run": "2026-09-11",
   "runs": [
     {
       "date": "2026-09-10",
@@ -11,6 +11,17 @@
       "items_updated": 0,
       "email_sent": true,
       "email_type": "baseline"
+    },
+    {
+      "date": "2026-09-11",
+      "sources_checked": 31,
+      "sources_failed": 31,
+      "sources_failed_note": "Direct WebFetch and curl calls to all state/federal source domains again returned EGRESS_BLOCKED / CONNECT tunnel 403 from the network egress proxy (confirmed via /__agentproxy/status and a direct curl test). Re-checked via WebSearch using the sources.json fallback queries plus targeted follow-ups on baseline open items: IN GROW regions 2/3/4/8 (still unannounced), WI Rural Technology Transformation Fund Round 1 awardees (still pending, estimated Sept 2026), IL Hospital Transformation Planning Grant awardee list (not yet published), IL Community Care Infrastructure / Healthcare Transformation Collaboratives NOFO deadlines (still unconfirmed), AR RISE/HEART NOFOs (still not opened), and IL/WI/IN procurement portals (no new RHTP-tagged solicitations found).",
+      "items_new": 0,
+      "items_updated": 0,
+      "email_sent": false,
+      "email_type": null,
+      "note": "One new document surfaced (CMS press release dated 2026-09-03, 'Trump Administration Announces $120 Million to Expand Maternal and Infant Health Services... Across Indiana', https://www.cms.gov/newsroom/press-releases/trump-administration-announces-120-million-expand-maternal-infant-health-services-increase-primary) but it restates the same $120M GROW Regional Grants tranche, program description, and 8-region structure already captured in the baseline (regions 1/5/6/7 awards, applications-open notice) with no new amount, recipient, or deadline -- treated as not material and not added as a tracked item or emailed."
     }
   ],
   "items": [
