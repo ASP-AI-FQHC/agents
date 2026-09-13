@@ -19,7 +19,10 @@ const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
   if (!pass) { console.error('JWPUB_PASSWORD not set'); process.exit(3); }
   for (const n of ['code.txt', 'otp-requested.flag', 'out.json']) fs.rmSync(f(n), { force: true });
 
-  const browser = await chromium.launch({ headless: true });
+  const preinstalled = '/opt/pw-browsers/chromium';
+  const launchOpts = { headless: true };
+  if (fs.existsSync(preinstalled)) launchOpts.executablePath = preinstalled;
+  const browser = await chromium.launch(launchOpts);
   const ctx = await browser.newContext({ userAgent: UA, viewport: { width: 1400, height: 1400 } });
   const page = await ctx.newPage();
   const settle = async () => { await page.waitForLoadState('networkidle').catch(() => {}); await page.waitForTimeout(3000); };
