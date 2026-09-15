@@ -1,6 +1,6 @@
 {
   "_comment": "Sources the RHTP Award Tracker checks every run. Edit freely; the routine reads this file fresh each time. 'kind' is a hint for how to read the page.",
-  "recipients": ["gfuller@allstarpartners.com", "jdudek@allstarpartners.com"],
+  "recipients": ["gfuller@allstarpartners.com", "jdudek@allstarpartners.com", "Star@4dhealthware.com"],
   "states": {
     "AR": {
       "name": "Arkansas",
@@ -62,10 +62,110 @@
         {"url": "https://dpi.wi.gov/cte/rhtp-grant", "kind": "partner-grant", "note": "Dept of Public Instruction RHTP grant"},
         {"url": "https://vendornet.wi.gov/", "kind": "procurement", "search_terms": ["rural health", "RHTP", "DHS"]}
       ]
+    },
+    "MO": {
+      "name": "Missouri",
+      "agency": "Missouri Department of Social Services (MO HealthNet Division) / Missouri Rural Health Transformation Office — 'ToRCH Care' (Transformation of Rural Community Health Care)",
+      "fy2026_award": "$216,276,818",
+      "program_site": "https://dss.mo.gov/mhd/rural-health",
+      "status_note": "CMS approved Missouri's $216M Year 1 budget in April 2026. DSS has issued a Vital Rural Hospital Repairs IFB (Apr 2026), selected 27 ToRCH Care Hub Anchors (Jul 2026), signed mobile-health (~$6.5M) and doula-workforce ($733K) partnerships, opened a Smart Growth & Service Line IFB (up to $5M/award) and a Virtual Care Expansion RFI (RPM for maternal care, telehealth specialist access; closed 2026-09-09). Roughly $130M committed by mid-August; Year 1 funds must be obligated by 2026-10-30.",
+      "sources": [
+        {"url": "https://dss.mo.gov/mhd/rural-health", "kind": "program-home", "note": "Main RHTP/ToRCH Care page: current RFPs/RFIs/IFBs, hub anchor list, webinars, newsletters, GovDelivery bulletins."},
+        {"url": "https://dss.mo.gov/node/33166", "kind": "nofo-and-documents", "note": "Year 1 fund distribution by pillar (~$202M to rural health; Digital Foundation $56.2M, Provider Strengthening $57.2M, Hubs $52.0M, Workforce $17.8M, APMs $8.8M)."},
+        {"url": "https://content.govdelivery.com/accounts/MODSS/bulletins/420acc4", "kind": "initiative", "note": "2026-07-17: 27 ToRCH Care Hub Anchor organizations selected from 41 applicants."},
+        {"url": "https://dss.mo.gov/hr1/news-updates", "kind": "press-releases", "note": "DSS H.R.1/RHTP news and updates page (links to GovDelivery bulletins)."},
+        {"url": "https://governor.mo.gov/press-releases", "kind": "press-releases"},
+        {"url": "https://missouribuys.mo.gov/", "kind": "procurement", "search_terms": ["rural health", "RHTP", "DSS26015", "telehealth", "remote patient monitoring", "hospital repairs"], "note": "MissouriBUYS bid board; RHTP solicitations post here (e.g. Smart Growth & Service Line IFB DSS26015; Virtual Care Expansion RFI, closed 2026-09-09). Requires interactive search."},
+        {"url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332090&arg_ProgOfficeCode=190", "kind": "federal-award-record", "note": "Award RHTCMS332090, Missouri DSS, $216,276,818 FY2026."},
+        {"url": "https://memsa.org/rht-funding/", "kind": "partner-grant", "unverified": true, "note": "Mobile Integrated Healthcare / Community Paramedicine sub-grants administered by Missouri EMS Association. Not verified as of 2026-09-15."}
+      ]
+    },
+    "TN": {
+      "name": "Tennessee",
+      "agency": "Tennessee Department of Health — 'Rural Health Access for Tennessee's Future' / Tennessee RHTP",
+      "fy2026_award": "$206,888,882",
+      "program_site": "https://www.tn.gov/health/rural.html",
+      "status_note": "TDH rolled out nine competitive RHTP grant opportunities weekly from 2026-05-15 to 2026-07-10 via its Caspio Partner Portal. On 2026-09-03 it announced the first 53 awards (HART built-environment projects in 44 counties). Awards for the remaining lines are pending; TDH aims to commit all Year 1 funds by the CMS 2026-10-30 deadline.",
+      "sources": [
+        {"url": "https://www.tn.gov/health/rural.html", "kind": "program-home", "note": "Eight competitive grant lines (Service Line Expansion & Co-Location, Maternal & Child Health, MaRTHA, Rural Non-Emergency Transportation, Health-Tech, CARE, Healthy Built Environment, Policy/Systems/Environmental); reimbursement-based grants; links to Partner Portal."},
+        {"url": "https://tndeptofhealth.caspio.app/tdh-partner-portal/home", "kind": "nofo-portal", "unverified": true, "note": "TDH Partner Portal (Caspio) where RHTP opportunities are posted and applications submitted. JavaScript-rendered; may not fetch. Fall back to web search."},
+        {"url": "https://www.tn.gov/health/news/2026/5/15/tennessee-to-release-1st-grant-funding-opportunity-of-rural-health-transformation-program.html", "kind": "nofo-and-documents", "note": "2026-05-15: nine competitive opportunities released weekly May 15 to Jul 10 2026."},
+        {"url": "https://www.tn.gov/health/news/2026/9/3/tennessee-department-of-health-announces-1st-recipients-of-rural-health-transformation-program-grants.html", "kind": "initiative", "note": "2026-09-03: first 53 awards (Healthy Active Rural Tennessee line) across 44 counties."},
+        {"url": "https://www.tn.gov/health/news.html", "kind": "press-releases", "note": "TDH newsroom."},
+        {"url": "https://www.tn.gov/generalservices/procurement/central-procurement-office--cpo-/supplier-information/request-for-proposals--rfp--opportunities1.html", "kind": "procurement", "search_terms": ["rural health transformation", "RHTP", "Department of Health", "telehealth"], "note": "Central Procurement Office RFP page (e.g. RFP 34320-21327 RHTP Grantee Marketing & Messaging TA, due 2026-09-10)."},
+        {"url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332057&arg_ProgOfficeCode=190", "kind": "federal-award-record", "note": "Award RHTCMS332057, Tennessee Department of Health, $206,888,882 FY2026."}
+      ]
+    },
+    "MS": {
+      "name": "Mississippi",
+      "agency": "Office of the Governor — Mississippi RHTP Office, with the Mississippi State Department of Health and Division of Medicaid",
+      "fy2026_award": "$205,907,220",
+      "program_site": "https://mississippirhtp.com/",
+      "status_note": "Mississippi stood up a Governor's-office RHTP Office and MississippiRHTP.com in Apr 2026, opened three provider grant programs (technology, capital care-gap closure, telehealth) in June that drew 724 applications, and on 2026-09-14 announced 167 awards totaling $104.1M. WEI and PES/EmPATH awards expected roughly late Oct 2026; further opportunities for innovative rural care and EHR modernization slated to open in October.",
+      "sources": [
+        {"url": "https://mississippirhtp.com/", "kind": "program-home", "note": "Five initiatives: CRIS, WEI, HTAM, TAPS, BRIDGE."},
+        {"url": "https://mississippirhtp.com/funding/", "kind": "nofo-portal", "note": "Funding opportunities page: RCGC, RTG, TCE selections complete; WEI and PES-EmPATH (Jul 15 to Aug 17 2026) closed and under review; EMS Capacity Assessment RFP closed 2026-07-24; HIE consultant opportunity via Knowledge Services."},
+        {"url": "https://mississippirhtp.com/resources/", "kind": "nofo-and-documents", "note": "NOFOs and applications (RCGC, RTG, TCE, WEI, CRIS), Program Manual, CMS Notice of Award, project narrative, Q&A tables."},
+        {"url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/", "kind": "initiative", "note": "2026-09-14: 167 awards / $104,115,146 itemized (97 Rural Provider Technology, 43 Capital Care Gap Closure, 27 Telehealth Hub CE&E)."},
+        {"url": "https://governorreeves.ms.gov/newsroom/", "kind": "press-releases", "note": "Governor Reeves newsroom; RHTP announcements are issued from the Governor's office."},
+        {"url": "https://medicaid.ms.gov/rural-health-transformation-program/", "kind": "initiative-index", "note": "Division of Medicaid RHTP page (planning-phase content; links to DOM procurement page)."},
+        {"url": "https://www.ms.gov/dfa/contract_bid_search/Bid?autoloadGrid=False", "kind": "procurement", "search_terms": ["rural health", "RHTP", "telehealth", "health information exchange", "EMS"], "note": "Mississippi DFA/MAGIC procurement opportunity search."},
+        {"url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332063&arg_ProgOfficeCode=190", "kind": "federal-award-record", "note": "Award RHTCMS332063, Executive Office of the State of Mississippi, $205,907,220 FY2026."}
+      ]
+    },
+    "LA": {
+      "name": "Louisiana",
+      "agency": "Louisiana Department of Health (LDH) / Office of Rural Health Transformation and Sustainability (ORHTS)",
+      "fy2026_award": "$208,374,448",
+      "program_site": "https://ldh.la.gov/page/rural-health-transformation-program",
+      "status_note": "All seven Year 1 NOFOs closed between 2026-06-25 and 2026-08-14. The Rural Clinician Credit Bank has awarded $12.7M to 53 facilities across 28 parishes; Notices of Intent to Contract for the other six programs were slated for September 2026. Rural Tech Catalyst Fund Cohort 1 awards expected mid-Oct 2026; Year 2 NOFOs (including an EHR voucher NOFO) targeted for ~Nov 2026; next Advisory Council meeting 2026-11-05.",
+      "sources": [
+        {"url": "https://ldh.la.gov/page/rural-health-transformation-program", "kind": "program-home", "note": "Lists all Year 1 NOFOs, monthly webinar slides, surveys (EPIC interest, EHR/interoperability, VBC/APM readiness) and an Important Dates block. Site returns 403 to non-browser user agents; curl with a browser User-Agent."},
+        {"url": "https://ldh.la.gov/page/rhtp-funding-opportunities", "kind": "nofo-and-documents", "note": "Seven Year 1 NOFOs (Rural Clinician Credit Bank, Collaborative Provider Models, Rural Medicaid APM, Regional Care Conveners, Food is Medicine, Telehealth Infrastructure, Rural Health Facilities Capital Improvement). Year 1 deadlines Jun 25 to Aug 14 2026; Year 2 windows expected ~Nov 2026."},
+        {"url": "https://la.io/rural/", "kind": "partner-grant", "note": "Rural Tech Catalyst Fund run by LDH + Louisiana Innovation for health-tech startups; Cohort 1 awards expected mid-Oct 2026, Cohort 2 opening soon."},
+        {"url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/LARHTP_Implementation-Partner-RFI-13July2026-Final.pdf", "kind": "procurement", "note": "July 2026 RFI for implementation workforce for a state-managed rural EHR (Epic Community Connect model); an EHR Voucher NOFO for providers is planned for grant period 2."},
+        {"url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/Shareholder-Presentation-09092026.pdf", "kind": "nofo-and-documents", "note": "Sept 2026 webinar slides: Rural Clinician Credit Bank results (53 awards, $12.7M) and EHR voucher program design."},
+        {"url": "https://ldh.la.gov/news", "kind": "press-releases", "note": "LDH newsroom."},
+        {"url": "https://gov.louisiana.gov/news", "kind": "press-releases"},
+        {"url": "https://wwwcfprd.doa.louisiana.gov/osp/lapac/pubmain.cfm", "kind": "procurement", "search_terms": ["rural health", "RHTP", "telehealth", "electronic health record", "Department of Health"], "note": "LaPAC (Office of State Procurement)."},
+        {"url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332085&arg_ProgOfficeCode=190", "kind": "federal-award-record", "note": "Award RHTCMS332085, $208,374,448 FY2026."}
+      ]
+    },
+    "TX": {
+      "name": "Texas",
+      "agency": "Texas Health and Human Services Commission (HHSC), Provider Finance Department — 'Rural Texas Strong'",
+      "fy2026_award": "$281,319,361",
+      "program_site": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
+      "status_note": "CMS approved Rural Texas Strong on 2026-04-07. HHSC opened Initiative 1 (MRTHA direct awards to ~80 rural hospital districts, ~$250M), Initiative 4 (workforce, $99M; rounds due 2026-05-27 and 2026-08-26) and Initiative 6 Part 1 (equipment, $70.4M) in Apr to Jun 2026, with notices of award Jun to Sep 2026 and programs starting 2026-09-30. Initiatives 2 (patient portals/RPM), 3 (AI/telehealth) and 5 (cybersecurity) are scheduled to open Oct to Dec 2026 with awards Jan to Mar 2027. HIGH relevance for Allstar Partners.",
+      "sources": [
+        {"url": "https://pfd.hhs.texas.gov/rural-health-transformation-program", "kind": "program-home", "note": "Full initiative timeline table (application deadlines, notice-of-award and contract dates for Initiatives 1 to 6), project narratives, NOAs, FAQs. Applicants use the HHSC Grants Management System."},
+        {"url": "https://resources.hhs.texas.gov/rfa", "kind": "nofo-portal", "note": "HHSC RFA/grants listing (Rural Texas Strong RFAs such as HHS0017212 Initiative 4)."},
+        {"url": "https://www.hhs.texas.gov/news", "kind": "press-releases", "note": "HHSC newsroom (e.g. 2026-04-29 $99M workforce release)."},
+        {"url": "https://gov.texas.gov/news", "kind": "press-releases", "search_terms": ["rural", "HHSC", "Rural Texas Strong"]},
+        {"url": "https://www.txsmartbuy.gov/esbd", "kind": "procurement", "search_terms": ["rural health", "Rural Texas Strong", "telehealth", "cybersecurity", "HHSC"], "note": "Electronic State Business Daily; HHSC says Rural Texas Strong vendor procurements post here and are announced via GovDelivery topic TXHHSC_1016."},
+        {"url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332068&arg_ProgOfficeCode=190", "kind": "federal-award-record", "note": "Award RHTCMS332068, $281,319,361 FY2026."}
+      ]
+    },
+    "OK": {
+      "name": "Oklahoma",
+      "agency": "Oklahoma State Department of Health (OSDH) lead, with Oklahoma Health Care Authority (OKSHINE HIE), State Dept. of Education and Healthcare Workforce Training Commission",
+      "fy2026_award": "$223,476,949",
+      "program_site": "https://oklahoma.gov/health/rhtp.html",
+      "status_note": "Funds released to OSDH 2026-03-06; 29 programs launched in Budget Period 1. Microgrants awarded to 73 organizations in 68 of 75 rural counties, 60 ROOTS school grants made, 20 organizations notified of Rural Regional Reorientation awards; Doula, EMS vehicle, Behavioral Health Integration and Chronic Disease Management rounds closed with awardee lists not yet posted. Budget Period 1 funds must be obligated by 2026-10-30; Budget Period 2 opportunities expected Jan 2027.",
+      "sources": [
+        {"url": "https://oklahoma.gov/health/rhtp.html", "kind": "program-home", "note": "Six initiatives, 32 sub-initiatives; regional champions, roadshows, FAQs, legislative quarterly reports."},
+        {"url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html", "kind": "nofo-and-documents", "note": "Open and closed NOFOs. ROOTS Year 2 school grants open through 2026-10-15; closed: Microgrants, Rural Regional Reorientation, Doulas, EMS/Community Paramedicine vehicles, Behavioral Health Integration, Chronic Disease Management."},
+        {"url": "https://oklahoma.gov/health/rhtp/rhtp-funding-recipients.html", "kind": "nofo-and-documents", "note": "Award lists: 73 Community-Led Wellness Hub microgrants and 60 ROOTS school grants."},
+        {"url": "https://oklahoma.gov/ohca/okshine/rhtp.html", "kind": "initiative", "note": "OHCA/OKSHINE ~$16M HIE, EHR and data-analytics sub-initiative; HIE connection-fee application portal. HIGH relevance."},
+        {"url": "https://oklahoma.gov/health/news---events/newsroom.html", "kind": "press-releases", "note": "OSDH newsroom."},
+        {"url": "https://oklahoma.gov/governor/newsroom.html", "kind": "press-releases"},
+        {"url": "https://www.ok.gov/dcs/solicit/app/index.php", "kind": "procurement", "search_terms": ["rural health", "RHTP", "telehealth", "Department of Health", "Health Care Authority"], "note": "OMES Central Purchasing public solicitation search; the PeopleSoft supplier portal requires login."},
+        {"url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332048&arg_ProgOfficeCode=190", "kind": "federal-award-record", "note": "Award RHTCMS332048, $223,476,949 FY2026."}
+      ]
     }
   },
   "federal": [
-    {"url": "https://www.cms.gov/newsroom/press-releases", "kind": "press-releases", "note": "Only items mentioning Arkansas, Illinois, Indiana, or Wisconsin, or program-wide funding actions."},
+    {"url": "https://www.cms.gov/newsroom/press-releases", "kind": "press-releases", "note": "Only items mentioning one of the ten tracked states (AR, IL, IN, WI, MO, TN, MS, LA, TX, OK), or program-wide funding actions."},
     {"url": "https://www.medicaid.gov/resources-for-states/rural-health", "kind": "program-home", "note": "CMS program page (cms.gov RHT URL redirects here)."}
   ],
   "web_search_fallback": {

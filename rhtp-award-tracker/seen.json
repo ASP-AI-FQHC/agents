@@ -1,5 +1,6 @@
 {
   "initialized": true,
+  "baseline_pending": ["MO", "TN", "MS", "LA", "TX", "OK"],
   "last_run": "2026-09-15",
   "runs": [
     {
