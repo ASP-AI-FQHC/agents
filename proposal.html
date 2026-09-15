@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASP Secure IT&reg; Managed Services Proposal &mdash; SPR-82MVA4 | ALLSTAR Partners</title>
+<meta name="description" content="ALLSTAR Partners ASP Secure IT managed cybersecurity services proposal prepared for Any FQHC.">
+<style>
+    :root {
+        --teal:#0094BB; --purple:#524FA2; --magenta:#CF118C;
+        --orange:#F58220; --yellow:#FFD503; --green:#6FC055;
+        --ink:#1a1a1a; --body:#333333; --muted:#6b6b6b;
+        --line:#e3e7ea; --bg:#eef1f4; --paper:#ffffff; --soft:#f6f8fa;
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+        margin:0; background:var(--bg); color:var(--body);
+        font-family:'Segoe UI',Arial,'Helvetica Neue',Helvetica,sans-serif;
+        line-height:1.6; -webkit-font-smoothing:antialiased;
+    }
+    a{color:var(--teal);}
+    .rainbow{height:8px;width:100%;
+        background:linear-gradient(90deg,
+            var(--teal) 0 16.66%, var(--purple) 16.66% 33.33%, var(--magenta) 33.33% 50%,
+            var(--orange) 50% 66.66%, var(--yellow) 66.66% 83.33%, var(--green) 83.33% 100%);}
+    .page{max-width:920px;margin:0 auto;background:var(--paper);box-shadow:0 10px 40px rgba(0,0,0,.10);}
+
+    /* Toolbar (screen only) */
+    .toolbar{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;
+        gap:1rem;max-width:920px;margin:0 auto;padding:.7rem 1.5rem;background:#0b3a49;color:#fff;}
+    .toolbar .m{font-size:.83rem;opacity:.9;}
+    .toolbar .m strong{color:#fff;}
+    .btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:600;font-size:.88rem;color:#fff;
+        background:var(--magenta);padding:.55rem 1.1rem;border-radius:5px;white-space:nowrap;transition:filter .15s,transform .15s;}
+    .btn:hover{filter:brightness(1.08);transform:translateY(-1px);}
+    .btn:focus-visible{outline:3px solid #fff;outline-offset:2px;}
+
+    /* Cover */
+    .cover{padding:2.6rem 3rem 2.2rem;text-align:center;}
+    .cover .logo{max-width:320px;width:70%;height:auto;margin:0 auto .4rem;display:block;}
+    .tagband{background:var(--teal);color:#fff;font-size:1.15rem;font-weight:600;letter-spacing:.3px;
+        padding:.55rem 1rem;margin:1.4rem auto 0;max-width:640px;border-radius:3px;}
+    .cover h1{margin:1.9rem 0 .2rem;color:var(--ink);font-size:2.15rem;font-weight:800;line-height:1.15;}
+    .cover h1 .reg{font-size:1.1rem;vertical-align:super;color:var(--muted);font-weight:600;}
+    .cover .sub{color:var(--muted);font-size:1.02rem;margin:0;}
+
+    .meta{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:680px;margin:2rem auto 0;
+        border:1px solid var(--line);border-radius:8px;overflow:hidden;text-align:left;}
+    .meta div{padding:.85rem 1.1rem;border-bottom:1px solid var(--line);}
+    .meta div:nth-child(odd){border-right:1px solid var(--line);background:var(--soft);}
+    .meta .k{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700;}
+    .meta .v{font-size:1rem;color:var(--ink);font-weight:600;margin-top:1px;}
+    .meta div:nth-last-child(-n+2){border-bottom:0;}
+
+    /* Body */
+    .body{padding:2.4rem 3rem 2.6rem;}
+    section{margin-bottom:2.6rem;}
+    .sec-head{display:flex;align-items:center;gap:.7rem;margin:0 0 1rem;padding-bottom:.55rem;
+        border-bottom:2px solid var(--teal);}
+    .sec-head .n{flex:none;width:30px;height:30px;border-radius:6px;background:var(--teal);color:#fff;
+        font-weight:800;font-size:.95rem;display:grid;place-items:center;}
+    .sec-head h2{margin:0;font-size:1.35rem;color:var(--ink);font-weight:800;}
+    h3{color:var(--purple);font-size:1.08rem;margin:1.4rem 0 .5rem;}
+    p{color:var(--body);}
+    .lede{font-size:1.05rem;color:#2c2c2c;}
+
+    .callout{border-left:5px solid var(--magenta);background:#fdf0f8;padding:.9rem 1.2rem;border-radius:0 6px 6px 0;color:#3a2733;}
+    .philo{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:1rem 1.25rem;font-style:italic;color:#2c2c2c;}
+    .philo strong{font-style:normal;color:var(--purple);}
+
+    /* Service summary cards */
+    .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .svc{border:1px solid var(--line);border-radius:9px;padding:1rem 1.15rem 1.1rem;position:relative;overflow:hidden;background:var(--paper);}
+    .svc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;}
+    .svc.c0::before{background:var(--teal);} .svc.c1::before{background:var(--purple);}
+    .svc.c2::before{background:var(--magenta);} .svc.c3::before{background:var(--orange);}
+    .svc.c4::before{background:var(--yellow);} .svc.c5::before{background:var(--green);}
+    .svc h4{margin:0 0 .4rem;font-size:1rem;color:var(--ink);padding-left:.4rem;}
+    .svc p{margin:0;font-size:.86rem;color:#4a4a4a;padding-left:.4rem;}
+
+    /* SOS blocks */
+    .sos{border:1px solid var(--line);border-radius:9px;padding:1.05rem 1.25rem;margin-bottom:1rem;}
+    .sos > h4{margin:0 0 .6rem;font-size:1.05rem;color:var(--ink);display:flex;align-items:center;gap:.5rem;}
+    .sos > h4 .dot{width:12px;height:12px;border-radius:3px;flex:none;}
+    .sos-cols{display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.6rem;}
+    .grp{margin-bottom:.5rem;}
+    .grp b{display:block;color:var(--purple);font-size:.82rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.15rem;}
+    .grp ul{margin:.1rem 0 .1rem 0;padding-left:1.1rem;}
+    .grp li{font-size:.85rem;color:#4a4a4a;margin:.12rem 0;}
+
+    /* Tables */
+    .twrap{border:1px solid var(--line);border-radius:9px;overflow:hidden;overflow-x:auto;margin:.6rem 0;}
+    table{width:100%;border-collapse:collapse;font-size:.92rem;}
+    caption{caption-side:top;text-align:left;font-weight:700;color:var(--ink);padding:.2rem 0 .5rem;}
+    thead th{background:var(--teal);color:#fff;text-align:left;font-size:.72rem;letter-spacing:.6px;
+        text-transform:uppercase;font-weight:700;padding:.7rem .95rem;}
+    thead th.num,tbody td.num{text-align:right;}
+    tbody td{padding:.7rem .95rem;border-top:1px solid var(--line);}
+    tbody tr:nth-child(even){background:var(--soft);}
+    tfoot td{padding:.75rem .95rem;border-top:2px solid var(--teal);font-weight:800;color:var(--ink);background:#e9f6fa;}
+    .mono{font-variant-numeric:tabular-nums;}
+    .svc-name{font-weight:600;color:var(--ink);} .svc-name span{color:var(--muted);font-weight:400;}
+
+    /* totals */
+    .totals{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.1rem;}
+    .tc{border:1px solid var(--line);border-radius:9px;padding:1.05rem;text-align:center;}
+    .tc.feat{background:var(--teal);border-color:transparent;color:#fff;}
+    .tc .k{font-size:.7rem;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-weight:700;}
+    .tc.feat .k{color:#d6f1f8;}
+    .tc .v{font-size:1.55rem;font-weight:800;color:var(--ink);margin-top:.15rem;font-variant-numeric:tabular-nums;}
+    .tc.feat .v{color:#fff;}
+    .tc .note{font-size:.72rem;color:var(--muted);} .tc.feat .note{color:#d6f1f8;}
+
+    .mini{width:100%;border-collapse:collapse;font-size:.92rem;margin:.4rem 0;}
+    .mini th,.mini td{border:1px solid var(--line);padding:.55rem .85rem;text-align:left;}
+    .mini th{background:var(--soft);color:var(--ink);width:60%;font-weight:600;}
+    .mini td{text-align:right;font-weight:700;color:var(--ink);}
+    .waived{color:var(--green);font-weight:800;}
+
+    .terms li{margin:.4rem 0;color:#3c3c3c;}
+    .terms li::marker{color:var(--magenta);}
+
+    .contact{display:grid;grid-template-columns:1.2fr 1fr;gap:1.2rem;border:1px solid var(--line);border-radius:9px;padding:1.2rem 1.35rem;background:var(--soft);}
+    .contact .co{font-weight:800;color:var(--ink);font-size:1.05rem;}
+    .contact div p{margin:.15rem 0;font-size:.92rem;}
+
+    .accept p{font-size:.9rem;color:#3c3c3c;}
+    .sign{display:grid;grid-template-columns:1fr 1fr;gap:2rem 2.5rem;margin-top:1.2rem;}
+    .sign .party{font-weight:800;color:var(--ink);border-bottom:2px solid var(--teal);padding-bottom:.3rem;margin-bottom:.9rem;}
+    .sign .row{display:flex;align-items:flex-end;gap:.5rem;margin-bottom:.9rem;}
+    .sign .row .lbl{font-size:.85rem;color:var(--muted);white-space:nowrap;}
+    .sign .row .ln{flex:1;border-bottom:1.4px solid #9aa4ac;height:1.15rem;}
+    .exhibit{margin-top:1.4rem;border:1px dashed var(--line);border-radius:8px;padding:.9rem 1.15rem;background:var(--paper);}
+    .exhibit b{color:var(--ink);} .exhibit ul{margin:.4rem 0 0;padding-left:1.1rem;} .exhibit li{font-size:.86rem;color:#4a4a4a;}
+
+    footer.doc{border-top:1px solid var(--line);padding:1.1rem 3rem 1.8rem;display:flex;justify-content:space-between;
+        align-items:center;gap:1rem;flex-wrap:wrap;font-size:.8rem;color:var(--muted);}
+    footer.doc .conf{color:var(--magenta);font-weight:700;}
+
+    @media (max-width:720px){
+        .cover,.body{padding-left:1.4rem;padding-right:1.4rem;}
+        .cover h1{font-size:1.7rem;}
+        .meta,.svc-grid,.sos-cols,.totals,.contact,.sign{grid-template-columns:1fr;}
+        footer.doc{padding-left:1.4rem;padding-right:1.4rem;}
+    }
+    @media print{
+        body{background:#fff;}
+        .no-print{display:none!important;}
+        .page{box-shadow:none;max-width:none;}
+        .rainbow,thead th,.tc.feat,.tagband,.sec-head .n,.svc::before,.sos>h4 .dot{
+            -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+        section,.svc,.sos,.tc,.twrap,tr{break-inside:avoid;}
+        .sec-head h2,h3{break-after:avoid;}
+        a{color:var(--ink);text-decoration:none;}
+    }
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+    <div class="m">Proposal <strong>SPR-82MVA4</strong> &middot; Valid through 09/10/2026 &middot; <span style="color:#ff7fc8;font-weight:700;">Confidential</span></div>
+    <button class="btn" onclick="window.print()">&#8595; Download / Print PDF</button>
+</div>
+
+<div class="page">
+    <div class="rainbow"></div>
+
+    <!-- Cover -->
+    <div class="cover">
+        <img class="logo" alt="ALLSTAR Partners" src="data:image/png;base64,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">
+        <div class="tagband">Security. Support. Solutions.</div>
+        <h1>ASP Secure IT <span class="reg">&reg;</span> Managed Services</h1>
+        <p class="sub">Managed Cybersecurity Services Proposal</p>
+
+        <div class="meta">
+            <div><div class="k">Prepared For</div><div class="v">Any FQHC</div></div>
+            <div><div class="k">Prepared By</div><div class="v">Guy Fuller &middot; gfuller@allstarpartners.com</div></div>
+            <div><div class="k">Proposal ID</div><div class="v">SPR-82MVA4</div></div>
+            <div><div class="k">Service Term</div><div class="v">36 Months</div></div>
+            <div><div class="k">Proposal Date</div><div class="v">08/11/2026</div></div>
+            <div><div class="k">Expiration Date</div><div class="v">09/10/2026</div></div>
+        </div>
+    </div>
+
+    <div class="body">
+
+        <!-- 1. Executive Overview -->
+        <section>
+            <div class="sec-head"><span class="n">1</span><h2>Executive Overview</h2></div>
+            <p class="lede">Any FQHC operates in a demanding environment where reliability, security, and cost control are essential to delivering safe, continuous care across every site it serves. As a Federally Qualified Health Center, dependable and secure technology is no longer optional&mdash;it is foundational to clinical operations, HIPAA compliance, and patient trust.</p>
+            <p>ALLSTAR Partners proposes a structured, predictive monthly billing model designed to eliminate the frustration and uncertainty of variable IT expenses. This approach replaces reactive, project-based invoicing with a consistent monthly investment that covers a broad range of technical support and security services. Any FQHC gains clear financial visibility while ensuring continuous access to experienced professionals who understand the operational demands of multi-site healthcare environments.</p>
+            <p>ALLSTAR Partners brings a proven track record of delivering reliable, high-value managed services to organizations that demand accountability, security, and consistency.</p>
+            <div class="philo"><strong>Our philosophy is simple:</strong> build stability, bake in security, and provide leadership&mdash;not just support. This proposal reflects a long-term partnership focused on operational confidence, financial predictability, and measurable results.</div>
+        </section>
+
+        <!-- 2. Proposal Summary -->
+        <section>
+            <div class="sec-head"><span class="n">2</span><h2>Proposal Summary</h2></div>
+            <p>Any FQHC (referred to as &ldquo;Client&rdquo;) delivers healthcare services to its community. ALLSTAR Partners (referred to as &ldquo;ASP&rdquo;) is a Cybersecurity-focused Managed Service Provider (MSP+) with extensive experience in supporting organizations like Any FQHC with their technology requirements. Any FQHC has requested a proposal from ASP to provide the following technology services:</p>
+            <div class="svc-grid">
+                <div class="svc c0"><h4>ASP Secure IT &reg; Managed Site</h4><p>The foundational hub for all our services. From this core, Managed Services deliver vulnerability monitoring, proactive network log collection, strategic IT reporting, and IT recommendations for your business.</p></div>
+                <div class="svc c1"><h4>ASP Secure IT &reg; Managed User</h4><p>Ongoing cybersecurity training, including phishing attack simulations, dark web monitoring, enforcement of security policies, and interactive leaderboards to track progress and foster a security-conscious culture.</p></div>
+                <div class="svc c2"><h4>ASP Secure IT &reg; Managed Identity</h4><p>24/7 SOC monitoring and ITDR for session hijacking, credential theft, suspicious inbox rules, and rogue apps, with investigations, triage, and threat hunting. Automated remediation isolates identities. Daily offsite backups of email, files, and data enable fast recovery. ISPM hardens identity posture.</p></div>
+                <div class="svc c3"><h4>ASP Secure IT &reg; Managed Device</h4><p>24/7 SOC monitoring of traffic on all segments via SIEM appliances, with alert triage and appliance management. Activity monitoring covers device logs from configured sources. Device Support includes lifecycle management, remediation, and Direct-to-Cloud config backups.</p></div>
+                <div class="svc c4"><h4>ASP Secure IT &reg; Managed Workstation</h4><p>Dual SOC monitoring with SentinelOne and Huntress for 24/7 oversight of computers with MDR agents, with alert triage and EDR agent management. Remediation delivers 24/7 threat containment with custom reports. DNS Filtering manages content filtering and threat reporting.</p></div>
+                <div class="svc c5"><h4>ASP Secure IT &reg; Managed Server</h4><p>24/7 NOC monitoring of servers with RMM agents and dual SOC monitoring via SentinelOne &amp; Huntress, with alert triage and agent management. Remediation delivers 24/7 threat containment with custom reports. DNS Filtering manages content filtering and threat reporting.</p></div>
+            </div>
+        </section>
+
+        <!-- 3. Scope of Services -->
+        <section>
+            <div class="sec-head"><span class="n">3</span><h2>Scope of Services (SOS)</h2></div>
+            <p>The following details the Managed IT Services that ASP will deliver to Client on an ongoing basis.</p>
+
+            <div class="sos">
+                <h4><span class="dot" style="background:var(--teal)"></span>ASP Secure IT &ndash; Managed Site</h4>
+                <div class="sos-cols">
+                    <div class="grp"><b>Site Administration</b><ul><li>Executive IT infrastructure summary and dashboard</li><li>Standardization assessment and grading</li><li>Technology project planning &amp; roadmap</li><li>Budget creation, tracking &amp; asset warranty tracking</li></ul></div>
+                    <div class="grp"><b>Vulnerability Scanning</b><ul><li>Regular risk vulnerability assessments</li><li>External surface &amp; cloud audit scans</li><li>Results reporting with remediation recommendations</li></ul></div>
+                    <div class="grp"><b>SIEM Collector</b><ul><li>Security event monitoring, correlation &amp; detection</li><li>Alert triage &amp; investigation</li><li>Incident escalation, reporting &amp; log retention/compliance support</li></ul></div>
+                </div>
+            </div>
+
+            <div class="sos">
+                <h4><span class="dot" style="background:var(--purple)"></span>ASP Secure IT &ndash; Managed User</h4>
+                <div class="sos-cols">
+                    <div class="grp"><b>Cybersecurity Training</b><ul><li>Manage training system users &amp; configuration</li><li>Provide user training and support</li><li>Report on training utilization and alerts</li></ul></div>
+                    <div class="grp"><b>User Administration</b><ul><li>Ongoing user administration and policy enforcement</li></ul></div>
+                </div>
+            </div>
+
+            <div class="sos">
+                <h4><span class="dot" style="background:var(--magenta)"></span>ASP Secure IT &ndash; Managed Identity</h4>
+                <div class="sos-cols">
+                    <div class="grp"><b>M365 Monitoring</b><ul><li>24/7 SOC monitoring for session hijacking, credential theft, suspicious inbox rules, and rogue apps</li><li>Incident investigations with alert triage &amp; threat hunting</li></ul></div>
+                    <div class="grp"><b>M365 Remediation</b><ul><li>Automated 24/7 threat remediation with identity isolation</li></ul></div>
+                    <div class="grp"><b>M365 Backup</b><ul><li>Daily backups of email, files &amp; collaboration data</li><li>Secure offsite storage with point-in-time recovery</li></ul></div>
+                    <div class="grp"><b>M365 ISPM</b><ul><li>Continuously harden identity posture; fix misconfigurations, risky access &amp; policy drift; enforce least-privilege</li></ul></div>
+                </div>
+            </div>
+
+            <div class="sos">
+                <h4><span class="dot" style="background:var(--orange)"></span>ASP Secure IT &ndash; Managed Device</h4>
+                <div class="sos-cols">
+                    <div class="grp"><b>Traffic Monitoring</b><ul><li>24/7 SOC monitoring of network traffic on all segments via SIEM appliance</li><li>Alert triage; appliance activation management</li></ul></div>
+                    <div class="grp"><b>Activity Monitoring</b><ul><li>24/7 SOC monitoring of device logs from configured sources</li><li>Alert triage; source management</li></ul></div>
+                    <div class="grp"><b>Device Support</b><ul><li>Lifecycle management &amp; issue remediation</li><li>Direct-to-Cloud backup of device configurations</li></ul></div>
+                </div>
+            </div>
+
+            <div class="sos">
+                <h4><span class="dot" style="background:var(--yellow)"></span>ASP Secure IT &ndash; Managed Workstation</h4>
+                <div class="sos-cols">
+                    <div class="grp"><b>Endpoint Monitoring &mdash; Dual SOC (SentinelOne &amp; Huntress)</b><ul><li>24/7 SOC monitoring of computers with MDR agents</li><li>Alert triage; EDR agent management</li></ul></div>
+                    <div class="grp"><b>Endpoint Remediation</b><ul><li>24/7 threat containment &amp; best-effort remediation</li><li>Custom incident reports per incident</li></ul></div>
+                    <div class="grp"><b>DNS Filtering</b><ul><li>Content filtering &amp; agent management</li><li>Reporting on blocked threats and access attempts</li></ul></div>
+                </div>
+            </div>
+
+            <div class="sos">
+                <h4><span class="dot" style="background:var(--green)"></span>ASP Secure IT &ndash; Managed Server</h4>
+                <div class="sos-cols">
+                    <div class="grp"><b>NOC Server Support</b><ul><li>24/7 NOC monitoring of servers with RMM agents</li><li>Alert triage; RMM agent management</li></ul></div>
+                    <div class="grp"><b>Endpoint Monitoring &mdash; Dual SOC (SentinelOne &amp; Huntress)</b><ul><li>24/7 SOC monitoring of servers with MDR agents</li><li>Alert triage; EDR agent management</li></ul></div>
+                    <div class="grp"><b>Endpoint Remediation &amp; DNS Filtering</b><ul><li>24/7 threat containment with custom reports</li><li>Content filtering, agent management &amp; blocked-threat reporting</li></ul></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Price Structure -->
+        <section>
+            <div class="sec-head"><span class="n">4</span><h2>Price Structure</h2></div>
+            <p>This section covers all the costs associated with the work and services specified in this proposal.</p>
+
+            <h3>Non-Recurring Costs (NRC)</h3>
+            <table class="mini">
+                <tr><th>Onboarding</th><td class="waived">Waived</td></tr>
+                <tr><th>NRC Total</th><td class="waived">Waived</td></tr>
+            </table>
+
+            <h3>Current Monthly Recurring Costs</h3>
+            <div class="twrap">
+                <table>
+                    <thead><tr><th>Description</th><th class="num">Quantity</th><th class="num">Monthly Cost</th></tr></thead>
+                    <tbody>
+                        <tr><td class="svc-name">ASP Secure IT &reg; Managed Site <span>($507.80/Site)</span></td><td class="num mono">4</td><td class="num mono">$2,031.20</td></tr>
+                        <tr><td class="svc-name">ASP Secure IT &reg; Managed User <span>($4.58/User)</span></td><td class="num mono">300</td><td class="num mono">$1,374.00</td></tr>
+                        <tr><td class="svc-name">ASP Secure IT &reg; Managed Identity <span>($6.26/Identity)</span></td><td class="num mono">350</td><td class="num mono">$2,191.00</td></tr>
+                        <tr><td class="svc-name">ASP Secure IT &reg; Managed Device <span>($37.75/Device)</span></td><td class="num mono">350</td><td class="num mono">$13,212.50</td></tr>
+                        <tr><td class="svc-name">ASP Secure IT &reg; Managed Workstation <span>($23.48/Workstation)</span></td><td class="num mono">300</td><td class="num mono">$7,044.00</td></tr>
+                        <tr><td class="svc-name">ASP Secure IT &reg; Managed Server <span>($60.81/Server)</span></td><td class="num mono">12</td><td class="num mono">$729.72</td></tr>
+                    </tbody>
+                    <tfoot><tr><td>Monthly Total</td><td></td><td class="num mono">$26,582.42</td></tr></tfoot>
+                </table>
+            </div>
+
+            <div class="totals">
+                <div class="tc"><div class="k">Monthly</div><div class="v">$26,582</div><div class="note">recurring, per month</div></div>
+                <div class="tc"><div class="k">Annual</div><div class="v">$318,989</div><div class="note">per 12 months</div></div>
+                <div class="tc feat"><div class="k">36-Month Term Value</div><div class="v">$956,967</div><div class="note">total contract value</div></div>
+            </div>
+
+            <h3>Time and Materials Rate</h3>
+            <p>The rate used to calculate any additional work or services performed outside the scope of this proposal is billed on a T&amp;M basis at the end of each calendar month.</p>
+            <table class="mini"><tr><th>Blended Hourly Rate for all ASP Services</th><td>$175/hr.</td></tr></table>
+            <div class="callout"><strong>IMPORTANT:</strong> Any work that would incur additional T&amp;M costs must be approved by the Client via email prior to being performed.</div>
+
+            <h3>Service Term</h3>
+            <p>The initial term of this agreement is specified below and auto-renews with the same term unless it is terminated or changed in accordance with the terms and conditions of this agreement.</p>
+            <table class="mini"><tr><th>Service Term</th><td>36 Months</td></tr></table>
+        </section>
+
+        <!-- 5. Contact -->
+        <section>
+            <div class="sec-head"><span class="n">5</span><h2>Contact Information</h2></div>
+            <p>For any questions about this Proposal, please reach out to your sales representative. For general inquiries please contact us at the following:</p>
+            <div class="contact">
+                <div>
+                    <p class="co">ALLSTAR Partners LLC</p>
+                    <p>1365 Wiley Rd., Suite 150</p>
+                    <p>Schaumburg, IL 60173</p>
+                </div>
+                <div>
+                    <p><strong>Phone:</strong> (312) 235-2400 Ext. 2</p>
+                    <p><strong>Fax:</strong> (312) 235-3017</p>
+                    <p><strong>Email:</strong> sales@allstarpartners.com</p>
+                    <p><strong>Web:</strong> www.allstarpartners.com</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Additional Terms -->
+        <section>
+            <div class="sec-head"><span class="n">6</span><h2>Additional Terms and Conditions</h2></div>
+            <p>In addition to the terms and conditions identified in Exhibit A of this Proposal, ASP and the Client also agree to the following:</p>
+            <ul class="terms">
+                <li>Upon request, ASP Engineers will be assigned unique accounts with sufficient access to Client infrastructure and systems to accomplish the Work or Services in this Proposal. For highly sensitive tasks, ASP Engineers may work alongside the Client to complete restricted work.</li>
+                <li>Work and Services will be performed remotely as much as possible.</li>
+                <li>For ASP engineers working on site, the Client is expected to provide a workspace area large enough to accommodate a laptop with a desk, a chair, electric power, and Internet access.</li>
+                <li>Additional costs may apply if the Client network equipment does not support port mirroring or an equivalent configuration and active network traffic monitoring via SIEM is required. Alternatively, the Client may decline to implement active network traffic monitoring if the equipment cannot be configured to support it.</li>
+                <li>All emergency recovery services are best effort only without guarantee.</li>
+            </ul>
+        </section>
+
+        <!-- 7. Acceptance -->
+        <section class="accept">
+            <div class="sec-head"><span class="n">7</span><h2>Acceptance and Incorporation by Reference</h2></div>
+            <p>This Order together with the Master Services Agreement and Service Attachments and other terms and conditions identified on Exhibit A, all of which are incorporated herein by reference (collectively, the &ldquo;Agreement&rdquo;), is between ALLSTAR Partners (sometimes referred to as &ldquo;we,&rdquo; &ldquo;us,&rdquo; &ldquo;our,&rdquo; or &ldquo;Provider&rdquo;), and the customer identified on the Order (sometimes referred to as &ldquo;you,&rdquo; &ldquo;your,&rdquo; or &ldquo;Client&rdquo;). This Agreement is effective as of the date the Client accepts the Order (the &ldquo;Effective Date&rdquo;).</p>
+            <p>By signing or accepting this Order, Client acknowledges, represents, and warrants that it has read and agrees to the terms and conditions identified on Exhibit A to this Order, which are incorporated as if fully set forth herein. The parties hereby agree that electronic signatures to this Proposal shall be relied upon and will bind them to the obligations stated herein.</p>
+            <p><strong>IN WITNESS WHEREOF, this Proposal is agreed to by the parties below.</strong></p>
+
+            <div class="sign">
+                <div>
+                    <div class="party">ALLSTAR Partners LLC</div>
+                    <div class="row"><span class="lbl">Signature:</span><span class="ln"></span></div>
+                    <div class="row"><span class="lbl">Name:</span><span class="ln"></span></div>
+                    <div class="row"><span class="lbl">Title:</span><span class="ln"></span></div>
+                    <div class="row"><span class="lbl">Date:</span><span class="ln"></span></div>
+                </div>
+                <div>
+                    <div class="party">Client &mdash; Any FQHC</div>
+                    <div class="row"><span class="lbl">Signature:</span><span class="ln"></span></div>
+                    <div class="row"><span class="lbl">Name:</span><span class="ln"></span></div>
+                    <div class="row"><span class="lbl">Title:</span><span class="ln"></span></div>
+                    <div class="row"><span class="lbl">Date:</span><span class="ln"></span></div>
+                </div>
+            </div>
+
+            <div class="exhibit">
+                <b>Exhibit A &mdash; Incorporated Documents</b>
+                <ul>
+                    <li>Master Services Agreement</li>
+                    <li>Services Attachment for Managed Services</li>
+                    <li>Schedule of Services</li>
+                    <li>Data Processing Agreement</li>
+                    <li>Service Level Objectives</li>
+                    <li>Schedule of Third-Party Services</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="rainbow"></div>
+    <footer class="doc">
+        <div><span class="conf">Confidential Information</span> &nbsp;&middot;&nbsp; Proposal SPR-82MVA4</div>
+        <div>&copy; 2026 ALLSTAR Partners LLC &middot; Security. Support. Solutions.</div>
+    </footer>
+</div>
+
+</body>
+</html>
