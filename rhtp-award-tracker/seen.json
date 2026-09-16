@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-09-15",
+  "last_run": "2026-09-16",
   "runs": [
     {
       "date": "2026-09-10",
@@ -67,6 +67,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New: 4 additional AR Round-1 THRIVE/PACT sub-award recipient stories (St. Bernards Development Foundation ~$14.55M, NYITCOM/ASU $1.52M, Arkansas Ambulance Association EMS-Connect $10M, Arkansas Rural Health Partnership multi-project ~$2.25M+); 1 new MS solicitation (MS Dept of Mental Health EmPATH Consulting sole-source notice, RHTP funding unconfirmed); 1 new LA award (UL Lafayette RHTP-linked grants, ~$2.1M for nursing workforce + AI initiatives); 1 new TX award ($25M rural hospital grant, RHTP funding unconfirmed, dated 2026-04-22). Updated TX:nofo:initiative1-competitive with confirmed RFA number (HHS0017223) and deadline (2026-06-04). Skipped as non-material/duplicate: an AR comprehensive Round-1 recipient-list article (same announcement already tracked as AR:award:rhtp-round1-award-announcement) and two CMS press releases recycling already-known AR $149.3M and IN $120M figures under new headlines (same recycling pattern flagged in the 2026-09-14 run). Declined to log several MS recipient-level sub-award mentions (Harrison County Health Systems/Memorial Health System, Singing River Services, Fast Pace Mississippi) under the existing $104.1M/167-award pool because the research agent could not supply exact source URLs and flagged a possible dollar-amount discrepancy (Tippah County) -- flagged for verification once primary MS sources are reachable again. No news found for IL, IN, WI, MO, TN, or OK this run."
+    },
+    {
+      "date": "2026-09-16",
+      "sources_checked": 63,
+      "sources_failed": 63,
+      "sources_failed_note": "Direct WebFetch/curl to all state and federal source domains again returned EGRESS_BLOCKED / CONNECT tunnel 403 (confirmed via a live WebFetch test on arkansasrhtp.com and a curl test before dispatching research). All findings came from WebSearch via 11 parallel research passes (10 states + federal). Several passes (IL, IN, WI, MO, TN, MS, LA, TX, OK, federal) hit a shared session-wide WebSearch budget cap before exhausting their query lists, which may have limited coverage depth -- flagged per-state in item descriptions.",
+      "items_new": 4,
+      "items_updated": 3,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New: IN OPEration Ready ($30M, IU School of Medicine rural ER obstetric/pediatric readiness); MO Salem Memorial District Hospital repairs (~$1.8M, via congressional press release); MS Singing River Services ($397,850) and George Regional Health and Rehab ($330,000), both George County technology grants. Updated: WI Rural Technology Transformation Fund Round 2 (amount ~$148M now stated, pending CMS approval; deadline narrowed to summer/fall 2027); MS Capital Care Gap Closure 43-award pool (itemized recipient-level detail for Harrison/Stone County -- Memorial Health System $15M -- and Tippah County $1.06M breakdown); TX $25M rural hospital grant (now confirmed NOT RHTP-funded -- state HB18 program -- and deadline added; internal correction only, not emailed). Rejected as non-material: CMS press release recycling the already-known IN $120M GROW figure (same pattern excluded in the 2026-09-11 run). Skipped as unconfirmed/low-confidence (guardrail: prefer missing over fabricating): 4 AR sub-award backfill items with unverified amounts sharing an already-seen URL; an IL HTC $8M/yr figure that may belong to a different, non-RHTP legacy state program; 2 OK funding-recipients-page items based only on search snippets, not a direct page read; a TX GovDelivery 'deadlines extended' bulletin whose body was never read. No news found for AR, IL, TN, LA, OK, or Federal this run."
     }
   ],
   "items": [
@@ -751,13 +762,13 @@
       "type": "nofo",
       "title": "Rural Technology Transformation Fund \u2014 Round 2 (expected)",
       "url": "https://www.dhs.wisconsin.gov/contracts/rural-technology-transformation-fund-allocations-improve-health-services-rural-wisconsin",
-      "amount": "Not yet stated",
+      "amount": "~$148,000,000 (estimated, pending CMS approval)",
       "recipients": "Hospitals, local health departments, tribal clinics, free/charitable clinics, opioid-treatment facilities",
-      "deadline": "NOFO expected 2027",
+      "deadline": "NOFO expected summer/fall 2027",
       "status": "Not yet opened",
       "description": "Second technology-funding round for organization types not covered by Round 1.",
       "first_seen": "2026-09-10",
-      "last_updated": "2026-09-10"
+      "last_updated": "2026-09-16"
     },
     {
       "id": "WI:nofo:heart-workforce-innovation-grant",
@@ -1427,13 +1438,13 @@
       "type": "award",
       "title": "Capital Care Gap Closure Grant Awards (43 awards)",
       "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
-      "amount": "category $ not separately published",
-      "recipients": "43 providers incl. Tippah County ($1.06M), Harrison County Health Systems",
+      "amount": "category total still not separately published; itemized recipient amounts now available for two of the 43: Harrison/Stone County ($15M) and Tippah County ($1.06M)",
+      "recipients": "43 providers incl. Memorial Health System (Harrison County $5M across 4 projects + Stone County $10M across 2 projects, also reported locally as \"Harrison County Health Systems\"), and Tippah County ($1.06M: Tippah County Hospital $151,300 + $400,000, Fast Pace Mississippi $516,600)",
       "deadline": "n/a",
-      "status": "Awarded 2026-09-14",
+      "status": "Awarded 2026-09-14; recipient-level breakdown reported 2026-09-15/16",
       "description": "BRIDGE-funded facility/capital grants closing rural care-access gaps.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-09-16"
     },
     {
       "id": "MS:award:telehealth-hub-cee-27",
@@ -2352,11 +2363,63 @@
       "url": "https://gov.texas.gov/news/post/governor-abbott-hhsc-announce-25-million-in-grant-funding-for-rural-hospitals",
       "amount": "$25,000,000",
       "recipients": "Eligible hospitals serving rural communities (list not stated)",
-      "deadline": "not stated",
-      "status": "Announced 2026-04-22; RHTP funding not confirmed (same ambiguity as the already-tracked $44M and $10M TX grants; funded via the state's Rural Health Stabilization and Innovation Act)",
+      "deadline": "2026-05-28, 10:30 AM CDT; individual awards $2M-$5M each, $25M aggregate FY2026",
+      "status": "Announced 2026-04-22; confirmed NOT RHTP-funded -- state-funded Rural Hospital Innovation Grant Program under HB18 (89th Legislature, Rural Health Stabilization and Innovation Act)",
       "description": "Grant funding for rural hospitals.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-09-16"
+    },
+    {
+      "id": "IN:award:idoh-iu-som-operation-ready",
+      "type": "award",
+      "title": "IDOH & IU School of Medicine Launch 'OPEration Ready' Rural ER Obstetric/Pediatric Program",
+      "url": "https://events.in.gov/event/idoh-news-release-indiana-department-of-health-iu-school-of-medicine-to-improve-rural-er-obstetric-pediatric-care",
+      "amount": "$30,000,000 over 5 years ($11.2M in Year 1)",
+      "recipients": "Indiana University School of Medicine (statewide rural ER obstetric/pediatric emergency-readiness initiative)",
+      "deadline": "n/a",
+      "status": "Announced ~2026-08-19",
+      "description": "GROW statewide-initiative funding for IU School of Medicine to improve rural emergency-department obstetric and pediatric care readiness across Indiana.",
+      "first_seen": "2026-09-16",
+      "last_updated": "2026-09-16"
+    },
+    {
+      "id": "MO:award:salem-memorial-hospital-repairs",
+      "type": "award",
+      "title": "Rep. Jason Smith Announces RHTP Award for Salem Memorial District Hospital",
+      "url": "https://jasonsmith.house.gov/2026/09/03/smith-secures-1-8-million-for-salem-memorial-hospital-through-provision-in-one-big-beautiful-bill/",
+      "amount": "~$1.8 million",
+      "recipients": "Salem Memorial District Hospital, Salem, MO",
+      "deadline": "n/a",
+      "status": "Announced 2026-09-03",
+      "description": "RHTP-funded hospital repairs -- new roof, windows, call-light system, AC units. First named hospital-level award found publicly; not confirmed which DSS solicitation (e.g. Vital Rural Hospital Repairs IFB) it came from.",
+      "first_seen": "2026-09-16",
+      "last_updated": "2026-09-16"
+    },
+    {
+      "id": "MS:award:singing-river-services-george-county",
+      "type": "award",
+      "title": "Singing River Services (George County) RHTP Technology Grant",
+      "url": "https://www.wkrg.com/state-regional/mississippi-news/george-county/ms-rural-health-grants/",
+      "amount": "$397,850",
+      "recipients": "Singing River Services, George County, MS",
+      "deadline": "n/a",
+      "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
+      "description": "Technology modernization to strengthen operational sustainability and expand behavioral healthcare access.",
+      "first_seen": "2026-09-16",
+      "last_updated": "2026-09-16"
+    },
+    {
+      "id": "MS:award:george-regional-health-rehab-george-county",
+      "type": "award",
+      "title": "George Regional Health and Rehab (George County) RHTP Grant",
+      "url": "https://www.wkrg.com/state-regional/mississippi-news/george-county/ms-rural-health-grants/",
+      "amount": "$330,000",
+      "recipients": "George Regional Health and Rehab, George County, MS",
+      "deadline": "n/a",
+      "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
+      "description": "Smart nurse call system and electronic wandering-management system.",
+      "first_seen": "2026-09-16",
+      "last_updated": "2026-09-16"
     }
   ]
 }
