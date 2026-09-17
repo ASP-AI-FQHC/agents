@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-09-16",
+  "last_run": "2026-09-17",
   "runs": [
     {
       "date": "2026-09-10",
@@ -78,6 +78,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New: IN OPEration Ready ($30M, IU School of Medicine rural ER obstetric/pediatric readiness); MO Salem Memorial District Hospital repairs (~$1.8M, via congressional press release); MS Singing River Services ($397,850) and George Regional Health and Rehab ($330,000), both George County technology grants. Updated: WI Rural Technology Transformation Fund Round 2 (amount ~$148M now stated, pending CMS approval; deadline narrowed to summer/fall 2027); MS Capital Care Gap Closure 43-award pool (itemized recipient-level detail for Harrison/Stone County -- Memorial Health System $15M -- and Tippah County $1.06M breakdown); TX $25M rural hospital grant (now confirmed NOT RHTP-funded -- state HB18 program -- and deadline added; internal correction only, not emailed). Rejected as non-material: CMS press release recycling the already-known IN $120M GROW figure (same pattern excluded in the 2026-09-11 run). Skipped as unconfirmed/low-confidence (guardrail: prefer missing over fabricating): 4 AR sub-award backfill items with unverified amounts sharing an already-seen URL; an IL HTC $8M/yr figure that may belong to a different, non-RHTP legacy state program; 2 OK funding-recipients-page items based only on search snippets, not a direct page read; a TX GovDelivery 'deadlines extended' bulletin whose body was never read. No news found for AR, IL, TN, LA, OK, or Federal this run."
+    },
+    {
+      "date": "2026-09-17",
+      "sources_checked": 70,
+      "sources_failed": 70,
+      "sources_failed_note": "Direct WebFetch/curl to all 70 state and federal source URLs across 11 parallel research passes (10 states + federal) again returned EGRESS_BLOCKED / CONNECT tunnel 403 (confirmed via a live curl test on arkansasrhtp.com and /__agentproxy/status before dispatching research; the block covers .gov/.us domains, taggs.hhs.gov, cms.gov, medicaid.gov, and even most third-party RHTP-tracker/aggregator mirrors). All findings came from WebSearch fallback queries per sources.json.",
+      "items_new": 11,
+      "items_updated": 2,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New: 5 AR individual Round-1 THRIVE/PACT sub-award recipient stories (Johnson Regional Medical Center $974,455 cybersecurity/telehealth; ARcare $2,571,095 RPM/telehealth/EHR/cybersecurity; Wolfe Street Foundation $369,619 telehealth kiosks; Baptist Health/South Arkansas Regional El Dorado ~$12.59M combined PACT+THRIVE incl. IT infrastructure; Jefferson Hospital Association $3M HVAC/facility, low relevance); 5 MS recipient-level awards from the 167-award/$104.1M pool (Memorial Health System $15M Harrison/Stone County incl. telehealth hub-and-spoke; Coastal Family Health Center $422,250 RPM; North Sunflower Medical Center $1M roof renovation, low relevance; UMMC Greenwood $3M infrastructure modernization; Mission Primary Care Clinic $23,116 IT/EHR hardware); 1 LA award (University of Louisiana Monroe $2.1M nursing/sonography/residency hub, distinct from the already-tracked UL Lafayette grant). Updated: MS WEI & PES-EmPATH pending item now has concrete dollar figures ($16.8M across 4 workforce programs, $14M PES/EmPATH, still due ~late Oct 2026); LA 500+ applications item now has a per-NOFO breakdown (Capital Improvement 160, Telehealth Infrastructure 79, Regional Care Conveners 25, +37 unconfirmed attribution). Skipped as non-material or duplicate: 5 IN GROW regional-award dollar figures the research pass resurfaced -- all already recorded in seen.json with the same amounts, so not re-reported; a federal CMS press release on the MS $104M/167-grant announcement -- same underlying event as the already-tracked MS:news:award-announcement-2026-09-14, not a distinct federal action; a TX Initiative 4 'Round 2' RFA (HHS0017618, closed 2026-08-26) -- non-material, sources.json's own status_note already documents two Initiative 4 rounds due 2026-05-27 and 2026-08-26; a TN 'Memory Care Assessment Network (MCAN)' grant line surfaced only in a single secondary roundup with no primary-source confirmation and uncertain whether it is a distinct 9th grant line or a sub-track of an already-tracked NOFO -- flagged for verification next run rather than added as a standalone item, per the guardrail to prefer missing an ambiguous item over fabricating one. No news found for IL, IN, WI, MO, TN, TX, OK, or Federal this run."
     }
   ],
   "items": [
@@ -1476,14 +1487,14 @@
       "id": "MS:deadline:wei-pes-empath-pending",
       "type": "deadline",
       "title": "WEI & PES-EmPATH Awards Pending",
-      "url": "https://mississippirhtp.com/funding/",
-      "amount": "not stated",
+      "url": "https://vicksburgnews.com/health-announcement-warren-county-health-services-to-benefit-from-gov/",
+      "amount": "WEI: $16.8M across 4 workforce grant programs; PES/EmPATH: $14M",
       "recipients": "not yet announced",
-      "deadline": "Applications closed 2026-07-15; decisions expected ~late Oct 2026",
-      "status": "Under review",
-      "description": "Workforce Expansion and Psychiatric Emergency Services/EmPATH Units grant decisions pending.",
+      "deadline": "Applications closed 2026-07-15; decisions due 30-45 days from the 2026-09-14 announcement (~consistent with prior late-Oct-2026 estimate)",
+      "status": "Under review; dollar figures now confirmed (previously amount not stated)",
+      "description": "Workforce Expansion Initiative and Psychiatric Emergency Services/EmPATH Units grant decisions pending; first-round MS RHTP budget also reported increased from ~$80M to $104M planned due to high demand.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-09-17"
     },
     {
       "id": "MS:solicitation:ems-capacity-assessment-rfp",
@@ -1762,14 +1773,14 @@
       "id": "LA:news:applications-500-plus",
       "type": "news",
       "title": "'Louisiana reviewing over 500 applications for rural healthcare funding'",
-      "url": "https://www.myarklamiss.com/news/top-stories/louisiana-reviewing-over-500-applications-for-rural-healthcare-funding/",
+      "url": "https://thehayride.com/2026/08/more-than-500-applicants-seek-share-of-louisiana-rural-health-millions/",
       "amount": "n/a",
       "recipients": "n/a",
       "deadline": "n/a",
-      "status": "Informational (mid-2026)",
-      "description": "Coverage of the volume of applications received across the seven Year 1 NOFOs combined.",
+      "status": "Informational (mid-2026); per-program breakdown now available",
+      "description": "Coverage of the volume of applications received across the seven Year 1 NOFOs combined. Per-program counts: Capital Improvement 160, Telehealth Infrastructure 79, Regional Care Conveners 25, and 37 more attributed to a third program (exact attribution unconfirmed).",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-09-17"
     },
     {
       "id": "LA:document:project-narrative",
@@ -2420,6 +2431,149 @@
       "description": "Smart nurse call system and electronic wandering-management system.",
       "first_seen": "2026-09-16",
       "last_updated": "2026-09-16"
+    },
+    {
+      "id": "AR:award:jrmc-thrive-telecardiology",
+      "type": "award",
+      "title": "Johnson Regional Medical Center RHTP THRIVE Award",
+      "url": "https://www.thegraphic.org/2026/09/01/jrmc-awarded-974000-in-rhtp-funds/",
+      "amount": "$974,455",
+      "recipients": "Johnson Regional Medical Center, Johnson County, AR",
+      "deadline": "n/a",
+      "status": "Awarded (Round 1 THRIVE); announced ~2026-09-01",
+      "description": "Network/cybersecurity modernization and telehealth expansion (cardiology, nephrology, psychiatry, infant care).",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "AR:award:arcare-rural-transformation",
+      "type": "award",
+      "title": "ARcare Rural Transformation Program Award",
+      "url": "https://armoneyandpolitics.com/rural-arkansas-healthcare-funding/",
+      "amount": "$2,571,095",
+      "recipients": "ARcare (serving Woodruff, Izard, Baxter, Jackson, Franklin, White, Cross, Benton, Independence, Miller, Faulkner, Jefferson counties)",
+      "deadline": "n/a",
+      "status": "Awarded (Round 1); announced 2026-08-27",
+      "description": "Remote patient monitoring, telehealth microclinics, EHR interoperability, cybersecurity, and network infrastructure for a multi-county FQHC network.",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "AR:award:wolfe-street-foundation-recovery-connect",
+      "type": "award",
+      "title": "Wolfe Street Foundation 'Rural Recovery Connect' Award",
+      "url": "https://armoneyandpolitics.com/rural-arkansas-healthcare-funding/",
+      "amount": "$369,619",
+      "recipients": "Wolfe Street Foundation Inc. (20 counties incl. Pulaski, Clark, Saline, Sebastian, Craighead)",
+      "deadline": "n/a",
+      "status": "Awarded (Round 1); announced 2026-08-27",
+      "description": "Tablet-based telehealth kiosks and peer recovery services at rural clinics and detention centers.",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "AR:award:baptist-health-south-arkansas-regional-el-dorado",
+      "type": "award",
+      "title": "Baptist Health / South Arkansas Regional Hospital (El Dorado) PACT+THRIVE Award",
+      "url": "https://www.eldoradonews.com/news/2026/aug/29/union-county-among-most-frequently-named-in/",
+      "amount": "$12,000,000 (PACT) + $589,378 (THRIVE) ≈ $12.59M combined",
+      "recipients": "Baptist Health / South Arkansas Regional Hospital, El Dorado, Union County, AR",
+      "deadline": "n/a",
+      "status": "Awarded (Round 1); announced ~2026-08-29",
+      "description": "Facility improvements, clinical equipment, and IT infrastructure supporting the transition to Baptist Health Medical Center–El Dorado, including virtual care/telemetry systems.",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "AR:award:jefferson-hospital-association-hvac",
+      "type": "award",
+      "title": "Jefferson Hospital Association HVAC/SAFE Grant",
+      "url": "https://www.deltaplexnews.com/local-news/jefferson-regional-receives-3-million-grant-to-upgrade-pine-bluff-hospital-hvac-system/",
+      "amount": "$3,000,000",
+      "recipients": "Jefferson Hospital Association (Jefferson Regional Medical Center, Pine Bluff, AR)",
+      "deadline": "n/a",
+      "status": "Awarded (Round 1, SAFE component); announced ~2026-08-2026",
+      "description": "Replacement of a 50+ year old HVAC/air-handling system (facility infrastructure, not IT).",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "MS:award:memorial-health-system-harrison-stone",
+      "type": "award",
+      "title": "Memorial Health System (Harrison/Stone Counties) RHTP Award",
+      "url": "https://www.wdam.com/2026/09/15/memorial-health-system-receive-15m-rural-health-care-grants/",
+      "amount": "$15,000,000 total (~$10M Stone County, ~$5M Harrison County; sub-awards incl. Mobile Health Bridge $650,000, clinical communication transformation $684,325, CHF telehealth hub-and-spoke $72,750)",
+      "recipients": "Memorial Health System, Harrison and Stone Counties, MS",
+      "deadline": "n/a",
+      "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
+      "description": "Largest single-system award identified so far in Mississippi's RHTP pool; includes mobile health, clinical communications, and telehealth hub-and-spoke components.",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "MS:award:coastal-family-health-center-harrison-county",
+      "type": "award",
+      "title": "Coastal Family Health Center (Harrison County) RHTP Award",
+      "url": "https://thegazebogazette.com/2026/09/harrison-county-health-systems-awarded-grants-through-rhtp/",
+      "amount": "$422,250",
+      "recipients": "Coastal Family Health Center, Inc., Harrison County, MS",
+      "deadline": "n/a",
+      "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
+      "description": "Remote patient monitoring expansion for uncontrolled hypertension patients at an FQHC.",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "MS:award:north-sunflower-medical-center-sunflower-county",
+      "type": "award",
+      "title": "North Sunflower Medical Center (Sunflower County) RHTP Award",
+      "url": "https://www.deltadailynews.com/local/more-than-104-million-in-rural-health-funding-includes-projects-across-mississippi-delta/",
+      "amount": "$1,000,000",
+      "recipients": "North Sunflower Medical Center, Sunflower County, MS",
+      "deadline": "n/a",
+      "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
+      "description": "Roof renovation for facility reliability and uninterrupted care (facility infrastructure, not IT).",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "MS:award:ummc-greenwood-leflore-county",
+      "type": "award",
+      "title": "UMMC Greenwood (Leflore County) RHTP Award",
+      "url": "https://www.deltadailynews.com/local/more-than-104-million-in-rural-health-funding-includes-projects-across-mississippi-delta/",
+      "amount": "$3,000,000",
+      "recipients": "UMMC Greenwood, Leflore County, MS",
+      "deadline": "n/a",
+      "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
+      "description": "Hospital infrastructure modernization to expand future surgical and post-acute capacity.",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "MS:award:mission-primary-care-clinic-warren-county",
+      "type": "award",
+      "title": "Mission Primary Care Clinic (Warren County) RHTP Award",
+      "url": "https://vicksburgnews.com/health-announcement-warren-county-health-services-to-benefit-from-gov/",
+      "amount": "$23,116",
+      "recipients": "Mission Primary Care Clinic PLLC, Warren County, MS",
+      "deadline": "n/a",
+      "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
+      "description": "IT hardware replacement (laptops/desktops) supporting EHR, telehealth, and billing systems.",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
+    },
+    {
+      "id": "LA:award:ulm-rhtp-grant",
+      "type": "award",
+      "title": "University of Louisiana Monroe RHTP Award",
+      "url": "https://www.ulm.edu/news/2026/ldh_grant_cohs_081926.html",
+      "amount": "$2,100,000",
+      "recipients": "University of Louisiana Monroe, College of Health Sciences",
+      "deadline": "n/a",
+      "status": "Awarded; announced 2026-08-19",
+      "description": "LDH RHTP award funding expanded nursing enrollment (+20 students/semester), a new Diagnostic Medical Sonography concentration (first cohort Spring 2028), and a Nurse Residency Hub serving rural Region 8 hospitals; distinct from the already-tracked UL Lafayette grants.",
+      "first_seen": "2026-09-17",
+      "last_updated": "2026-09-17"
     }
   ]
 }
