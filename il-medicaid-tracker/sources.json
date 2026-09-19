@@ -1,0 +1,17 @@
+{
+  "enrollment_index": [
+    "https://hfs.illinois.gov/medicalproviders/cc/totalccenrollmentforallprograms.html",
+    "https://hfs.illinois.gov/medicalproviders/cc/archivedtotalcareenrollmentforallprograms.html"
+  ],
+  "cliff_watch": [
+    {"id": "report-center", "url": "https://hfs.illinois.gov/info/reports.html",
+     "why": "Eligibility Redetermination Reports resume here; dormant since May 2024"},
+    {"id": "fed-resource-center", "url": "https://hfs.illinois.gov/info/fedresctr.html",
+     "why": "HR1 work-requirement toolkits are actively published here"},
+    {"id": "medicaid-changes", "url": "https://hfs.illinois.gov/medicalclients/medicaidguide/changes.html",
+     "why": "Policy changes for the 2027 work requirements"},
+    {"id": "idhs-work-requirements", "url": "https://www.dhs.state.il.us/page.aspx?item=180030",
+     "why": "IDHS operational guidance on work requirements"}
+  ],
+  "cms_statewide": "https://data.medicaid.gov/api/1/metastore/schemas/dataset/items/6165f45b-ca93-5bb5-9d06-db29c692a360"
+}
