@@ -3,62 +3,62 @@
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202109mcoenrollmentreportforwebsite.pdf|September 2021 [healthchoice]: Row sum 2": {
       "detail": "September 2021 [healthchoice]: Row sum 2,571,137 does not match stated total 2,714,128 (difference 142,991, allowed 13,571)",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202202mcoaggregatedenrollmentreportforwebsite03072022.pdf|February 2022 [dual]: Row sum 88,377 doe": {
       "detail": "February 2022 [dual]: Row sum 88,377 does not match stated total 89,138 (difference 761, allowed 446)",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202202mcoaggregatedenrollmentreportforwebsite03072022.pdf|February 2022 [healthchoice]: Row sum 2,": {
       "detail": "February 2022 [healthchoice]: Row sum 2,741,834 does not match stated total 2,762,183 (difference 20,349, allowed 13,811)",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202203mcoenrollmentreportforwebsite04082022.pdf|March 2022 [dual]: No county rows parsed": {
       "detail": "March 2022 [dual]: No county rows parsed",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202203mcoenrollmentreportforwebsite04082022.pdf|March 2022 [healthchoice]: No county row": {
       "detail": "March 2022 [healthchoice]: No county rows parsed",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202204mcoenrollmentreportforwebsite052022.pdf|April 2022 [dual]: Row sum 89,268 does n": {
       "detail": "April 2022 [dual]: Row sum 89,268 does not match stated total 90,042 (difference 774, allowed 450)",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202204mcoenrollmentreportforwebsite052022.pdf|April 2022 [healthchoice]: Row sum 2,767": {
       "detail": "April 2022 [healthchoice]: Row sum 2,767,144 does not match stated total 2,787,633 (difference 20,489, allowed 13,938)",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202205mcoenrollmentaggregatedreportforwebsite060222.pdf|May 2022 [dual]: No county rows parsed": {
       "detail": "May 2022 [dual]: No county rows parsed",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202205mcoenrollmentaggregatedreportforwebsite060222.pdf|May 2022 [healthchoice]: No county rows ": {
       "detail": "May 2022 [healthchoice]: No county rows parsed",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202206mcoenrollmentreportforwebsite07062022.pdf|June 2022 [dual]: No county rows parsed": {
       "detail": "June 2022 [dual]: No county rows parsed",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202206mcoenrollmentreportforwebsite07062022.pdf|June 2022 [healthchoice]: No county rows": {
       "detail": "June 2022 [healthchoice]: No county rows parsed",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     },
     "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/202212MCOEnrollmentReport010923.pdf|Enrollment as of December 1, 2022 (pdf):": {
       "detail": "Enrollment as of December 1, 2022 (pdf): no enrollment sections found",
       "first_seen": "2026-09-18",
-      "last_seen": "2026-09-18"
+      "last_seen": "2026-09-21"
     }
   },
   "programs": {
