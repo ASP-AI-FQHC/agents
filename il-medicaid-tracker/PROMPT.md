@@ -27,9 +27,20 @@ cycles. Published estimates of Illinois coverage loss run from 270,000 to over
    quiet weeks is intended. Do not send a "nothing to report" message.
 
 4. **Otherwise email the result** to `gfuller@allstarpartners.com` using the
-   Gmail connector. The first line of output is the subject; everything after
-   the blank line is the body. Send it verbatim — do not summarize, reformat,
-   or add commentary. The report already carries its own caveats.
+   Gmail connector, in one message:
+
+   - `subject`: the first line of output.
+   - `body`: everything after the blank line, verbatim. This plain text is the
+     source of truth — do not summarize, reformat, or add commentary. The
+     report already carries its own caveats.
+   - `htmlBody`: the exact contents of `il-medicaid-tracker/report.html`, which
+     `run.py` wrote alongside the printed text. Read the file and pass it
+     through unchanged: do not restyle it, reorder it, or retype any figure
+     from memory. It is the same report rendered as tables.
+
+   If `report.html` is missing or empty, send the plain-text `body` alone and
+   add one line at the top of it saying the HTML version was unavailable.
+   Never build HTML yourself. `report.html` is git-ignored; do not commit it.
 
 5. **Commit and push state:**
 

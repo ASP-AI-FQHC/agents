@@ -28,8 +28,13 @@ Verified figures: 2023-06 = 2,982,596 (peak) · 2026-08 = 2,253,817.
 ```bash
 python backfill.py     # one-time history load, safe to re-run
 python run.py          # one weekly cycle; prints NO_UPDATE when quiet
-pytest                 # 53 tests
+pytest                 # 61 tests
 ```
+
+When a run has something to report, `run.py` prints the plain-text email and
+also writes `report.html` (git-ignored), the same report as inline-styled
+tables. The routine sends the text as `body` and the file as `htmlBody`.
+Both come from `tracker/report.py`; change them together so they never diverge.
 
 ## Design notes
 

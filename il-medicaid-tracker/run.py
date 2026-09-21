@@ -4,6 +4,9 @@
 Prints the literal token NO_UPDATE and exits 0 when there is nothing to say,
 so the routine can stay silent rather than mailing noise.
 
+When there is a report, the same content is also written to report.html as the
+rich alternative for the email. The printed text stays the source of truth.
+
 Exit codes: 0 normal (including NO_UPDATE), 1 unexpected failure.
 """
 import datetime
@@ -18,6 +21,7 @@ from tracker.net import fetch_text, FetchFailed
 STATE = "state.json"
 FPRINTS = "fingerprints.json"
 SOURCES = "sources.json"
+HTML_OUT = "report.html"
 PROGRAM = "healthchoice"
 BASELINE_MONTH = "2026-01"   # pre-cliff reference
 
@@ -81,6 +85,8 @@ def main():
     hist = history.load(STATE)
     problems = []
     today = datetime.date.today().isoformat()
+    if os.path.exists(HTML_OUT):
+        os.remove(HTML_OUT)              # never let a stale report be sent
 
     new_months = ingest_new_months(cfg, hist, problems, today)
     alerts, fprints, first_run = run_cliff_watch(cfg, problems)
@@ -110,10 +116,12 @@ def main():
         problems.append("First run: cliff-watch baseline established, "
                         "page changes will be reported from next run onward.")
 
+    args = (month, prog[month]["total"], mom, ranked, alerts, problems)
     print(report.subject(month, mom, alerts))
     print()
-    print(report.compose(month, prog[month]["total"], mom, ranked,
-                         alerts, problems, baseline=base))
+    print(report.compose(*args, baseline=base))
+    with open(HTML_OUT, "w", encoding="utf-8") as f:
+        f.write(report.compose_html(*args, baseline=base))
     return 0
 
 

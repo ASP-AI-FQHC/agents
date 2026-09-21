@@ -1,4 +1,4 @@
-from tracker.report import compose, subject
+from tracker.report import compose, compose_html, subject
 
 RANKED = [
     {"county": "Cook", "now": 900, "then": 1000, "change": -100, "pct": -10.0},
@@ -34,3 +34,54 @@ def test_gainers_listed_largest_first():
 def test_baseline_line_included_when_given():
     b = {"baseline": "2026-01", "change": -64067, "pct": -2.8}
     assert "2026-01" in compose("2026-08", 2253817, -6710, RANKED, [], [], baseline=b)
+
+
+# --- HTML body ---------------------------------------------------------------
+# The HTML is an alternative rendering of the same report, never a different
+# one: every figure in the text body must appear in it.
+
+def test_html_carries_the_same_figures_as_text():
+    b = {"baseline": "2026-01", "change": -64067, "pct": -2.8}
+    html = compose_html("2026-08", 2253817, -6710, RANKED, [], [], baseline=b)
+    for needle in ("2026-08", "2,253,817", "-6,710", "-64,067", "-2.8%",
+                   "Cook", "1,000", "900", "-100", "-10.0%", "Adams", "+20", "+4.0%"):
+        assert needle in html, needle
+    assert "managed care only" in html.lower()
+    assert "January 1, 2027" in html
+
+
+def test_html_problems_lead_and_are_escaped():
+    html = compose_html("2026-08", 0, 0, [], [], ["<script>x</script> row sum & total"])
+    assert "<script>" not in html
+    assert "&lt;script&gt;" in html and "&amp; total" in html
+    assert html.index("DATA PROBLEMS") < html.index("Data month")
+
+
+def test_html_alerts_are_escaped_and_shown():
+    html = compose_html("2026-08", 1, 0, [], ['[report-center] new: <b>Report</b>'], [])
+    assert "CLIFF WATCH" in html
+    assert "<b>Report</b>" not in html and "&lt;b&gt;Report&lt;/b&gt;" in html
+
+
+def test_html_gainers_largest_first_and_uses_display_names():
+    ranked = RANKED + [{"county": "StClair", "now": 300, "then": 200, "change": 100, "pct": 50.0}]
+    gain = compose_html("2026-08", 1, 0, ranked, [], []).split("COUNTIES GAINING")[1]
+    assert gain.index("St. Clair") < gain.index("Adams")
+
+
+def test_html_is_email_safe():
+    html = compose_html("2026-08", 1, 0, RANKED, [], [])
+    low = html.lower()
+    assert "<table" in low
+    for banned in ("<style", "<script", "<link", "class="):
+        assert banned not in low, banned
+    # The routine reads this file back before sending; file readers truncate
+    # very long lines, which would silently cut rows out of the email.
+    assert max(len(line) for line in html.splitlines()) < 1000
+
+
+def test_county_counts_in_both_bodies():
+    ranked = RANKED + [{"county": "Will", "now": 5, "then": 5, "change": 0, "pct": 0.0}]
+    line = "1 declined, 1 gained, 1 flat, of 3"
+    assert line in compose("2026-08", 1, 0, ranked, [], [])
+    assert line in compose_html("2026-08", 1, 0, ranked, [], [])
