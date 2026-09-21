@@ -28,7 +28,7 @@ Verified figures: 2023-06 = 2,982,596 (peak) · 2026-08 = 2,253,817.
 ```bash
 python backfill.py     # one-time history load, safe to re-run
 python run.py          # one weekly cycle; prints NO_UPDATE when quiet
-pytest                 # 61 tests
+pytest                 # 64 tests
 ```
 
 When a run has something to report, `run.py` prints the plain-text email and

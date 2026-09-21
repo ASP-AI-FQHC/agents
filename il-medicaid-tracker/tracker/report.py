@@ -7,6 +7,15 @@ import html as _html
 
 from .counties import display
 
+TITLE = "Illinois Medicaid Cliff Tracker"
+BYLINE = "Brought to you by ALLSTAR Partners"   # only ALLSTAR is capitalised
+ABOUT = (
+    "A monthly read on Medicaid managed-care enrollment across all 102 Illinois "
+    "counties, showing where coverage is slipping ahead of the January 1, 2027 work "
+    "requirements. It also flags new state redetermination reports and policy "
+    "guidance as they are posted."
+)
+
 CAVEAT = (
     "Source: HFS Detailed Managed Care Enrollment. This covers MANAGED CARE ONLY "
     "(about 2.25M of roughly 3.26M total Illinois Medicaid enrollees). It is a churn "
@@ -34,7 +43,7 @@ def _county_counts(ranked):
 
 
 def compose(month, total, mom, ranked, alerts, problems, baseline=None):
-    L = []
+    L = [TITLE, BYLINE, "", ABOUT, ""]
     if problems:
         L.append("DATA PROBLEMS THIS RUN — figures below may be incomplete:")
         L += [f"  - {p}" for p in problems]
@@ -80,6 +89,7 @@ def compose(month, total, mom, ranked, alerts, problems, baseline=None):
 
 _FONT = "font-family:Arial,Helvetica,sans-serif;"
 _DOWN, _UP, _MUTED = "#b42318", "#067647", "#667085"
+_BRAND = "#0094bb"                               # ALLSTAR Partners teal
 _TD = "padding:6px 10px;border-bottom:1px solid #eaecf0;"
 _TH = ("padding:6px 10px;border-bottom:2px solid #d0d5dd;font-size:12px;"
        "color:#667085;text-transform:uppercase;")
@@ -115,7 +125,10 @@ def _cell(text, align="right", colour=None):
 
 
 def compose_html(month, total, mom, ranked, alerts, problems, baseline=None):
-    P = []
+    P = [f'<div style="border-top:4px solid {_BRAND};padding-top:12px;font-size:20px;'
+         f'font-weight:bold;color:{_BRAND};">{_e(TITLE)}</div>',
+         f'<div style="font-size:13px;color:{_MUTED};">{_e(BYLINE)}</div>',
+         f'<div style="font-size:14px;margin:10px 0 18px 0;">{_e(ABOUT)}</div>']
     if problems:
         P.append(_box("DATA PROBLEMS THIS RUN — figures below may be incomplete",
                       problems, "#b54708", "#fffaeb"))

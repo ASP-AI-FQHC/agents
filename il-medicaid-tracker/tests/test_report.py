@@ -85,3 +85,29 @@ def test_county_counts_in_both_bodies():
     line = "1 declined, 1 gained, 1 flat, of 3"
     assert line in compose("2026-08", 1, 0, ranked, [], [])
     assert line in compose_html("2026-08", 1, 0, ranked, [], [])
+
+
+# --- Header: what this is and who sends it -----------------------------------
+
+def test_both_bodies_open_with_title_byline_and_about():
+    for body in (compose("2026-08", 1, 0, RANKED, [], []),
+                 compose_html("2026-08", 1, 0, RANKED, [], [])):
+        assert "Illinois Medicaid Cliff Tracker" in body
+        assert "Brought to you by ALLSTAR Partners" in body
+        assert "102 Illinois counties" in body
+        assert body.index("Illinois Medicaid Cliff Tracker") < body.index("Data month")
+
+
+def test_brand_name_casing_is_never_shouted():
+    """Only ALLSTAR is capitalised, and CSS must not uppercase the byline."""
+    html = compose_html("2026-08", 1, 0, RANKED, [], [])
+    for body in (compose("2026-08", 1, 0, RANKED, [], []), html):
+        assert "ALLSTAR PARTNERS" not in body and "Allstar" not in body
+    byline = html[html.index("Brought to you by") - 200:html.index("Brought to you by")]
+    assert "uppercase" not in byline.split("<div")[-1]
+
+
+def test_problems_still_precede_every_figure_with_header_present():
+    for fn in (compose, compose_html):
+        body = fn("2026-08", 2253817, -6710, RANKED, [], ["Row sum does not match"])
+        assert body.index("Row sum") < body.index("2,253,817")
