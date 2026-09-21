@@ -1,7 +1,7 @@
 {
  "initialized": true,
  "baseline_pending": [],
- "last_run": "2026-09-18",
+ "last_run": "2026-09-21",
  "runs": [
   {
    "date": "2026-09-10",
@@ -100,6 +100,17 @@
    "email_sent": true,
    "email_type": "alert",
    "note": "New: 4 AR Round-1 sub-award recipient stories (Baxter Health $19.7M combined THRIVE+PACT incl. RPM/telehealth/cybersecurity; CHC of Arkansas $130,410 FQHC clinical decision support; MySwaddle/Doula Alliance $860,500 low relevance; Le Bonheur Jonesboro $340,725 low relevance); 3 IN GROW sub-awards (Region 4 $15.2M + Ball State $358,170 sub-award; Valley Oaks Health $828,375 Region 3 sub-award); 1 MO home-visiting NOFO ($588,000/yr pool, low relevance); 2 TN items (RTCF federal approval as 1 of 8 states, high relevance tech-vendor channel; MCAN grant line confirmed as distinct 9th TN line); 5 MS recipient-level awards from the 167-award/$104.1M pool plus the federal CMS press release itemizing category totals. Updated: AR Mercy Fort Smith (amount corrected to full $19.06M w/ THRIVE+PACT breakdown); IL ICAHN (category breakdown: $31M tech/cyber, $14M disease prevention, $5M workforce); IN GROW regions placeholder narrowed to just Regions 2 and 8; MO hospital-repairs IFB (first unconfirmed ~$32M estimate); MS's 3 award-category items (category-level $ totals now confirmed, summing to the known $104.1M); TX Initiative 3 AI/Telehealth (RFA number HHS0015684, earlier Sept 2026 estimated posting date, both unconfirmed on a primary document). No news found for WI, LA, OK, or program-wide Federal this run. Skipped as non-material/low-confidence: OK Doula Program deadline detail (secondary-sourced only, no material new fact); two ambiguous Abbott rural-hospital grant headlines with no confirmed RHTP linkage or date."
+  },
+  {
+   "date": "2026-09-21",
+   "sources_checked": 77,
+   "sources_failed": 77,
+   "sources_failed_note": "Direct WebFetch/curl to all 77 state and federal source URLs (plus every other domain tried, including non-.gov local news and third-party trackers) again returned EGRESS_BLOCKED / CONNECT tunnel 403 across 11 parallel research passes (10 states + federal) -- confirmed as a general proxy policy block via curl tests on arkansasrhtp.com, www.dhs.wisconsin.gov, and example.com before dispatching research. All findings came from WebSearch fallback queries per sources.json; several passes (AR, IN, WI, MO, TN, MS, LA, TX, OK, Federal) hit the shared session-wide WebSearch budget cap before exhausting their planned follow-ups, which may have limited coverage depth -- flagged per-state in item descriptions.",
+   "items_new": 5,
+   "items_updated": 8,
+   "email_sent": true,
+   "email_type": "alert",
+   "note": "New: 3 AR Round-1 THRIVE/PACT sub-award recipient stories (White County Medical Center/Unity Health Newport WELL+CICAP $1.07M; Conway Regional maternal mobile health unit $795,960; Baptist Health Magnolia Regional transition $3M); 2 MS recipient-level awards from the 167-award pool (Tippah County $1.07M incl. cybersecurity/cloud ERP; DeSoto County $842,710). Updated: AR Baptist Health/South Arkansas Regional (IT/virtual-care sub-line $589,378 added); AR Rural Health Partnership (amount revised to $18.8M combined, conflicts with prior ~$2.25M+ estimate -- flagged for verification, not reconciled); MS 97-award and 43-award category pools (category totals ~$47.4M and ~$43.3M added); MS WEI/PES-EmPATH (split to $16.8M/$14M, timing narrowed to ~Oct 14-29); LA UL Lafayette grant (amount split $1.6M+$498,723 confirmed); LA Rural Tech Catalyst Fund (fund size $20M and per-company award range/eligibility added); TN RAMP state program (moved from design-stage placeholder to a live $104.4M TennCare Shared Savings solicitation with a Sept 30 2026 deadline -- state-funded, explicitly complements RHTP, RHTP funding itself not confirmed). Skipped as duplicate/non-material/unconfirmed: a CMS press release re-confirming AR's already-known $149.3M Round 1 total (same recycling pattern excluded in prior runs); a TX 'Rural Hospital Officers Academy' item confirmed HB18-state-funded, not RHTP; an MS DFA compliance-oversight RFx with an unclear/possibly-stale date; an OK ROOTS Year-2 $10,000/site detail and OKSHINE connection-fee sub-page, both secondary-aggregator-sourced only. No news found for IL, IN, WI, MO, TX, OK, or Federal this run."
   }
  ],
  "items": [
@@ -1302,15 +1313,15 @@
   {
    "id": "TN:document:ramp-state-program",
    "type": "document",
-   "title": "Rural Healthcare Access Modernization Program (RAMP) \u2014 State-Funded Complement to Federal RHTP",
-   "url": "https://worh.org/2026/08/tennessee-rural-healthcare-access-modernization-program-ramp/",
-   "amount": "$104.4M (TDH, via TennCare Shared Savings, FY27 budget) + $20.6M (TennCare, Rural Health Clinic sustainability) = ~$125M total, separate from the $206.9M federal RHTP award",
+   "title": "RAMP (Rural Healthcare Access Modernization Program) \u2014 Open Competitive Solicitation, Applications Due 2026-09-30",
+   "url": "https://www.tn.gov/health/ramp.html",
+   "amount": "$104.4 million in TennCare Shared Savings (state-funded, explicitly designed to complement federal RHTP; RHTP funding itself not confirmed for this program)",
    "recipients": "not yet announced",
-   "deadline": "Not yet determined (newly funded in FY27 state budget, reported Aug 2026)",
-   "status": "Newly established, program design/rollout stage",
+   "deadline": "2026-09-30, 2:00 PM CT",
+   "status": "Open solicitation with published tiers: Rural Capital Projects (one $40M, one $20M, two $10M, four up to $2.5M awards); Competitive Grant Extensions for RHTP-aligned projects; Primary Care Seed Funding (eight $500K + one $427.5K awards, targeting pediatric/obstetric provider-shortage areas). Official page: https://www.tn.gov/health/ramp.html (contact Competitive.Health@tn.gov, subject 'ATTN: RAMP').",
    "description": "State-funded (not federal RHTP) rural healthcare modernization program intended to complement federal RHTP investments.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-21"
   },
   {
    "id": "TN:document:tn-rhtf-full-application",
@@ -1447,26 +1458,26 @@
    "type": "award",
    "title": "Rural Provider Technology Grant Awards (97 awards)",
    "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
-   "amount": "$47,400,000 (97 awards)",
+   "amount": "~$47.4 million across 97 awards (secondary-sourced: Healthcare IT News / govmarketnews.com coverage of the 2026-09-14 announcement)",
    "recipients": "97 rural providers: recipient mix 34 hospitals, 27 clinics, 11 behavioral health practices, ~9 FQHCs, incl. Copiah County Medical Center",
    "deadline": "n/a",
    "status": "Awarded 2026-09-14",
    "description": "Largest of the three award categories, funding tech/EHR/cybersecurity upgrades under HTAM.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-18"
+   "last_updated": "2026-09-21"
   },
   {
    "id": "MS:award:capital-care-gap-closure-43",
    "type": "award",
    "title": "Capital Care Gap Closure Grant Awards (43 awards)",
    "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
-   "amount": "$43,300,000 category total (43 awards); itemized recipient amounts available for two of the 43: Harrison/Stone County ($15M) and Tippah County ($1.06M)",
+   "amount": "~$43.3 million across 43 awards (secondary-sourced, same coverage as above)",
    "recipients": "43 providers incl. Memorial Health System (Harrison County $5M across 4 projects + Stone County $10M across 2 projects, also reported locally as \"Harrison County Health Systems\"), and Tippah County ($1.06M: Tippah County Hospital $151,300 + $400,000, Fast Pace Mississippi $516,600)",
    "deadline": "n/a",
    "status": "Awarded 2026-09-14; recipient-level breakdown reported 2026-09-15/16",
    "description": "BRIDGE-funded facility/capital grants closing rural care-access gaps.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-18"
+   "last_updated": "2026-09-21"
   },
   {
    "id": "MS:award:telehealth-hub-cee-27",
@@ -1499,13 +1510,13 @@
    "type": "deadline",
    "title": "WEI & PES-EmPATH Awards Pending",
    "url": "https://vicksburgnews.com/health-announcement-warren-county-health-services-to-benefit-from-gov/",
-   "amount": "WEI: $16.8M across 4 workforce grant programs; PES/EmPATH: $14M",
+   "amount": "WEI $16.8M across 4 workforce-shortage grant programs; PES/EmPATH $14M for ED-based crisis units",
    "recipients": "not yet announced",
-   "deadline": "Applications closed 2026-07-15; decisions due 30-45 days from the 2026-09-14 announcement (~consistent with prior late-Oct-2026 estimate)",
+   "deadline": "~30-45 days from 2026-09-14, i.e. roughly Oct 14-29, 2026 (per Mississippi Today; narrows prior 'late Oct 2026' estimate)",
    "status": "Under review; dollar figures now confirmed (previously amount not stated)",
    "description": "Workforce Expansion Initiative and Psychiatric Emergency Services/EmPATH Units grant decisions pending; first-round MS RHTP budget also reported increased from ~$80M to $104M planned due to high demand.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-17"
+   "last_updated": "2026-09-21"
   },
   {
    "id": "MS:solicitation:ems-capacity-assessment-rfp",
@@ -1746,13 +1757,13 @@
    "type": "solicitation",
    "title": "Rural Tech Catalyst Fund (RTCF-LA) Cohort 1",
    "url": "https://www.opportunitylouisiana.gov/news/louisiana-launches-rural-tech-catalyst-fund-to-advance-rural-health-care-innovation",
-   "amount": "$20M reserved; awards capped at $3M/company (milestone-based)",
-   "recipients": "not yet announced (200+ companies applied for Cohort 1)",
+   "amount": "$20M total fund; awards $250,000-$3,000,000 per company, milestone-based, capped at $3M/company",
+   "recipients": "200+ companies applied; eligibility requires company under 10 years old and under $50M raised in outside investment; awards still anticipated mid-Oct 2026",
    "deadline": "Applications closed; awards expected imminently",
    "status": "Under review, awards pending",
    "description": "LED/Louisiana Innovation + LDH joint fund financing rural health-tech startups deploying innovations across rural Louisiana.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-21"
   },
   {
    "id": "LA:deadline:year2-nofos-ehr-voucher",
@@ -2344,13 +2355,13 @@
    "type": "award",
    "title": "Arkansas Rural Health Partnership \u2014 Multiple RHTP Sub-Awards",
    "url": "https://www.nwaonline.com/news/2026/aug/27/arkansas-rural-health-grant-recipients-announced/",
-   "amount": "$2,245,031 (EMS tele-triage, 31 counties); Emergency Power Resilience Initiative (9 counties, amount not stated); PACT-SAFE behavioral health initiative (19 counties, amount not stated)",
-   "recipients": "Arkansas Rural Health Partnership",
+   "amount": "combined $18.8M (THRIVE + PACT) per Texarkana Gazette (2026-08-30) \u2014 supersedes/clarifies the previously tracked ~$2.25M+ estimate; figures not yet reconciled against a primary source, flagged for verification",
+   "recipients": "Arkansas Rural Health Partnership \u2014 Little River Memorial Hospital (Ashdown), Sevier County Medical Center (De Queen), Howard Memorial Hospital (Nashville), Southwest Arkansas Regional Medical Center",
    "deadline": "n/a",
    "status": "Announced 2026-08-27 (Round 1 sub-award detail)",
    "description": "Three separate RHTP-funded projects: EMS tele-triage network, emergency power resilience, and PACT-SAFE behavioral health initiative.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-21"
   },
   {
    "id": "MS:solicitation:empath-consulting-sole-source",
@@ -2370,13 +2381,13 @@
    "type": "award",
    "title": "LDH Awards UL Lafayette RHTP-Linked Grants for Rural Health Workforce & AI Initiatives",
    "url": "https://www.acadiananewsfirst.com/2026/09/09/louisiana-department-health-taps-ul-lafayette-improve-rural-health-care/",
-   "amount": "~$2,098,723 combined (~$1.6M College of Nursing & Health Sciences + $498,723 Center for Applied Artificial Intelligence)",
+   "amount": "~$2.1M total: $1.6M to UL Lafayette College of Nursing & Health Sciences (nursing workforce) + $498,723 to the Center for Applied Artificial Intelligence (AI platform to standardize rural-provider health data)",
    "recipients": "University of Louisiana at Lafayette (College of Nursing & Health Sciences; Center for Applied Artificial Intelligence)",
    "deadline": "n/a",
    "status": "Announced 2026-09-09",
    "description": "Two RHTP-linked grants: rural nursing workforce development, and AI-related health innovation (planned NSF AHeAD Center, Louisiana Center for Health Innovation).",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-21"
   },
   {
    "id": "TX:award:rural-hospital-grant-25m",
@@ -2487,13 +2498,13 @@
    "type": "award",
    "title": "Baptist Health / South Arkansas Regional Hospital (El Dorado) PACT+THRIVE Award",
    "url": "https://www.eldoradonews.com/news/2026/aug/29/union-county-among-most-frequently-named-in/",
-   "amount": "$12,000,000 (PACT) + $589,378 (THRIVE) \u2248 $12.59M combined",
+   "amount": "$589,378 for IT & virtual-care transition (South Arkansas Regional Hospital/El Dorado, Union County) \u2014 part of a larger ~$12.59M combined PACT+THRIVE package for Baptist Health/South Arkansas Regional",
    "recipients": "Baptist Health / South Arkansas Regional Hospital, El Dorado, Union County, AR",
    "deadline": "n/a",
    "status": "Awarded (Round 1); announced ~2026-08-29",
    "description": "Facility improvements, clinical equipment, and IT infrastructure supporting the transition to Baptist Health Medical Center\u2013El Dorado, including virtual care/telemetry systems.",
    "first_seen": "2026-09-17",
-   "last_updated": "2026-09-17"
+   "last_updated": "2026-09-21"
   },
   {
    "id": "AR:award:jefferson-hospital-association-hvac",
@@ -2780,6 +2791,71 @@
    "description": "Multiple awards to one system, at least one in the Technology Grant category.",
    "first_seen": "2026-09-18",
    "last_updated": "2026-09-18"
+  },
+  {
+   "id": "AR:award:white-county-medical-center-well-cicap",
+   "type": "award",
+   "title": "White County Medical Center / Unity Health Newport \u2014 WELL & CICAP RHTP Awards",
+   "url": "https://www.nwaonline.com/news/2026/aug/27/arkansas-rural-health-grant-recipients-announced/",
+   "amount": "$1,066,182 combined (WELL $466,182 + CICAP $600,000)",
+   "recipients": "White County Medical Center / Unity Health Newport \u2014 Green Family Practice Clinic and Family Practice Associates (Newport)",
+   "deadline": "n/a",
+   "status": "Announced 2026-08-27 (Round 1 PACT/THRIVE sub-award detail)",
+   "description": "WELL expands chronic-care management/preventive services for up to 750 patients; CICAP replaces a 33,000 sq ft roof at Unity Health Newport to protect medical equipment and IT systems.",
+   "first_seen": "2026-09-21",
+   "last_updated": "2026-09-21"
+  },
+  {
+   "id": "AR:award:conway-regional-maternal-mobile-health-unit",
+   "type": "award",
+   "title": "Conway Regional Health System \u2014 Maternal Mobile Health Unit",
+   "url": "https://www.nwaonline.com/news/2026/aug/27/arkansas-rural-health-grant-recipients-announced/",
+   "amount": "$795,960",
+   "recipients": "Conway Regional Health System \u2014 Faulkner, Conway, Perry, Pope, Johnson, Yell, Van Buren, and Cleburne counties",
+   "deadline": "n/a",
+   "status": "Announced 2026-08-27 (Round 1 sub-award detail)",
+   "description": "Funds a mobile health unit plus home-health infrastructure, telehealth, and maternal-health specialists across an 8-county region.",
+   "first_seen": "2026-09-21",
+   "last_updated": "2026-09-21"
+  },
+  {
+   "id": "AR:award:baptist-health-magnolia-regional-transition",
+   "type": "award",
+   "title": "Baptist Health \u2014 Magnolia Regional Medical Center Transition and Integration",
+   "url": "https://www.nwaonline.com/news/2026/aug/27/arkansas-rural-health-grant-recipients-announced/",
+   "amount": "$3,000,000",
+   "recipients": "Baptist Health / Magnolia Regional Medical Center (Columbia County)",
+   "deadline": "n/a",
+   "status": "Announced 2026-08-27 (Round 1 sub-award detail)",
+   "description": "Funds infrastructure, clinical/technology systems, Caregility virtual care, telemetry, cybersecurity, and patient-safety upgrades as Magnolia Regional integrates into Baptist Health. Distinct facility/county from the already-tracked Baptist Health/South Arkansas Regional (El Dorado) award.",
+   "first_seen": "2026-09-21",
+   "last_updated": "2026-09-21"
+  },
+  {
+   "id": "MS:award:tippah-county-recipients",
+   "type": "award",
+   "title": "Tippah County RHTP Awards \u2014 Tippah County Hospital & Fast Pace Mississippi",
+   "url": "https://tippahnews.com/tippah-county-news/tippah-county-awarded-1-06-million-in-rural-health-transformation-grants",
+   "amount": "$1,067,900 total (Tippah County Hospital $551,300: $151,300 hardware/cybersecurity + $400,000 cloud ERP; Fast Pace Mississippi $516,600 enterprise EHR/IT/interoperability/cybersecurity)",
+   "recipients": "Tippah County Hospital; Fast Pace Mississippi",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M Rural Provider Technology pool)",
+   "description": "Local-news breakdown of Tippah County's share of RHTP Rural Provider Technology awards, including cybersecurity, cloud ERP, and enterprise EHR/interoperability funding.",
+   "first_seen": "2026-09-21",
+   "last_updated": "2026-09-21"
+  },
+  {
+   "id": "MS:award:desoto-county-recipients",
+   "type": "award",
+   "title": "DeSoto County RHTP Awards \u2014 Positive Pathways, Sidhu Pediatrics, Endocrine Diabetes & Thyroid Center",
+   "url": "https://desotocountynews.com/desoto-county-news/desoto-county-awarded-842710-in-rural-health-transformation-grants/",
+   "amount": "$842,710 total (Positive Pathways LLC $378,750; Sidhu Pediatrics LLC $375,000; Endocrine Diabetes & Thyroid Center PLLC $88,960.38)",
+   "recipients": "Positive Pathways LLC; Sidhu Pediatrics LLC; Endocrine Diabetes & Thyroid Center PLLC",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool)",
+   "description": "Local-news breakdown of DeSoto County's RHTP technology-grant recipients.",
+   "first_seen": "2026-09-21",
+   "last_updated": "2026-09-21"
   }
  ]
 }
