@@ -1,7 +1,7 @@
 {
  "initialized": true,
  "baseline_pending": [],
- "last_run": "2026-09-21",
+ "last_run": "2026-09-22",
  "runs": [
   {
    "date": "2026-09-10",
@@ -111,6 +111,17 @@
    "email_sent": true,
    "email_type": "alert",
    "note": "New: 3 AR Round-1 THRIVE/PACT sub-award recipient stories (White County Medical Center/Unity Health Newport WELL+CICAP $1.07M; Conway Regional maternal mobile health unit $795,960; Baptist Health Magnolia Regional transition $3M); 2 MS recipient-level awards from the 167-award pool (Tippah County $1.07M incl. cybersecurity/cloud ERP; DeSoto County $842,710). Updated: AR Baptist Health/South Arkansas Regional (IT/virtual-care sub-line $589,378 added); AR Rural Health Partnership (amount revised to $18.8M combined, conflicts with prior ~$2.25M+ estimate -- flagged for verification, not reconciled); MS 97-award and 43-award category pools (category totals ~$47.4M and ~$43.3M added); MS WEI/PES-EmPATH (split to $16.8M/$14M, timing narrowed to ~Oct 14-29); LA UL Lafayette grant (amount split $1.6M+$498,723 confirmed); LA Rural Tech Catalyst Fund (fund size $20M and per-company award range/eligibility added); TN RAMP state program (moved from design-stage placeholder to a live $104.4M TennCare Shared Savings solicitation with a Sept 30 2026 deadline -- state-funded, explicitly complements RHTP, RHTP funding itself not confirmed). Skipped as duplicate/non-material/unconfirmed: a CMS press release re-confirming AR's already-known $149.3M Round 1 total (same recycling pattern excluded in prior runs); a TX 'Rural Hospital Officers Academy' item confirmed HB18-state-funded, not RHTP; an MS DFA compliance-oversight RFx with an unclear/possibly-stale date; an OK ROOTS Year-2 $10,000/site detail and OKSHINE connection-fee sub-page, both secondary-aggregator-sourced only. No news found for IL, IN, WI, MO, TX, OK, or Federal this run."
+  },
+  {
+   "date": "2026-09-22",
+   "sources_checked": 77,
+   "sources_failed": 1,
+   "sources_failed_note": "Network egress to state/federal domains was reachable this run for the first time in weeks (confirmed via a live curl test to arkansasrhtp.com returning HTTP 200 before dispatching research). 11 parallel research passes (10 states + federal) used WebFetch/curl as primary sources, with WebSearch as fallback per sources.json. Only one hard failure among the 77 primary sources_checked: AR's state procurement bids portal (arkansas.gov/tss/procurement/bids redirects to www.ark.org, blocked by network egress policy). A few secondary/non-required domains were also unreachable per-state (TN's Caspio partner portal is a JS-only shell; WI's VendorNet is an unscrapeable Blazor SPA; IL's AmpliFund general opportunities listing sits behind an SSO login) but are not counted against the 77 figure since individual NOFO pages were reached directly instead.",
+   "items_new": 19,
+   "items_updated": 22,
+   "email_sent": true,
+   "email_type": "alert",
+   "note": "New: 12 additional AR Round-1 THRIVE/PACT recipients found by reading the official master award PDF directly for the first time (Arkansas Children's Hospital $301,400; Mississippi County Hospital System $9,602,657; River Valley Wellness $3,500,000; John Ed Chambers Memorial Hospital $2,187,999.96; Children's Advocacy Centers of Arkansas $1,374,505.29; North Arkansas Rural Health Consortium $1,000,000; LilyLink/Perinatal Center $871,736; Arkansas Baptist Childrens Homes $423,761.29; Subiaco Abbey $268,500; Carriage Hill Family Care $150,000; Harbor House Fort Smith $37,230; Delta Memorial Hospital $24,720); IN GROW Regions 2 ($20.7M) and 8 ($11.4M) confirmed, completing all 8 of 8 regional awards, plus a newly disclosed $16.25M regional/statewide surplus; IL Community Care Infrastructure ($26M Y1/$98M total, recipients IPHCA+CBHA) and Healthcare Transformation Collaboratives ($8M/yr, 4 named hospital-system collaboratives) NOFOs went from amount-not-stated to fully specified; LA Rural Clinician Credit Bank named recipients and resolved a $5.6M-vs-$12.7M discrepancy ($10.00M allocation, $12.7M awarded to 53 of 70 applicants), plus a new RHTP-tied PACE Expansion RFI and a preliminary EHR Voucher Program design (cybersecurity costs explicitly excluded from the voucher); TX all 6 initiative timelines narrowed/clarified, most notably Initiative 5 (cybersecurity) confirmed as a vendor-facing RFO restricted to Texas-DIR-listed MSSPs rather than a hospital grant. Updated: AR 4 award-amount reconciliations against the official master list (2 unresolved discrepancies flagged, not fabricated); IN 3 vendor solicitations resolved to named awardees (MOCC 3-vendor team, Program Evaluator, $860,088 Teleconsult assessment); WI DPI Rural LEA grant now lists 20 named school districts; MO MEMSA EMS partnership total revised to $12.34M (from ~$6.5M); MS Winston County Medical Foundation award fully itemized at $3.79M. No news found for TN, OK, or Federal this run. Network egress to state/federal domains was unblocked for the first time in weeks, letting most passes read primary sources (official pages, PDFs, procurement portals) directly instead of relying on WebSearch fallback."
   }
  ],
  "items": [
@@ -278,10 +289,10 @@
    "amount": "$193,418,216 (FY2026 tranche)",
    "recipients": "Illinois Dept. of Healthcare and Family Services (HFS)",
    "deadline": "n/a",
-   "status": "Awarded 2025-12-29; project period through 2030-10-30",
+   "status": "Awarded 2025-12-29; project period through 2030-10-30. Action log now also shows two Administrative Supplement actions: 2/25/2026 ($0) and 4/8/2026 ($0) \u2014 no change to total award amount.",
    "description": "Federal cooperative agreement establishing Illinois's RHTP funding stream.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-10"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "IL:news:illinois-awarded-193m-rural-health",
@@ -314,26 +325,26 @@
    "type": "nofo",
    "title": "RHTP \u2014 Transforming Rural Healthcare Delivery: Community Care Infrastructure",
    "url": "https://il.amplifund.com/Public/Opportunities/Details/d37720d3-ac35-43c2-b1d1-8f5db84e977e",
-   "amount": "amount not stated",
-   "recipients": "rural primary care and behavioral health providers",
+   "amount": "$26,000,000 in Year 1; up to $98,000,000 total across 5 budget periods (was: amount not stated)",
+   "recipients": "Illinois Primary Health Care Association (IPHCA) and Community Behavioral Health Association (CBHA) as direct recipients/intermediaries distributing to rural primary care and behavioral health providers; ~2 expected awards",
    "deadline": "not stated",
-   "status": "Posted on AmpliFund/Euna Grants portal; open/close status unconfirmed",
+   "status": "Open on Euna/AmpliFund portal; GATA pre-qualification, SAM/UEI, and NICRA/de minimis rate required",
    "description": "Supports infrastructure, staffing, and workflows for integrated rural care models.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-10"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "IL:nofo:healthcare-transformation-collaboratives",
    "type": "nofo",
    "title": "RHTP \u2014 Transforming Rural Healthcare Delivery: Healthcare Transformation Collaboratives",
    "url": "https://il.amplifund.com/Public/Opportunities/Details/d66b3b5e-df2a-4b6d-a1ce-ace5d7a1a3d7",
-   "amount": "amount not stated",
-   "recipients": "not stated",
+   "amount": "Up to $8,000,000/year for 5 years; individual awards $1,000,000\u2013$3,000,000 per collaborative (was: amount not stated)",
+   "recipients": "Four pre-designated, non-competitive Healthcare Transformation Collaboratives: Carle Health/Vermilion County Community Health Collaborative; SIHF Healthcare/East St. Louis Health Transformation Partnership; Egyptian Health Department/Integrated Hub; OSF Healthcare/Medicaid Innovation Collaborative",
    "deadline": "not stated",
-   "status": "Posted on AmpliFund portal; open/close status unconfirmed",
+   "status": "Open on Euna/AmpliFund portal; non-competitive, ~4 grants expected",
    "description": "Collaborative model NOFO track under RHTP.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-10"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "IL:award:icahn-rhtp-grant-agreements",
@@ -564,10 +575,10 @@
    "amount": "amount not stated",
    "recipients": "unknown counties/coalitions",
    "deadline": "n/a",
-   "status": "Regions 1, 3, 4, 5, 6, 7 now confirmed (6 of 8); no press coverage found for Regions 2 or 8 as of 2026-09-18",
+   "status": "RESOLVED \u2014 Region 2 ($20.7M, 12 counties) and Region 8 ($11.4M, 10 counties) both confirmed via IDOH press releases dated 2026-09-03. All 8 of 8 GROW regional coalitions are now announced.",
    "description": "Placeholder \u2014 follow-up needed on remaining 2 of 8 regional GROW awards.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-18"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "IN:solicitation:rhtp-mocc-vendor-rfp",
@@ -575,12 +586,12 @@
    "title": "RHTP01: Medical Operations Coordinator Center (MOCC) Operations RFP",
    "url": "https://app.govly.com/public/opportunities/16550975",
    "amount": "amount not stated (contract funding contingent on federal award milestones)",
-   "recipients": "vendor TBD",
+   "recipients": "Patient Flow Innovations; Collaborative Fusion, Inc; Communicare Technology",
    "deadline": "2026-06-15 (closed)",
-   "status": "Closed \u2014 proposals under review as of Sept 2026",
+   "status": "Awarded (Preliminary Notice of Award dated 2026-07-27) \u2014 three vendors selected as a team: Patient Flow Innovations, Collaborative Fusion, Inc, and Communicare Technology. Contract negotiations underway as of notice date.",
    "description": "IDOH/Indiana DOA solicitation for a vendor to build/operate a statewide 24/7 hospital/EMS coordination hub, 5-year contract.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-10"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "IN:solicitation:rhtp-program-evaluator-rfp",
@@ -588,12 +599,12 @@
    "title": "RHTP Admin: Program Evaluator RFP",
    "url": "https://civiciq.com/public-rfp/indiana-dept-of-health-rhtp-program-evaluator-rfp-2026",
    "amount": "amount not stated",
-   "recipients": "vendor TBD (independent evaluator)",
+   "recipients": "Public Policy Associates LLC",
    "deadline": "2026-05-18 (closed)",
-   "status": "UNCONFIRMED report (secondary tracker only): apparently awarded with an Award Date of 06/26/2026; vendor name not found. Previously tracked only as 'Closed \u2014 contract structured as 4-year base + 2 optional renewal years.' Needs primary-source confirmation.",
+   "status": "CONFIRMED via primary source (Preliminary Notice of Award PDF dated 2026-06-26). Selected vendor: Public Policy Associates LLC.",
    "description": "IDOH solicitation for an independent third-party evaluator of RHTP outcomes/impact.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "IN:deadline:rhtp-physician-recruitment-incentive",
@@ -835,12 +846,12 @@
    "title": "DPI Rural LEA Healthcare Career Pathways Grant",
    "url": "https://dpi.wi.gov/cte/rhtp-grant",
    "amount": "Up to $41,000/year per LEA; $5,000,000 pool over 5 years total",
-   "recipients": "Rural Local Education Agencies (school districts)",
+   "recipients": "20 named school districts: Osseo-Fairchild, Eleva-Strum, Parkview, Lakeland Union, Flambeau, Spencer, Cuba City, Mishicot, Chilton, Bloomer, Independence, Gilmanton, Solon Springs, Monticello, Birchwood, Beecher-Dunbar-Pembine, Maple/Northwestern, Tomorrow River, Spring Valley, Randolph, Butternut",
    "deadline": "June 30, 2026, 5:00 PM (application window closed)",
-   "status": "Available as of ~June 2026",
+   "status": "Awarded (2026-2031 cycle) \u2014 was 'Available as of ~June 2026' with no recipients listed",
    "description": "DPI-administered, DHS-funded grant for rural school districts to build healthcare career-pathway programs.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "FEDERAL:news:cms-establishes-office-rural-health-transformation",
@@ -899,13 +910,13 @@
    "type": "solicitation",
    "title": "RHTP07: Teleconsult and Telehealth Landscape Assessment Service RFP",
    "url": "https://www.rfpmart.com/usa-indiana-rfp-bids-tender.html",
-   "amount": "amount not stated",
-   "recipients": "vendor TBD \u2014 RHTP funding not confirmed on a primary source",
+   "amount": "$860,088 (5-year contract value)",
+   "recipients": "Laurel Health Advisors LLC (prime); subcontractors HER Consulting LLC (MBE, 10%), Briljent, Inc (WBE, 25%), Vespa Group, Inc. (IVOSB, 11%)",
    "deadline": "Submission deadline 2026-05-18; reportedly awarded June 2026",
-   "status": "UNCONFIRMED \u2014 reported only by a secondary RHTP tracker (rhtp.amemobile.net, page itself unreachable this run); not independently verified on an in.gov or procurement primary source. Verify next run.",
+   "status": "CONFIRMED via primary source (Award Recommendation Letter dated 2026-08-21). Selected vendor: Laurel Health Advisors LLC. Seven proposals received/scored including Deloitte, Manatt, PwC, Sargad, Syra Health, Yaqeen Technology Consulting; one disqualified for non-responsiveness.",
    "description": "Solicitation (numbered RHTP07, tied to the 'Growing Access to Teleconsultation' statewide initiative) for a vendor to assess Indiana's rural provider/specialist network and telehealth landscape, feeding a statewide teleconsult system procurement.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "MO:federal:rhtp-year1-award",
@@ -964,13 +975,13 @@
    "type": "award",
    "title": "Mobile Integrated Healthcare & Community Paramedicine (MIH-CP) Partnership with MEMSA",
    "url": "https://hannibal.net/2026/07/27/missouri-launches-6-5-million-push-to-expand-mobile-health-care-in-rural-areas/",
-   "amount": "~$6.5M",
+   "amount": "$12,343,385.00 total Contract Period 1 award to MEMSA (up from previously tracked ~$6.5M), broken out as: EMS Workforce Education & Training $2,832,956.00; EMS Agency Consolidation and Funding $1,709,543.00; EMS Rural Workforce Incentive Fund $1,221,102.00; EMS-MIH Program Expansion $6,579,784.00 (maps to the previously tracked ~$6.5M figure)",
    "recipients": "Missouri EMS Association (MEMSA), with DHSS Office of Rural Health and Primary Care",
    "deadline": "Performance period through 2027-07-31",
-   "status": "Awarded/active",
+   "status": "Verified via official MEMSA source (no longer 'unverified')",
    "description": "Statewide partnership to expand mobile integrated healthcare/community paramedicine to a goal of 14 operational rural sites.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "MO:award:doula-workforce-partnership",
@@ -1654,12 +1665,12 @@
    "title": "Rural Clinician Credit Bank award results (53 facilities / $12.7M / 28 parishes)",
    "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/Shareholder-Presentation-09092026.pdf",
    "amount": "$12.7M (per sources.json; independent search corroboration not found)",
-   "recipients": "53 rural facilities, 28 parishes (names not found)",
+   "recipients": "Previously 'names not found.' Now: multi-parish awardees named \u2014 Ochsner Clinic Foundation ($1.5M across 8 parishes), Outpatient Medical Center ($292,500 across 6 parishes), Winnsboro Medical Clinic ($116,288 across 7 parishes), SR Minden/Southern Roots ($45,000 across 4 parishes), LaBorde Therapy Center ($12,000 across 4 parishes); top single-parish concentrations: Evangeline ($1.22M/4 awards), St. Landry ($1.20M/6 awards), St. Martin ($1.06M/1 award), Caddo ($775K/1 award), Ascension ($680K/2 awards), Vermilion ($679.5K/2 awards)",
    "deadline": "n/a",
    "status": "Awarded (reported in Sept 2026 shareholder deck)",
-   "description": "First confirmed award tranche of Louisiana's RHTP.",
+   "description": "Total allocation $10.00M (not $5.6M as originally advertised 6/3/26) against $12,701,996 actually awarded to 53 of 70 eligible applicants (136 total applications); $1.5M per-multi-entity-system ceiling applied; CEAs due 9/15/26; Year 2 RCCB application opens Nov 2026.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "LA:nofo:collaborative-provider-models",
@@ -1773,10 +1784,10 @@
    "amount": "amount not stated",
    "recipients": "not yet announced",
    "deadline": "Expected ~Nov 2026",
-   "status": "Planned/upcoming",
-   "description": "Second-round NOFOs including a voucher program to help individual rural providers adopt/connect to the state-managed EHR.",
+   "status": "Program design preliminarily published (as of 9/1/2026); still pre-NOFO",
+   "description": "Preliminary (as of 9/1/2026) EHR Voucher Program design published: reimbursement formula with floor $ and ceiling at 75% of cost driven by provider volume/services/Medicaid-rural proportion; software/licensing reimbursed up to 3 years; professional services/internal labor reimbursed up to 50%; hardware/equipment and cybersecurity NOT eligible under this voucher (potentially covered by Capital Improvement and Telehealth initiatives instead); ONC-certified EHR migration required, 3+ year retention under a Cooperative Endeavor Agreement; one voucher per provider, lifetime; formal Grant Period 2 NOFO not yet released.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "LA:deadline:advisory-council-meeting-nov",
@@ -1864,10 +1875,10 @@
    "amount": "$56M",
    "recipients": "public & private rural hospitals (competitive)",
    "deadline": "Applications were due 2026-06-04, 10:30am CDT",
-   "status": "Announced 2026-05-05, awards pending",
+   "status": "HHSC timeline table now shows Notice of Award issued 2026-07-15 and contract routing completed 2026-08-31 for this $56M competitive wellness round \u2014 awards finalized. No public recipient list found yet.",
    "description": "Competitive wellness/chronic-disease grants. RFA number confirmed: HHS0017223.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "TX:nofo:initiative4-workforce",
@@ -1877,10 +1888,10 @@
    "amount": "$99M",
    "recipients": "rural hospitals/clinics (workforce recruitment/scholarships)",
    "deadline": "Round 1 2026-05-27, Round 2 2026-08-26",
-   "status": "Rounds closed; NOAs expected before 2026-09-30",
+   "status": "HHSC timeline table confirms Round 1 NOA 2026-07-17/contract routing 2026-07-30, and Round 2 NOA 2026-09-10/contract routing 2026-09-21 \u2014 both rounds fully processed. No public recipient list found.",
    "description": "Clinician recruitment/retention and training-pipeline funding.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "TX:nofo:initiative6-equipment",
@@ -1890,10 +1901,10 @@
    "amount": "$70.4M total per program timeline (state press release cites $56M tranche)",
    "recipients": "rural hospitals/clinics (equipment: CT/ultrasound/mammography, telemetry, nurse-call systems, generators)",
    "deadline": "Applications closed by summer 2026",
-   "status": "Closed, NOAs expected Jun-Sep 2026",
+   "status": "HHSC timeline table now shows Notice of Award issued 2026-07-21 and contract routing completed 2026-08-14 for Initiative 6 Part 1 \u2014 awards finalized. No public recipient list found.",
    "description": "Equipment/minor-facility modernization grants.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "TX:nofo:initiative2-portals",
@@ -1901,12 +1912,12 @@
    "title": "Initiative 2 \u2014 Patient Portals & Remote Patient Monitoring",
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "amount not stated",
-   "recipients": "not yet announced",
-   "deadline": "RFA expected to open Oct-Dec 2026",
-   "status": "Not yet open",
+   "recipients": "Eligibility clarified: 2+ clinically integrated networks, ACOs, or similar cooperatives supporting hospitals, clinics/physicians, and behavioral health providers (each network >=60% rural)",
+   "deadline": "Narrowed from generic 'Oct-Dec 2026' to: applications due October 2026, NOA January 2027, contract routing March 2027",
+   "status": "Still confirmed NOT open as of 2026-09-22",
    "description": "Consumer-facing patient portal/RPM technology investment.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "TX:nofo:initiative3-ai-telehealth",
@@ -1914,12 +1925,12 @@
    "title": "Initiative 3 \u2014 'Lone Star Advanced AI and Telehealth'",
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "amount not stated on primary source; secondary source (~June 2026) cites a pool of roughly $150M over 5 years (unconfirmed)",
-   "recipients": "not yet announced",
-   "deadline": "HHSC procurement forecast (Sept 2026) lists RFA HHS0015684 with an estimated posting date of September 2026 (earlier than the previously known Oct-Dec 2026 window); not yet confirmed as actually open",
-   "status": "Not yet open",
+   "recipients": "Eligibility clarified: 2+ clinically integrated networks/ACOs/cooperatives (>=60% rural); focus areas AI tools for maternal health, behavioral health, preventive screening plus telehealth care hubs",
+   "deadline": "Narrowed to: applications due November 2026, NOA February 2027, contract routing April 2027. Earlier rumor of a September 2026 posting (RFA HHS0015684) did NOT materialize \u2014 that RFA number now 404s.",
+   "status": "Still confirmed NOT open as of 2026-09-22",
    "description": "AI-enabled telehealth expansion for specialty/behavioral-health/chronic-disease care, coordinated with Initiatives 2 and 5.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-18"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "TX:nofo:initiative5-cyber",
@@ -1927,12 +1938,12 @@
    "title": "Initiative 5 \u2014 'Unified Care Infrastructure and Rural Cyber Protection'",
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "amount not stated",
-   "recipients": "not yet announced",
-   "deadline": "Expected to open Oct-Dec 2026, awards Jan-Mar 2027",
-   "status": "Not yet open",
+   "recipients": "Materially clarified: NOT a grant to hospital networks \u2014 eligibility restricted to vendors already listed as a Managed Security Services Provider (MSSP) with the Texas Department of Information Resources (DIR); procurement mechanism is a formal Request for Offer (RFO), not an RFA/grant application",
+   "deadline": "Narrowed to: applications/offers due December 2026, NOA March 2027, contract routing May 2027",
+   "status": "Still confirmed NOT open as of 2026-09-22",
    "description": "Deploys a managed security solution across rural providers \u2014 endpoint detection & response, 24/7 SOC monitoring, and user security training.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "TX:news:eligibility-network-requirement",
@@ -2329,13 +2340,13 @@
    "type": "award",
    "title": "NYITCOM at Arkansas State University \u2014 PACT Grant",
    "url": "https://jonesbororightnow.com/news/268862-149-3m-in-arkansas-rural-health-grants-awarded-st-bernards-le-bonheur-among-recipients/",
-   "amount": "$1,520,000",
+   "amount": "$1,524,031.00 (PACT) per official master award list, a minor $4,031 variance from the previously tracked $1,520,000 \u2014 likely rounding.",
    "recipients": "NYITCOM at Arkansas State University (Blytheville family-medicine residency pipeline via Mississippi County Hospital System)",
    "deadline": "n/a",
    "status": "Announced ~2026-08-27/28 (Round 1 PACT sub-award detail)",
    "description": "Supports rural family-medicine residency pipeline in Blytheville/Mississippi County.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "AR:award:ar-ambulance-assoc-ems-connect",
@@ -2355,13 +2366,13 @@
    "type": "award",
    "title": "Arkansas Rural Health Partnership \u2014 Multiple RHTP Sub-Awards",
    "url": "https://www.nwaonline.com/news/2026/aug/27/arkansas-rural-health-grant-recipients-announced/",
-   "amount": "combined $18.8M (THRIVE + PACT) per Texarkana Gazette (2026-08-30) \u2014 supersedes/clarifies the previously tracked ~$2.25M+ estimate; figures not yet reconciled against a primary source, flagged for verification",
+   "amount": "$18,833,521.00 total (THRIVE $7,896,955.00 + PACT $10,936,566.00) \u2014 confirmed by official state master award list, resolving prior 'not yet reconciled' flag",
    "recipients": "Arkansas Rural Health Partnership \u2014 Little River Memorial Hospital (Ashdown), Sevier County Medical Center (De Queen), Howard Memorial Hospital (Nashville), Southwest Arkansas Regional Medical Center",
    "deadline": "n/a",
    "status": "Announced 2026-08-27 (Round 1 sub-award detail)",
    "description": "Three separate RHTP-funded projects: EMS tele-triage network, emergency power resilience, and PACT-SAFE behavioral health initiative.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-21"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "MS:solicitation:empath-consulting-sole-source",
@@ -2615,13 +2626,13 @@
    "type": "award",
    "title": "Community Health Centers of Arkansas \u2014 FQHC Clinical Decision Support & Specialty Access Initiative (VisualDx)",
    "url": "https://www.nwaonline.com/news/2026/aug/27/arkansas-rural-health-grant-recipients-announced/",
-   "amount": "$130,410 (PACT)",
+   "amount": "Official master award list shows Community Health Centers of Arkansas, Inc. with a $2,041,804.00 THRIVE total (not PACT), substantially larger than the previously tracked $130,410 PACT VisualDx figure. Not reconciled \u2014 the $130,410 may be a sub-component; flagged for verification.",
    "recipients": "Community Health Centers of Arkansas, Inc., statewide FQHC network",
    "deadline": "n/a",
    "status": "Announced 2026-08-27 (Round 1)",
    "description": "FQHC clinical-decision-support software rollout.",
    "first_seen": "2026-09-18",
-   "last_updated": "2026-09-18"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "AR:award:myswaddle-doula-alliance-pact",
@@ -2784,26 +2795,26 @@
    "type": "award",
    "title": "Winston County Medical Foundation \u2014 4 RHTP awards",
    "url": "https://www.wtok.com/2026/09/14/governor-reeves-announces-rural-health-transformation-program-awards-mississippi-providers/",
-   "amount": "At least $369,150 confirmed for one Rural Provider Technology Grant; total across all 4 awards not stated",
+   "amount": "$3,785,455.49 total across 4 awards \u2014 Rural Provider Technology Grant: $369,150 + $2,085,315; Rural Capital Care Gap Closure Grant: $1,090,138.34 + $240,852.15 (per full itemized award list now available)",
    "recipients": "Winston County Medical Foundation, Winston County",
    "deadline": "n/a",
-   "status": "Awarded 2026-09-14 (part of 167-award pool)",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool); full recipient-level breakdown now confirmed via official itemized award list",
    "description": "Multiple awards to one system, at least one in the Technology Grant category.",
    "first_seen": "2026-09-18",
-   "last_updated": "2026-09-18"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "AR:award:white-county-medical-center-well-cicap",
    "type": "award",
    "title": "White County Medical Center / Unity Health Newport \u2014 WELL & CICAP RHTP Awards",
    "url": "https://www.nwaonline.com/news/2026/aug/27/arkansas-rural-health-grant-recipients-announced/",
-   "amount": "$1,066,182 combined (WELL $466,182 + CICAP $600,000)",
+   "amount": "Official master award list shows a higher total PACT award of $1,905,496.00, vs. the previously tracked $1,066,182 (WELL $466,182 + CICAP $600,000). Difference of $839,314 not reconciled \u2014 may cover additional project components.",
    "recipients": "White County Medical Center / Unity Health Newport \u2014 Green Family Practice Clinic and Family Practice Associates (Newport)",
    "deadline": "n/a",
    "status": "Announced 2026-08-27 (Round 1 PACT/THRIVE sub-award detail)",
    "description": "WELL expands chronic-care management/preventive services for up to 750 patients; CICAP replaces a 33,000 sq ft roof at Unity Health Newport to protect medical equipment and IT systems.",
    "first_seen": "2026-09-21",
-   "last_updated": "2026-09-21"
+   "last_updated": "2026-09-22"
   },
   {
    "id": "AR:award:conway-regional-maternal-mobile-health-unit",
@@ -2856,6 +2867,272 @@
    "description": "Local-news breakdown of DeSoto County's RHTP technology-grant recipients.",
    "first_seen": "2026-09-21",
    "last_updated": "2026-09-21"
+  },
+  {
+   "id": "AR:award:arkansas-baptist-childrens-homes-family-ministries",
+   "type": "award",
+   "title": "Arkansas Baptist Childrens Homes and Family Ministries \u2014 RHTP THRIVE Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$423,761.29 (THRIVE)",
+   "recipients": "Arkansas Baptist Childrens Homes and Family Ministries",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "Appears on the state's official Year-1 THRIVE/PACT award list; THRIVE funding category (telehealth/health-monitoring). No individual news coverage found yet.",
+   "why_it_matters": "Low-moderate relevance \u2014 a faith-based children's/family services org receiving THRIVE (telehealth-category) funds.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:arkansas-childrens-hospital-thrive",
+   "type": "award",
+   "title": "Arkansas Children's Hospital \u2014 RHTP THRIVE Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$301,400.00 (THRIVE)",
+   "recipients": "Arkansas Children's Hospital",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "Official award list entry; THRIVE category implies telehealth/remote-monitoring use, but no project detail is stated.",
+   "why_it_matters": "Moderate-high relevance \u2014 pediatric telehealth/RPM spending at a major academic children's hospital.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:carriage-hill-family-care-thrive",
+   "type": "award",
+   "title": "Carriage Hill Family Care, PLLC \u2014 RHTP THRIVE Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$150,000.00 (THRIVE)",
+   "recipients": "Carriage Hill Family Care, PLLC",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "Small independent practice THRIVE award; no project detail stated.",
+   "why_it_matters": "Low relevance \u2014 small single-practice award.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:childrens-advocacy-centers-of-arkansas-pact",
+   "type": "award",
+   "title": "Children's Advocacy Centers of Arkansas \u2014 RHTP PACT Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$1,374,505.29 (PACT)",
+   "recipients": "Children's Advocacy Centers of Arkansas",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "PACT category (access/coordination); no project detail stated.",
+   "why_it_matters": "Low relevance \u2014 a child-advocacy/coordination network, not a typical FQHC/hospital IT buyer.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:north-arkansas-rural-health-consortium-pact",
+   "type": "award",
+   "title": "North Arkansas Rural Health Consortium \u2014 RHTP PACT Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$1,000,000.00 (PACT)",
+   "recipients": "North Arkansas Rural Health Consortium",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "PACT-category regional partnership award; no project detail stated.",
+   "why_it_matters": "Moderate relevance \u2014 PACT funds regional partnerships and data-sharing/coordination tools.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:delta-memorial-hospital-pact",
+   "type": "award",
+   "title": "Delta Memorial Hospital \u2014 RHTP PACT Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$24,720.00 (PACT)",
+   "recipients": "Delta Memorial Hospital",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "Small PACT award; no project detail stated.",
+   "why_it_matters": "Low relevance \u2014 very small award amount.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:harbor-house-fort-smith-thrive",
+   "type": "award",
+   "title": "Harbor House Inc. of Fort Smith Arkansas \u2014 RHTP THRIVE Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$37,230.00 (THRIVE)",
+   "recipients": "Harbor House Inc. of Fort Smith Arkansas",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "Small THRIVE award; no project detail stated.",
+   "why_it_matters": "Low relevance \u2014 small telehealth-category award.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:john-ed-chambers-memorial-hospital-pact",
+   "type": "award",
+   "title": "John Ed Chambers Memorial Hospital, Inc. \u2014 RHTP PACT Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$2,187,999.96 (PACT)",
+   "recipients": "John Ed Chambers Memorial Hospital, Inc.",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "Mid-size rural hospital PACT award; no project detail stated.",
+   "why_it_matters": "Moderate relevance \u2014 rural hospital receiving a sizable award; could include IT/care-coordination systems.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:lilylink-perinatal-center-thrive",
+   "type": "award",
+   "title": "LilyLink/The Perinatal Center \u2014 RHTP THRIVE Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$871,736.00 (THRIVE)",
+   "recipients": "LilyLink/The Perinatal Center",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "THRIVE-category award to a perinatal/maternal telehealth organization; no further project detail stated.",
+   "why_it_matters": "High relevance \u2014 name and THRIVE category strongly suggest remote maternal/fetal monitoring technology.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:mississippi-county-hospital-system-pact",
+   "type": "award",
+   "title": "Mississippi County Hospital System \u2014 RHTP PACT Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$9,602,657.00 (PACT)",
+   "recipients": "Mississippi County Hospital System (Blytheville)",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "Large PACT award to the hospital system that hosts the already-tracked NYITCOM residency pipeline award; a separate, larger direct award line to the hospital system itself.",
+   "why_it_matters": "Moderate-high relevance \u2014 a large rural hospital system award in PACT (access/coordination), plausible IT/interoperability component.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:river-valley-wellness-pact",
+   "type": "award",
+   "title": "River Valley Wellness \u2014 RHTP PACT Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$3,500,000.00 (PACT)",
+   "recipients": "River Valley Wellness",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "Sizable PACT award; no project detail stated.",
+   "why_it_matters": "Moderate relevance \u2014 a notable dollar amount in the access/coordination category.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "AR:award:subiaco-abbey-pact",
+   "type": "award",
+   "title": "Subiaco Abbey \u2014 RHTP PACT Award",
+   "url": "https://arkansasrhtp.com/wp-content/uploads/2026/08/ada_RHTP.YR1_.THRIVE.PACT_.pdf",
+   "amount": "$268,500.00 (PACT)",
+   "recipients": "Subiaco Abbey",
+   "deadline": "n/a",
+   "status": "Round 1 award, listed on official master award PDF",
+   "description": "PACT award to a monastery/community organization; no project detail stated; RHTP funding purpose not confirmed beyond the master list entry.",
+   "why_it_matters": "Low relevance \u2014 unclear health-service nexus.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "IL:document:hospital-planning-grant-methodology",
+   "type": "document",
+   "title": "RHTP Hospital Transformation Planning Grant \u2014 Allocation Methodology",
+   "url": "https://hfs.illinois.gov/content/dam/soi/en/web/hfs/info/fedresctr/RHTPHospitalPlngGrantMethodologyAccCheckUpdtd.pdf",
+   "amount": "amount not stated (PDF text not machine-extractable; last modified 2026-05-20)",
+   "recipients": "not stated",
+   "deadline": "n/a",
+   "status": "Reference document linked from HFS RHTP program page; not previously tracked",
+   "description": "PDF describing the allocation methodology behind the $28,191,393 Hospital Transformation Planning Grant (already-tracked NOFO).",
+   "why_it_matters": "Backup/reference material for hospital planning grant math; moderate relevance.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "IN:award:grow-region-2-northeast-indiana",
+   "type": "award",
+   "title": "GROW Regional Grant \u2014 Region 2 (Northeast Indiana)",
+   "url": "https://www.in.gov/grow-rural-health/files/IDOH%20Region%202%20Press%20Release.pdf",
+   "amount": "$20,700,000",
+   "recipients": "12-county coalition: Adams, Cass, DeKalb, Huntington, Kosciusko, LaGrange, Miami, Noble, Steuben, Wabash, Wells, Whitley (incl. Parkview Hospital, Adams County Memorial Hospital)",
+   "deadline": "n/a (awarded)",
+   "status": "Announced 2026-09-03 by Gov. Braun/IDOH; largest of the 8 regional awards",
+   "description": "Region 2 GROW Regional Grant. Includes Project ECHO, remote patient monitoring, cardiometabolic clinics, specialty referral pathways, mobile health/diagnostics, telehealth-supported workforce models, rural transportation modernization. 7th of 8 regions confirmed.",
+   "why_it_matters": "Medium-high relevance \u2014 explicit RPM and telehealth-supported care model components; anchor hospitals are candidate targets for health-IT/cybersecurity engagement.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "IN:award:grow-region-8-southwest-indiana",
+   "type": "award",
+   "title": "GROW Regional Grant \u2014 Region 8 (Southwest Indiana)",
+   "url": "https://www.in.gov/grow-rural-health/files/IDOH%20Region%208%20Press%20Release.pdf",
+   "amount": "$11,400,000",
+   "recipients": "10-county coalition: Daviess, Dubois, Gibson, Knox, Martin, Pike, Posey, Spencer, Vanderburgh, Warrick (incl. Deaconess Hospital Inc., Good Samaritan Family Health Center Inc.)",
+   "deadline": "n/a (awarded)",
+   "status": "Announced 2026-09-03 by Gov. Braun/IDOH; final (8th of 8) region confirmed",
+   "description": "Region 8 GROW Regional Grant. New fixed care sites, mobile healthcare units, maternal-child/chronic disease/behavioral/oral health services, rural workforce pipeline, mobile integrated health teams for in-home chronic disease monitoring and post-hospital follow-up.",
+   "why_it_matters": "Lower-medium relevance \u2014 mostly clinical/workforce services with some remote monitoring relevant to RPM/data-platform practice.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "IN:award:grow-regional-statewide-surplus-funding-2026",
+   "type": "award",
+   "title": "GROW Regional/Statewide Surplus Funding ($16.25M) Identified",
+   "url": "https://www.in.gov/grow-rural-health/regional-grants/",
+   "amount": "$16,249,593.22 total ($8,724,000 regional surplus + $7,525,593.22 statewide surplus)",
+   "recipients": "Not yet specified",
+   "deadline": "Not stated",
+   "status": "Surplus disclosed on official regional-grants page after the initial round of regional grant awards; no recipients or allocation method given yet",
+   "description": "State's regional-grants page now discloses leftover/unallocated RHTP funds beyond the initial 8-region awards and statewide initiative allocations.",
+   "why_it_matters": "Worth monitoring \u2014 additional uncommitted RHTP dollars could fund further vendor solicitations or supplemental awards.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "LA:solicitation:pace-expansion-rfi",
+   "type": "solicitation",
+   "title": "PACE (Program of All-Inclusive Care for the Elderly) Expansion RFI, OAAS-ADM-26-021",
+   "url": "https://wwwcfprd.doa.louisiana.gov/osp/lapac/agency/pdf/9039100.pdf",
+   "amount": "amount not stated",
+   "recipients": "not yet announced (RFI stage; seeking PACE operators to expand into currently unserved rural areas)",
+   "deadline": "Responses were due 09/04/2026 4:30 PM CT (issued 07/27/2026; Addendum 1 issued 08/05/2026)",
+   "status": "RFI closed; responses presumably under LDH/OAAS review",
+   "description": "Louisiana OAAS RFI seeking vendors to open new PACE centers in rural areas. The RFI document states PACE is included among services eligible for RHTP incentive funding. Found via the LaPAC state procurement portal.",
+   "why_it_matters": "Low-to-medium relevance \u2014 primarily a clinical/community-care-delivery solicitation, but explicitly RHTP-funded; resulting PACE center buildout will eventually need EHR, data-sharing, and interoperability infrastructure.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "LA:federal:year2-continuation-and-reporting",
+   "type": "federal",
+   "title": "Louisiana submits RHTP Year 1 Annual Report and NCC Year 2 Continuation Request to CMS",
+   "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/Shareholder-Presentation-09092026.pdf",
+   "amount": "amount not stated",
+   "recipients": "n/a (state-to-CMS reporting/continuation filing)",
+   "deadline": "Next Quarterly Report due 11/29/2026",
+   "status": "Submitted 8/31/2026; awaiting CMS review",
+   "description": "Louisiana submitted its Budget Year 1 Annual Report and Non-Competing Continuation (NCC) Year 2 Continuation Request to CMS on 8/31/2026, including updated project and budget narrative for Year 2.",
+   "why_it_matters": "Low direct relevance, but signals the state is on track for uninterrupted Year 2 federal funding, underpinning the Year 2 NOFOs (incl. EHR voucher program).",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
+  },
+  {
+   "id": "TX:nofo:initiative6-part2-capital",
+   "type": "nofo",
+   "title": "Initiative 6 Part 2 \u2014 Infrastructure & Capital Investments (future phase)",
+   "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
+   "amount": "amount not stated",
+   "recipients": "not yet announced",
+   "deadline": "Program start listed as Nov 2028 in HHSC timeline table; application deadline TBD",
+   "status": "Placeholder row only in HHSC's initiative timeline table; not previously tracked as a distinct line item",
+   "description": "A second, later phase of Initiative 6 infrastructure/capital funding, with no further detail yet.",
+   "why_it_matters": "Low relevance for now (equipment/capital, not tech/cyber, and years out) \u2014 placeholder for future tracking.",
+   "first_seen": "2026-09-22",
+   "last_updated": "2026-09-22"
   }
  ]
 }
