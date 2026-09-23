@@ -1,7 +1,7 @@
 {
  "initialized": true,
  "baseline_pending": [],
- "last_run": "2026-09-22",
+ "last_run": "2026-09-23",
  "runs": [
   {
    "date": "2026-09-10",
@@ -122,6 +122,17 @@
    "email_sent": true,
    "email_type": "alert",
    "note": "New: 12 additional AR Round-1 THRIVE/PACT recipients found by reading the official master award PDF directly for the first time (Arkansas Children's Hospital $301,400; Mississippi County Hospital System $9,602,657; River Valley Wellness $3,500,000; John Ed Chambers Memorial Hospital $2,187,999.96; Children's Advocacy Centers of Arkansas $1,374,505.29; North Arkansas Rural Health Consortium $1,000,000; LilyLink/Perinatal Center $871,736; Arkansas Baptist Childrens Homes $423,761.29; Subiaco Abbey $268,500; Carriage Hill Family Care $150,000; Harbor House Fort Smith $37,230; Delta Memorial Hospital $24,720); IN GROW Regions 2 ($20.7M) and 8 ($11.4M) confirmed, completing all 8 of 8 regional awards, plus a newly disclosed $16.25M regional/statewide surplus; IL Community Care Infrastructure ($26M Y1/$98M total, recipients IPHCA+CBHA) and Healthcare Transformation Collaboratives ($8M/yr, 4 named hospital-system collaboratives) NOFOs went from amount-not-stated to fully specified; LA Rural Clinician Credit Bank named recipients and resolved a $5.6M-vs-$12.7M discrepancy ($10.00M allocation, $12.7M awarded to 53 of 70 applicants), plus a new RHTP-tied PACE Expansion RFI and a preliminary EHR Voucher Program design (cybersecurity costs explicitly excluded from the voucher); TX all 6 initiative timelines narrowed/clarified, most notably Initiative 5 (cybersecurity) confirmed as a vendor-facing RFO restricted to Texas-DIR-listed MSSPs rather than a hospital grant. Updated: AR 4 award-amount reconciliations against the official master list (2 unresolved discrepancies flagged, not fabricated); IN 3 vendor solicitations resolved to named awardees (MOCC 3-vendor team, Program Evaluator, $860,088 Teleconsult assessment); WI DPI Rural LEA grant now lists 20 named school districts; MO MEMSA EMS partnership total revised to $12.34M (from ~$6.5M); MS Winston County Medical Foundation award fully itemized at $3.79M. No news found for TN, OK, or Federal this run. Network egress to state/federal domains was unblocked for the first time in weeks, letting most passes read primary sources (official pages, PDFs, procurement portals) directly instead of relying on WebSearch fallback."
+  },
+  {
+   "date": "2026-09-23",
+   "sources_checked": 77,
+   "sources_failed": 10,
+   "sources_failed_note": "AR: www.ark.org procurement bids (egress-blocked redirect target). IL: il.amplifund.com public opportunities listing (SSO wall; individual known NOFOs still checked directly). IN: in.gov/gov/newsroom and events.in.gov (JS-rendered, no article list; compensated with WebSearch). MO: memsa.org (bot/captcha challenge). TN: TDH Caspio partner portal (JS-only shell). TX: txsmartbuy.gov ESBD (Angular/React SPA, no server-rendered listings). OK: oklahoma.gov newsroom listing and ok.gov/dcs/solicit portal (both JS/interactive-only). Federal: cms.gov/newsroom/press-releases index returned 404 (individual press-release permalinks still resolved).",
+   "items_new": 9,
+   "items_updated": 4,
+   "email_sent": true,
+   "email_type": "alert",
+   "note": "New: 6 IN GROW initiative items (Initiative 1 ACO feasibility study/Deloitte selected; Initiative 8 telehealth pilot grants closed/grantees identified; Initiative 9 CHW sustainability 3 orgs; Initiative 10 GME strategic plan + $5M; Initiative 11 behavioral-health workforce RFFs; Initiative 5 Purdue Extension/Indiana Alliance grants) -- all sourced from IN's own initiative-tracker pages, none previously itemized at this granularity; 1 MO award (MO-CPAP/MO-MHAP behavioral & maternal teleconsultation, $6.4M, high relevance) from a new 2026-09-22 CMS press release; 1 TN solicitation (TennCare CHW Infrastructure RFA #31865-00020, up to $450K x 8 orgs); 1 OK award (SWOSU/Weatherford Regional Hospital RRR award, $3,999,285, first named RRR recipient). Updated: MO Vital Rural Hospital Repairs IFB moved from 'closed, awards pending' to awarded (~$35M official, 20 projects, via the same 2026-09-22 CMS release); MO MEMSA MIH-CP partnership annotated with an unreconciled $4.2M EMS-workforce figure from the same CMS release (flagged, not merged into total); LA EHR Implementation Partner RFI got its exact response deadline confirmed (2026-07-17); OK Rural Regional Reorientation NOFO got its first named/quantified recipient. Skipped as duplicate: a CMS federal press release covering the same MO $45M tranche (superseded by the 3 MO-specific items above, which have more detail) and a CMS federal press release re-confirming MS's already-tracked 2026-09-14 / $104.1M / 167-award announcement (already in seen_items as MS:federal:cms-press-release-104m-rhtp and MS:news:award-announcement-2026-09-14). No news found for AR, IL, WI, MS, TX this run."
   }
  ],
  "items": [
@@ -960,15 +971,15 @@
   {
    "id": "MO:solicitation:vital-rural-hospital-repairs-ifb",
    "type": "solicitation",
-   "title": "Vital Rural Hospital Repairs / Strategic Minor Renovations IFB #DSS26009001",
-   "url": "https://www.mohospitals.org/newsroom/dss-invites-hospitals-to-bid-for-torch-care-strategic-minor-renovations-program",
-   "amount": "~$32M (unconfirmed, secondary-sourced aggregate estimate per RHTP Director Joe Miller's public remarks, 2026-08-12; no official itemized recipient list yet)",
-   "recipients": "not yet announced; eligible = licensed MO hospitals showing financial stress or limited-alternative-care areas",
+   "title": "Strategic Minor Renovations Program \u2014 20 Rural Hospital Projects Awarded (formerly Vital Rural Hospital Repairs IFB #DSS26009001)",
+   "url": "https://www.cms.gov/newsroom/press-releases/trump-administration-announces-more-45-million-upgrade-rural-missouri-hospitals-connect-families",
+   "amount": "~$35 million (official CMS/DSS figure, up from ~$32M secondary-sourced estimate)",
+   "recipients": "20 rural hospital projects; named list posted at dss.mo.gov/rhtp-strategic-minor-renovations-program (not independently verified by name)",
    "deadline": "Closed 2026-06-11 (after 4 amendments)",
-   "status": "Closed, awards pending",
-   "description": "IFB for life-safety/code-compliance, HVAC/infection-control, and critical equipment repairs at rural hospitals \u2014 explicitly excludes IT/digital projects.",
+   "status": "Awarded/announced 2026-09-22 (was: closed, awards pending)",
+   "description": "CMS and DSS jointly announced the outcome of the previously-tracked Vital Rural Hospital Repairs IFB \u2014 20 projects funded for building-system upgrades, diagnostic equipment, and critical-care renovations. Excludes IT/digital projects.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-18"
+   "last_updated": "2026-09-23"
   },
   {
    "id": "MO:award:mih-cp-memsa-partnership",
@@ -979,9 +990,9 @@
    "recipients": "Missouri EMS Association (MEMSA), with DHSS Office of Rural Health and Primary Care",
    "deadline": "Performance period through 2027-07-31",
    "status": "Verified via official MEMSA source (no longer 'unverified')",
-   "description": "Statewide partnership to expand mobile integrated healthcare/community paramedicine to a goal of 14 operational rural sites.",
+   "description": "Statewide partnership to expand mobile integrated healthcare/community paramedicine to a goal of 14 operational rural sites. CMS's 2026-09-22 press release separately cites \"up to $4.2 million\" for EMS workforce growth via MEMSA (826 applications, 437 individuals selected for a 2026-2027 EMT/paramedic training cohort); this figure does not cleanly reconcile with the $2,832,956 'EMS Workforce Education & Training' sub-line already tracked here within the $12,343,385 total contract. Flagged for follow-up reconciliation, not merged into the total.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-22"
+   "last_updated": "2026-09-23"
   },
   {
    "id": "MO:award:doula-workforce-partnership",
@@ -1757,11 +1768,11 @@
    "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/LARHTP_Implementation-Partner-RFI-13July2026-Final.pdf",
    "amount": "amount not stated",
    "recipients": "not yet announced (seeking vendor/implementation-partner information)",
-   "deadline": "RFI published 2026-07-13",
-   "status": "RFI issued, likely closed/under review",
-   "description": "LDH RFI seeking implementation-workforce/vendor input for a state-managed, CMS-certified rural EHR (Epic Community Connect model).",
+   "deadline": "RFI responses were due 2026-07-17, 11:59 PM CT (published 2026-07-13; optional vendor presentations 2026-07-20 to 07-29)",
+   "status": "RFI response window closed 2026-07-17",
+   "description": "LDH RFI seeking implementation-workforce/vendor input for a state-managed, CMS-certified rural EHR (Epic Community Connect model). Full text: covers systems integration, provider onboarding, staffing model, and a 17-24 month phased rollout by provider type.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-23"
   },
   {
    "id": "LA:solicitation:rural-tech-catalyst-fund",
@@ -2172,12 +2183,12 @@
    "title": "Rural Regional Reorientation (RRR) Program NOFO",
    "url": "https://oklahoma.gov/content/dam/ok/en/health/health2/aem-documents/health-promotion/rhtp/rrr/RRR%20NOFOvFINAL.pdf",
    "amount": "up to $4,000,000 per application",
-   "recipients": "eligible clinical/social-service providers",
+   "recipients": "20 organizations notified; 1 of 20 now publicly named (SWOSU/Weatherford Regional Hospital, see OK:award:rrr-swosu-weatherford)",
    "deadline": "Closed 2026-06-12",
-   "status": "Closed; 20 organizations notified of awards (per 2026-08-28 update), final amounts not yet public",
+   "status": "Closed; 20 organizations notified. As of 2026-09-23, exactly one specific award has leaked into public reporting via non-state-website sources; official state recipient list still not posted.",
    "description": "Largest per-award OK RHTP opportunity so far, funding regional reorientation of care to cut avoidable hospitalizations.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-23"
   },
   {
    "id": "OK:news:rrr-progress-update-2026-08-28",
@@ -3133,6 +3144,123 @@
    "why_it_matters": "Low relevance for now (equipment/capital, not tech/cyber, and years out) \u2014 placeholder for future tracking.",
    "first_seen": "2026-09-22",
    "last_updated": "2026-09-22"
+  },
+  {
+   "id": "IN:solicitation:rhtp-i1-aco-feasibility-study-deloitte",
+   "type": "award",
+   "title": "RHTP Initiative 1 \u2014 ACO Feasibility Study, RFP 26-87667",
+   "url": "https://www.in.gov/grow-rural-health/initiatives/initiative-1",
+   "amount": "amount not stated",
+   "recipients": "Deloitte Consulting LLP (selected respondent)",
+   "deadline": "n/a",
+   "status": "Preliminary Notice of Award Recommendation issued 2026-08-07; State (IDOA/FSSA) in contract negotiations with Deloitte, conditioned on finalizing terms within 30 days.",
+   "description": "Feasibility study on a rural Medicaid ACO model (shared risk, provider readiness, data-sharing capacity, care coordination), part of Initiative 1 alongside the already-tracked MOCC RFP.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
+  },
+  {
+   "id": "IN:solicitation:rhtp-i8-telehealth-pilot-grants",
+   "type": "award",
+   "title": "RHTP Initiative 8 \u2014 Telehealth Pilot Grants",
+   "url": "https://www.in.gov/grow-rural-health/initiatives/initiative-8",
+   "amount": "amount not stated",
+   "recipients": "not yet named \u2014 state site says only \"grantees identified\"",
+   "deadline": "Applications closed 2026-07-31",
+   "status": "Closed; grantees identified, names/amounts not yet published. 10-month grant period.",
+   "description": "Competitive pilot grants under Indiana's statewide telehealth feasibility study, covering remote monitoring/wearables and telehealth infrastructure for rural providers.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
+  },
+  {
+   "id": "IN:award:rhtp-i9-chw-sustainability-integration-three-orgs",
+   "type": "award",
+   "title": "RHTP Initiative 9 \u2014 Community Health Worker Sustainability and Integration Activities",
+   "url": "https://www.in.gov/grow-rural-health/initiatives/initiative-9",
+   "amount": "amount not stated",
+   "recipients": "Three organizations (names not stated)",
+   "deadline": "n/a",
+   "status": "Awarded/completed per state initiative tracker.",
+   "description": "Sub-awards to build CHW workforce sustainability/integration under the Paraprofessional Workforce initiative.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
+  },
+  {
+   "id": "IN:solicitation:rhtp-i10-gme-strategic-plan-vendor",
+   "type": "award",
+   "title": "RHTP Initiative 10 \u2014 Rural GME Enhancement Strategic Plan",
+   "url": "https://www.in.gov/grow-rural-health/initiatives/initiative-10",
+   "amount": "$5,000,000 for existing rural GME programs; strategic-plan vendor contract amount not stated",
+   "recipients": "Vendor for strategic plan not named; GME-program fund recipients not stated",
+   "deadline": "n/a",
+   "status": "In process \u2014 vendor selected for the strategic plan per state tracker.",
+   "description": "Strategic plan to expand rural GME residency capacity/specialties, plus $5M for existing rural GME programs.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
+  },
+  {
+   "id": "IN:solicitation:rhtp-i11-behavioral-health-workforce-rffs",
+   "type": "award",
+   "title": "RHTP Initiative 11 \u2014 Clinical Social Worker Supervision Program RFF & Rural Provider Recruitment/Retention/Capacity Project RFF",
+   "url": "https://www.in.gov/grow-rural-health/initiatives/initiative-11",
+   "amount": "amount not stated",
+   "recipients": "not stated",
+   "deadline": "Both closed 2026-06-05",
+   "status": "Both marked completed. A behavioral-health kickoff meeting is listed as planned 2026-09-23.",
+   "description": "Two behavioral-health workforce RFFs under the rural behavioral health workforce initiative.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
+  },
+  {
+   "id": "IN:award:rhtp-i5-purdue-extension-indiana-alliance-grants",
+   "type": "award",
+   "title": "RHTP Initiative 5 \u2014 Grant Agreements with Purdue Extension and Indiana Alliance",
+   "url": "https://www.in.gov/grow-rural-health/initiatives/initiative-5",
+   "amount": "amount not stated",
+   "recipients": "Purdue Extension; Indiana Alliance (full legal name not specified)",
+   "deadline": "n/a",
+   "status": "Completed, per Initiative 5 (Cardiometabolic Health) tracker.",
+   "description": "Grant agreements supporting Food is Medicine / cardiometabolic lifestyle-medicine programming.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
+  },
+  {
+   "id": "MO:award:behavioral-health-mocpap-mhap",
+   "type": "award",
+   "title": "Missouri RHTP Behavioral & Maternal Health Teleconsultation Expansion (MO-CPAP / MO-MHAP)",
+   "url": "https://www.cms.gov/newsroom/press-releases/trump-administration-announces-more-45-million-upgrade-rural-missouri-hospitals-connect-families",
+   "amount": "Up to $6.4 million",
+   "recipients": "Missouri Child Psychiatry Access Project (MO-CPAP) and Missouri Maternal Health Access Project (MO-MHAP), with DMH, DHSS, and University of Missouri Center for Child Well-Being",
+   "deadline": "n/a",
+   "status": "Announced 2026-09-22",
+   "description": "New RHTP investment giving rural providers rapid (~30-minute) telephone/telehealth access to psychiatric and perinatal specialists, plus referral services and provider training.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
+  },
+  {
+   "id": "TN:solicitation:chw-infrastructure-rfa-31865-00020",
+   "type": "solicitation",
+   "title": "TennCare Community Health Worker (CHW) Infrastructure Project \u2014 RFA #31865-00020",
+   "url": "https://www.tn.gov/tenncare/information-statistics/upcoming-procurements.html",
+   "amount": "Up to $450,000 per organization; up to 8 organizations funded",
+   "recipients": "not yet announced; eligible = TennCare-serving provider orgs employing/intending to employ CHWs, priority to rural-serving organizations",
+   "deadline": "Posted 2026-09-01; written questions due 2026-09-15; final application due-date not confirmed",
+   "status": "Open/active \u2014 RFA text states this is part of Tennessee's RHT efforts",
+   "description": "TennCare (distinct from TDH) RFA funding CHW program infrastructure \u2014 professional development, technology enhancements, accreditation prep, evidence-based model implementation \u2014 with rural priority.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
+  },
+  {
+   "id": "OK:award:rrr-swosu-weatherford",
+   "type": "award",
+   "title": "Southwestern Oklahoma State University (SWOSU) / Weatherford Regional Hospital \u2014 Rural Regional Reorientation Award",
+   "url": "https://www.kecofm.com/featured/swosu-rural-health-grant-to-support-advanced-surgical-care-in-western-oklahoma/",
+   "amount": "$3,999,285",
+   "recipients": "Southwestern Oklahoma State University, in partnership with Weatherford Regional Hospital",
+   "deadline": "n/a",
+   "status": "Reported via local/university news; RHTP funding explicitly confirmed as an Oklahoma RHTP Rural Regional Reorientation award. Official OSDH recipient list does not yet list this award.",
+   "description": "Funds a robotic surgical system (~$2.5M) for Weatherford Regional Hospital plus medical simulation/workforce-training equipment for SWOSU pharmacy/nursing/allied health programs.",
+   "first_seen": "2026-09-23",
+   "last_updated": "2026-09-23"
   }
  ]
 }
