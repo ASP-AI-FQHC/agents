@@ -1,7 +1,7 @@
 {
  "initialized": true,
  "baseline_pending": [],
- "last_run": "2026-09-23",
+ "last_run": "2026-09-24",
  "runs": [
   {
    "date": "2026-09-10",
@@ -133,6 +133,17 @@
    "email_sent": true,
    "email_type": "alert",
    "note": "New: 6 IN GROW initiative items (Initiative 1 ACO feasibility study/Deloitte selected; Initiative 8 telehealth pilot grants closed/grantees identified; Initiative 9 CHW sustainability 3 orgs; Initiative 10 GME strategic plan + $5M; Initiative 11 behavioral-health workforce RFFs; Initiative 5 Purdue Extension/Indiana Alliance grants) -- all sourced from IN's own initiative-tracker pages, none previously itemized at this granularity; 1 MO award (MO-CPAP/MO-MHAP behavioral & maternal teleconsultation, $6.4M, high relevance) from a new 2026-09-22 CMS press release; 1 TN solicitation (TennCare CHW Infrastructure RFA #31865-00020, up to $450K x 8 orgs); 1 OK award (SWOSU/Weatherford Regional Hospital RRR award, $3,999,285, first named RRR recipient). Updated: MO Vital Rural Hospital Repairs IFB moved from 'closed, awards pending' to awarded (~$35M official, 20 projects, via the same 2026-09-22 CMS release); MO MEMSA MIH-CP partnership annotated with an unreconciled $4.2M EMS-workforce figure from the same CMS release (flagged, not merged into total); LA EHR Implementation Partner RFI got its exact response deadline confirmed (2026-07-17); OK Rural Regional Reorientation NOFO got its first named/quantified recipient. Skipped as duplicate: a CMS federal press release covering the same MO $45M tranche (superseded by the 3 MO-specific items above, which have more detail) and a CMS federal press release re-confirming MS's already-tracked 2026-09-14 / $104.1M / 167-award announcement (already in seen_items as MS:federal:cms-press-release-104m-rhtp and MS:news:award-announcement-2026-09-14). No news found for AR, IL, WI, MS, TX this run."
+  },
+  {
+   "date": "2026-09-24",
+   "sources_checked": 77,
+   "sources_failed": 13,
+   "sources_failed_note": "AR: www.ark.org procurement bids (egress-blocked redirect target). IL: il.amplifund.com public opportunities listing (SSO wall) and illinois.gov/news.html search (JS-rendered, no server-side results). WI: vendornet.wi.gov (Blazor SPA) and a transient dhs.wisconsin.gov/news/releases.htm 404 on re-check. MO: memsa.org (bot/captcha challenge). TN: TDH Caspio partner portal (JS-only shell). TX: txsmartbuy.gov ESBD (Angular/React SPA, no server-rendered listings). OK: oklahoma.gov newsroom listings (health and governor) and ok.gov/dcs/solicit portal (JS/interactive-only). Federal: cms.gov/newsroom/press-releases index returned 404 (worked around via WebSearch). All failures compensated via WebSearch fallback per sources.json; no state was left uncovered.",
+   "items_new": 15,
+   "items_updated": 21,
+   "email_sent": true,
+   "email_type": "alert",
+   "note": "11 parallel research passes (10 states + federal). New: WI Digital Access to Care statewide EHR RFP (high relevance, RHTP tie unconfirmed on primary source); TN 3 items (Chronic Disease Prevention NOFO, Healthcare Mgmt Consulting RFP, iNEMT Transportation RFP -- RHTP funding not confirmed on the latter); MS 8 items (HIE stakeholder survey + 7 recipient-level cybersecurity/EHR/telehealth awards from the 167-award pool: Preventive Care MD, Magee Benevolent, Hattiesburg Clinic, Lampton Medical, King's Daughters, UMMC Hinds main campus, Delta Health Center); LA Advisory Council 8/20 slides (drove 6 NOFO amount updates); OK 2 items (Pulsara EMS interoperability platform -- high relevance; OSDE Medicaid billing grant). Updated: AR Baptist Health reconciliation discrepancy flagged (~$1.34M gap, unresolved); TN RAMP missing $5M tier found; MS EmPATH sole-source vendor named (MedAmerica/Inflect Health), Memorial Health System amount revised to $15,041,222 (10-project breakdown), George Regional Health revised to $721,050/3 awards (was $330,000/1), East Central MS description enriched (non-material); LA 6 NOFOs moved from 'amount not stated' to concrete Budget Year 1 figures (Capital Improvement ~$41.6M, Rural Medicaid APM ~$30.0M, Telehealth Infrastructure ~$4.71M, Regional Care Conveners ~$3.5M, Collaborative Provider Models ~$3.0M, Food is Medicine ~$2.7M), applications-breakdown item confirmed (505 total), RTCF year-1-vs-lifetime framing flagged as unconfirmed; OK 5 updates (Initiative Funding Summary full 32-line breakdown extracted, OKSHINE revised to $19.9M from ~$16M, Doula Program discrepancy flagged $2.5M NOFO vs $1.2M allocation, BHI/CDM split into two figures totaling $16.0M, Microgrants discrepancy flagged $3.75M tracked vs $2.8M allocation). Considered and excluded: TN UTHSC telehealth sub-grants ($135K/6 awards) -- appears to be a separate, pre-existing TDH state program established before the Dec-2025 CMS RHTP award, not itself RHTP funding; not added to avoid conflating programs. No news found for IL, IN, MO, TX, or Federal this run."
   }
  ],
  "items": [
@@ -1340,10 +1351,10 @@
    "amount": "$104.4 million in TennCare Shared Savings (state-funded, explicitly designed to complement federal RHTP; RHTP funding itself not confirmed for this program)",
    "recipients": "not yet announced",
    "deadline": "2026-09-30, 2:00 PM CT",
-   "status": "Open solicitation with published tiers: Rural Capital Projects (one $40M, one $20M, two $10M, four up to $2.5M awards); Competitive Grant Extensions for RHTP-aligned projects; Primary Care Seed Funding (eight $500K + one $427.5K awards, targeting pediatric/obstetric provider-shortage areas). Official page: https://www.tn.gov/health/ramp.html (contact Competitive.Health@tn.gov, subject 'ATTN: RAMP').",
+   "status": "Open solicitation with published tiers: Rural Capital Projects (one $40M, one $20M, two $10M, two $5M, four up to $2.5M awards -- $5M tier newly confirmed 2026-09-24, previously missing); Competitive Grant Extensions for RHTP-aligned projects; Primary Care Seed Funding (eight $500K + one $427.5K awards, targeting pediatric/obstetric provider-shortage areas). Official page: https://www.tn.gov/health/ramp.html (contact Competitive.Health@tn.gov, subject 'ATTN: RAMP').",
    "description": "State-funded (not federal RHTP) rural healthcare modernization program intended to complement federal RHTP investments.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-21"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "TN:document:tn-rhtf-full-application",
@@ -1688,78 +1699,78 @@
    "type": "nofo",
    "title": "Rural Collaborative Provider Models Program NOFO + Q&A",
    "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/Collaborative-Provider-Questions-Answers-FINAL-23July2026.pdf",
-   "amount": "amount not stated",
+   "amount": "~$3.0M projected Budget Year 1 funding (confirmed 2026-09-24 via 8/20/26 Advisory Council slides; 37 applications received)",
    "recipients": "not yet announced (lead applicant + consortium partners)",
    "deadline": "Within Jun25-Aug14 2026 window",
-   "status": "Closed; Notice of Intent to Contract pending",
+   "status": "Closed; Notice of Intent to Contract anticipated end of September 2026 (per program-home page as of 2026-09-24)",
    "description": "Funds consortia of rural providers forming collaborative care/network models.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:nofo:rural-medicaid-apm",
    "type": "nofo",
    "title": "Rural Medicaid Alternative Payment Model Program NOFO",
    "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/initiative-3/RuralMedicaidAlternativePaymentModel_NOFO_Final_26June2026.pdf",
-   "amount": "amount not stated",
+   "amount": "~$30.0M projected Budget Year 1 funding (confirmed 2026-09-24 via 8/20/26 Advisory Council slides; 31 applications received)",
    "recipients": "not yet announced",
    "deadline": "Within Jun25-Aug14 2026 window",
-   "status": "Closed (published 2026-06-26); NOI to Contract pending",
+   "status": "Closed; Notice of Intent to Contract anticipated end of September 2026 (per program-home page as of 2026-09-24)",
    "description": "Supports rural providers transitioning to Medicaid value-based payment/APM participation.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:nofo:regional-care-conveners",
    "type": "nofo",
    "title": "Regional Care Conveners and Navigation Networks Program NOFO",
    "url": "https://ldh.la.gov/page/rhtp-funding-opportunities",
-   "amount": "amount not stated",
+   "amount": "~$3.5M projected Budget Year 1 funding (confirmed 2026-09-24 via 8/20/26 Advisory Council slides; 25 applications received)",
    "recipients": "not yet announced",
    "deadline": "Mid-August 2026 (approx.)",
-   "status": "Closed; NOI to Contract pending",
+   "status": "Closed; Notice of Intent to Contract anticipated end of September 2026 (per program-home page as of 2026-09-24)",
    "description": "Builds regional care-coordination/navigation networks spanning acute, behavioral health, and social services.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:nofo:food-is-medicine",
    "type": "nofo",
    "title": "Food is Medicine (FIM) Programs NOFO",
    "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/RHTP-Food-as-Medicine_NOFO_2July2026.pdf",
-   "amount": "amount not stated",
+   "amount": "~$2.7M projected Budget Year 1 funding (confirmed 2026-09-24 via 8/20/26 Advisory Council slides; 37 applications received)",
    "recipients": "not yet announced",
    "deadline": "Closed 2026-08-14",
-   "status": "Closed; NOI to Contract pending",
+   "status": "Closed; Notice of Intent to Contract anticipated end of September 2026 (per program-home page as of 2026-09-24)",
    "description": "Funds start-up of Food is Medicine nutrition interventions for rural Medicaid members.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:nofo:telehealth-infrastructure",
    "type": "nofo",
    "title": "Telehealth Infrastructure for Rural Access Program NOFO",
    "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/TelehealthNOFO_FINAL_1June2026.pdf",
-   "amount": "amount not stated",
+   "amount": "~$4.71M projected Budget Year 1 funding (confirmed 2026-09-24 via 8/20/26 Advisory Council slides; 79 applications received)",
    "recipients": "not yet announced",
    "deadline": "Within Jun25-Aug14 2026 window (published 2026-06-01)",
-   "status": "Closed; NOI to Contract pending",
+   "status": "Closed; Notice of Intent to Contract anticipated end of September 2026 (per program-home page as of 2026-09-24; original internal target was 'Late August')",
    "description": "Targeted capital investment in telehealth infrastructure for rural access statewide.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:nofo:capital-improvement",
    "type": "nofo",
    "title": "Rural Health Facilities Capital Improvement Program NOFO",
    "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/CapitalNOFO.pdf",
-   "amount": "amount not stated",
+   "amount": "~$41.60M projected Budget Year 1 funding (confirmed 2026-09-24 via 8/20/26 Advisory Council slides; 160 applications received)",
    "recipients": "not yet announced",
    "deadline": "Within Jun25-Aug14 2026 window (published 2026-06-18)",
-   "status": "Closed; NOI to Contract pending",
+   "status": "Closed; Notice of Intent to Contract anticipated end of September 2026 (per program-home page as of 2026-09-24; original internal target was 'Late August')",
    "description": "Capital investments strengthening rural healthcare facility infrastructure.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:solicitation:ehr-implementation-partner-rfi",
@@ -1783,9 +1794,9 @@
    "recipients": "200+ companies applied; eligibility requires company under 10 years old and under $50M raised in outside investment; awards still anticipated mid-Oct 2026",
    "deadline": "Applications closed; awards expected imminently",
    "status": "Under review, awards pending",
-   "description": "LED/Louisiana Innovation + LDH joint fund financing rural health-tech startups deploying innovations across rural Louisiana.",
+   "description": "LED/Louisiana Innovation + LDH joint fund financing rural health-tech startups deploying innovations across rural Louisiana. Note (2026-09-24): syndicated national coverage (Route Fifty/Stacker, late Aug 2026) describes the $20M LA figure as the fund's first-year allocation of a 5-year program rather than a lifetime total -- not independently confirmed on the primary la.io/rural page; treat as a plausible clarification only. Also newly reported: Louisiana is one of 8 states (AK, AL, SC, LA, GA, NE, TN, CT) approved to run an RTCF-style vehicle.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-21"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:deadline:year2-nofos-ehr-voucher",
@@ -1821,10 +1832,10 @@
    "amount": "n/a",
    "recipients": "n/a",
    "deadline": "n/a",
-   "status": "Informational (mid-2026); per-program breakdown now available",
-   "description": "Coverage of the volume of applications received across the seven Year 1 NOFOs combined. Per-program counts: Capital Improvement 160, Telehealth Infrastructure 79, Regional Care Conveners 25, and 37 more attributed to a third program (exact attribution unconfirmed).",
+   "status": "Informational (mid-2026); full per-program breakdown now confirmed",
+   "description": "Coverage of the volume of applications received across the seven Year 1 NOFOs combined. Full per-program breakdown confirmed 2026-09-24 via Advisory Council slides (total 505, matching the '500+' headline): Rural Clinician Credit Bank 136, Capital Improvement 160, Telehealth Infrastructure 79, Collaborative Provider Models 37, Rural Medicaid APM 31, Regional Care Conveners 25, Food is Medicine 37.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-17"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:document:project-narrative",
@@ -2143,13 +2154,13 @@
    "type": "award",
    "title": "RHTP Funding Recipients \u2014 Microgrant Award List",
    "url": "https://oklahoma.gov/health/rhtp/rhtp-funding-recipients.html",
-   "amount": "$3.75M (aggregate)",
+   "amount": "$3.75M aggregate (as previously tracked) -- DISCREPANCY FLAGGED (2026-09-24): the official Initiative Funding Summary PDF lists 'Community-Led Wellness Hub: Microgrants' Funding Allocated as only $2,800,000. Not yet reconciled; recipient list/count unchanged.",
    "recipients": "73 named organizations (list on page)",
    "deadline": "n/a",
    "status": "Posted",
    "description": "Official recipient list/page for the 73 Microgrant and 60 ROOTS awards.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "OK:award:roots-year1",
@@ -2221,13 +2232,13 @@
    "type": "nofo",
    "title": "Expanding Care: Doulas Program",
    "url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html",
-   "amount": "amount not stated",
+   "amount": "DISCREPANCY FLAGGED (2026-09-24): live NOFO page states 'at least $2,500,000' in awards; the official RHTP Initiative Funding Summary PDF (updated 03.10.26) lists the 'Expanding Care: Doulas' Budget Period 1 allocation as $1,200,000. Not yet reconciled.",
    "recipients": "not yet announced",
    "deadline": "Closed (exact date not found)",
    "status": "Closed, awardee list not yet posted",
    "description": "Funds doula training/certification model expansion and a rural doula network across Oklahoma.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "OK:nofo:ems-community-paramedicine-vehicles",
@@ -2247,26 +2258,26 @@
    "type": "nofo",
    "title": "Behavioral Health Integration & Chronic Disease Management Grant",
    "url": "https://us.fundsforngos.org/type-of-grantgrant/chronic-disease-management-grant-program-oklahoma/",
-   "amount": "~$15,000,000 total program funding (Budget Year 1)",
+   "amount": "$16,000,000 combined (was ~$15,000,000 estimate) -- confirmed 2026-09-24 as two distinct sub-initiatives: 'BH Integration in Primary Care' allocation $3,200,000 (live NOFO states $2,800,000 of this distributed as Budget Year 1 awards, mostly <=$1M each) + 'Chronic Disease Management Program' allocation $12,800,000 (no separate awards-pool figure stated on its NOFO page).",
    "recipients": "not yet announced",
    "deadline": "Closed 2026-06-08",
-   "status": "Closed, awardee list not yet posted",
+   "status": "Both NOFOs confirmed still closed with no awardee list posted as of 2026-09-24",
    "description": "Largest-dollar clinical program grant closed so far in OK's RHTP; funds behavioral health integration and chronic disease management.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "OK:initiative:okshine-hie-ehr-data-analytics",
    "type": "initiative",
    "title": "OHCA/OKSHINE HIE, EHR & Data Analytics Sub-Initiative",
    "url": "https://oklahoma.gov/ohca/okshine/rhtp.html",
-   "amount": "~$16,000,000 total (reported component breakdowns differ across sources \u2014 reconcile against primary source)",
+   "amount": "$19,900,000 combined (revised from ~$16,000,000, confirmed via Initiative Funding Summary PDF 2026-09-24): EHR Expansion $5,500,000 + HIE Interoperability $6,200,000 + Data and Analytics Expansion $8,200,000",
    "recipients": "not yet announced (target: ~40 rural hospitals, 4 SAS, 139 RHCs currently unconnected to OKSHINE)",
    "deadline": "Rolling connection-fee application portal (open); analytics vendor selection Year 1 ongoing",
    "status": "Active/open",
    "description": "OHCA/OKSHINE-administered program subsidizing rural provider connection to Oklahoma's statewide HIE, EHR adoption support, and AI-enabled analytics/dashboards.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "OK:news:route-fifty-data-strategy",
@@ -2286,13 +2297,13 @@
    "type": "document",
    "title": "Oklahoma RHTP Initiative Funding Summary (official PDF)",
    "url": "https://oklahoma.gov/content/dam/ok/en/health/health2/aem-documents/health-promotion/rhtp/RHTP_InitiativeFundingSummary.pdf",
-   "amount": "itemizes all 6 initiatives/32 sub-initiatives (full breakdown not extracted \u2014 direct fetch blocked)",
+   "amount": "Full BP1 breakdown now extracted (2026-09-24, 39-page PDF): RPM Maternal Health $800K; Transportation Expansion $2.7M; School-Based Health Services Support $3M; Telestroke $500K; MFM Telehealth Expansion $6.6M; Community Paramedicine $8.2M; Doulas $1.2M; BH Integration in Primary Care $3.2M; Tech Co-Op for PCP & BH Providers $13.8M; Community Care Referral Platform $400K; CHW Expansion in Hospitals $4.3M; Presidential Fitness Test Prep $1.1M; Chronic Disease Management Program $12.8M; Consumer-Facing Technology $3.3M; Community-Led Wellness Hub Microgrants $2.8M; Lung Cancer Screening $2.3M; Provider Collaborative Network Development $43.1M; Rural Regional Reorientation Plan $26.4M; EMS Centralization $4.5M; Value-Based Care Practice Enablement $1.6M; PACE Expansion $15.2M; PCP Clinical Extension Models $1.6M; Maternal Health VBP Support $1.3M; HWTC Rural Re-Location Incentives $800K; CareerTech HS LPN 'Grow Your Own' $1.1M; Rural Residency Programs $22.4M; EHR Expansion $5.5M; HIE Interoperability $6.2M; Data and Analytics Expansion $8.2M.",
    "recipients": "n/a",
    "deadline": "n/a",
-   "status": "Published/current",
+   "status": "Published/current; full breakdown successfully extracted 2026-09-24 (was previously blocked)",
    "description": "OSDH's official dollar-by-dollar breakdown of all RHTP initiatives and sub-initiatives.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "OK:document:program-narrative",
@@ -2391,12 +2402,12 @@
    "title": "Mississippi Dept. of Mental Health \u2014 Sole-Source Notice, EmPATH Consulting",
    "url": "https://www.dmh.ms.gov/news/rfp/",
    "amount": "not stated",
-   "recipients": "Proposed sole-source vendor \"EmPATH Consulting\" (not yet finalized)",
+   "recipients": "MedAmerica Consulting Employees, Inc., d/b/a Inflect Health (sole-source vendor, confirmed 2026-09-24; signed by Wendy D. Bailey, DMH Executive Director)",
    "deadline": "not stated",
    "status": "Public notice/comment period posted ~2026-08-20; RHTP funding not confirmed",
    "description": "MS Dept. of Mental Health sole-source contract notice for consulting on developing/implementing EmPATH psychiatric emergency units (3 planned: north, central, south regions).",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "LA:award:ul-lafayette-rhtp-grants",
@@ -2468,13 +2479,13 @@
    "type": "award",
    "title": "George Regional Health and Rehab (George County) RHTP Grant",
    "url": "https://www.wkrg.com/state-regional/mississippi-news/george-county/ms-rural-health-grants/",
-   "amount": "$330,000",
+   "amount": "$721,050 total across 3 awards (revised from $330,000/1 award, confirmed 2026-09-24): $34,400 for 8 wireless vital-sign monitors integrated with EHR (Rural Provider Technology); $330,000 smart nurse-call + wandering-management system (Rural Provider Technology, previously tracked); $356,650 for integrated care beds (Rural Capital Care Gap Closure)",
    "recipients": "George Regional Health and Rehab, George County, MS",
    "deadline": "n/a",
    "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
    "description": "Smart nurse call system and electronic wandering-management system.",
    "first_seen": "2026-09-16",
-   "last_updated": "2026-09-16"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "AR:award:jrmc-thrive-telecardiology",
@@ -2524,9 +2535,9 @@
    "recipients": "Baptist Health / South Arkansas Regional Hospital, El Dorado, Union County, AR",
    "deadline": "n/a",
    "status": "Awarded (Round 1); announced ~2026-08-29",
-   "description": "Facility improvements, clinical equipment, and IT infrastructure supporting the transition to Baptist Health Medical Center\u2013El Dorado, including virtual care/telemetry systems.",
+   "description": "Facility improvements, clinical equipment, and IT infrastructure supporting the transition to Baptist Health Medical Center\u2013El Dorado, including virtual care/telemetry systems. DISCREPANCY FLAGGED (2026-09-24): the official master award-list PDF shows Baptist Health's combined YR1 total (all facilities) as $16,926,432 (THRIVE $1,926,432 + PACT $15,000,000), but this item plus AR:award:baptist-health-magnolia-regional-transition ($3,000,000) sum to only ~$15.59M -- a ~$1.34M gap not yet reconciled. May reflect an earlier approximation or an additional facility/project not yet individually reported.",
    "first_seen": "2026-09-17",
-   "last_updated": "2026-09-21"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "AR:award:jefferson-hospital-association-hvac",
@@ -2546,13 +2557,13 @@
    "type": "award",
    "title": "Memorial Health System (Harrison/Stone Counties) RHTP Award",
    "url": "https://www.wdam.com/2026/09/15/memorial-health-system-receive-15m-rural-health-care-grants/",
-   "amount": "$15,000,000 total (~$10M Stone County, ~$5M Harrison County; sub-awards incl. Mobile Health Bridge $650,000, clinical communication transformation $684,325, CHF telehealth hub-and-spoke $72,750)",
+   "amount": "$15,041,222 total (revised from $15,000,000; itemized 2026-09-24 into 10 named sub-projects) -- Harrison County $4,627,548 (Mobile Health Bridge $650,000; chemo order/oncology workflow $2,980,874; breast milk management $83,599; radiology document-intake platform $156,000; clinical communication transformation $684,325; CHF telehealth hub-and-spoke $72,750) + Stone County $10,413,674 (diagnostic testing/mammography-bone density $1,151,594; cardiac imaging $1,160,837; mobile MRI $3,000,000; Secure Clinical Access Platform Modernization $2,874,728; AI-enabled virtual care hub for Stone/George/Hancock/Jackson/Pearl River Counties $1,920,000; diabetes hub-and-spoke $306,515)",
    "recipients": "Memorial Health System, Harrison and Stone Counties, MS",
    "deadline": "n/a",
    "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M announcement)",
    "description": "Largest single-system award identified so far in Mississippi's RHTP pool; includes mobile health, clinical communications, and telehealth hub-and-spoke components.",
    "first_seen": "2026-09-17",
-   "last_updated": "2026-09-17"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "MS:award:coastal-family-health-center-harrison-county",
@@ -2797,9 +2808,9 @@
    "recipients": "East Central Mississippi Health Care, Inc., Leake County",
    "deadline": "n/a",
    "status": "Awarded 2026-09-14 (part of 167-award pool)",
-   "description": "Technology Grant category award (category-level breakdown not itemized).",
+   "description": "Rural Provider Technology award (2026-09-14) funds deployment of remote patient monitoring technology for 1,300 patients with hypertension and other chronic conditions.",
    "first_seen": "2026-09-18",
-   "last_updated": "2026-09-18"
+   "last_updated": "2026-09-24"
   },
   {
    "id": "MS:award:winston-county-medical-foundation",
@@ -3261,6 +3272,216 @@
    "description": "Funds a robotic surgical system (~$2.5M) for Weatherford Regional Hospital plus medical simulation/workforce-training equipment for SWOSU pharmacy/nursing/allied health programs.",
    "first_seen": "2026-09-23",
    "last_updated": "2026-09-23"
+  },
+  {
+   "id": "WI:solicitation:digital-access-to-care-ehr-rfp",
+   "type": "solicitation",
+   "title": "DHS \"Digital Access to Care\" RFP \u2014 Shared Statewide EHR / Digital Backbone for Rural Providers",
+   "url": "https://www.dhs.wisconsin.gov/business/rhtp-overview-slides.pdf",
+   "amount": "amount not stated (part of the broader ~$209M/5-year Rural Technology Transformation Fund track)",
+   "recipients": "TBD \u2014 vendor not publicly confirmed as of 2026-09-24",
+   "deadline": "Vendor proposals were due 2026-04-20 (closed)",
+   "status": "Proposal period closed; no public vendor-selection/award announcement found",
+   "description": "DHS solicited proposals (Wisconsin eSupplier portal, Event #14009) for a shared statewide EHR system (\"digital backbone\") letting smaller rural providers deploy modern health IT/EHR, closed-loop referral systems, and telehealth faster and cheaper than standalone systems.",
+   "why_it_matters": "HIGH relevance \u2014 a statewide EHR/interoperability vendor procurement, squarely in Allstar's core practice area. RHTP funding not confirmed on the primary solicitation record itself; secondary coverage ties it to RHTP's digital-infrastructure track.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "TN:nofo:chronic-disease-prevention",
+   "type": "nofo",
+   "title": "Chronic Disease Prevention (RHTP competitive grant line)",
+   "url": "https://www.tn.gov/health/news/2026/5/15/tennessee-to-release-1st-grant-funding-opportunity-of-rural-health-transformation-program.html",
+   "amount": "amount not stated",
+   "recipients": "not yet announced",
+   "deadline": "Application window 2026-06-05 to 2026-07-06 (closed)",
+   "status": "Closed, awards pending",
+   "description": "One of TDH's nine original RHTP competitive grant lines; distinct from a separately CDC-funded, non-RHTP chronic-disease grant TDH announced 2026-06-15.",
+   "why_it_matters": "Low relevance \u2014 community/prevention-program funding rather than clinical tech; tracked for completeness.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "TN:solicitation:healthcare-mgmt-consulting-rfp-34320-20827",
+   "type": "solicitation",
+   "title": "RFP 34320-20827 \u2014 Healthcare Management Consulting Services",
+   "url": "https://www.tn.gov/generalservices/procurement/central-procurement-office--cpo-/supplier-information/request-for-proposals--rfp--opportunities1.html",
+   "amount": "amount not stated",
+   "recipients": "not yet announced (vendor award pending)",
+   "deadline": "Posted 2026-07-23; responses due 2026-09-03 (closed)",
+   "status": "Closed; award status not confirmed. Third-party procurement listings (OPEN MINDS, HigherGov) describe it as a key RHTP opportunity.",
+   "description": "TDH solicitation for a healthcare management consulting vendor to support RHTP program administration/implementation.",
+   "why_it_matters": "HIGH relevance \u2014 a state RHTP vendor consulting/program-management solicitation, the kind of engagement Allstar competes for or partners around.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "TN:solicitation:inemt-transportation-rfp-34320-20227",
+   "type": "solicitation",
+   "title": "Solicitation 34320-20227 \u2014 Innovative Non-Emergency Medical Transportation (iNEMT) Program",
+   "url": "https://www.tn.gov/generalservices/procurement/central-procurement-office--cpo-/supplier-information/request-for-proposals--rfp--opportunities1.html",
+   "amount": "amount not stated",
+   "recipients": "not yet announced",
+   "deadline": "Posted 2026-07-31; due 2026-09-11 (closed)",
+   "status": "Confidential/NDA-gated (TN Code Ann. Sec 10-7-504(i)); award status not confirmed. RHTP funding not confirmed.",
+   "description": "State solicitation for an \"innovative\" non-emergency medical transportation vendor/technology platform; thematically overlaps TN's tracked Rural Non-Emergency Transportation (RNET) initiative but the notice itself doesn't state RHTP funding.",
+   "why_it_matters": "HIGH relevance if RHTP-linked \u2014 a tech-enabled transportation-coordination vendor solicitation fits Allstar's vendor-solicitation/data-platform practice; flagged despite unconfirmed funding source.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "MS:document:hie-stakeholder-survey",
+   "type": "document",
+   "title": "MS RHTP Statewide HIE Stakeholder Feedback Survey",
+   "url": "https://mississippirhtp.com/",
+   "amount": "n/a",
+   "recipients": "n/a (public/provider input, not a grant)",
+   "deadline": "2026-10-31",
+   "status": "Open now",
+   "description": "Newly posted public survey soliciting input to help design a safer, faster, more useful statewide health information exchange (HIE).",
+   "why_it_matters": "HIGH relevance \u2014 directly feeds design of the statewide HIE that health-IT/interoperability vendors (including Allstar's practice) will eventually bid on.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "MS:award:preventive-care-md-jackson-county",
+   "type": "award",
+   "title": "Preventive Care MD (Jackson County) \u2014 Multiple RHTP Technology & Telehealth Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$1,260,000 total across 3 awards ($378,000 one-click interoperability solution for referring rural EHRs; $700,000 to modernize the Ocean Springs hub, strengthen cybersecurity, and open 3 new rural sites; $182,000 Telehealth Hub award for a four-site network serving Stone/George/Pearl River Counties)",
+   "recipients": "Preventive Care MD, Jackson County, MS",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool)",
+   "description": "Three separate RHTP awards funding EHR interoperability, cybersecurity hardening, and telehealth hub expansion.",
+   "why_it_matters": "HIGH relevance \u2014 interoperability, cybersecurity, and telehealth are core Allstar practice areas.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "MS:award:magee-benevolent-association-simpson-county",
+   "type": "award",
+   "title": "Magee Benevolent Association (Simpson County) \u2014 IT Infrastructure & Epic Integration Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$2,956,454 total across 2 awards ($825,000 IT infrastructure modernization incl. 24/7 SIEM monitoring and hospital-wide security cameras; $2,131,454 to implement bi-directional integration between infusion pumps and Epic across 4 rural hospitals, plus pump replacement at 3 sites)",
+   "recipients": "Magee Benevolent Association, Simpson County, MS",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool)",
+   "description": "Cybersecurity/SIEM modernization plus Epic EHR device-integration project across a multi-hospital system.",
+   "why_it_matters": "HIGH relevance \u2014 Epic interoperability integration and SIEM/cybersecurity are squarely in Allstar's wheelhouse.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "MS:award:hattiesburg-clinic-forrest-county",
+   "type": "award",
+   "title": "Hattiesburg Clinic, P.A. (Forrest County) \u2014 5 RHTP Technology/Cybersecurity Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$1,309,545 total across 5 awards ($46,101 tertiary cellular WAN failover; $537,094 ambient AI documentation for ~500 providers; $52,868 AI-native email/browser threat detection; $330,200 air-gapped immutable-storage recovery environment; $343,282 next-gen firewalls/threat protection across 60+ ambulatory sites), plus a separate $125,414 diabetic-retinopathy AI-imaging award under Capital Care Gap Closure",
+   "recipients": "Hattiesburg Clinic, P.A., Forrest County, MS",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool)",
+   "description": "The single largest concentration of cybersecurity/AI-documentation line items to one recipient in the itemized award list.",
+   "why_it_matters": "HIGH relevance \u2014 AI documentation, threat detection, disaster recovery, and firewalls are direct health-IT/cybersecurity plays.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "MS:award:lampton-medical-associates-pike-county",
+   "type": "award",
+   "title": "Lampton Medical Associates, P.A. (Pike County) \u2014 EMR Modernization for 50 Rural Practices",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$2,009,435",
+   "recipients": "Lampton Medical Associates, P.A., Pike County, MS",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool)",
+   "description": "Modernizes electronic medical records across 50 rural Mississippi practices to meet CMS interoperability and prior-authorization requirements.",
+   "why_it_matters": "HIGH relevance \u2014 large single EHR/interoperability modernization award spanning many practices, a multiplier for downstream vendor work.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "MS:award:kings-daughters-medical-center-lincoln-county",
+   "type": "award",
+   "title": "King's Daughters Medical Center (Lincoln County) \u2014 Cybersecurity & Telemetry/EHR Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$1,287,361 total ($326,441 comprehensive cybersecurity modernization initiative; $960,920 telemetry system modernization to interface with EHR)",
+   "recipients": "King's Daughters Medical Center, Lincoln County, MS",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool)",
+   "description": "Cybersecurity overhaul plus EHR-integrated telemetry monitoring.",
+   "why_it_matters": "HIGH relevance \u2014 direct cybersecurity and EHR-integration project.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "MS:award:ummc-hinds-county-main-campus",
+   "type": "award",
+   "title": "University of Mississippi Medical Center (Hinds County, main campus) \u2014 Data Platform & AI-RPM Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$975,356 total ($826,256 shared cloud-based analytics/reporting platform for participating rural hospitals under Rural Provider Technology; $149,100 AI-enabled remote patient monitoring for chronic disease/maternal health, integrating device data with EHR, under Telehealth Hub)",
+   "recipients": "University of Mississippi Medical Center, Hinds County, MS (distinct from the already-tracked UMMC Greenwood/Leflore County award)",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool)",
+   "description": "Statewide rural-hospital analytics platform plus AI-driven RPM integrated with EHR.",
+   "why_it_matters": "HIGH relevance \u2014 data platform and AI-RPM/EHR integration are core Allstar service lines.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "MS:award:delta-health-center-bolivar-washington-counties",
+   "type": "award",
+   "title": "Delta Health Center, Inc. \u2014 Cybersecurity, Urgent Care Center & Telehealth/RPM Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$4,660,332 total across 4 awards ($407,756 cybersecurity \u2014 firewalls, MDR, incident response plan, staff training, Bolivar County; $3,000,000 to establish a 24/7 Urgent and Critical Response center in Rosedale, Bolivar County; $760,955 closed-loop specialty referral network via telehealth carts, Washington County; $491,621 RPM + mobile Community Health Workers for diabetes/hypertension/CHF/COPD, Washington County)",
+   "recipients": "Delta Health Center, Inc., Bolivar and Washington Counties, MS",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14 (part of the 167-award/$104.1M pool)",
+   "description": "Multi-category award spanning cybersecurity, a new urgent-care facility, and telehealth/RPM.",
+   "why_it_matters": "HIGH relevance for the cybersecurity and RPM/telehealth components; facility component is lower relevance but reported for completeness.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "LA:document:advisory-council-slides-08202026",
+   "type": "document",
+   "title": "RHTP Advisory Council Meeting Slides, August 20, 2026",
+   "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/RHTP-Advisory-Council-Meeting-8.20.2026-Slides.pdf",
+   "amount": "n/a (informational deck)",
+   "recipients": "n/a",
+   "deadline": "n/a",
+   "status": "Published; discussed at the 8/20/2026 Advisory Council meeting",
+   "description": "Gives the first full per-program breakdown of application counts, projected funding, and anticipated announcement windows for all seven Year 1 NOFOs. Confirms next Advisory Council meeting: 2026-11-05, House Committee Room 3, 9-11am CT.",
+   "why_it_matters": "Low direct relevance itself (a governance/status deck), but the data materially updated six existing LA NOFO tracker entries this run.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "OK:award:pulsara-ems-centralization",
+   "type": "award",
+   "title": "Pulsara EMS Centralization Platform \u2014 Statewide RHTP-Funded EMS/Hospital Communication System",
+   "url": "https://oklahoma.gov/health/rhtp/pulsara-system.html",
+   "amount": "amount not stated for the contract itself; draws on the EMS Centralization sub-initiative's Budget Period 1 allocation of $4,500,000",
+   "recipients": "All Oklahoma hospitals and Fire/EMS agencies (offered at no cost to them); vendor Pulsara, procured via existing OMES Statewide Contract #1041 through Carahsoft",
+   "deadline": "n/a \u2014 rolling sign-up, implemented in waves",
+   "status": "Active; statewide rollout underway (Oklahoma Hospital Association held a webinar on the platform in June 2026)",
+   "description": "OSDH selected and is funding Pulsara \u2014 a HIPAA-compliant platform connecting EMS, hospitals, specialists and public health agencies for live communication, patient handoff, image sharing and time-sensitive workflows (STEMI/trauma/stroke/mass-casualty) \u2014 as the vendor for RHTP's EMS Centralization sub-initiative.",
+   "why_it_matters": "HIGH relevance \u2014 a named, RHTP-funded, statewide health-IT/EMS-interoperability vendor deployment; useful competitive intel on which vendor already won this lane in Oklahoma.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
+  },
+  {
+   "id": "OK:nofo:osde-project-695-medicaid-billing",
+   "type": "nofo",
+   "title": "OSDE PRIMS Project 695 \u2014 Promoting School Health Services Through Medicaid Billing",
+   "url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html",
+   "amount": "up to 90% of a new position's salary/benefits per district funded; aggregate program pool amount not stated",
+   "recipients": "Eligible PK-12 school districts; application period closed, no named awardees on the page",
+   "deadline": "Closed (exact date not stated on the page)",
+   "status": "Closed \u2014 \"The application period has closed\"",
+   "description": "OSDE grant funding new school-based health/mental-health staff positions (nurses, counselors, PTs, OTs, speech-language pathologists) able to bill Medicaid; OSDE is separately implementing \"EdPlan Health,\" the platform schools will use to bill.",
+   "why_it_matters": "Primarily a workforce/staffing grant, not core telehealth/RPM/EHR \u2014 low-to-moderate relevance, though the EdPlan Health billing platform component is worth a light watch.",
+   "first_seen": "2026-09-24",
+   "last_updated": "2026-09-24"
   }
  ]
 }
