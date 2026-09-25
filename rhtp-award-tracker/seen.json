@@ -1,7 +1,7 @@
 {
  "initialized": true,
  "baseline_pending": [],
- "last_run": "2026-09-24",
+ "last_run": "2026-09-25",
  "runs": [
   {
    "date": "2026-09-10",
@@ -144,6 +144,17 @@
    "email_sent": true,
    "email_type": "alert",
    "note": "11 parallel research passes (10 states + federal). New: WI Digital Access to Care statewide EHR RFP (high relevance, RHTP tie unconfirmed on primary source); TN 3 items (Chronic Disease Prevention NOFO, Healthcare Mgmt Consulting RFP, iNEMT Transportation RFP -- RHTP funding not confirmed on the latter); MS 8 items (HIE stakeholder survey + 7 recipient-level cybersecurity/EHR/telehealth awards from the 167-award pool: Preventive Care MD, Magee Benevolent, Hattiesburg Clinic, Lampton Medical, King's Daughters, UMMC Hinds main campus, Delta Health Center); LA Advisory Council 8/20 slides (drove 6 NOFO amount updates); OK 2 items (Pulsara EMS interoperability platform -- high relevance; OSDE Medicaid billing grant). Updated: AR Baptist Health reconciliation discrepancy flagged (~$1.34M gap, unresolved); TN RAMP missing $5M tier found; MS EmPATH sole-source vendor named (MedAmerica/Inflect Health), Memorial Health System amount revised to $15,041,222 (10-project breakdown), George Regional Health revised to $721,050/3 awards (was $330,000/1), East Central MS description enriched (non-material); LA 6 NOFOs moved from 'amount not stated' to concrete Budget Year 1 figures (Capital Improvement ~$41.6M, Rural Medicaid APM ~$30.0M, Telehealth Infrastructure ~$4.71M, Regional Care Conveners ~$3.5M, Collaborative Provider Models ~$3.0M, Food is Medicine ~$2.7M), applications-breakdown item confirmed (505 total), RTCF year-1-vs-lifetime framing flagged as unconfirmed; OK 5 updates (Initiative Funding Summary full 32-line breakdown extracted, OKSHINE revised to $19.9M from ~$16M, Doula Program discrepancy flagged $2.5M NOFO vs $1.2M allocation, BHI/CDM split into two figures totaling $16.0M, Microgrants discrepancy flagged $3.75M tracked vs $2.8M allocation). Considered and excluded: TN UTHSC telehealth sub-grants ($135K/6 awards) -- appears to be a separate, pre-existing TDH state program established before the Dec-2025 CMS RHTP award, not itself RHTP funding; not added to avoid conflating programs. No news found for IL, IN, MO, TX, or Federal this run."
+  },
+  {
+   "date": "2026-09-25",
+   "sources_checked": 79,
+   "sources_failed": 24,
+   "sources_failed_note": "6 parallel research passes (5 state-pairs + federal). AR: www.arkansas.gov/tss/procurement/bids (egress-blocked redirect to ark.org); news.uams.edu, talkbusiness.net, newsroomamerica.com, www.eldoradonews.com (egress-blocked, compensated via WebSearch). IL: bidbuy.illinois.gov loaded but is a JS-driven portal with no static searchable content. WI: vendornet.wi.gov (Blazor SPA); dhs.wisconsin.gov/news/releases.htm (404, wrong path); dhs.wisconsin.gov/news/index.htm (403); two dhs.wisconsin.gov/contracts/ detail pages (403, server-side WAF not a network block); wisconsinbids.com (blocked). IN: in.gov/gov/newsroom and events.in.gov (JS shells, no extractable release content). MO: memsa.org (bot/captcha challenge); missouribuys.mo.gov (JS-rendered SPA, no static bid listings). TN: TDH Caspio partner portal (JS-only shell). MS: www.wtok.com, www.dmh.ms.gov (sole-source PDF), www.themississippimonitor.com (egress-blocked, compensated via WebSearch); medicaid.ms.gov appears to serve stale/cached content. LA: gov.louisiana.gov/news, ms.gov DFA bid search, LaPAC (all load but are JS-driven with no static searchable results). TX: txsmartbuy.gov/esbd (unscrapeable Angular SPA); dir.texas.gov (egress-blocked); pfd.hhs.texas.gov via curl (403, WebFetch succeeded instead, not counted as a failure). OK: ok.gov/dcs/solicit (known JS/interactive-only, not tested per prior-run precedent). Federal: cms.gov/newsroom/press-releases index (404, recovered via an alternate CMS newsroom URL); cms.gov RTCF resource-guide PDF (returned undecoded binary); discoveriesinhealthpolicy.com, opportunitylouisiana.gov, route-fifty.com (all blocked). All failures compensated via WebSearch fallback per sources.json; no state was left uncovered.",
+   "items_new": 5,
+   "items_updated": 3,
+   "email_sent": true,
+   "email_type": "alert",
+   "note": "New: AR Round 2 RHTP award announcement -- $54.6M across 54 projects (HEART $27.4M/30 projects + RISE AR $27.2M/24 projects), announced 2026-09-24, resolving the two long-pending AR NOFOs; itemized recipient list not yet published, named recipients include UAMS (>$5M), Heartland Whole Health Institute ($8.42M, largest HEART award), Mississippi County Hospital System ($4.402M, largest RISE AR award). 4 new MS recipient-level awards from the already-tracked 167-award/$104.1M pool, covering counties not previously itemized: Outreach Health Services/Clarke County ($447,700 combined tech+telehealth), Wayne General Hospital/Wayne County ($754,357 combined), Neshoba County General Hospital ($255,000 tech), Independent Healthcare Management/Scott County ($3.73M combined tech+capital). The governor's press release contains the full 167-award master table with dozens more counties (Lamar, Alcorn, Jackson, Perry, Madison, Coahoma, Yazoo, Choctaw, Monroe, Calhoun, Copiah, Claiborne, Covington, Lawrence, Montgomery, Tallahatchie, Wilkinson, Amite, Lee, Marion, Oktibbeha, Lowndes, Humphreys, Jones, Rankin, Franklin, Quitman, Chickasaw, Webster, Tate, Yalobusha, Grenada, Lafayette, Prentiss, Marshall, Itawamba, Jefferson and others) not yet itemized as individual tracked items -- flagged for incremental extraction in future runs rather than bulk-added this run. Updated: AR:nofo:rise-nofo-pending and AR:nofo:heart-nofo-pending both moved from 'awards not yet announced' to awarded, per the Round 2 item above. MS:solicitation:empath-consulting-sole-source -- RHTP funding link now explicitly confirmed via DMH's own sole-source determination document ($340,780 total, was 'amount not stated'/'RHTP funding not confirmed'); note this was sourced via a WebSearch snippet only, the primary PDF was blocked from direct fetch this run and should be re-verified when reachable. Checked and found NOT material (not added/emailed): IN GROW regional/statewide surplus split ($8.724M+$7.526M) and IN Initiative 10 GME $5M figure -- both already captured in seen.json as of the 2026-09-22/09-23 runs, the research pass simply re-surfaced already-tracked facts. OK OKSHINE HIE amount -- live page shows 'approximately $16 million' vs. the $19.9M value recorded in seen.json on 2026-09-24; conflicting with itself across runs, cause unclear (page revision vs. prior misread), not changed pending manual verification. MO $45M tranche (hospital repairs/behavioral health/EMS) and MS $104M tranche -- both independently resurfaced by the federal-level research pass but already fully tracked under existing MO and MS items; not duplicated. No news found for IL, WI, MO, TN, LA, TX, OK, or federal-only items this run."
   }
  ],
  "items": [
@@ -282,26 +293,26 @@
    "type": "nofo",
    "title": "RISE AR (Recruitment, Innovation, Skills & Education for Arkansas) \u2014 Application Window Closed",
    "url": "https://arkansasrhtp.com/rise/",
-   "amount": "Sub-initiative ceilings: LEAD $4.3M; PATHWAY $7.0M; RETAIN $14.4M; SKILL-UP $1.6M",
-   "recipients": "not yet announced",
+   "amount": "Sub-initiative ceilings: LEAD $4.3M; PATHWAY $7.0M; RETAIN $14.4M; SKILL-UP $1.6M. Awarded total: $27.2M across 24 projects.",
+   "recipients": "24 projects awarded 2026-09-24 as part of the Round 2 announcement; full itemized list not yet published. Largest known: Mississippi County Hospital System, $4,402,000 (physician-training infrastructure/leadership/recruitment).",
    "deadline": "Opened 2026-06-22; closed 2026-07-24 12:00 PM CT. Program Year 1 begins 2026-10-30.",
-   "status": "NOFO opened and closed (previously reported as not yet opened); awards not yet announced as of 2026-09-15",
-   "description": "Workforce-development initiative; funding round to be announced later.",
+   "status": "Awarded 2026-09-24: $27.2M across 24 projects, per Round 2 announcement (see AR:award:rhtp-round2-rise-heart-award-announcement)",
+   "description": "Workforce-development initiative; awards announced as part of Arkansas's Round 2 RHTP distribution.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-25"
   },
   {
    "id": "AR:nofo:heart-nofo-pending",
    "type": "nofo",
    "title": "HEART (Healthy Eating, Active Recreation, and Transformation) \u2014 Application Window Closed",
    "url": "https://arkansasrhtp.com/heart/",
-   "amount": "amount not stated",
-   "recipients": "not yet announced",
+   "amount": "Awarded total: $27.4M across 30 projects.",
+   "recipients": "30 projects awarded 2026-09-24 as part of the Round 2 announcement; full itemized list not yet published. Largest known: Heartland Whole Health Institute, $8,420,000 (27-county care-transformation demonstration project).",
    "deadline": "Applications closed 2026-07-10 (open date not confirmed)",
-   "status": "NOFO opened and closed (previously reported as not yet opened); awards not yet announced as of 2026-09-15",
-   "description": "Community nutrition/chronic-disease prevention initiative; funding round to be announced later.",
+   "status": "Awarded 2026-09-24: $27.4M across 30 projects, per Round 2 announcement (see AR:award:rhtp-round2-rise-heart-award-announcement)",
+   "description": "Community nutrition/chronic-disease prevention initiative; awards announced as part of Arkansas's Round 2 RHTP distribution.",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-15"
+   "last_updated": "2026-09-25"
   },
   {
    "id": "IL:federal:cms-rhtp-cooperative-agreement",
@@ -2400,14 +2411,14 @@
    "id": "MS:solicitation:empath-consulting-sole-source",
    "type": "solicitation",
    "title": "Mississippi Dept. of Mental Health \u2014 Sole-Source Notice, EmPATH Consulting",
-   "url": "https://www.dmh.ms.gov/news/rfp/",
-   "amount": "not stated",
+   "url": "https://www.dmh.ms.gov/wp-content/uploads/2026/06/Sole_Source_Determination_and_Contract_-_EmPA.pdf",
+   "amount": "$340,780 total (24-month term, $170,390/year)",
    "recipients": "MedAmerica Consulting Employees, Inc., d/b/a Inflect Health (sole-source vendor, confirmed 2026-09-24; signed by Wendy D. Bailey, DMH Executive Director)",
    "deadline": "not stated",
-   "status": "Public notice/comment period posted ~2026-08-20; RHTP funding not confirmed",
+   "status": "RHTP funding now confirmed \u2014 DMH's own sole-source determination document states it is deploying funding \"including resources tied to the Rural Health Transformation Grant\" to develop three EmPATH units in Mississippi hospitals. (Note: found via WebSearch snippet this run; the PDF itself was blocked from direct fetch by network egress, so not independently re-verified from the primary document.)",
    "description": "MS Dept. of Mental Health sole-source contract notice for consulting on developing/implementing EmPATH psychiatric emergency units (3 planned: north, central, south regions).",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-24"
+   "last_updated": "2026-09-25"
   },
   {
    "id": "LA:award:ul-lafayette-rhtp-grants",
@@ -3482,6 +3493,76 @@
    "why_it_matters": "Primarily a workforce/staffing grant, not core telehealth/RPM/EHR \u2014 low-to-moderate relevance, though the EdPlan Health billing platform component is worth a light watch.",
    "first_seen": "2026-09-24",
    "last_updated": "2026-09-24"
+  },
+  {
+   "id": "AR:award:rhtp-round2-rise-heart-award-announcement",
+   "type": "award",
+   "title": "Sanders Announces $54.6 Million Awarded in Rural Health Transformation Funds (Round 2: RISE AR + HEART)",
+   "url": "https://governor.arkansas.gov/news_post/sanders-announces-54-6-million-awarded-in-rural-health-transformation-funds/",
+   "amount": "$54.6M total \u2014 HEART $27.4M across 30 projects; RISE AR $27.2M across 24 projects (54 projects total)",
+   "recipients": "Full itemized list not yet published. Named in press/search coverage: UAMS (>$5M across HEART+RISE, 6 initiatives), Arkansas Foodbank, White River Health System, St. Bernards Development Foundation, Baptist Health, Mississippi County Hospital System (largest single RISE AR award, $4,402,000), Heartland Whole Health Institute (largest single HEART award, $8,420,000, 27-county care-transformation demonstration project)",
+   "deadline": "n/a",
+   "status": "Announced 2026-09-24. Resolves AR:nofo:rise-nofo-pending and AR:nofo:heart-nofo-pending, both previously awaiting award announcement.",
+   "description": "Second round of RHTP sub-awards (after the $149.3M THRIVE+PACT Round 1 on 2026-08-27), covering the RISE AR workforce-development NOFO and the HEART community-nutrition/chronic-disease NOFO. Combined with Round 1, this distributes roughly $203.9M of Arkansas's $208,779,396 FY2026 allocation. A full itemized recipient/county list (like the Round 1 master award PDF) was not found on any fetched page as of this run \u2014 likely to appear on arkansasrhtp.com/resources/ or the DFA site once grant agreements are executed.",
+   "why_it_matters": "RISE AR funds workforce recruitment/training \u2014 moderate relevance; HEART funds community nutrition/chronic-disease prevention \u2014 low relevance under Allstar's health-IT/cybersecurity lens, though the not-yet-published itemized list may surface additional telehealth- or health-IT-adjacent sub-awards once available.",
+   "first_seen": "2026-09-25",
+   "last_updated": "2026-09-25"
+  },
+  {
+   "id": "MS:award:outreach-health-services-clarke-county",
+   "type": "award",
+   "title": "Outreach Health Services (Clarke County) \u2014 RHTP Technology & Telehealth Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$229,500 (Rural Provider Technology Grant) + $218,200 (Telehealth Hub Connectivity) = $447,700 combined",
+   "recipients": "Outreach Health Services, Clarke County",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14, part of the 167-award/$104.1M pool announced by Governor Reeves; recipient-level detail surfaced 2026-09-25",
+   "description": "Rural Provider Technology and Telehealth Hub Connectivity & Equipment awards to a Clarke County provider, from Mississippi's first RHTP provider-grant window.",
+   "why_it_matters": "HIGH relevance \u2014 telehealth connectivity and provider-technology funding directly in Allstar's health-IT practice area.",
+   "first_seen": "2026-09-25",
+   "last_updated": "2026-09-25"
+  },
+  {
+   "id": "MS:award:wayne-general-hospital-wayne-county",
+   "type": "award",
+   "title": "Wayne General Hospital (Wayne County) \u2014 RHTP Technology & Telehealth Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$554,357 (Rural Provider Technology Grant) + $200,000 (Telehealth Hub Connectivity) = $754,357 combined",
+   "recipients": "Wayne General Hospital, Wayne County",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14, part of the 167-award/$104.1M pool announced by Governor Reeves; recipient-level detail surfaced 2026-09-25",
+   "description": "Rural Provider Technology and Telehealth Hub Connectivity & Equipment awards to a Wayne County hospital, from Mississippi's first RHTP provider-grant window.",
+   "why_it_matters": "HIGH relevance \u2014 telehealth connectivity and provider-technology funding directly in Allstar's health-IT practice area.",
+   "first_seen": "2026-09-25",
+   "last_updated": "2026-09-25"
+  },
+  {
+   "id": "MS:award:neshoba-county-general-hospital-neshoba-county",
+   "type": "award",
+   "title": "Neshoba County General Hospital \u2014 RHTP Rural Provider Technology Grant",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$255,000",
+   "recipients": "Neshoba County General Hospital, Neshoba County",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14, part of the 167-award/$104.1M pool announced by Governor Reeves; recipient-level detail surfaced 2026-09-25",
+   "description": "Rural Provider Technology Grant to a Neshoba County hospital, from Mississippi's first RHTP provider-grant window.",
+   "why_it_matters": "HIGH relevance \u2014 provider-technology funding directly in Allstar's health-IT practice area.",
+   "first_seen": "2026-09-25",
+   "last_updated": "2026-09-25"
+  },
+  {
+   "id": "MS:award:independent-healthcare-management-scott-county",
+   "type": "award",
+   "title": "Independent Healthcare Management, Inc. (Scott County) \u2014 RHTP Technology & Capital Awards",
+   "url": "https://governorreeves.ms.gov/governor-reeves-announces-167-rural-health-transformation-program-awards-totaling-more-than-104-million/",
+   "amount": "$730,000 (Rural Provider Technology Grant) + $3,000,000 (Rural Capital Care Gap Closure) = $3.73M combined \u2014 largest Scott County recipient",
+   "recipients": "Independent Healthcare Management, Inc., Scott County",
+   "deadline": "n/a",
+   "status": "Awarded 2026-09-14, part of the 167-award/$104.1M pool announced by Governor Reeves; recipient-level detail surfaced 2026-09-25",
+   "description": "Rural Provider Technology and Capital Care Gap Closure awards to a Scott County provider, from Mississippi's first RHTP provider-grant window.",
+   "why_it_matters": "HIGH relevance for the $730,000 technology portion; the $3M capital-improvement portion is lower relevance (facility, not IT).",
+   "first_seen": "2026-09-25",
+   "last_updated": "2026-09-25"
   }
  ]
 }
