@@ -1,7 +1,7 @@
 {
  "initialized": true,
  "baseline_pending": [],
- "last_run": "2026-09-30",
+ "last_run": "2026-10-01",
  "runs": [
   {
    "date": "2026-09-10",
@@ -188,6 +188,17 @@
    "email_sent": true,
    "email_type": "alert",
    "note": "New: 4 IL funding-strategy NOFOs identified via Illinois' own CSFA registry (EMS Support, Mobile Healthcare Innovation, Healthcare Workforce Expansion, REACH education pipeline -- amounts largely unconfirmed on primary pages, sourced via web search); 1 IN item (Initiative 9 Rural Healthcare Academies RFA, closed, low relevance); 1 OK award (Chronic Disease Management Program, 15 named recipients, ~$15.6M, several RPM/telehealth-relevant); 48 MS recipient-level awards completing full itemization of the 167-award/$104.1M master table (10+ high/medium-high relevance for cybersecurity/EHR/telehealth/RPM, including a $1M PSP Medical Clinic telehealth/RPM award and a $596K Forrest County General Hospital virtual-nursing/RPM award). Updated: WI Digital Access to Care EHR RFP -- vendor confirmed as Epic Systems, $40M, RHTP tie now confirmed in press coverage; MO Year 1 Fund Distribution -- exact pillar figures published, revealing RPM ($3M) and ambient AI ($4M) as distinct budget sub-lines for the first time; 2 TN solicitations moved from open/unconfirmed to closed with confirmed deadlines; OK Behavioral Health/Chronic Disease NOFO split -- CDMP half awarded, BHI half still pending; MS Copiah County Medical Center gained a 4th, previously-missed $55K award. Three federal-pass candidate items (TX $51M, AR $54.6M, MO $45M CMS press releases) were confirmed as duplicates of items each state's own pass had already tracked and were not added. No news found for AR, LA, or TX this run (LA's Oct 1 monthly webinar and Notice-of-Intent-to-Contract announcements for 6 pending NOFOs remain open threads to watch)."
+  },
+  {
+   "date": "2026-10-01",
+   "sources_checked": 92,
+   "sources_failed": 25,
+   "sources_failed_note": "11 parallel research passes (10 states + federal). taggs.hhs.gov federal award records returned HTTP 405 to both WebFetch and curl across nearly every state (AR, IN, MO, MS, TN, LA, TX, OK) -- a broad, consistent block, not per-state. Newly egress-blocked domains this run: omb.illinois.gov (IL CSFA registry), icahn.org, www.iccb.org, apps.hhs.texas.gov, insider.govtech.com, episcopalhealth.org, redihealth.com, vmghealth.com, kosu.org, themountainpress.com -- compensated via WebSearch snippets throughout. Persistent JS/SPA portals unreadable as usual: il.amplifund.com (SSO wall) and bidbuy.illinois.gov, vendornet.wi.gov (Blazor SPA), TDH Caspio partner portal, ms.gov DFA bid search, LaPAC, ok.gov/dcs/solicit, gov.louisiana.gov/news (client-side filtered). dhs.wisconsin.gov/news/releases.htm now 404s (was working previously). arkansas.gov/tss/procurement/bids redirect to ark.org remains blocked at the proxy level (403 on CONNECT). cms.gov/newsroom/press-releases index still 404s; medicaid.gov's 'Recent State Announcements' box used as the reliable federal fallback. No primary state program-home page was unreachable.",
+   "items_new": 4,
+   "items_updated": 5,
+   "email_sent": true,
+   "email_type": "alert",
+   "note": "New: 3 IL NOFOs identified via Illinois' own CSFA registry (Hospital Disease Prevention, low relevance; Technological Innovation for Virtual Care, HIGH relevance -- dedicated rural telehealth/virtual-care tech funding stream, not previously tracked; ROOTS community-college healthcare-worker training, $7.4M, closed, low relevance); 1 OK award (Expanding Care: Doulas Program, 4 named recipients, $647,967.83 total -- well under both the NOFO's stated $2.5M pool and a separate funding-summary PDF figure of $1.2M, a three-way discrepancy now flagged). Updated: IL REACH workforce-pipeline NOFO's RHTP funding status moved from unconfirmed to confirmed ($9.3M, FY2027 grant period 8/1/26-6/30/27) via a new CSFA registry entry (csfa=4097); OK Doula NOFO record updated with the new awardee list and the amount discrepancy; all three TX tech-initiative NOFOs (Initiative 2 patient portals/RPM, Initiative 3 AI/telehealth, Initiative 5 cybersecurity -- all HIGH relevance to Allstar) had their application/NOA/contract-routing dates on HHSC's own live timeline table slip by roughly one month each, with none yet open. No news found for AR, IN, WI, MO, TN, MS, LA, or Federal this run -- all open threads from prior runs remain open and unresolved (WI Rural Tech Transformation Fund Round 1 and Rural Dental Grants award lists; LA six remaining Year-1 Notices of Intent to Contract, self-set 'end of September' target technically elapsed with no public announcement; LA Rural Tech Catalyst Fund Cohort 1 awards anticipated mid-Oct; MO Smart Growth/Service Line IFB and other closed solicitations' awardee lists; TN eight remaining competitive grant lines plus RAMP, all pending with the 2026-10-30 CMS Year-1-obligation deadline approaching across MO/TN/OK; OK EMS vehicle and Behavioral Health Integration awardee lists still not posted; TX Initiative 1/4/6 full recipient-level rosters still incomplete)."
   }
  ],
  "items": [
@@ -1979,11 +1990,11 @@
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "amount not stated",
    "recipients": "Eligibility clarified: 2+ clinically integrated networks, ACOs, or similar cooperatives supporting hospitals, clinics/physicians, and behavioral health providers (each network >=60% rural)",
-   "deadline": "Narrowed from generic 'Oct-Dec 2026' to: applications due October 2026, NOA January 2027, contract routing March 2027",
-   "status": "Still confirmed NOT open as of 2026-09-22",
+   "deadline": "Timeline pushed back roughly one month on HHSC's live table: applications now due 2026-11-30 (was Oct 2026), Notice of Award 2027-02-28 (was Jan 2027), contract routing 2027-04-30 (was Mar 2027). Page still labels all dates 'ESTIMATED... subject to change.'",
+   "status": "Still confirmed NOT open as of 2026-10-01",
    "description": "Consumer-facing patient portal/RPM technology investment.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-22"
+   "last_updated": "2026-10-01"
   },
   {
    "id": "TX:nofo:initiative3-ai-telehealth",
@@ -1992,11 +2003,11 @@
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "amount not stated on primary source; secondary source (~June 2026) cites a pool of roughly $150M over 5 years (unconfirmed)",
    "recipients": "Eligibility clarified: 2+ clinically integrated networks/ACOs/cooperatives (>=60% rural); focus areas AI tools for maternal health, behavioral health, preventive screening plus telehealth care hubs",
-   "deadline": "Narrowed to: applications due November 2026, NOA February 2027, contract routing April 2027. Earlier rumor of a September 2026 posting (RFA HHS0015684) did NOT materialize \u2014 that RFA number now 404s.",
-   "status": "Still confirmed NOT open as of 2026-09-22",
+   "deadline": "Timeline pushed back roughly one month: applications now due 2026-12-31 (was Nov 2026); Notice of Award printed as 2026-03-31 on HHSC's page \u2014 appears to be a typo (precedes its own deadline), likely meant 2027-03-31, flagged not corrected; contract routing 2027-05-31 (was Apr 2027).",
+   "status": "Still confirmed NOT open as of 2026-10-01; a secondary report had this RFA slated to post in October, which has now passed without posting",
    "description": "AI-enabled telehealth expansion for specialty/behavioral-health/chronic-disease care, coordinated with Initiatives 2 and 5.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-22"
+   "last_updated": "2026-10-01"
   },
   {
    "id": "TX:nofo:initiative5-cyber",
@@ -2005,11 +2016,11 @@
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "amount not stated",
    "recipients": "Materially clarified: NOT a grant to hospital networks \u2014 eligibility restricted to vendors already listed as a Managed Security Services Provider (MSSP) with the Texas Department of Information Resources (DIR); procurement mechanism is a formal Request for Offer (RFO), not an RFA/grant application",
-   "deadline": "Narrowed to: applications/offers due December 2026, NOA March 2027, contract routing May 2027",
-   "status": "Still confirmed NOT open as of 2026-09-22",
+   "deadline": "Timeline pushed back roughly one month: offers now due 2027-01-31 (was Dec 2026), Notice of Award 2027-04-30 (was Mar 2027), contract routing 2027-06-30 (was May 2027).",
+   "status": "Still confirmed NOT open as of 2026-10-01",
    "description": "Deploys a managed security solution across rural providers \u2014 endpoint detection & response, 24/7 SOC monitoring, and user security training.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-22"
+   "last_updated": "2026-10-01"
   },
   {
    "id": "TX:news:eligibility-network-requirement",
@@ -2276,13 +2287,13 @@
    "type": "nofo",
    "title": "Expanding Care: Doulas Program",
    "url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html",
-   "amount": "DISCREPANCY FLAGGED (2026-09-24): live NOFO page states 'at least $2,500,000' in awards; the official RHTP Initiative Funding Summary PDF (updated 03.10.26) lists the 'Expanding Care: Doulas' Budget Period 1 allocation as $1,200,000. Not yet reconciled.",
-   "recipients": "not yet announced",
+   "amount": "Three-way discrepancy: live NOFO page still states 'at least $2,500,000'; the RHTP Funding Summary PDF (updated 03.10.26) lists $1,200,000; the awardee list posted 2026-10-01 totals only $647,967.83 across 4 recipients (see OK:award:doula-program-recipients). Not reconciled.",
+   "recipients": "Now named \u2014 see OK:award:doula-program-recipients",
    "deadline": "Closed (exact date not found)",
-   "status": "Closed, awardee list not yet posted",
+   "status": "Awardee list posted 2026-10-01 (4 recipients, $647,967.83 total)",
    "description": "Funds doula training/certification model expansion and a rural doula network across Oklahoma.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-09-24"
+   "last_updated": "2026-10-01"
   },
   {
    "id": "OK:nofo:ems-community-paramedicine-vehicles",
@@ -4134,14 +4145,14 @@
    "id": "IL:nofo:rht-reach-rural-health-education-pipeline",
    "type": "nofo",
    "title": "RHTP \u2014 Building a Resilient Workforce: Rural Health Education Pipeline (REACH)",
-   "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=3987",
-   "amount": "amount not stated on primary source; a related prior solicitation cited $4,500,000\u2013$22,500,000 estimated budget range per a third-party bid aggregator, not independently confirmed",
+   "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=4097",
+   "amount": "$9,300,000 (FY2027 estimated total program funding) \u2014 now confirmed via a primary-source ICCB NOFO and a new CSFA registry entry (csfa=4097) citing Section 71401 of P.L. 119-21 (was: amount not stated / unconfirmed third-party range)",
    "recipients": "University of Illinois College of Medicine Rockford / National Center for Rural Health Professions AHEC; Illinois Community College Board",
-   "deadline": "a prior phase reportedly closed 2026-06-09; a separate 'FY27' NOFO may be underway, dates unconfirmed",
-   "status": "RHTP funding not independently confirmed on a primary HFS/ICCB page this run",
+   "deadline": "Grant period confirmed as 2026-08-01 to 2027-06-30; specific application closing date not independently re-confirmed this run",
+   "status": "RHTP funding now confirmed (was: not independently confirmed on a primary HFS/ICCB page)",
    "description": "Expands AHEC career-pathway programming (job shadowing, mentorship, workshops) to build rural student interest in healthcare careers.",
    "first_seen": "2026-09-30",
-   "last_updated": "2026-09-30"
+   "last_updated": "2026-10-01"
   },
   {
    "id": "IN:solicitation:rhtp-i9-rural-healthcare-academies-rfa",
@@ -4792,6 +4803,58 @@
    "description": "Establish telehealth and RPM capabilities serving patients with significant hypertension, diabetes, and obesity burdens.",
    "first_seen": "2026-09-30",
    "last_updated": "2026-09-30"
+  },
+  {
+   "id": "IL:nofo:rht-hospital-disease-prevention",
+   "type": "nofo",
+   "title": "RHTP \u2014 Transforming Rural Healthcare Delivery: Hospital Disease Prevention",
+   "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=3981",
+   "amount": "amount not stated",
+   "recipients": "Rural hospitals, in partnership with local public health departments and other public health partners",
+   "deadline": "not independently confirmed; a secondary source suggests an application window of 2026-05-19 to 2026-06-09 (now closed)",
+   "status": "Identified via Illinois CSFA registry this run; primary page not directly fetchable (newly egress-blocked), sourced via web search",
+   "description": "RHTP-funded disease-prevention programming for rural hospitals in partnership with public health departments.",
+   "first_seen": "2026-10-01",
+   "last_updated": "2026-10-01"
+  },
+  {
+   "id": "IL:nofo:rht-technological-innovation-virtual-care",
+   "type": "nofo",
+   "title": "RHTP \u2014 Overcoming Geographic Barriers to Care: Technological Innovation for Virtual Care",
+   "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=3984",
+   "amount": "amount not stated",
+   "recipients": "n/a (recipient level not stated)",
+   "deadline": "n/a",
+   "status": "Identified via Illinois CSFA registry this run; primary page not directly fetchable (newly egress-blocked), sourced via web search; described as implemented in part through an 'Illinois Connect Care Collaborative' telehealth model",
+   "description": "Dedicated RHTP funding stream for telehealth/virtual-care technology investment in rural Illinois.",
+   "first_seen": "2026-10-01",
+   "last_updated": "2026-10-01"
+  },
+  {
+   "id": "IL:nofo:rht-roots-rural-outreach-training",
+   "type": "nofo",
+   "title": "Illinois Rural Health Initiative \u2014 ROOTS (Rural Outreach, Opportunity, Training, and Success)",
+   "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=4098",
+   "amount": "$7,400,000 estimated total program funding (FY2027, non-competitive, formula-based)",
+   "recipients": "Rural community colleges, for healthcare-support-worker training programs (maternal care and substance-abuse roles focus), administered by the Illinois Community College Board (ICCB)",
+   "deadline": "Application closed 2026-09-18, 5:00 PM; grant period 2026-08-01 to 2027-06-30",
+   "status": "Closed",
+   "description": "Workforce training grant for rural community colleges to train healthcare support workers.",
+   "first_seen": "2026-10-01",
+   "last_updated": "2026-10-01"
+  },
+  {
+   "id": "OK:award:doula-program-recipients",
+   "type": "award",
+   "title": "Expanding Care: Doulas Program \u2014 RHTP Award Recipients Posted",
+   "url": "https://oklahoma.gov/health/rhtp/rhtp-funding-recipients.html",
+   "amount": "$647,967.83 aggregate across 4 named awards ($5,445.49\u2013$363,090.34 each)",
+   "recipients": "Board of Regents of the University of Oklahoma Health Sciences Center / Oklahoma Breastfeeding Resource Center ($5,445.49); Newman Memorial Hospital ($38,525); Tulsa Community Foundation, fiscal sponsor for Oklahoma Birth Equity Initiative ($240,907); Western Plains Youth and Family Services ($363,090.34)",
+   "deadline": "n/a \u2014 application period already closed",
+   "status": "Awarded",
+   "description": "Doula training/certification and rural doula network expansion funded by RHTP; awarded total is well below the NOFO's stated 'at least $2,500,000' pool and the separate RHTP Funding Summary PDF figure of $1,200,000 \u2014 a three-way discrepancy not yet reconciled.",
+   "first_seen": "2026-10-01",
+   "last_updated": "2026-10-01"
   }
  ]
 }
