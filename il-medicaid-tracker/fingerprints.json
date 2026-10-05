@@ -275,6 +275,7 @@
     "Manage Your Case": "/medicalclients/medicaidguide/manage.html",
     "Media Center": "/info/media.html",
     "Medicaid Address Change Form": "https://ilhfspartner3.dynamics365portals.us/addressupdate/",
+    "Medicaid Guide FAQs": "/medicalclients/medicaidguide/medicaidguidefaqs.html",
     "Medicaid Guide Home": "/medicalclients/medicaidguide.html",
     "Medicaid Recovery": "/medicalclients/medicaidestaterecovery.html",
     "Medicaid Technical Assistance Center": "/medicalproviders/mtac.html",
@@ -311,6 +312,7 @@
     "Success Stories": "/info/succcessstories.html",
     "Upcoming Events Calendar": "/community-outreach/community-calendar.html",
     "Use Your Benefits": "/medicalclients/medicaidguide/usemymedicaid.html",
+    "Visit ABE": "https://abe.illinois.gov/access/",
     "Web Accessibility": "https://doit.illinois.gov/initiatives/accessibility/iitaa.html",
     "abe.illinois.gov": "https://abe.illinois.gov/access/",
     "{{../this.suggestion}}": "{{../../searchPage}}?q={{convertAnd ../this.suggestion}}"
