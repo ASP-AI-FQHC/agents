@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-05",
+  "last_run": "2026-10-06",
   "runs": [
     {
       "date": "2026-09-10",
@@ -221,6 +221,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New: IL HFS-administered workforce-pipeline NOFO (CSFA 3987, low relevance, closed); TN RFI for a consultant to evaluate RHTP funding strategy (closed, unconfirmed single-source); MS Aug 2026 pilot-programs announcement covering RPM chronic-disease tracking and veteran/first-responder telehealth (medium/high relevance) plus mobile obstetric clinics and crisis diversion centers (lower relevance); OK OSDH first-year progress briefing (context on Budget Period 2 timing); OK OHCA HIE & EHR Assistance Year 1 application, HIGH relevance, open now with a Dec 31 2026 deadline. Updated (not emailed, corrections only): TX Initiative 4 Round 1 deadline corrected from 5/27 to 6/09 (already passed, no new action); IL REACH NOFO (csfa=4097) administering agency and recipient description corrected after discovering it had been conflated with the newly-found CSFA 3987 program; OK's previously-UNCONFIRMED federal Budget Period 2 timing item upgraded to CONFIRMED via a primary OSDH source. AR, IN, WI, MO, LA, and Federal had no new or changed items this run."
+    },
+    {
+      "date": "2026-10-06",
+      "sources_checked": 95,
+      "sources_failed": 26,
+      "sources_failed_note": "Hard failures: AR www.arkansas.gov/tss/procurement (301->ark.org, egress-blocked); IL il.amplifund.com (SSO wall), omb.illinois.gov CSFA pages/icahn.org/acmhai.org/cdn.ymaws.com/fundinglandscape.com/webapps.illinois.gov (egress-blocked); WI dhs.wisconsin.gov/news/releases.htm (404, substituted with /news/index.htm), vendornet.wi.gov (Blazor SPA, empty); MO memsa.org (captcha), mohospitals.org/ruralcarejourney.com/ctf4kids.org (egress-blocked), dss.mo.gov/node/36251 (404); TN tndeptofhealth.caspio.app (JS-rendered, empty), tha.com (egress-blocked), grantedai.com (egress-blocked); TX mindbowser.com/governing.com/fiercehealthcare.com/county.org vendor/news pages (egress-blocked, supplementary only); FEDERAL cms.gov/newsroom/press-releases (404, worked around via medicaid.gov RHT page). No primary state program-home page was unreachable.",
+      "items_new": 1,
+      "items_updated": 4,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New: OK Behavioral Health Integration (MOUD/MAUD) award list posted, 3 orgs/$1,228,012.70, incl. Andor Health LLC $1,000,000 (health-IT vendor, HIGH relevance). Updated: IL Mobile Healthcare Innovation NOFO now confirmed open (deadline Oct 23 2026, HIGH relevance -- telehealth/interoperability/EHR); MO MIH-CP/MEMSA partnership gained 11 named Year-1 EMS training sub-recipient institutions (MEDIUM relevance); TN Perinatal Behavioral Health Workforce RFA (34347-39627) Amendment 1 posted, $70K pool clarified, evaluation notice date Oct 9 2026 disclosed (LOW-MODERATE relevance, award imminent). AR, IN, WI, MS, LA, TX, and Federal had no new or changed items this run. Excluded as non-RHTP: TN Stillbirth Funeral Assistance RFA (confirmed funded by SFY2027 state appropriations, not RHTP)."
     }
   ],
   "items": [
@@ -1075,12 +1086,12 @@
       "title": "Mobile Integrated Healthcare & Community Paramedicine (MIH-CP) Partnership with MEMSA",
       "url": "https://hannibal.net/2026/07/27/missouri-launches-6-5-million-push-to-expand-mobile-health-care-in-rural-areas/",
       "amount": "$12,343,385.00 total Contract Period 1 award to MEMSA (up from previously tracked ~$6.5M), broken out as: EMS Workforce Education & Training $2,832,956.00; EMS Agency Consolidation and Funding $1,709,543.00; EMS Rural Workforce Incentive Fund $1,221,102.00; EMS-MIH Program Expansion $6,579,784.00 (maps to the previously tracked ~$6.5M figure)",
-      "recipients": "Missouri EMS Association (MEMSA), with DHSS Office of Rural Health and Primary Care",
+      "recipients": "Missouri EMS Association (MEMSA), with DHSS Office of Rural Health and Primary Care. Year-1 EMS training sub-recipient institutions (named 2026-09-22, first time public): East Central College (Union), Johnson County EMS Education Program (Warrensburg), Missouri Southern State University (Joplin), Grand River Technical School (Chillicothe), Adair County Ambulance District Education Program (Kirksville), Linn County Ambulance District Education Program (Brookfield), Cape Girardeau Technical College, Mineral Area College (Park Hills), Three Rivers College (Poplar Bluff), Osage Ambulance District with University of Missouri EMS Programs (Linn), Ray County Ambulance District Education Program (Richmond).",
       "deadline": "Performance period through 2027-07-31",
       "status": "Verified via official MEMSA source (no longer 'unverified')",
-      "description": "Statewide partnership to expand mobile integrated healthcare/community paramedicine to a goal of 14 operational rural sites. CMS's 2026-09-22 press release separately cites \"up to $4.2 million\" for EMS workforce growth via MEMSA (826 applications, 437 individuals selected for a 2026-2027 EMT/paramedic training cohort); this figure does not cleanly reconcile with the $2,832,956 'EMS Workforce Education & Training' sub-line already tracked here within the $12,343,385 total contract. Flagged for follow-up reconciliation, not merged into the total.",
+      "description": "Statewide partnership to expand mobile integrated healthcare/community paramedicine to a goal of 14 operational rural sites. CMS's 2026-09-22 press release separately cites \"up to $4.2 million\" for EMS workforce growth via MEMSA (826 applications, 437 individuals selected for a 2026-2027 EMT/paramedic training cohort); this figure does not cleanly reconcile with the $2,832,956 'EMS Workforce Education & Training' sub-line already tracked here within the $12,343,385 total contract. Flagged for follow-up reconciliation, not merged into the total. Source for training-institution list: https://content.govdelivery.com/accounts/MODSS/bulletins/426e56c ('Missouri Announces Major Effort to Grow Rural EMS Professionals', 2026-09-22).",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-23"
+      "last_updated": "2026-10-06"
     },
     {
       "id": "MO:award:doula-workforce-partnership",
@@ -2338,10 +2349,10 @@
       "amount": "$16,000,000 combined (was ~$15,000,000 estimate) -- confirmed 2026-09-24 as two distinct sub-initiatives: 'BH Integration in Primary Care' allocation $3,200,000 (live NOFO states $2,800,000 of this distributed as Budget Year 1 awards, mostly <=$1M each) + 'Chronic Disease Management Program' allocation $12,800,000 (no separate awards-pool figure stated on its NOFO page).",
       "recipients": "not yet announced",
       "deadline": "Closed 2026-06-08",
-      "status": "Chronic Disease Management Program half: awardee list posted 2026-09-29 (15 orgs, ~$15.6M aggregate -- see OK:award:chronic-disease-management-recipients). Behavioral Health Integration (MOUD/MAUD) half: still closed, awardee list NOT posted as of 2026-09-30.",
+      "status": "Chronic Disease Management Program half: awardee list posted 2026-09-29 (15 orgs, ~$15.6M aggregate -- see OK:award:chronic-disease-management-recipients), unchanged this run. Behavioral Health Integration (MOUD/MAUD) half: awardee list now posted (3 orgs, $1,228,012.70 total: OSU-CHS $137,841.17, Mercy Health Oklahoma Communities $90,171.53, Andor Health LLC $1,000,000.00) -- see new item OK:award:behavioral-health-integration-recipients.",
       "description": "Largest-dollar clinical program grant closed so far in OK's RHTP; funds behavioral health integration and chronic disease management.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-30"
+      "last_updated": "2026-10-06"
     },
     {
       "id": "OK:initiative:okshine-hie-ehr-data-analytics",
@@ -3843,13 +3854,13 @@
       "type": "nofo",
       "title": "RFA 34347-39627 -- Perinatal Behavioral Health Workforce Development Project",
       "url": "https://www.tn.gov/health/procurement.html",
-      "amount": "not stated",
+      "amount": "$70,000 total funding pool for this opportunity; each applicant agency may submit only one application and request up to $70,000 (Amendment 1 Q&A explicitly rules out a $140,000 total / $70K-per-agency misreading)",
       "recipients": "not yet announced",
       "deadline": "Closed 2026-09-28, 2:00 PM CT",
-      "status": "Closed; award status not yet announced",
+      "status": "Closed; Amendment 1 (dated 2026-09-21) posted with Q&A clarifications. Evaluation Notice Released date now disclosed: October 9, 2026 -- award announcement expected imminently.",
       "description": "TDH grant RFA distinct from the already-tracked 'Perinatal and Pediatric Behavioral Health Teleconsultation' line; funds perinatal behavioral-health workforce development. Discovered via tn.gov/health/procurement.html, a TDH page not previously in our source list (recommend adding it going forward).",
       "first_seen": "2026-09-28",
-      "last_updated": "2026-09-30"
+      "last_updated": "2026-10-06"
     },
     {
       "id": "TN:nofo:rural-fetal-infant-wellness-initiative",
@@ -4144,11 +4155,11 @@
       "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=3983",
       "amount": "amount not stated (may relate to already-tracked $26M Community Care Infrastructure Year-1 figure; not confirmed as additive)",
       "recipients": "Illinois Primary Health Care Association (IPHCA) and Community Behavioral Health Association (CBHA), as intermediaries to rural primary care/behavioral health providers",
-      "deadline": "not stated",
-      "status": "Identified via CSFA registry; no separate award announcement found",
+      "deadline": "October 23, 2026, 5:00 PM CT",
+      "status": "NOFO now published and open (confirmed via two independent web searches; primary-source PDF at https://cdn.ymaws.com/cbha.net/resource/resmgr/nofo_mobile_healthcare.pdf, titled 'Overcoming Geographic Barriers to Care, Mobile Healthcare Innovation for Rural Illinois', hosted by Community Behavioral Health Association (CBHA); cdn.ymaws.com itself is egress-blocked for direct fetch)",
       "description": "Second funding strategy under the EMS and Mobile Healthcare initiative, funding mobile health infrastructure/vehicles for rural primary care and behavioral health providers.",
       "first_seen": "2026-09-30",
-      "last_updated": "2026-09-30"
+      "last_updated": "2026-10-06"
     },
     {
       "id": "IL:nofo:rht-healthcare-workforce-expansion",
@@ -5072,6 +5083,19 @@
       "description": "OHCA/Office of the State Coordinator for HIE application through which eligible rural providers request HIE participation assistance, EHR assistance, or both under RHTP \u2014 the formal application for the previously-tracked OKSHINE rolling connection-fee/EHR portal, now with an explicit Year 1 deadline.",
       "first_seen": "2026-10-05",
       "last_updated": "2026-10-05"
+    },
+    {
+      "id": "OK:award:behavioral-health-integration-recipients",
+      "type": "award",
+      "title": "Behavioral Health Integration (MOUD/MAUD) Program -- RHTP Award Recipients Posted",
+      "url": "https://oklahoma.gov/health/rhtp/rhtp-funding-recipients.html",
+      "amount": "$1,228,012.70 aggregate across 3 named awards",
+      "recipients": "Oklahoma State University Center for Health Sciences (OSU-CHS) $137,841.17; Mercy Health Oklahoma Communities $90,171.53; Andor Health, LLC $1,000,000.00",
+      "deadline": "n/a -- application period closed (NOFO due date was 2026-07-10 per third-party grant-listing corroboration; exact closure date not stated on OSDH page)",
+      "status": "Awardee list newly posted (page last modified Oct 05, 2026). Companion to the already-known Chronic Disease Management award list (OK:award:chronic-disease-management-recipients).",
+      "description": "OSDH posted the full 3-recipient awardee list for the Behavioral Health Integration (MOUD/MAUD) half of the combined BHI/CDM NOFO.",
+      "first_seen": "2026-10-06",
+      "last_updated": "2026-10-06"
     }
   ]
 }
