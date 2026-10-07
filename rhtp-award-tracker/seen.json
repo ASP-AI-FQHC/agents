@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-06",
+  "last_run": "2026-10-07",
   "runs": [
     {
       "date": "2026-09-10",
@@ -232,6 +232,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New: OK Behavioral Health Integration (MOUD/MAUD) award list posted, 3 orgs/$1,228,012.70, incl. Andor Health LLC $1,000,000 (health-IT vendor, HIGH relevance). Updated: IL Mobile Healthcare Innovation NOFO now confirmed open (deadline Oct 23 2026, HIGH relevance -- telehealth/interoperability/EHR); MO MIH-CP/MEMSA partnership gained 11 named Year-1 EMS training sub-recipient institutions (MEDIUM relevance); TN Perinatal Behavioral Health Workforce RFA (34347-39627) Amendment 1 posted, $70K pool clarified, evaluation notice date Oct 9 2026 disclosed (LOW-MODERATE relevance, award imminent). AR, IN, WI, MS, LA, TX, and Federal had no new or changed items this run. Excluded as non-RHTP: TN Stillbirth Funeral Assistance RFA (confirmed funded by SFY2027 state appropriations, not RHTP)."
+    },
+    {
+      "date": "2026-10-07",
+      "sources_checked": 120,
+      "sources_failed": 29,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Persistent/unchanged: il.amplifund.com and omb.illinois.gov CSFA pages (SSO/egress-blocked), vendornet.wi.gov (Blazor SPA), dhs.wisconsin.gov/news/releases.htm (404) and several /contracts/ detail pages (403), memsa.org (captcha), mohospitals.org/tha.com/meharry.edu/uthsc.edu/ruralhealthinfo.org/tennesseelookout.com/jems.com (egress-blocked), TDH Caspio partner portal (JS shell), ms.gov DFA bid grid (client-side, empty), LaPAC and gov.louisiana.gov/news (JS-rendered/no results), txsmartbuy.gov/ESBD and ok.gov/dcs/solicit (JS SPA, no results), arkansas.gov/tss/procurement (egress-blocked), icahn.org and cdn.ymaws.com PDF (egress-blocked), acmhai.org (egress-blocked), dfa.arkansas.gov/news (egress-blocked), publicmeetings.wi.gov attachment (egress-blocked), cms.gov/newsroom/press-releases index (404, worked around via medicaid.gov and direct press-release URLs). No primary state program-home page was unreachable.",
+      "items_new": 2,
+      "items_updated": 1,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New: MS Innovative Pilot Program Grant (BRIDGE initiative, $2M/entity cap, opens 2026-10-14, closes 2026-11-16, MODERATE relevance -- excludes telehealth/EHR/cybersecurity spend); FEDERAL CMS $54.6M Arkansas award (2026-09-24, chronic disease + rural workforce, a backfilled pipeline miss not previously in seen.json). Updated: MS's 'October 2026 EHR Modernization & Rural Care-Gap NOFOs' placeholder -- the rural-care-gap half materialized as the new Pilot Program Grant; the EHR-modernization half has still not posted. AR, IL, IN, WI, MO, TN, LA, TX, and OK had no new or changed items this run -- all previously-tracked items (including TX Initiatives 2/3/5, still unopened; MO/TN award backlogs ahead of the 2026-10-30 obligation deadline; LA's Rural Tech Catalyst Fund Cohort 1, 'mid-October' awards pending; OK's Budget Period 2 timing, ~2026-10-31) were re-verified unchanged."
     }
   ],
   "items": [
@@ -1672,11 +1683,11 @@
       "url": "https://mississippirhtp.com/funding/",
       "amount": "not stated",
       "recipients": "not yet announced",
-      "deadline": "Expected to open October 2026 (exact date TBD)",
-      "status": "Upcoming, not yet posted",
+      "deadline": "Rural-care-gap piece: see new NOFO. EHR-modernization NOFO: still not posted as of 2026-10-07.",
+      "status": "Partially materialized: rural-care-gap piece now open as Innovative Pilot Program Grant (see MS:nofo:innovative-pilot-program-grant); EHR-modernization-specific NOFO not yet posted.",
       "description": "Signaled next wave: EHR-modernization funding plus further BRIDGE/CRIS rural-care-gap opportunities.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-10-07"
     },
     {
       "id": "MS:document:cms-application-abstract",
@@ -5096,6 +5107,32 @@
       "description": "OSDH posted the full 3-recipient awardee list for the Behavioral Health Integration (MOUD/MAUD) half of the combined BHI/CDM NOFO.",
       "first_seen": "2026-10-06",
       "last_updated": "2026-10-06"
+    },
+    {
+      "id": "MS:nofo:innovative-pilot-program-grant",
+      "type": "nofo",
+      "title": "Innovative Pilot Program Grant (BRIDGE initiative)",
+      "url": "https://mississippirhtp.com/funding/",
+      "amount": "Awards capped at $2,000,000 per entity; total program funding pool not stated",
+      "recipients": "Not yet announced \u2014 application opens 2026-10-14",
+      "deadline": "Opens 2026-10-14; due 2026-11-16 5:00pm CST; awardees expected ~January 2027",
+      "status": "Open (application window not yet started)",
+      "description": "New MS RHTP NOFO under the BRIDGE initiative supporting integrated care delivery, school-based health, behavioral health partnerships, maternal/child health, nutrition, and workforce wellness via cross-sector collaboration. Eligible applicants: rural/critical access hospitals, post-acute providers, RHCs/FQHCs/community health centers, behavioral health providers, EMS/first responders, community-based orgs. One application per entity. NOFO explicitly excludes telehealth, EHR, broadband, and cybersecurity spend (funded under MS's separate HTAM/TAPS programs).",
+      "first_seen": "2026-10-07",
+      "last_updated": "2026-10-07"
+    },
+    {
+      "id": "FEDERAL:news:cms-54-6m-arkansas-workforce-maternal-chronic-disease",
+      "type": "federal",
+      "title": "Trump Administration Announces $54.6 Million to Fight Chronic Disease, Expand Maternal Healthcare Services, and Build Arkansas' Rural Health Workforce",
+      "url": "https://www.cms.gov/newsroom/press-releases/trump-administration-announces-54-6-million-fight-chronic-disease-expand-maternal-healthcare",
+      "amount": "$54.6 million total ($27.4M for 30 chronic-disease/nutrition/wellness projects + $27.2M for 24 rural-workforce recruitment/training/retention projects)",
+      "recipients": "54 projects across rural communities in all 75 Arkansas counties; individual organizational recipients not named in the release",
+      "deadline": "n/a",
+      "status": "Published 2026-09-24",
+      "description": "CMS press release announcing RHTP-funded awards for Arkansas covering chronic-disease/wellness/nutrition projects and rural healthcare workforce development (EMT, nursing, maternal health, behavioral health training; rural residency programs). Not previously captured by the tracker (pipeline miss from an earlier run).",
+      "first_seen": "2026-10-07",
+      "last_updated": "2026-10-07"
     }
   ]
 }
