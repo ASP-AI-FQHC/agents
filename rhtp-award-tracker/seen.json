@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-07",
+  "last_run": "2026-10-08",
   "runs": [
     {
       "date": "2026-09-10",
@@ -243,6 +243,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New: MS Innovative Pilot Program Grant (BRIDGE initiative, $2M/entity cap, opens 2026-10-14, closes 2026-11-16, MODERATE relevance -- excludes telehealth/EHR/cybersecurity spend); FEDERAL CMS $54.6M Arkansas award (2026-09-24, chronic disease + rural workforce, a backfilled pipeline miss not previously in seen.json). Updated: MS's 'October 2026 EHR Modernization & Rural Care-Gap NOFOs' placeholder -- the rural-care-gap half materialized as the new Pilot Program Grant; the EHR-modernization half has still not posted. AR, IL, IN, WI, MO, TN, LA, TX, and OK had no new or changed items this run -- all previously-tracked items (including TX Initiatives 2/3/5, still unopened; MO/TN award backlogs ahead of the 2026-10-30 obligation deadline; LA's Rural Tech Catalyst Fund Cohort 1, 'mid-October' awards pending; OK's Budget Period 2 timing, ~2026-10-31) were re-verified unchanged."
+    },
+    {
+      "date": "2026-10-08",
+      "sources_checked": 81,
+      "sources_failed": 16,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Persistent/unchanged blocks: il.amplifund.com (SSO wall), omb.illinois.gov (egress policy-blocked), bidbuy.illinois.gov (login wall), illinois.gov/news.html (empty listing), vendornet.wi.gov (empty Blazor SPA), dhs.wisconsin.gov/news/releases.htm (404, substituted /news/index.htm), tndeptofhealth.caspio.app (JS shell, empty), medicaid.ms.gov (503/connection reset this run), ms.gov DFA bid grid (JS, empty), gov.louisiana.gov/news and LaPAC (JS-rendered, no results; ldh.la.gov pages needed a browser User-Agent via curl to get past 403), county.org and www.ark.org (DNS failures), txsmartbuy.gov ESBD (Angular SPA, only default unrelated listing), ok.gov/dcs/solicit (no query capability via fetch), cms.gov/newsroom/press-releases (404, worked around via cms.gov/newsroom). New this run: WI's DHS page for the Rural Technology Transformation Fund NOFO now 404s/403s on several paths \u2014 worth a human browser check next run to re-anchor that source URL. No primary state program-home page was unreachable.",
+      "items_new": 5,
+      "items_updated": 2,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New: MS Statewide HIE/Health Data Utility procurement opportunity (OpenGov RFP, responses due 2026-11-03, HIGH relevance); OK 'Expanding Care' Community Paramedicine Ambulance Funding recipient list (37 orgs across rural EMS/fire/tribal/hospital-based EMS, no amounts stated, MODERATE relevance). Updated: OK EMS/Community Paramedicine Vehicles Grant awardee list posted (13 recipients, well short of the 20 originally envisioned, 9 of 13 drawn from a separate reserved opportunity, MODERATE relevance, emailed); MS WEI Grant deadline corrected from 2026-07-15 to 2026-08-17 (our own data-entry correction, not emailed). Found but not emailed (informational, not a funding action): three undated Louisiana ORHTS provider surveys (EPIC interest, EHR/interoperability planning, VBC/APM readiness) newly discovered on LDH's RHTP page \u2014 recorded so they aren't re-flagged as new in future runs. AR, IL, IN, WI, MO, TN, LA (beyond the surveys), TX, and Federal had no new or changed items this run."
     }
   ],
   "items": [
@@ -1526,12 +1537,12 @@
       "title": "WEI \u2014 Workforce Expansion Initiative",
       "url": "https://mississippirhtp.com/",
       "amount": "not stated",
-      "recipients": "not yet announced (closed 2026-07-15, under review)",
+      "recipients": "not yet announced (closed 2026-08-17, under review)",
       "deadline": "Decisions expected ~late Oct 2026",
       "status": "Under review",
       "description": "Clinician/allied-health recruitment, retention, residency, and 'Earn While You Learn' programs.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-10-08"
     },
     {
       "id": "MS:document:htam-initiative",
@@ -2345,12 +2356,12 @@
       "title": "EMS and Community Paramedicine Vehicles Grant",
       "url": "https://us.fundsforngos.org/type-of-grantgrant/emergency-medical-service-and-community-paramedicine-vehicles-grant-oklahoma/",
       "amount": "up to $350,000 per award; up to 20 grants (pool up to ~$7M)",
-      "recipients": "not yet announced",
+      "recipients": "13 organizations named: Elk City Fire Dept, Purcell Municipal Hospital, Tonkawa Fire Dept, Oologah-Talala EMS District, Choctaw County Ambulance Authority, Hughes County EMS, Kirk's EMS, LifeNet Inc., Mannford Ambulance Service, Muskogee County EMS, Quapaw Nation Fire/EMS/Mobile Integrated Health, Tillman County EMS, Wagoner EMS. Per OSDH's own page, only 4 of the 13 came from this NOFO's own competitive pool; the other 9 were drawn from a separate reserved funding opportunity.",
       "deadline": "Closed 2026-07-10",
-      "status": "Closed, awardee list not yet posted",
+      "status": "Awardee list posted 2026-10-08 (well short of the up-to-20 grants originally envisioned)",
       "description": "Funds purchase of ambulances/community-paramedicine vehicles for rural deployment.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-10-08"
     },
     {
       "id": "OK:nofo:behavioral-health-chronic-disease",
@@ -5133,6 +5144,71 @@
       "description": "CMS press release announcing RHTP-funded awards for Arkansas covering chronic-disease/wellness/nutrition projects and rural healthcare workforce development (EMT, nursing, maternal health, behavioral health training; rural residency programs). Not previously captured by the tracker (pipeline miss from an earlier run).",
       "first_seen": "2026-10-07",
       "last_updated": "2026-10-07"
+    },
+    {
+      "id": "OK:award:community-paramedicine-ambulance-funding-recipients",
+      "type": "award",
+      "title": "Expanding Care: Community Paramedicine, Ambulance Funding \u2014 Award Recipients Posted",
+      "url": "https://oklahoma.gov/health/rhtp/rhtp-funding-recipients.html",
+      "amount": "amount not stated",
+      "recipients": "37 organizations: Woodward County EMS, Vici-Camargo EMS, City of Wewoka, Altus Fire Dept EMS, City of Alva, Guthrie Fire EMS, Bryan County EMS, Choctaw Nation of Oklahoma, Choctaw County Ambulance Authority, Sinor EMS, Town of Cheyenne (x2), Oolagah-Talala EMS District, Adair County EMS, Cheyenne and Arapaho Tribes, Miller EMS, Major County EMS, Cimarron County EMS, Murray County EMS, City of Anadarko, City of Lindsay EMS, Pafford EMS (Stigler), City of Chandler, Pafford EMS (Wilburton), City of Pawhuska, Community Ambulance Service, Atoka County EMS, INTEGRIS Miami Hospital, City of Ponca City, Newman Memorial Hospital, Northeastern Health System, Pafford EMS (Okeene), City of Guymon, Marshall County EMS District, Elk City Fire Dept, Purcell Municipal Hospital, Tonkawa Fire Dept, Tillman County EMS.",
+      "deadline": "n/a (application period closed)",
+      "status": "Awardee list posted 2026-10-08",
+      "description": "Newly-posted recipient list on OSDH's RHTP funding-recipients page for a program distinct from the previously-tracked EMS/Community Paramedicine Vehicles Grant, covering 37 rural EMS, fire, tribal, and hospital-based EMS agencies across Oklahoma. No per-award dollar amounts shown.",
+      "first_seen": "2026-10-08",
+      "last_updated": "2026-10-08"
+    },
+    {
+      "id": "MS:solicitation:statewide-hie-hdu-rfp",
+      "type": "solicitation",
+      "title": "Statewide Health Information Exchange / Health Data Utility (HIE/HDU) Procurement Opportunity",
+      "url": "https://mississippirhtp.com/funding/ (listing: https://procurement.opengov.com/portal/msdh/projects/306517/)",
+      "amount": "amount not stated",
+      "recipients": "not stated \u2014 vendor/coordinating party not yet selected",
+      "deadline": "Posted 2026-10-02; responses due 2026-11-03, 3:00pm",
+      "status": "Open",
+      "description": "MSDH OpenGov procurement opportunity seeking a party to lead planning, coordination, implementation, and ongoing support of Mississippi's statewide Health Information Exchange and future Health Data Utility, including cross-EHR provider onboarding, interoperability standards, data governance/privacy, and clinical/public-health data-exchange coordination. Appears to be the concrete follow-on to the already-tracked HIE design-consultant staffing posting (MS:solicitation:hie-consultant-knowledge-services).",
+      "first_seen": "2026-10-08",
+      "last_updated": "2026-10-08"
+    },
+    {
+      "id": "LA:document:epic-interest-survey",
+      "type": "document",
+      "title": "EPIC Interest Survey (ORHTS)",
+      "url": "https://ldh.la.gov/page/rural-health-transformation-program (survey: https://forms.monday.com/forms/7f17a0afcea740043f72c399a3958d4e?r=use1)",
+      "amount": "n/a",
+      "recipients": "n/a \u2014 public/provider input only",
+      "deadline": "deadline not stated",
+      "status": "Open (informational survey, not a funding action)",
+      "description": "Provider-input survey gauging rural-provider interest in adopting Epic as Louisiana pursues a state-managed EHR instance (Net-New State EHR Instance, ~$32.9M under Tech Innovation). No page-level timestamp; may predate this run's baseline. Not a funding action \u2014 not emailed.",
+      "first_seen": "2026-10-08",
+      "last_updated": "2026-10-08"
+    },
+    {
+      "id": "LA:document:ehr-interoperability-planning-survey",
+      "type": "document",
+      "title": "EHR & Interoperability Planning Survey (ORHTS)",
+      "url": "https://ldh.la.gov/page/rural-health-transformation-program (survey: https://forms.monday.com/forms/224e08a68587bdcb2c5e35a530342b93?r=use1)",
+      "amount": "n/a",
+      "recipients": "n/a \u2014 public/provider input only",
+      "deadline": "deadline not stated",
+      "status": "Open (informational survey, not a funding action)",
+      "description": "Companion provider-input survey gathering rural-provider input to shape Louisiana's EHR and interoperability planning under RHTP. No page-level timestamp; may predate this run's baseline. Not a funding action \u2014 not emailed.",
+      "first_seen": "2026-10-08",
+      "last_updated": "2026-10-08"
+    },
+    {
+      "id": "LA:document:vbc-apm-readiness-survey",
+      "type": "document",
+      "title": "Rural Provider Value-Based Care (VBC) & Alternative Payment Model (APM) Readiness Survey (ORHTS)",
+      "url": "https://ldh.la.gov/page/rural-health-transformation-program (survey: https://forms.monday.com/forms/cbb0f626af76204da6d8ad9bb0fd025b?r=use1)",
+      "amount": "n/a",
+      "recipients": "n/a \u2014 public/provider input only",
+      "deadline": "deadline not stated",
+      "status": "Open (informational survey, not a funding action)",
+      "description": "Survey assessing rural providers' readiness for value-based care and alternative payment model participation, tied to the already-tracked Rural Medicaid APM NOFO. No page-level timestamp; may predate this run's baseline. Not a funding action \u2014 not emailed.",
+      "first_seen": "2026-10-08",
+      "last_updated": "2026-10-08"
     }
   ]
 }
