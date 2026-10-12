@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-09",
+  "last_run": "2026-10-12",
   "runs": [
     {
       "date": "2026-09-10",
@@ -265,6 +265,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in WI, LA; updated in TX; AR, IN, MO, TN, MS, OK, and Federal had no new or changed items this run (MS's BRIDGE Innovative Pilot Program Grant dates reported by one research pass as newly set were found on cross-check to already be in seen.json as of 2026-10-07 — not an update, logged as a false-positive catch). New: WI 'Sources of Strength' RHTP-funded school suicide-prevention grant (closed, low relevance, previously uncaught, found via web search); LA $37.7M rural workforce investment press release (Rural HERO + Grow Your Own + reconfirmed Rural Clinician Credit Bank, low relevance) which also surfaced a date conflict between LDH's own sources on when Year 2 NOFOs (incl. the EHR Voucher Program) will open — Nov 2026 per this release vs. Jan-Mar 2027 per LDH's Oct 1 webinar slides, flagged for the team to watch. Updated: TX Initiatives 2, 3, and 5 (patient portals/RPM, AI/telehealth, and rural cybersecurity RFO — Allstar's three highest-relevance TX watch items) all got shifted estimated timelines on HHSC's live table; none are open yet. CMS federal newsroom activity this week named CO, MT, AL, SD, and NC — none of the ten tracked states, so nothing reportable at the federal level."
+    },
+    {
+      "date": "2026-10-12",
+      "sources_checked": 117,
+      "sources_failed": 27,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Persistent/unchanged failures: www.ark.org/arkansas.gov procurement (egress-rejected), il.amplifund.com (SSO wall), omb.illinois.gov and icahn.org (DNS-blocked — IL's ICAHN Technology Innovation Grant outcome, deadline passed 2026-10-09, remains unconfirmed for a 2nd run), dhs.wisconsin.gov /contracts/ and several /node/ detail pages (403/404, worse than prior run) and vendornet.wi.gov (Blazor SPA) — WI's Rural Technology Transformation Fund award notification is now 6+ weeks overdue vs. its Sept 2026 estimate and still unconfirmed, missouribuys.mo.gov, tndeptofhealth.caspio.app (JS shell), ms.gov DFA bid grid and medicaid.ms.gov (503), LaPAC and gov.louisiana.gov/news (JS-rendered), txsmartbuy.gov/esbd and ok.gov/dcs/solicit (JS/SPA), ruralhealthinfo.org (egress-blocked), ldh.la.gov and oklahoma.gov/health/news---events/newsroom.html pages needed curl-with-browser-UA workarounds. No primary state program-home page was unreachable.",
+      "items_new": 2,
+      "items_updated": 5,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in IN, TX; updated in TN, TX. New: IN Initiative 11 'Behavioral Health & Peers Workforce Training' line marked executed (low relevance, no amount/recipients stated); TX's first consolidated Rural Texas Strong award recipients list (284 subrecipients, $451M intent-to-award, $238M contract-executed so far) — confirms Initiatives 2/3/5 (patient portals, AI/telehealth, cybersecurity — Allstar's highest-relevance TX watch items) still have zero awards. Updated: TN's HART award (first 53 RHTP recipients) now has a full named recipient list replacing aggregate counts; TX Initiatives 1, 4, and 6 all updated to reflect the new recipient-level data, including that Initiative 4 and 6 contracts are NOT yet fully executed despite HHSC's timeline table claiming 9/30/2026 finalization. Not added: a CMS press release on LA's $37.7M workforce investment was independently surfaced by the Federal research pass but is a duplicate of LA:news:rhtp-y1-workforce-investments-37m already tracked as of 2026-10-09 (same underlying LDH announcement). Also not added (ambiguous/unverifiable, flagged for next run): a possible distinct TN 'Perinatal Telehealth' RFGP 34347-98027 ($5M ceiling) that may duplicate the already-tracked TN:nofo:perinatal-pediatric-teleconsultation — primary source now 404s, recommend re-check once ruralhealthinfo.org (egress-blocked this run) is reachable; and a TN 'Stillbirth Funeral Assistance' RFA (34347-39927, open, due 2026-10-23) that appears to be a Title V MCH Block Grant program, not RHTP-funded — excluded as likely out of scope. AR, IL, WI, MO, MS, LA, OK, and Federal had no new or changed items this run. Two items to watch closely before the next run: MS WEI/PES-EmPATH awards and LA Rural Tech Catalyst Fund Cohort 1 results, both expected ~mid-to-late October 2026, and a wave of MO/TN award announcements expected as the 2026-10-30 Year-1 obligation deadline approaches."
     }
   ],
   "items": [
@@ -1312,14 +1323,14 @@
       "id": "TN:award:hart-first-53-awards",
       "type": "award",
       "title": "TDH Announces First 53 RHTP Grant Recipients (HART Line)",
-      "url": "https://www.tn.gov/health/news/2026/9/3/tennessee-department-of-health-announces-1st-recipients-of-rural-health-transformation-program-grants.html",
+      "url": "https://www.tn.gov/content/dam/tn/health/xlsx/2026-RHTP-HART-Grant-Awards-FINAL.xlsx",
       "amount": "amount not stated (per-award and line-total not itemized in press coverage)",
-      "recipients": "53 organizations across 44 rural TN counties — 31 county/municipal governments (58%), 22 local nonprofits (42%)",
+      "recipients": "Full named list of 53 organizations across 44 rural TN counties now published (previously only aggregate counts — 31 county/municipal governments, 22 local nonprofits — were known). Mostly municipalities/nonprofits for parks, trails, and playgrounds; three healthcare-adjacent recipients: Cookeville Regional Medical Center Foundation (Putnam Co.), Macon Hospital, Inc. (Macon Co.), and The Free Medical Clinic of Oak Ridge (Anderson Co.). Full list on file.",
       "deadline": "n/a (awarded)",
       "status": "Awarded, announced 2026-09-03",
-      "description": "First RHTP awards in Tennessee — all under the HART built-environment/community-health line.",
+      "description": "First RHTP awards in Tennessee — all under the HART built-environment/community-health line. UPDATE 2026-10-12: official award spreadsheet obtained, replacing aggregate recipient counts with the full named list; no dollar amounts in the spreadsheet (amount remains unstated).",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-10-12"
     },
     {
       "id": "TN:news:wkrn-critique-hart-awards",
@@ -2005,10 +2016,10 @@
       "amount": "~$250M total pool (~80 awards, ~$3.125M each); $60M tranche announced 2026-04-23",
       "recipients": "~80 rural hospital districts with a publicly owned hospital",
       "deadline": "n/a (direct/non-competitive)",
-      "status": "Funding released, no awardee list found yet. HHSC's timeline table now publishes explicit dates for this track, labeled 'Initiative 1 Part 1': estimated program start 9/1/2026, application deadline 9/1/2026, Notice of Award 6/19/2026, contract routing 7/15/2026 — the first time exact table dates have appeared for the MRTHA direct-award track specifically.",
+      "status": "As of 2026-10-08, HHSC's consolidated recipient list (see TX:award:award-recipients-list-2026-10-08) shows 91 line items under 'Initiative 1' totaling $329,710,267.30 in intent-to-award value; 68 are fully contract-executed ($238M, $750K Year-1 each = the known $51M first round). The spreadsheet does not separate Part 1 (MRTHA direct) from Part 2 (competitive) — both appear merged under a single 'Initiative 1' code.",
       "description": "Direct chronic-disease-prevention grants to hospital districts.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-12"
     },
     {
       "id": "TX:nofo:initiative1-competitive",
@@ -2018,10 +2029,10 @@
       "amount": "$56M",
       "recipients": "public & private rural hospitals (competitive)",
       "deadline": "Applications were due 2026-06-04, 10:30am CDT",
-      "status": "HHSC's official timeline table (re-checked 2026-10-02) now labels this round 'Initiative 1 Part 2' and shows Notice of Award AND contract routing both finalized as 2026-09-30. A new footnote states: 'As of Sept. 30, 2026, dates for Initiatives 1, 4, and 6 align with the posted solicitation documents' — confirming the program's official Sept 30, 2026 launch. No public recipient list found yet.",
+      "status": "A public, line-item recipient list now exists (TX:award:award-recipients-list-2026-10-08) but is not split by Part 1/Part 2, so this track's per-track detail cannot be independently confirmed from this source alone.",
       "description": "Competitive wellness/chronic-disease grants. RFA number confirmed: HHS0017223.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-12"
     },
     {
       "id": "TX:nofo:initiative4-workforce",
@@ -2031,10 +2042,10 @@
       "amount": "$99M",
       "recipients": "rural hospitals/clinics (workforce recruitment/scholarships)",
       "deadline": "Round 1 2026-06-09 (corrected; extended from originally recorded 2026-05-27), Round 2 2026-08-26",
-      "status": "Both rounds' Notice of Award and contract routing finalized 2026-09-30 per HHSC's official timeline table. No public recipient list found. (Round 1 deadline corrected this run via a Texas Medicine Association deadline-extension notice; HHSC had extended it from 5/27 to 6/09 and our record was never updated.)",
+      "status": "136 named Initiative 4 recipients now listed (see TX:award:award-recipients-list-2026-10-08), totaling $75,864,173.61 in intent-to-award value — but 0 of 136 show contract fully executed. HHSC's timeline table's 'finalized 9/30/2026' Notice-of-Award/contract-routing dates were targets, not completions as of 2026-10-08.",
       "description": "Clinician recruitment/retention and training-pipeline funding.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-05"
+      "last_updated": "2026-10-12"
     },
     {
       "id": "TX:nofo:initiative6-equipment",
@@ -2044,10 +2055,10 @@
       "amount": "$70.4M total per program timeline (state press release cites $56M tranche)",
       "recipients": "rural hospitals/clinics (equipment: CT/ultrasound/mammography, telemetry, nurse-call systems, generators)",
       "deadline": "Applications closed by summer 2026",
-      "status": "HHSC's official timeline table (re-checked 2026-10-02) now shows Initiative 6 Part 1 Notice of Award AND contract routing both as 2026-09-30, consistent with the new footnote confirming Sept 30, 2026 alignment for Initiatives 1, 4, 6. No public recipient list found.",
+      "status": "57 named Initiative 6 recipients now listed (see TX:award:award-recipients-list-2026-10-08), totaling $45,461,305.63 in intent-to-award value — 0 of 57 show contract fully executed, despite the table's 9/30/2026 target dates.",
       "description": "Equipment/minor-facility modernization grants.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-12"
     },
     {
       "id": "TX:nofo:initiative2-portals",
@@ -5246,6 +5257,32 @@
       "description": "LDH press release packaging two new workforce-pipeline initiatives (Rural HERO, Grow Your Own) alongside the already-announced Rural Clinician Credit Bank results. Also states Year 2 funding opportunities are 'expected to open in November 2026' — this conflicts with LDH's own 2026-10-01 ORHTS webinar slides, which put Year 2 NOFOs (including the high-relevance EHR Voucher Program) at January-March 2027. Flagging the discrepancy; not resolved either way.",
       "first_seen": "2026-10-09",
       "last_updated": "2026-10-09"
+    },
+    {
+      "id": "IN:award:rhtp-i11-behavioral-health-peers-workforce-training-grants",
+      "type": "award",
+      "title": "RHTP Initiative 11 — Behavioral Health & Peers Workforce Training Grants (executed)",
+      "url": "https://www.in.gov/grow-rural-health/initiatives/initiative-11",
+      "amount": "amount not stated",
+      "recipients": "not stated",
+      "deadline": "n/a (grants executed)",
+      "status": "Executed",
+      "description": "Initiative 11 tracker page now lists this workforce-training grant line as 'Grants executed', distinct from the two already-tracked RFFs (Clinical Social Worker Supervision; Rural Provider Recruitment/Retention/Capacity) under the same initiative. No recipient names, amounts, or dates given.",
+      "first_seen": "2026-10-12",
+      "last_updated": "2026-10-12"
+    },
+    {
+      "id": "TX:award:award-recipients-list-2026-10-08",
+      "type": "award",
+      "title": "HHSC Publishes First Consolidated \"Rural Texas Strong\" Award Recipients List (Initiatives 1, 4, 6)",
+      "url": "https://pfd.hhs.texas.gov/sites/default/files/documents/rural-hlth-prgm/2026/10-8-2026-list-award-recipients.xlsx",
+      "amount": "$451,035,746.54 aggregate intent-to-award across 284 subrecipient line items (Initiative 1: 91 entries/$329,710,267.30; Initiative 4: 136 entries/$75,864,173.61; Initiative 6: 57 entries/$45,461,305.63); only 68 entries (all Initiative 1) show contract fully executed, totaling $238,000,000",
+      "recipients": "284 named subrecipients — rural hospital districts, hospital authorities, clinics, FQHC-type orgs, physician practices, MHMR centers, and EMS providers across Initiatives 1, 4, and 6",
+      "deadline": "n/a — results list, updated weekly by HHSC",
+      "status": "Published 2026-10-08",
+      "description": "First primary-source, line-item recipient disclosure for Rural Texas Strong. Contains zero rows for Initiatives 2 (patient portals/RPM), 3 (AI/telehealth), or 5 (cybersecurity), confirming those tracks still have no applicants or awards as of 2026-10-08.",
+      "first_seen": "2026-10-12",
+      "last_updated": "2026-10-12"
     }
   ]
 }
