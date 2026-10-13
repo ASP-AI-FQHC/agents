@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-12",
+  "last_run": "2026-10-13",
   "runs": [
     {
       "date": "2026-09-10",
@@ -276,6 +276,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in IN, TX; updated in TN, TX. New: IN Initiative 11 'Behavioral Health & Peers Workforce Training' line marked executed (low relevance, no amount/recipients stated); TX's first consolidated Rural Texas Strong award recipients list (284 subrecipients, $451M intent-to-award, $238M contract-executed so far) — confirms Initiatives 2/3/5 (patient portals, AI/telehealth, cybersecurity — Allstar's highest-relevance TX watch items) still have zero awards. Updated: TN's HART award (first 53 RHTP recipients) now has a full named recipient list replacing aggregate counts; TX Initiatives 1, 4, and 6 all updated to reflect the new recipient-level data, including that Initiative 4 and 6 contracts are NOT yet fully executed despite HHSC's timeline table claiming 9/30/2026 finalization. Not added: a CMS press release on LA's $37.7M workforce investment was independently surfaced by the Federal research pass but is a duplicate of LA:news:rhtp-y1-workforce-investments-37m already tracked as of 2026-10-09 (same underlying LDH announcement). Also not added (ambiguous/unverifiable, flagged for next run): a possible distinct TN 'Perinatal Telehealth' RFGP 34347-98027 ($5M ceiling) that may duplicate the already-tracked TN:nofo:perinatal-pediatric-teleconsultation — primary source now 404s, recommend re-check once ruralhealthinfo.org (egress-blocked this run) is reachable; and a TN 'Stillbirth Funeral Assistance' RFA (34347-39927, open, due 2026-10-23) that appears to be a Title V MCH Block Grant program, not RHTP-funded — excluded as likely out of scope. AR, IL, WI, MO, MS, LA, OK, and Federal had no new or changed items this run. Two items to watch closely before the next run: MS WEI/PES-EmPATH awards and LA Rural Tech Catalyst Fund Cohort 1 results, both expected ~mid-to-late October 2026, and a wave of MO/TN award announcements expected as the 2026-10-30 Year-1 obligation deadline approaches."
+    },
+    {
+      "date": "2026-10-13",
+      "sources_checked": 83,
+      "sources_failed": 22,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Persistent/unchanged failures: ark.org procurement (egress-rejected), il.amplifund.com opportunities list (SSO wall) and bidbuy.illinois.gov (login wall), illinois.gov/news.html (search returns no results for plain fetch), events.in.gov and in.gov/gov/newsroom (JS-rendered, empty), in.gov/idoa/procurement (no direct bid-search endpoint reachable), dhs.wisconsin.gov/news/releases.htm (404; working index is /news/index.htm), vendornet.wi.gov (Blazor SPA shell only), dhs.wisconsin.gov/node/151876 (403 — WI Rural Technology Transformation Fund Round 1 award status still unconfirmed and now overdue vs. its Sept 2026 estimate), missouribuys.mo.gov (JS-rendered), memsa.org (403), tndeptofhealth.caspio.app (JS shell), ruralhealthinfo.org and tha.com (DNS failures), cms.gov/newsroom/press-releases old URL (404, moved), medicaid.ms.gov (503), ms.gov DFA bid grid (loads but client-side JS grid returns nothing to static fetch), gov.louisiana.gov/news and LaPAC (JS/ColdFusion, no content), txsmartbuy.gov/esbd and ok.gov/dcs/solicit (JS/SPA). No primary state program-home page was unreachable.",
+      "items_new": 2,
+      "items_updated": 7,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in TN, Federal. Updated in IL, LA, OK. New: TN RFGP 34347-98027 'Perinatal Telehealth' ($5M/4 grants) confirmed as a genuinely distinct NOFO from the already-tracked perinatal/pediatric teleconsultation line (resolves a flag from the 10-12 run); a new CMS 'RHTP Obligated Funds Report' (published ~10-08, data as of 7-31) gives AR (~3% obligated, $6.16M, all admin) and IL (~85% obligated, $165.2M, broken out by initiative) federal-source funding-velocity checkpoints — other tracked states' figures in this same document not yet extracted. Updated: IL's Technological Innovation for Virtual Care confirmed at $31,008,265.21 (was ~$40.2M est., now matches ICAHN's tech tranche exactly); Community Care Infrastructure confirmed at $28.5M (was $26M est.); EMS Support + Mobile Healthcare Innovation confirmed combined at $34.5M BP1 (was ~$16.5M EMS-only est.); ICAHN Technology Innovation Grant deadline passed 10-09 with no award list yet. LA's Rural Tech Catalyst Fund Cohort 1 page disclosed a guidance-alignment review delay (timeline still 'mid-October', no awards posted). OK's Rural Regional Reorientation recipient list was revised: Keetoowah Economic Development Authority ($1,123,500, 3 telehealth stations) removed and replaced by SSM St. Anthony Shawnee Cancer Center ($1,623,498.82, cancer center modernization) — reason not stated, flagged for follow-up. Not added (duplicates): a CMS national press release on LA's $37.7M workforce package, independently surfaced by two research passes, restates facts already tracked as LA:news:rhtp-y1-workforce-investments-37m (2026-10-09). Not added (non-material): a sixth $0 MO federal administrative-supplement TAGGS action; confirmation (no figure change) of IL's AHEC workforce pipeline line; TN's Stillbirth Funeral Assistance RFA re-confirmed as Title V MCH, not RHTP. AR (beyond the federal report), IN, WI, MS, and TX had no new or changed items this run. High-priority watch items for the next 1-2 runs: MS WEI/PES-EmPATH awards (decision window opens ~10-14); LA Rural Tech Catalyst Fund Cohort 1 results and LA's Senate Resolution 198 expenditure/recipient report (due 10-15); TN's ~9 still-pending competitive grant lines and WI's overdue Rural Technology Transformation Fund Round 1 awards, both against the 10-30 Year-1 obligation deadline; OK/TX Budget Period 2 allocation amounts (expected 'in October', not yet announced); confirmation of whether OK's Keetoowah award was rescinded or relocated."
     }
   ],
   "items": [
@@ -479,13 +490,13 @@
       "type": "nofo",
       "title": "RHTP — Transforming Rural Healthcare Delivery: Community Care Infrastructure",
       "url": "https://il.amplifund.com/Public/Opportunities/Details/d37720d3-ac35-43c2-b1d1-8f5db84e977e",
-      "amount": "$26,000,000 in Year 1; up to $98,000,000 total across 5 budget periods",
+      "amount": "$28,500,000 in Year 1 — confirmed via CMS's RHTP Obligated Funds Report (was $26,000,000 estimated); up to $98,000,000 total across 5 budget periods",
       "recipients": "Illinois Primary Health Care Association (IPHCA) and Community Behavioral Health Association (CBHA) as direct recipients/intermediaries; ~2 expected awards. Search-engine aggregation indicates IPHCA's Budget Period 1 slice specifically estimated at ~$15,500,000 of the $26,000,000 Year 1 total (not independently confirmed, CSFA page blocked this run).",
       "deadline": "not stated",
       "status": "Open on Euna/AmpliFund portal; GATA pre-qualification, SAM/UEI, and NICRA/de minimis rate required",
       "description": "Supports infrastructure, staffing, and workflows for integrated rural care models.",
       "first_seen": "2026-09-10",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-13"
     },
     {
       "id": "IL:nofo:healthcare-transformation-collaboratives",
@@ -1923,12 +1934,12 @@
       "title": "Rural Tech Catalyst Fund (RTCF-LA) Cohort 1",
       "url": "https://www.opportunitylouisiana.gov/news/louisiana-launches-rural-tech-catalyst-fund-to-advance-rural-health-care-innovation",
       "amount": "$20M total fund; awards $250,000-$3,000,000 per company, milestone-based, capped at $3M/company",
-      "recipients": "200+ companies applied; eligibility requires company under 10 years old and under $50M raised in outside investment; Cohort 1 award announcements confirmed still anticipated mid-October 2026",
+      "recipients": "200+ companies applied; eligibility requires company under 10 years old and under $50M raised in outside investment; Cohort 1 award announcements still anticipated mid-October 2026, now with a disclosed guidance-alignment delay as of 2026-10-13",
       "deadline": "Cohort 1 applications closed; awards anticipated mid-October 2026. Cohort 2 applications 'will be open soon' per la.io/rural (new)",
-      "status": "Cohort 1 under review by LED/LDH; awards anticipated mid-October 2026. Cohort 2 application window opening soon (new).",
-      "description": "LED/Louisiana Innovation + LDH joint fund financing rural health-tech startups deploying innovations across rural Louisiana. Initial disbursement generally capped at 20% of total award per company, remainder tied to milestone completion. la.io/rural confirms 'APPLICATIONS FOR COHORT 1 HAVE CLOSED' and 'COHORT 2 APPLICATIONS WILL BE OPEN SOON' — no Cohort 1 recipient names or amounts posted yet.",
+      "status": "Cohort 1 under review by LED/LDH; la.io/rural added \"Program Updates\" messaging (as of 2026-10-13) stating review/evaluation criteria have been refined to align with newly finalized federal CMS guidance, and that no action is required from applicants. Awards still anticipated mid-October 2026 but no Cohort 1 recipient names or amounts posted yet. Cohort 2 application window opening soon.",
+      "description": "LED/Louisiana Innovation + LDH joint fund financing rural health-tech startups deploying innovations across rural Louisiana. Initial disbursement generally capped at 20% of total award per company, remainder tied to milestone completion. la.io/rural confirms 'APPLICATIONS FOR COHORT 1 HAVE CLOSED' and 'COHORT 2 APPLICATIONS WILL BE OPEN SOON' — no Cohort 1 recipient names or amounts posted yet. As of 2026-10-13, la.io/rural explicitly attributes slower review to aligning criteria with finalized CMS guidance — a mild yellow flag the mid-October timeline could slip.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-13"
     },
     {
       "id": "LA:deadline:year2-nofos-ehr-voucher",
@@ -2325,13 +2336,13 @@
       "type": "nofo",
       "title": "Rural Regional Reorientation (RRR) Program NOFO",
       "url": "https://oklahoma.gov/health/rhtp/rhtp-funding-recipients.html",
-      "amount": "$39,578,523 aggregate across 20 named awards (range $114,358-$4,000,000 each); NOFO cap was up to $4,000,000 per application",
-      "recipients": "Ascension St. John Jane Phillips Medical Center $2,880,139 (cardiac EP lab); Brighter Heights Oklahoma $258,035 (telepsychiatry access points, 5 rural BH clinics); Cancer Centers of Southwest Oklahoma LLC $3,910,096 (cancer-care tech upgrade: cloud infra, cybersecurity, patient portal, 4 facilities); CREOKS Mental Health Services $4,000,000 (Rural Integrated Access and Stabilization Network); Fairview Regional Medical Center $754,650 (cardiac-capable CT scanner); Foundation for a Healthy Oklahoma/OPQIC $200,605 (obstetric emergency training, 24 rural birthing hospitals); Grand Lake Mental Health Center $2,700,000 (BH coordination tool, mobile vital-signs kits, reporting automation); Green Country Behavioral Health Services $114,358 (2 transport vehicles); Jackson County Memorial Hospital Authority $3,938,586 (L&D modernization incl. IT/telehealth interfaces, RPM); Keetoowah Economic Development Authority $1,123,500 (3 telehealth care stations at retail pharmacies); Lighthouse Behavioral Wellness Centers $1,443,665 (3 mobile MAT/MOUD clinics); Lindsay Municipal Hospital Authority $698,786 (surgical suite HVAC + 4K surgical video tower); McCurtain Memorial Medical Management $2,385,000 (modular MRI suite); Memorial Hospital of Texas County Authority $1,365,805 (mobile clinic + in-house MRI); Mercy Health Oklahoma Communities $3,938,438 (401 patient rooms across 7 rural hospitals, AI-assisted virtual nursing/safety monitoring/translation/specialist connectivity); Newman Memorial Hospital $1,339,787 (L&D/OB restoration, maternal-fetal monitoring equipment); South Central Medical and Resource Center $729,175 (regional SBIRT screening/alert hub, tele-triage rooms); Southwestern Oklahoma State University $3,999,285 (robotic-assisted surgery + clinic equipping, telehealth/clinical training); SSM Health Care of Oklahoma $3,672,447 (pulmonary rehab + telehealth expansion, revenue-cycle work across 7 rural hospitals); Stillwater Medical Center Authority $126,166 (RPM equipment for heart-failure readmissions).",
+      "amount": "$40,078,521.82 aggregate across 20 named awards (range $114,358-$4,000,000 each); NOFO cap was up to $4,000,000 per application",
+      "recipients": "Ascension St. John Jane Phillips Medical Center $2,880,139 (cardiac EP lab); Brighter Heights Oklahoma $258,035 (telepsychiatry access points, 5 rural BH clinics); Cancer Centers of Southwest Oklahoma LLC $3,910,096 (cancer-care tech upgrade: cloud infra, cybersecurity, patient portal, 4 facilities); CREOKS Mental Health Services $4,000,000 (Rural Integrated Access and Stabilization Network); Fairview Regional Medical Center $754,650 (cardiac-capable CT scanner); Foundation for a Healthy Oklahoma/OPQIC $200,605 (obstetric emergency training, 24 rural birthing hospitals); Grand Lake Mental Health Center $2,700,000 (BH coordination tool, mobile vital-signs kits, reporting automation); Green Country Behavioral Health Services $114,358 (2 transport vehicles); Jackson County Memorial Hospital Authority $3,938,586 (L&D modernization incl. IT/telehealth interfaces, RPM); Lighthouse Behavioral Wellness Centers $1,443,665 (3 mobile MAT/MOUD clinics); Lindsay Municipal Hospital Authority $698,786 (surgical suite HVAC + 4K surgical video tower); McCurtain Memorial Medical Management $2,385,000 (modular MRI suite); Memorial Hospital of Texas County Authority $1,365,805 (mobile clinic + in-house MRI); Mercy Health Oklahoma Communities $3,938,438 (401 patient rooms across 7 rural hospitals, AI-assisted virtual nursing/safety monitoring/translation/specialist connectivity); Newman Memorial Hospital $1,339,787 (L&D/OB restoration, maternal-fetal monitoring equipment); South Central Medical and Resource Center $729,175 (regional SBIRT screening/alert hub, tele-triage rooms); Southwestern Oklahoma State University $3,999,285 (robotic-assisted surgery + clinic equipping, telehealth/clinical training); SSM Health Care of Oklahoma $3,672,447 (pulmonary rehab + telehealth expansion, revenue-cycle work across 7 rural hospitals); SSM St. Anthony Shawnee Cancer Center $1,623,498.82 (Phase 3 cancer center modernization: infusion suite, nuclear medicine, cardiac stress testing expansion; Pottawatomie County); Stillwater Medical Center Authority $126,166 (RPM equipment for heart-failure readmissions).",
       "deadline": "Closed 2026-06-12",
-      "status": "Closed; full official recipient list posted (2026-10-02 observation) naming all 20 awardees with individual amounts and project descriptions.",
-      "description": "Largest per-award OK RHTP opportunity; funds regional reorientation of care to cut avoidable hospitalizations. Several awardees deploy high-relevance telehealth, RPM, EHR/IT-interface, and cybersecurity/cloud infrastructure investments.",
+      "status": "Closed; official recipient list revised as of 2026-10-13 — Keetoowah Economic Development Authority ($1,123,500, 3 telehealth stations at retail pharmacies) no longer appears on the state's page and has been replaced by SSM St. Anthony Shawnee Cancer Center ($1,623,498.82). Reason for the swap not stated by OSDH; recipient count unchanged at 20, aggregate total rose by $499,998.82.",
+      "description": "Largest per-award OK RHTP opportunity; funds regional reorientation of care to cut avoidable hospitalizations. Several awardees deploy high-relevance telehealth, RPM, EHR/IT-interface, and cybersecurity/cloud infrastructure investments. A 2026-10-13 check found one awardee (a telehealth deployment) removed from the list and replaced by a different project; reason not stated by OSDH.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-13"
     },
     {
       "id": "OK:news:rrr-progress-update-2026-08-28",
@@ -4031,10 +4042,10 @@
       "amount": "amount not stated at hospital level; likely drawn from ICAHN's existing $31,008,264 RHTP technology tranche",
       "recipients": "78 eligible Illinois Critical Access/rural hospitals, via ICAHN as administering intermediary",
       "deadline": "October 9, 2026, 5:00 PM CT",
-      "status": "Open in Euna/AmpliFund portal as of late September 2026, following ICAHN's Year-1 digital readiness assessment",
+      "status": "Application deadline passed October 9, 2026, 5:00 PM CT. No awardee list published as of 2026-10-13 (ICAHN's own site unreachable this run; no coverage found via web search). Watch next run for the award list — strong vendor-opportunity signal.",
       "description": "RHTP funding not independently confirmed on a primary HFS/Euna page (il.amplifund.com's listing view is SSO-blocked from this environment); sourced from ICAHN's own page and a secondary accounting-firm client alert found via web search. Appears to be the next concrete step of ICAHN's already-tracked technology tranche (cybersecurity, physical security, telehealth, EHR optimization, automation, AI, data analytics) moving into an actual hospital-level sub-grant window.",
       "first_seen": "2026-09-29",
-      "last_updated": "2026-09-29"
+      "last_updated": "2026-10-13"
     },
     {
       "id": "MO:solicitation:graduate-medical-education-rural-program",
@@ -4184,26 +4195,26 @@
       "type": "nofo",
       "title": "RHTP — Overcoming Geographic Barriers to Care: EMS Support (EMS Enhancement Grants to Resource Hospitals)",
       "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=3982",
-      "amount": "~$16,500,000 estimated for Budget Period 1 (not independently confirmed on primary page; source page blocked, figure via secondary summary)",
+      "amount": "CMS's RHTP Obligated Funds Report bundles this with Mobile Healthcare Innovation into one \"EMS and Mobile Healthcare\" line totaling $34,500,000 combined for Budget Period 1 (was ~$16,500,000 EMS-only estimate); EMS-only breakout not separately stated",
       "recipients": "Illinois Department of Public Health (IDPH), as intermediary to EMS Resource Hospitals",
       "deadline": "not stated",
-      "status": "Funding strategy identified via Illinois' official CSFA registry",
+      "status": "Confirmed combined BP1 figure via primary CMS source; EMS-only breakout not separately stated.",
       "description": "One of two funding strategies under RHTP's EMS and Mobile Healthcare initiative; funds EMS-related expenses, in-place-treatment models, training, staffing and limited capital for resource hospitals.",
       "first_seen": "2026-09-30",
-      "last_updated": "2026-09-30"
+      "last_updated": "2026-10-13"
     },
     {
       "id": "IL:nofo:rht-mobile-healthcare-innovation",
       "type": "nofo",
       "title": "RHTP — Overcoming Geographic Barriers to Care: Mobile Healthcare Innovation (Mobile Health Infrastructure Funds)",
       "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=3983",
-      "amount": "amount not stated (may relate to already-tracked $26M Community Care Infrastructure Year-1 figure; not confirmed as additive)",
+      "amount": "Part of a combined $34,500,000 \"EMS and Mobile Healthcare\" Budget Period 1 total confirmed via CMS's RHTP Obligated Funds Report (see also IL:nofo:rht-ems-support); mobile-healthcare-only breakout not separately stated",
       "recipients": "Illinois Primary Health Care Association (IPHCA) and Community Behavioral Health Association (CBHA), as intermediaries to rural primary care/behavioral health providers",
       "deadline": "October 23, 2026, 5:00 PM CT",
-      "status": "NOFO now published and open (confirmed via two independent web searches; primary-source PDF at https://cdn.ymaws.com/cbha.net/resource/resmgr/nofo_mobile_healthcare.pdf, titled 'Overcoming Geographic Barriers to Care, Mobile Healthcare Innovation for Rural Illinois', hosted by Community Behavioral Health Association (CBHA); cdn.ymaws.com itself is egress-blocked for direct fetch)",
+      "status": "NOFO still open as of 2026-10-13, deadline October 23, 2026, 5:00 PM CT; BP1 combined total now confirmed via primary CMS source.",
       "description": "Second funding strategy under the EMS and Mobile Healthcare initiative, funding mobile health infrastructure/vehicles for rural primary care and behavioral health providers.",
       "first_seen": "2026-09-30",
-      "last_updated": "2026-10-06"
+      "last_updated": "2026-10-13"
     },
     {
       "id": "IL:nofo:rht-healthcare-workforce-expansion",
@@ -4899,13 +4910,13 @@
       "type": "nofo",
       "title": "RHTP — Overcoming Geographic Barriers to Care: Technological Innovation for Virtual Care",
       "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=3984",
-      "amount": "~$40,199,658.21 estimated for federal Budget Period 1, awarded in full to ICAHN (was: amount not stated) — sourced via search-engine snippet aggregation, not confirmed against primary page text (CSFA registry newly blocked by network egress policy)",
+      "amount": "$31,008,265.21 for federal Budget Period 1, awarded in full to ICAHN — confirmed via CMS's RHTP Obligated Funds Report (published ~2026-10-08), superseding the prior ~$40,199,658.21 secondary-sourced estimate",
       "recipients": "Illinois Critical Access Hospital Network (ICAHN), as administering intermediary (was: n/a / recipient level not stated)",
       "deadline": "n/a",
-      "status": "CSFA registry page (omb.illinois.gov) is now blocked by network egress policy and could not be independently re-fetched this run. Note: this $40.2M figure does not obviously reconcile with the already-tracked $31,008,264 'technology tranche' in ICAHN's separate $50M RHTP grant agreement — relationship unclear and unconfirmed. Program still described as implemented in part through an 'Illinois Connect Care Collaborative' telehealth model.",
+      "status": "Confirmed via primary CMS source: this initiative's $31,008,265.21 BP1 figure matches ICAHN's own $31,008,264 \"technology tranche\" almost to the dollar, confirming they are the same money and resolving the prior relationship-unclear flag. Program still described as implemented in part through an \"Illinois Connect Care Collaborative\" telehealth model.",
       "description": "Dedicated RHTP funding stream for telehealth/virtual-care technology investment in rural Illinois.",
       "first_seen": "2026-10-01",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-13"
     },
     {
       "id": "IL:nofo:rht-roots-rural-outreach-training",
@@ -5283,6 +5294,32 @@
       "description": "First primary-source, line-item recipient disclosure for Rural Texas Strong. Contains zero rows for Initiatives 2 (patient portals/RPM), 3 (AI/telehealth), or 5 (cybersecurity), confirming those tracks still have no applicants or awards as of 2026-10-08.",
       "first_seen": "2026-10-12",
       "last_updated": "2026-10-12"
+    },
+    {
+      "id": "TN:nofo:perinatal-telehealth-rfgp-34347-98027",
+      "type": "nofo",
+      "title": "RFGP 34347-98027 — Perinatal Telehealth",
+      "url": "https://www.tn.gov/content/dam/tn/health/2026-notcom/2026-April7-34347-98027-RFGP-Perinatal-Telehealth-Final.pdf",
+      "amount": "$5,000,000 total pool across up to 4 grants (36-month period each); state reserves right to award full amount to a single project",
+      "recipients": "not yet announced",
+      "deadline": "Posted 2026-04-07; application deadline 2026-04-29 (closed); grant period 2026-07-01 to 2029-06-30",
+      "status": "Closed; award status not confirmed as of 2026-10-13",
+      "description": "RHTP-tied grant line distinct from the already-tracked TN:nofo:perinatal-pediatric-teleconsultation NOFO (different RFGP number, different/earlier application window, explicit $5M/4-grant ceiling). Funds innovative perinatal telehealth models strengthening Tennessee's rural maternal health system. An earlier-generation version of the same solicitation (RFGP 34347-95324) also exists, suggesting TDH runs this as a recurring grant line now also funded by RHTP.",
+      "first_seen": "2026-10-13",
+      "last_updated": "2026-10-13"
+    },
+    {
+      "id": "FEDERAL:federal:cms-rhtp-obligated-funds-report-oct2026",
+      "type": "federal",
+      "title": "CMS RHTP Obligated Funds Report (reporting period Dec 29, 2025 – Jul 31, 2026)",
+      "url": "https://www.medicaid.gov/resources-for-states/rural-health/rhtp-resources/RHTP-Obligated-Funds-10082026.pdf",
+      "amount": "All 50 states; state-submitted Year 1 RHTP Annual Report data as of 2026-07-31. Arkansas: $6,158,032 of its $208,779,396.02 BP1 award obligated (~3%, entirely Program Administration Expense; no initiative-level sub-award spending reported yet — predates AR's Aug/Sep sub-award announcements). Illinois: $165,226,823 of its $193,418,216.21 BP1 award obligated (~85%), broken out by initiative (Hospital Transformation $10.5M, Community Care Infrastructure $28.5M, Hospital Disease Prevention $14M, EMS & Mobile Healthcare $34.5M, Technological Innovation for Virtual Care $31,008,265.21, Healthcare Workforce Expansion $29M, Training Healthcare Support Workers $11M, Rural Health Education Pipeline $4.5M, Program Administration $2,218,558).",
+      "recipients": "n/a — state-level initiative totals only, not individual sub-recipients",
+      "deadline": "n/a",
+      "status": "Published by CMS on or about 2026-10-08",
+      "description": "New CMS tracking document showing each state's self-reported obligated RHTP funds; not linked from either state's own program pages. Gives Allstar a federal, independently-sourced checkpoint on how fast announced sub-awards are becoming spendable money, and resolves prior IL dollar-figure discrepancies for several initiatives (see IL:nofo:* updates). Only AR and IL figures pulled so far; other tracked states' breakdowns in this same document have not yet been extracted.",
+      "first_seen": "2026-10-13",
+      "last_updated": "2026-10-13"
     }
   ]
 }
