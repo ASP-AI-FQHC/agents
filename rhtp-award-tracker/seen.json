@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-14",
+  "last_run": "2026-10-15",
   "runs": [
     {
       "date": "2026-09-10",
@@ -298,6 +298,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in MS (EHR Replacement for Small Rural Providers NOFO, opens 2026-10-21, supersedes prior placeholder), LA (LDH denial-notifications-by-Oct-16 deadline, signals imminent Year 1 award lists incl. Telehealth Infrastructure), and Federal (CMS $2.3M Missouri childcare/nurse-midwife press release, low relevance). Updated: MS resources hub (18\u219231 documents incl. new compliance/reimbursement guidance for awardees); OK's Pulsara EMS platform now has a confirmed contract figure ($3.79M) via the CMS Obligated Funds Report, which also now has Texas (~18.9% obligated, $0 against cyber/AI/portal Initiatives 2/3/5) and Oklahoma (~62.8% obligated) breakdowns extracted. AR, IL, IN, WI, MO, TN, and TX had no new or changed items this run. Watch items still unresolved: MS WEI/PES-EmPATH awards (decision window ~Oct 14-29); LA Rural Tech Catalyst Fund Cohort 1 (still 'mid-October', not posted) and LA Senate Resolution 198 report (due 2026-10-15, not yet filed); WI Rural Technology Transformation Fund Round 1 awards (now 6+ weeks overdue vs. Sept 2026 estimate); OK's unexplained Rural Regional Reorientation recipient swap (Keetoowah Economic Development Authority removed, SSM St. Anthony Shawnee Cancer Center added) remains unresolved; TX Initiatives 2/3/5 and OK/TX Budget Period 2 allocations still not opened/announced. Excluded as ambiguous/out of scope: TN's Tennessee State Loan Repayment Program Fall 2026 cycle (pre-existing HRSA/state program, RHTP funding not confirmed) and TN's Stillbirth Funeral Assistance RFA (re-confirmed Title V MCH, not RHTP). Suggested sources.json fix for a human to apply (not made by this run, per guardrails): WI source https://www.dhs.wisconsin.gov/news/releases.htm now 404s; replace with https://www.dhs.wisconsin.gov/news/index.htm."
+    },
+    {
+      "date": "2026-10-15",
+      "sources_checked": 131,
+      "sources_failed": 21,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Persistent/unchanged failures: arkansas.gov/ark.gov procurement (DNS), il.amplifund.com and bidbuy.illinois.gov (login/SSO walls), omb.illinois.gov CSFA pages (egress-blocked \u2014 two FY2027 amount discrepancies on CSFA 3979/3981 vs. tracked figures could not be verified, flagged for human), icahn.org (DNS \u2014 Oct 9 Technology Innovation Grant awardee list still unconfirmed); in.gov/gov/newsroom and events.in.gov (JS-rendered, empty), dhs.wisconsin.gov Rural Technology Transformation Fund detail page (404/403 on both known URLs) and vendornet.wi.gov (JS shell) \u2014 WI's RTTF Round 1 awards are now ~6 weeks overdue vs. Sept 2026 estimate with zero public trace; tndeptofhealth.caspio.app (JS shell); medicaid.ms.gov (503) and ms.gov DFA bid grid (JS, non-searchable); LaPAC (static menu, non-searchable); cms.gov/newsroom/press-releases (404, worked around via medicaid.gov RHTP resources page), ok.gov/dcs/solicit (static, non-searchable), txsmartbuy.gov/esbd (only page 1 of 2,502 viewable). No primary state program-home page was unreachable.",
+      "items_new": 2,
+      "items_updated": 0,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in MO only (both low relevance, included per \"report all\" rule): Missouri's $1.46M Kids Win Missouri/Child Care Works childcare-cost-sharing expansion for rural health employers (2026-10-13), and a new Certified Nurse Midwife training partnership between Missouri DHSS and the MU Sinclair School of Nursing (2026-10-13, amount not stated, targeted opening Fall 2029). AR, IL, IN, WI, TN, MS, LA, TX, OK, and Federal had no new or changed items this run. Checked and ruled out as duplicate, not added: a CMS press release on Louisiana's $37.7M rural workforce investment (cms.gov, published 2026-10-09) \u2014 same facts already tracked as LA:news:rhtp-y1-workforce-investments-37m since 2026-10-09; this is now the third run this duplicate has independently surfaced via the Federal research pass. Ambiguous items flagged for human review, not added as candidates: IL CSFA 3979/3981 FY2027 amounts may have changed but the primary omb.illinois.gov pages are egress-blocked; a TN loan-repayment program (TSLRP Fall 2026 cycle, opened 2026-10-12) shows no evidence of RHTP funding and was excluded; a GovTech Insider article (unreachable, cited only via search snippet) suggests TX Initiative 3 (AI/telehealth) may post in October and Initiative 5 (cybersecurity) in November \u2014 unconfirmed against any HHSC primary source. Open watch items carried forward: MS WEI/PES-EmPATH award decisions (window through ~10-29); LA Rural Tech Catalyst Fund Cohort 1 results (still \"mid-October\", not posted) and LA's non-binding Senate Resolution 198 report (due today, not yet found); WI's overdue RTTF Round 1 awards; TN's ~9 pending competitive grant lines racing the 2026-10-30 Year-1 obligation deadline, with RFA 34347-39627's evaluation notice (released 10-09) suggesting an award is imminent; LA's Oct 16 denial-notification deadline for its six remaining Year-1 NOFOs; OK's unexplained Rural Regional Reorientation recipient swap (Keetoowah Economic Development Authority removed, SSM St. Anthony Shawnee Cancer Center added), still unresolved after two runs; TX Initiatives 2/3/5 and TX/OK Budget Period 2 allocations, none yet announced."
     }
   ],
   "items": [
@@ -5370,6 +5381,32 @@
       "description": "CMS press release naming new RHTP-funded workforce/childcare and maternal-care training programs for Missouri, distinct from MO's previously-tracked items (home-visiting funding, MO-CPAP/MO-MHAP teleconsultation).",
       "first_seen": "2026-10-14",
       "last_updated": "2026-10-14"
+    },
+    {
+      "id": "MO:award:kids-win-missouri-childcare",
+      "type": "award",
+      "title": "Missouri Awards $1.46 Million to Expand Childcare Support for Rural Health Workers (Kids Win Missouri / Child Care Works)",
+      "url": "https://content.govdelivery.com/accounts/MODSS/bulletins/42d24b6",
+      "amount": "$1,460,000",
+      "recipients": "Kids Win Missouri, to expand its \"Child Care Works\" childcare cost-sharing program for rural health employers, via Missouri DSS and the Children's Trust Fund",
+      "deadline": "n/a (awarded); related webinar for rural health providers 2026-10-29 2pm CST",
+      "status": "Announced 2026-10-13",
+      "description": "RHTP grant expanding childcare-cost-sharing support for rural health employers; program launched Dec 2025 in 7 Missouri communities with 50+ employers currently enrolled. Ties to the H.R.1 Section 45F employer childcare tax credit.",
+      "first_seen": "2026-10-15",
+      "last_updated": "2026-10-15"
+    },
+    {
+      "id": "MO:award:cnm-training-partnership-mu-sinclair",
+      "type": "award",
+      "title": "Missouri Announces Certified Nurse Midwife Training Partnership (DHSS + MU Sinclair School of Nursing)",
+      "url": "https://content.govdelivery.com/accounts/MODSS/bulletins/42b4db3",
+      "amount": "amount not stated",
+      "recipients": "University of Missouri Sinclair School of Nursing, via a contract with Missouri DHSS, RHTP-funded",
+      "deadline": "Targeted program opening Fall 2029, pending ACME pre-accreditation",
+      "status": "Announced 2026-10-13",
+      "description": "New Certified Nurse Midwife program (Missouri currently has none) with rural clinical training sites, to address rural maternal-care deserts; part of a broader RHTP maternal-workforce push alongside doula training, home visiting, and CHW training.",
+      "first_seen": "2026-10-15",
+      "last_updated": "2026-10-15"
     }
   ]
 }
