@@ -1,7 +1,7 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-15",
+  "last_run": "2026-10-16",
   "runs": [
     {
       "date": "2026-09-10",
@@ -309,6 +309,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in MO only (both low relevance, included per \"report all\" rule): Missouri's $1.46M Kids Win Missouri/Child Care Works childcare-cost-sharing expansion for rural health employers (2026-10-13), and a new Certified Nurse Midwife training partnership between Missouri DHSS and the MU Sinclair School of Nursing (2026-10-13, amount not stated, targeted opening Fall 2029). AR, IL, IN, WI, TN, MS, LA, TX, OK, and Federal had no new or changed items this run. Checked and ruled out as duplicate, not added: a CMS press release on Louisiana's $37.7M rural workforce investment (cms.gov, published 2026-10-09) \u2014 same facts already tracked as LA:news:rhtp-y1-workforce-investments-37m since 2026-10-09; this is now the third run this duplicate has independently surfaced via the Federal research pass. Ambiguous items flagged for human review, not added as candidates: IL CSFA 3979/3981 FY2027 amounts may have changed but the primary omb.illinois.gov pages are egress-blocked; a TN loan-repayment program (TSLRP Fall 2026 cycle, opened 2026-10-12) shows no evidence of RHTP funding and was excluded; a GovTech Insider article (unreachable, cited only via search snippet) suggests TX Initiative 3 (AI/telehealth) may post in October and Initiative 5 (cybersecurity) in November \u2014 unconfirmed against any HHSC primary source. Open watch items carried forward: MS WEI/PES-EmPATH award decisions (window through ~10-29); LA Rural Tech Catalyst Fund Cohort 1 results (still \"mid-October\", not posted) and LA's non-binding Senate Resolution 198 report (due today, not yet found); WI's overdue RTTF Round 1 awards; TN's ~9 pending competitive grant lines racing the 2026-10-30 Year-1 obligation deadline, with RFA 34347-39627's evaluation notice (released 10-09) suggesting an award is imminent; LA's Oct 16 denial-notification deadline for its six remaining Year-1 NOFOs; OK's unexplained Rural Regional Reorientation recipient swap (Keetoowah Economic Development Authority removed, SSM St. Anthony Shawnee Cancer Center added), still unresolved after two runs; TX Initiatives 2/3/5 and TX/OK Budget Period 2 allocations, none yet announced."
+    },
+    {
+      "date": "2026-10-16",
+      "sources_checked": 136,
+      "sources_failed": 30,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Persistent/unchanged failures: arkansas.gov procurement and omb.illinois.gov CSFA pages now outright proxy-blocked (connect_rejected, worse than prior partial block) \u2014 CSFA 3979/3981 amounts still unverified; icahn.org newly proxy-blocked too (ICAHN Oct 9 Technology Innovation Grant awardee list still unconfirmed, deadline now passed); in.gov/gov/newsroom and events.in.gov (JS-rendered, empty); Wisconsin DHS /contracts/ award-detail pages (403) and vendornet.wi.gov (JS shell) \u2014 WI's RTTF Round 1 awards remain ~6+ weeks overdue with zero public trace; tndeptofhealth.caspio.app (JS shell); mohospitals.org (DNS/connection refused); missouribuys.mo.gov interactive search (JS, only static homepage reachable); medicaid.ms.gov now 404s as a \"Temporary Site\" placeholder (site rebuild, not the prior intermittent 503); legis.la.gov blocked at the proxy (Senate Resolution 198 report could not be fetched directly); LaPAC and ms.gov DFA bid grid (static/JS, non-searchable); cms.gov/newsroom/press-releases (404, worked around via medicaid.gov); ok.gov/dcs/solicit and txsmartbuy.gov/esbd (not meaningfully keyword-searchable); oklahoma.gov governor/OSDH newsroom index pages returning stale/empty results despite live press releases existing at direct URLs. No primary state program-home page was unreachable.",
+      "items_new": 2,
+      "items_updated": 4,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in MO, TX, OK this run. MO: a previously-untracked, already-closed Ambient AI RFI (MO:solicitation:ambient-ai-rfi, HIGH relevance \u2014 EHR-integrated ambient documentation vendor sourcing under ToRCH Care's Digital Backbone pillar, no result posted) and an amount update on the CNM training partnership (now $879,000, per a 2026-10-13 CMS press release). TX: HHSC's weekly $78M/216-provider Rural Texas Strong announcement (2026-10-15, Initiatives 1/4/6 only, low-moderate relevance) plus the matching update to the consolidated recipient spreadsheet (now 312 line items / $474,991,508 intent-to-award, 97 contracts fully executed totaling $289,807,450; Initiatives 2/3/5 \u2014 patient portals/RPM, AI/telehealth, cybersecurity \u2014 still have zero awards or postings). OK: ROOTS Year 2 school grant window confirmed closed 2026-10-15, no awardee list yet (low relevance). AR, IL, IN, WI, TN, MS, and Federal had no new or material changes this run. LA: updated LA:deadline:senate-resolution-198-report to reflect the deadline passing 2026-10-15 with no report located \u2014 not emailed (non-binding resolution, no money/program action, status-only change). Checked and ruled out as duplicate, not added (fourth consecutive run): a CMS press release on Louisiana's $37.7M rural workforce investment (published 2026-10-09) \u2014 same facts already tracked as LA:news:rhtp-y1-workforce-investments-37m since 2026-10-09. Ambiguous items flagged for human review, not added as candidates: IL Community Care Infrastructure (CSFA 3980) funding-split figures from a non-primary web snippet may conflict with tracked amounts, unverifiable while omb.illinois.gov is proxy-blocked; TX's $78M figure does not cleanly reconcile with the week-over-week spreadsheet delta (+$23.96M vs. the announced $78M \u2014 may be a different cut/snapshot HHSC doesn't explain); a TN Stillbirth Funeral Assistance RFA (34347-39927) appears to be state/Title V-funded, not RHTP; two TN RFPs (34320-21227, 34320-19927) have disappeared from the live CPO RFP page while still listed as RHTP on TDH's own procurement page \u2014 possible pull/cancellation, unconfirmed; OK's unexplained Rural Regional Reorientation recipient swap (Keetoowah Economic Development Authority removed, SSM St. Anthony Shawnee Cancer Center added) remains unresolved after three runs. Open watch items carried forward, all racing the 2026-10-30 Year-1 obligation deadline: MS WEI/PES-EmPATH awards (window through ~10-29); LA's six remaining Year-1 NOFO winners (denial notifications were due today, 10-16; no winner list found yet) and LA Rural Tech Catalyst Fund Cohort 1 results (still \"mid-October\", not posted); WI's overdue RTTF Round 1 awards; TN's ~9 pending competitive grant lines with zero new awards since the 9-3 HART round; MO's IFB DSS26015 (~$40M) and Rural Medical Clerkship RFP, both closed with awards still pending; TX Initiatives 2/3/5 and TX/OK Budget Period 2 allocations, none yet announced (OK says BP2 expected late October)."
     }
   ],
   "items": [
@@ -2347,11 +2358,11 @@
       "url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html",
       "amount": "$10,000 per school (pool size not separately stated)",
       "recipients": "not yet announced (rural PK-12 schools)",
-      "deadline": "Open through 2026-10-15; grant period Nov 2026-Oct 2027",
-      "status": "OPEN NOW",
+      "deadline": "Closed 2026-10-15; grant period Nov 2026-Oct 2027",
+      "status": "Closed as of 2026-10-15 (application period ended); no Year-2 awardee list posted yet",
       "description": "Second round of ROOTS school grants for PE/fitness/wellness equipment and programming.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-10-16"
     },
     {
       "id": "OK:nofo:rural-regional-reorientation",
@@ -5039,10 +5050,10 @@
       "amount": "n/a",
       "recipients": "n/a (the report itself will identify recipients)",
       "deadline": "2026-10-15",
-      "status": "Pending (resolution adopted; report not yet due)",
+      "status": "Deadline passed 2026-10-15; report not located in any accessible source as of 2026-10-16 (resolution is non-binding \u2014 \"urge and request\" \u2014 so a missed/quiet deadline is plausible)",
       "description": "Louisiana Senate Resolution No. 198 directs LDH to submit a report no later than October 15, 2026 detailing proposed RHTP program expenditures for FFY2026-2027, required to include identification of funding recipients and amounts allocated, plus measurable outcomes/benchmarks. Found via WebSearch (legis.la.gov blocked to direct fetch; details plausible but not independently confirmed from the primary document).",
       "first_seen": "2026-10-02",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-16"
     },
     {
       "id": "TX:document:episcopal-health-mco-briefing",
@@ -5308,14 +5319,14 @@
       "id": "TX:award:award-recipients-list-2026-10-08",
       "type": "award",
       "title": "HHSC Publishes First Consolidated \"Rural Texas Strong\" Award Recipients List (Initiatives 1, 4, 6)",
-      "url": "https://pfd.hhs.texas.gov/sites/default/files/documents/rural-hlth-prgm/2026/10-8-2026-list-award-recipients.xlsx",
-      "amount": "$451,035,746.54 aggregate intent-to-award across 284 subrecipient line items (Initiative 1: 91 entries/$329,710,267.30; Initiative 4: 136 entries/$75,864,173.61; Initiative 6: 57 entries/$45,461,305.63); only 68 entries (all Initiative 1) show contract fully executed, totaling $238,000,000",
-      "recipients": "284 named subrecipients \u2014 rural hospital districts, hospital authorities, clinics, FQHC-type orgs, physician practices, MHMR centers, and EMS providers across Initiatives 1, 4, and 6",
+      "url": "https://pfd.hhs.texas.gov/sites/default/files/documents/rural-hlth-prgm/10-15-2026-list-award-recipients.xlsx",
+      "amount": "$474,991,508.18 aggregate intent-to-award across 312 subrecipient line items (Initiative 1: 92 entries/$337,208,367.30; Initiative 4: 162 entries/$90,602,595.02; Initiative 6: 58 entries/$47,180,545.86); 97 entries now show contract fully executed, totaling $289,807,450.16 (up from 68/$238,000,000 on 2026-10-08)",
+      "recipients": "312 named subrecipients \u2014 rural hospital districts, hospital authorities, clinics, FQHC-type orgs, physician practices, MHMR centers, and EMS providers across Initiatives 1, 4, and 6 (up from 284 on 2026-10-08)",
       "deadline": "n/a \u2014 results list, updated weekly by HHSC",
-      "status": "Published 2026-10-08",
+      "status": "Published 2026-10-08; updated weekly by HHSC \u2014 latest figures as of 2026-10-15",
       "description": "First primary-source, line-item recipient disclosure for Rural Texas Strong. Contains zero rows for Initiatives 2 (patient portals/RPM), 3 (AI/telehealth), or 5 (cybersecurity), confirming those tracks still have no applicants or awards as of 2026-10-08.",
       "first_seen": "2026-10-12",
-      "last_updated": "2026-10-12"
+      "last_updated": "2026-10-16"
     },
     {
       "id": "TN:nofo:perinatal-telehealth-rfgp-34347-98027",
@@ -5400,13 +5411,39 @@
       "type": "award",
       "title": "Missouri Announces Certified Nurse Midwife Training Partnership (DHSS + MU Sinclair School of Nursing)",
       "url": "https://content.govdelivery.com/accounts/MODSS/bulletins/42b4db3",
-      "amount": "amount not stated",
+      "amount": "$879,000 (initial funding to establish the CNM training program, per CMS press release dated 2026-10-13, which frames it together with Missouri's $1.46M Kids Win Missouri/Child Care Works award as \"more than $2.3 million\" in combined RHTP funding announced that day)",
       "recipients": "University of Missouri Sinclair School of Nursing, via a contract with Missouri DHSS, RHTP-funded",
       "deadline": "Targeted program opening Fall 2029, pending ACME pre-accreditation",
       "status": "Announced 2026-10-13",
       "description": "New Certified Nurse Midwife program (Missouri currently has none) with rural clinical training sites, to address rural maternal-care deserts; part of a broader RHTP maternal-workforce push alongside doula training, home visiting, and CHW training.",
       "first_seen": "2026-10-15",
-      "last_updated": "2026-10-15"
+      "last_updated": "2026-10-16"
+    },
+    {
+      "id": "MO:solicitation:ambient-ai-rfi",
+      "type": "solicitation",
+      "title": "MO HealthNet/DSS Ambient AI RFI (ToRCH Care Digital Backbone)",
+      "url": "https://dss.mo.gov/mhd/rural-health",
+      "amount": "amount not stated (RFI, pre-procurement)",
+      "recipients": "not yet announced \u2014 vendor input phase",
+      "deadline": "Closed 2026-06-01",
+      "status": "Closed; no vendor selection or award result found",
+      "description": "Missouri DSS RFI seeking vendor capabilities for Ambient AI clinical-documentation solutions tied to RHTP's Digital Backbone pillar (EHR integration, phased implementation, training/support, scalability, interoperability, HIPAA compliance). Previously untracked; found via bid-board summary on dss.mo.gov/mhd/rural-health, corroborated by a third-party aggregator (starbridge.ai). Distinct from the already-tracked Virtual Care Expansion RFI.",
+      "first_seen": "2026-10-16",
+      "last_updated": "2026-10-16"
+    },
+    {
+      "id": "TX:award:78m-recipients-oct15",
+      "type": "award",
+      "title": "Gov. Abbott, HHSC Announce $78 Million in Rural Texas Strong Grants to 216 Providers",
+      "url": "https://www.hhs.texas.gov/news/2026/10/gov-abbott-hhsc-announce-recipients-78-million-rural-texas-strong-grants",
+      "amount": "$78 million per press release (also reported by CMS); not individually reconciled to the weekly recipient spreadsheet total, see TX:award:award-recipients-list-2026-10-08",
+      "recipients": "216 rural healthcare providers across Initiatives 1, 4, and 6 (not individually named in the release)",
+      "deadline": "n/a",
+      "status": "Announced 2026-10-15",
+      "description": "Weekly Rural Texas Strong funding-intent announcement covering Initiatives 1 (Make Rural Texans Healthy Again), 4 (workforce), and 6 (infrastructure/capital) only; no telehealth/AI/cybersecurity (Initiatives 2/3/5) content.",
+      "first_seen": "2026-10-16",
+      "last_updated": "2026-10-16"
     }
   ]
 }
