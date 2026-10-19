@@ -1,6 +1,6 @@
 {
   "_comment": "Sources the RHTP Award Tracker checks every run. Edit freely; the routine reads this file fresh each time. 'kind' is a hint for how to read the page.",
-  "recipients": ["gfuller@allstarpartners.com", "jdudek@allstarpartners.com", "Star@4dhealthware.com"],
+  "recipients": ["gfuller@allstarpartners.com", "jdudek@allstarpartners.com", "Star@4dhealthware.com", "jgrychowski@allstarpartners.com"],
   "states": {
     "AR": {
       "name": "Arkansas",
