@@ -1,18 +1,8 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-19",
+  "last_run": "2026-10-20",
   "runs": [
-    {
-      "date": "2026-09-10",
-      "sources_checked": 31,
-      "sources_failed": 31,
-      "sources_failed_note": "All direct WebFetch/curl calls to state (.gov) and federal (cms.gov, medicaid.gov, taggs.hhs.gov) domains returned EGRESS_BLOCKED from the network proxy this run; all baseline data was reconstructed via WebSearch snippets of the same pages and secondary/local news coverage. Recommend re-running direct fetches once egress is available.",
-      "items_new": 56,
-      "items_updated": 0,
-      "email_sent": true,
-      "email_type": "baseline"
-    },
     {
       "date": "2026-09-11",
       "sources_checked": 31,
@@ -331,6 +321,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in TX only (HHSC's Budget Period 2 revised-narratives submission to CMS, 2026-08-28, procedural, low relevance -- a pipeline catch, not a new-in-the-gap event). Updated: TN's RAMP page discloses a previously-untracked Goal 4 (~$20.6M TennCare Shared Savings for Rural Health Clinic sustainability, RHTP funding not confirmed); TX Initiatives 3 (AI/telehealth) and 5 (cybersecurity) both got a secondhand, stale (2026-07-31) HHSC procurement-forecast signal of October/November 2026 postings respectively -- Allstar's two highest-relevance TX watch items, not independently confirmed; OK's microgrant award list was fully reconciled ($3,572,120.71 / 68 awards / 55 orgs, 3 counties with no awardee), closing a prior-run discrepancy flag though the gap vs. the NOFO's stated pool size remains open. AR, IL, IN, WI, MO, MS, LA, and Federal had no new or material changes this run. Not added (duplicate, 6th consecutive run surfaced): a CMS press release on Louisiana's $37.7M rural workforce investment, already tracked as LA:news:rhtp-y1-workforce-investments-37m since 2026-10-09. Watch items carried forward, all racing the 2026-10-30 Year-1 obligation deadline: MS WEI/PES-EmPATH awards (window through ~10-29); LA's six remaining Year-1 NOFO winner lists (denial notifications were due 10-16, now 3 days overdue with no list posted) and LA Rural Tech Catalyst Fund Cohort 1 results (still 'mid-October'); WI's overdue RTTF Round 1 awards; MO's IFB DSS26015 (~$40M) and TN's ~8 remaining competitive grant lines, both racing the deadline; TX/OK CMS Budget Period 2 allocation announcements expected ~2026-10-31; whether TX's Initiative 3/4 forecast postings (per the stale GovTech-reported forecast) actually materialize in October/November."
+    },
+    {
+      "date": "2026-10-20",
+      "sources_checked": 61,
+      "sources_failed": 11,
+      "sources_failed_note": "Persistent/unchanged failures: arkansas.gov/ark.gov procurement (DNS, not retried this run); il.amplifund.com and bidbuy.illinois.gov (SSO/login walls); medicaid.ms.gov (404, site rebuild); gov.louisiana.gov/news, ldh.la.gov/news, and la.io RTCF results page (403 to automated fetch -- la.io itself loaded and confirmed RTCF Cohort 1 awards still not public); oklahoma.gov governor/newsroom and health newsroom search (no indexed October 2026 results); procurement portals not re-queried this run due to known JS/non-searchable walls (WI vendornet.wi.gov, MO missouribuys.mo.gov interactive search, MS ms.gov DFA bid grid, TX txsmartbuy.gov/esbd, OK ok.gov/dcs/solicit, LA LaPAC) -- no primary state program-home page was unreachable.",
+      "items_new": 0,
+      "items_updated": 0,
+      "email_sent": false,
+      "email_type": "none",
+      "note": "Quiet run: all ten states and federal sources checked directly (program-home pages, NOFO/resource pages, press rooms, TAGGS federal award records, web-search fallback) against seen.json by id/URL/title -- every item found (TX $78M/216-provider award and BP2 narrative submission, OK microgrant reconciliation and award-recipient pages, MS Innovative Pilot Program + EHR Replacement NOFOs + HIE/HDU RFP, LA Year-1 denial-notification deadline and RTCF Cohort 1 timeline, AR/IL/IN/WI/MO/TN program pages) matches an item already recorded, with no material change to amount, deadline, status, or recipient list. Watch items still open and racing the 2026-10-30 Year-1 obligation deadline: MS WEI/PES-EmPATH awards (not yet announced); LA six remaining Year-1 NOFO winner lists and RTCF Cohort 1 results (both overdue vs. their own stated timelines, no list posted); WI RTTF Round 1 / Coordinating Care Across Wisconsin awards (estimated notification October 2026, Advisory Council met/meets 2026-10-22, no result posted); MO IFB DSS26015 (~$40M Smart Growth & Service Line) with no closing date or awardee list stated; TX Initiatives 2/3/5 (patient portals, AI/telehealth, cybersecurity -- HIGH relevance) now showing an official HHSC timeline with estimated Nov 2026-Jan 2027 application windows, pushed later than the Oct-Dec 2026 window noted previously; CMS Budget Period 2 allocation announcements for all ten states expected around 2026-10-31."
     }
   ],
   "items": [
