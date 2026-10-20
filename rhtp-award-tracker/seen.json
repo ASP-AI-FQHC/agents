@@ -324,14 +324,14 @@
     },
     {
       "date": "2026-10-20",
-      "sources_checked": 61,
-      "sources_failed": 11,
-      "sources_failed_note": "Persistent/unchanged failures: arkansas.gov/ark.gov procurement (DNS, not retried this run); il.amplifund.com and bidbuy.illinois.gov (SSO/login walls); medicaid.ms.gov (404, site rebuild); gov.louisiana.gov/news, ldh.la.gov/news, and la.io RTCF results page (403 to automated fetch -- la.io itself loaded and confirmed RTCF Cohort 1 awards still not public); oklahoma.gov governor/newsroom and health newsroom search (no indexed October 2026 results); procurement portals not re-queried this run due to known JS/non-searchable walls (WI vendornet.wi.gov, MO missouribuys.mo.gov interactive search, MS ms.gov DFA bid grid, TX txsmartbuy.gov/esbd, OK ok.gov/dcs/solicit, LA LaPAC) -- no primary state program-home page was unreachable.",
+      "sources_checked": 70,
+      "sources_failed": 13,
+      "sources_failed_note": "AR: arkansas.gov/ark.gov procurement portal (DNS/connect_rejected). IL: il.amplifund.com Opportunities listing and bidbuy.illinois.gov (SSO/login walls, worked around via direct opportunity-detail URLs where possible); omb.illinois.gov CSFA pages (DNS/connect_rejected); icahn.org (DNS/connect_rejected). WI: vendornet.wi.gov (JS SPA, no content); dhs.wisconsin.gov/news/releases.htm (404). MO: missouribuys.mo.gov interactive bid search (JS, not queryable); memsa.org/rht-funding (empty content). TN: tn.gov/content/tn/health/procurement.html (HTTP 403); tndeptofhealth.caspio.app Partner Portal (JS SPA, empty). MS: medicaid.ms.gov (404, site rebuild); ms.gov DFA bid grid (JS, not queryable). LA: ldh.la.gov/news (JS-rendered nav only via curl); gov.louisiana.gov/news and LaPAC (JS/non-searchable). TX: txsmartbuy.gov/esbd (JS, not queryable). OK: ok.gov/dcs/solicit (JS, not queryable). cms.gov/newsroom/press-releases returned 404 (moved); worked around via cms.gov/newsroom and medicaid.gov/resources-for-states/rural-health. No primary state program-home page was unreachable.",
       "items_new": 0,
-      "items_updated": 0,
-      "email_sent": false,
-      "email_type": "none",
-      "note": "Quiet run: all ten states and federal sources checked directly (program-home pages, NOFO/resource pages, press rooms, TAGGS federal award records, web-search fallback) against seen.json by id/URL/title -- every item found (TX $78M/216-provider award and BP2 narrative submission, OK microgrant reconciliation and award-recipient pages, MS Innovative Pilot Program + EHR Replacement NOFOs + HIE/HDU RFP, LA Year-1 denial-notification deadline and RTCF Cohort 1 timeline, AR/IL/IN/WI/MO/TN program pages) matches an item already recorded, with no material change to amount, deadline, status, or recipient list. Watch items still open and racing the 2026-10-30 Year-1 obligation deadline: MS WEI/PES-EmPATH awards (not yet announced); LA six remaining Year-1 NOFO winner lists and RTCF Cohort 1 results (both overdue vs. their own stated timelines, no list posted); WI RTTF Round 1 / Coordinating Care Across Wisconsin awards (estimated notification October 2026, Advisory Council met/meets 2026-10-22, no result posted); MO IFB DSS26015 (~$40M Smart Growth & Service Line) with no closing date or awardee list stated; TX Initiatives 2/3/5 (patient portals, AI/telehealth, cybersecurity -- HIGH relevance) now showing an official HHSC timeline with estimated Nov 2026-Jan 2027 application windows, pushed later than the Oct-Dec 2026 window noted previously; CMS Budget Period 2 allocation announcements for all ten states expected around 2026-10-31."
+      "items_updated": 1,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "All ten states and federal sources checked directly (program-home pages, NOFO/resource pages, press rooms, TAGGS federal award records, web-search fallback) against seen.json by id/URL/title, cross-verified with an independent second pass for every state. New in LA only: LDH's Important Dates block now marks denial notifications for all six remaining Year 1 NOFOs as Completed (deadline was 2026-10-16) and confirms Notice of Intent to Contract Announcements went out 2026-10-02 for all six -- updates LA:deadline:denial-notifications-remaining-strategies-oct16; no public award list with names/amounts posted yet. AR, IL, IN, WI, MO, TN, MS, TX, OK, and Federal: confirmed no new or material changes. (An earlier same-day draft of this run record, produced by a sub-agent that overran its assigned scope, incorrectly logged this as a fully quiet run with no email; this entry corrects that.) Watch items carried forward, all racing or past the 2026-10-30 Year-1 obligation deadline: MS WEI/PES-EmPATH awards (window closing); LA's six remaining Year-1 NOFO public award lists (NOI confirmed sent 10-02, denial notices completed 10-16, but no recipient list yet) and LA Rural Tech Catalyst Fund Cohort 1 results (still 'anticipated mid-October', not yet announced); WI RTTF Round 1 awards (Advisory Council met/meets 2026-10-22, no result posted); MO IFB DSS26015 (~$40M) results; TN's ~8 remaining competitive grant lines; TX Initiatives 2/3/5 (patient portals/AI-telehealth/cybersecurity -- HIGH relevance) now showing an official HHSC timeline with estimated Nov 2026-Jan 2027 windows; TX/OK CMS Budget Period 2 allocation announcements expected ~2026-10-31."
     }
   ],
   "items": [
@@ -5387,10 +5387,10 @@
       "amount": "n/a",
       "recipients": "n/a",
       "deadline": "2026-10-16",
-      "status": "Upcoming \u2014 LDH's Important Dates block now states denial notifications for all remaining Year 1 strategies will be completed by 2026-10-16",
+      "status": "Completed. LDH's Important Dates block now marks denial notifications for all six remaining Year 1 strategies as Completed (deadline was 2026-10-16), and confirms Notice of Intent to Contract Announcements went out 2026-10-02 for the six remaining programs (Rural Collaborative Provider Models, Rural Medicaid APM, Regional Care Conveners & Navigation Networks, Food is Medicine, Telehealth Infrastructure for Rural Access, Rural Health Facilities Capital Improvement). No public award list with recipient names/amounts has been posted yet.",
       "description": "Signals that award/winner lists for the six remaining Year 1 NOFOs (incl. Telehealth Infrastructure, previously slated for Notice of Intent to Contract on 2026-10-02) should become public within days of this date.",
       "first_seen": "2026-10-14",
-      "last_updated": "2026-10-14"
+      "last_updated": "2026-10-20"
     },
     {
       "id": "FEDERAL:news:cms-2-3m-missouri-childcare-midwife",
