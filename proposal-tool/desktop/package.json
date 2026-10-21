@@ -1,0 +1,29 @@
+{
+  "name": "asp-proposal-builder",
+  "version": "1.0.0",
+  "description": "ALLSTAR Partners — ASP Proposal Builder (desktop)",
+  "author": "ALLSTAR Partners",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --mac"
+  },
+  "devDependencies": {
+    "electron": "^30.5.1",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.allstarpartners.aspproposalbuilder",
+    "productName": "ASP Proposal Builder",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.js", "preload.js", "renderer/**/*"],
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.business",
+      "icon": "build/icon.png"
+    },
+    "dmg": { "title": "ASP Proposal Builder" }
+  }
+}
