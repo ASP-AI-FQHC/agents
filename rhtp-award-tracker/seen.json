@@ -1,19 +1,8 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-20",
+  "last_run": "2026-10-21",
   "runs": [
-    {
-      "date": "2026-09-11",
-      "sources_checked": 31,
-      "sources_failed": 31,
-      "sources_failed_note": "Direct WebFetch and curl calls to all state/federal source domains again returned EGRESS_BLOCKED / CONNECT tunnel 403 from the network egress proxy (confirmed via /__agentproxy/status and a direct curl test). Re-checked via WebSearch using the sources.json fallback queries plus targeted follow-ups on baseline open items: IN GROW regions 2/3/4/8 (still unannounced), WI Rural Technology Transformation Fund Round 1 awardees (still pending, estimated Sept 2026), IL Hospital Transformation Planning Grant awardee list (not yet published), IL Community Care Infrastructure / Healthcare Transformation Collaboratives NOFO deadlines (still unconfirmed), AR RISE/HEART NOFOs (still not opened), and IL/WI/IN procurement portals (no new RHTP-tagged solicitations found).",
-      "items_new": 0,
-      "items_updated": 0,
-      "email_sent": false,
-      "email_type": null,
-      "note": "One new document surfaced (CMS press release dated 2026-09-03, 'Trump Administration Announces $120 Million to Expand Maternal and Infant Health Services... Across Indiana', https://www.cms.gov/newsroom/press-releases/trump-administration-announces-120-million-expand-maternal-infant-health-services-increase-primary) but it restates the same $120M GROW Regional Grants tranche, program description, and 8-region structure already captured in the baseline (regions 1/5/6/7 awards, applications-open notice) with no new amount, recipient, or deadline -- treated as not material and not added as a tracked item or emailed."
-    },
     {
       "date": "2026-09-14",
       "sources_checked": 31,
@@ -332,6 +321,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "All ten states and federal sources checked directly (program-home pages, NOFO/resource pages, press rooms, TAGGS federal award records, web-search fallback) against seen.json by id/URL/title, cross-verified with an independent second pass for every state. New in LA only: LDH's Important Dates block now marks denial notifications for all six remaining Year 1 NOFOs as Completed (deadline was 2026-10-16) and confirms Notice of Intent to Contract Announcements went out 2026-10-02 for all six -- updates LA:deadline:denial-notifications-remaining-strategies-oct16; no public award list with names/amounts posted yet. AR, IL, IN, WI, MO, TN, MS, TX, OK, and Federal: confirmed no new or material changes. (An earlier same-day draft of this run record, produced by a sub-agent that overran its assigned scope, incorrectly logged this as a fully quiet run with no email; this entry corrects that.) Watch items carried forward, all racing or past the 2026-10-30 Year-1 obligation deadline: MS WEI/PES-EmPATH awards (window closing); LA's six remaining Year-1 NOFO public award lists (NOI confirmed sent 10-02, denial notices completed 10-16, but no recipient list yet) and LA Rural Tech Catalyst Fund Cohort 1 results (still 'anticipated mid-October', not yet announced); WI RTTF Round 1 awards (Advisory Council met/meets 2026-10-22, no result posted); MO IFB DSS26015 (~$40M) results; TN's ~8 remaining competitive grant lines; TX Initiatives 2/3/5 (patient portals/AI-telehealth/cybersecurity -- HIGH relevance) now showing an official HHSC timeline with estimated Nov 2026-Jan 2027 windows; TX/OK CMS Budget Period 2 allocation announcements expected ~2026-10-31."
+    },
+    {
+      "date": "2026-10-21",
+      "sources_checked": 77,
+      "sources_failed": 15,
+      "sources_failed_note": "AR: www.arkansas.gov/ark.org procurement (proxy connect_rejected, host not allowed). IL: il.amplifund.com Public/Opportunities listing (SSO/login wall; worked around via direct NOFO detail pages); omb.illinois.gov CSFA and icahn.org remain proxy-blocked. IN: in.gov/gov/newsroom and events.in.gov (JS-rendered, no listing content via fetch); October newsletter link proxy-blocked. WI: dhs.wisconsin.gov/news/releases.htm (404); vendornet.wi.gov (JS SPA, empty); publicmeetings.wi.gov DNS failure; several dhs.wisconsin.gov /node and /contracts pages return 403 to bots. MO: missouribuys.mo.gov bid board (JS, not queryable). TN: tndeptofhealth.caspio.app Partner Portal (JS SPA, empty). MS: medicaid.ms.gov (404, site rebuild); ms.gov DFA bid grid (JS, no rows via static fetch). LA: gov.louisiana.gov/news (JS-rendered list, inconclusive); legis.la.gov proxy-blocked. TX: txsmartbuy.gov/esbd (JS, not queryable). OK: health/news-events/newsroom.html and governor/newsroom.html (JS-filtered, no listing content); ok.gov/dcs/solicit (landing page only, search sub-page not reached). CMS: cms.gov/newsroom/press-releases (404, still moved); worked around via cms.gov/newsroom and medicaid.gov/resources-for-states/rural-health.",
+      "items_new": 5,
+      "items_updated": 1,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "All ten states and federal sources checked directly, each cross-referenced against seen.json by id/URL/title via a dedicated per-state research pass, plus the standard 3 web-search-fallback queries per state (last ~4 days) and 3 federal queries. New in LA (1): H.E.R.O. Fund Round 3 application window opened 2026-10-20 (LA:news:hero-fund-round3-applications) \u2014 RHTP funding not confirmed in the source, reported per guardrail on ambiguous RHTP-funded items, low relevance. New in OK (4) + 1 update: OHCA EHR Expansion Vendor RFI opened 2026-10-15, deadline 2026-12-01 (HIGH relevance); RHTP Legislative Quarterly Report Q3 published 2026-10-16, confirming the 2026-10-30 Year-1 obligation deadline and a CMS Budget Period 2 announcement expected by 2026-10-31, and flagging an RPM maternal-health vendor RFP 'in progress' but not yet posted (watch next run); SWODA Transportation Expansion vehicle procurement completed, 20 vehicles to 12 transit agencies (low relevance); HWTC Rural Relocation Incentives, 10 behavioral-health providers awarded with 20 more pending (low relevance); and an UPDATE to the tracked Pulsara EMS platform item with new statewide adoption metrics (174 sites signed up, 86 active in the last 30 days) (HIGH relevance). AR, IL, IN, WI, MO, TN, TX, and Federal: confirmed no new or material changes (the one CMS press release the federal pass flagged, a $78M Texas RHTP release dated 2026-10-15, was cross-checked and found already tracked under TX:award:78m-recipients-oct15, so not reported as new). One MS candidate was investigated and NOT added: a closed RFI (responses were due 2026-09-09) sourced only from a third-party bid aggregator (bidbanana.thebidlab.com) that the research pass could not independently verify against a primary source after the aggregator and a corroborating site were both proxy-blocked on retry; excluded per the guardrail to prefer missing an ambiguous item over reporting an unverifiable one, and it would not have been actionable (window already closed). Watch items carried forward, most racing the 2026-10-30 Year-1 obligation deadline: MS WEI/PES-EmPATH awards (window Oct 14-29, still unannounced as of today); LA's six remaining Year-1 NOFO public award lists (NOI confirmed sent 10-02, denial notices completed 10-16, still no recipient list) and LA Rural Tech Catalyst Fund Cohort 1 results (said 'anticipated mid-October', now overdue as of today with nothing posted); WI RTTF Round 1 awards (Advisory Council meets 2026-10-22, no result posted yet); MO IFB DSS26015 (~$40M) results and Virtual Care Expansion RFI outcome; TN's ~8 remaining competitive grant lines and the RFA 34347-39627 Perinatal Behavioral Health Workforce outcome; TX Initiatives 2/3/5 (patient portals/AI-telehealth/cybersecurity \u2014 HIGH relevance) still unopened, official HHSC timeline unchanged; TX/OK CMS Budget Period 2 allocation announcements expected ~2026-10-31; OK RPM maternal-health vendor RFP 'in progress', not yet posted."
     }
   ],
   "items": [
@@ -3651,11 +3651,11 @@
       "amount": "Contract confirmed at $3,790,000 (per the CMS RHTP Obligated Funds Report, as of 2026-07-31); draws on the EMS Centralization sub-initiative's Budget Period 1 allocation of $4,500,000",
       "recipients": "All Oklahoma hospitals and Fire/EMS agencies (offered at no cost to them); vendor Pulsara, procured via existing OMES Statewide Contract #1041 through Carahsoft",
       "deadline": "n/a \u2014 rolling sign-up, implemented in waves",
-      "status": "Active; statewide rollout underway (Oklahoma Hospital Association held a webinar on the platform in June 2026)",
+      "status": "Active; statewide rollout underway. Per RHTP Legislative Quarterly Report Q3 (as of approximately 2026-09-30): 174 sites signed up statewide, 86 sites with patient activity in the last 30 days.",
       "description": "OSDH selected and is funding Pulsara \u2014 a HIPAA-compliant platform connecting EMS, hospitals, specialists and public health agencies for live communication, patient handoff, image sharing and time-sensitive workflows (STEMI/trauma/stroke/mass-casualty) \u2014 as the vendor for RHTP's EMS Centralization sub-initiative.",
       "why_it_matters": "HIGH relevance \u2014 a named, RHTP-funded, statewide health-IT/EMS-interoperability vendor deployment; useful competitive intel on which vendor already won this lane in Oklahoma.",
       "first_seen": "2026-09-24",
-      "last_updated": "2026-10-14"
+      "last_updated": "2026-10-21"
     },
     {
       "id": "OK:nofo:osde-project-695-medicaid-billing",
@@ -5469,6 +5469,76 @@
       "description": "HHSC's program page lists Aug 28, 2026 as the date it submitted Budget Period 2 revised budget narrative, revised project narrative, and the Budget Period 1 Annual Report to CMS -- a procedural step ahead of CMS's expected Budget Period 2 state-allocation announcement (~2026-10-31, consistent with OK's already-tracked BP2 timing watch item). No BP2 dollar figure announced for Texas or Oklahoma as of 2026-10-19. Predates this run's gap window but was not previously captured.",
       "first_seen": "2026-10-19",
       "last_updated": "2026-10-19"
+    },
+    {
+      "id": "LA:news:hero-fund-round3-applications",
+      "type": "news",
+      "title": "LDH Opens Third Round of H.E.R.O. Fund Applications",
+      "url": "https://ldh.la.gov/news/herofund-applications-round3",
+      "amount": "amount not stated (Round 1 was approximately $15M, Round 2 approximately $6M)",
+      "recipients": "not yet announced \u2014 applicant pairs of a healthcare education/training program plus an industry partner, with required dollar-for-dollar match",
+      "deadline": "Applications due 5:00 p.m. CT, 2026-11-19 (questions due 2026-11-11); grant period 2027-07-01 to 2029-06-30; awards expected spring 2027",
+      "status": "Application window opened 2026-10-20; RHTP funding not confirmed \u2014 unlike Round 2, this announcement does not explicitly tie the round to RHTP",
+      "description": "LDH's Health Care Employment Reinvestment Opportunity (H.E.R.O.) Fund opened its third competitive round of matching grants for healthcare workforce training/education partnerships (nursing, allied health, high-demand occupations).",
+      "why_it_matters": "Low relevance \u2014 a healthcare workforce training matching-grant program, not clinical IT, telehealth, or EHR infrastructure; RHTP funding not confirmed for this round.",
+      "first_seen": "2026-10-21",
+      "last_updated": "2026-10-21"
+    },
+    {
+      "id": "OK:solicitation:ohca-ehr-expansion-vendor-rfi",
+      "type": "solicitation",
+      "title": "OHCA EHR Expansion Vendor RFI (Year 1)",
+      "url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html",
+      "amount": "amount not stated",
+      "recipients": "not stated \u2014 open to EHR vendors responding to the RFI",
+      "deadline": "2026-12-01, 11:59 p.m. CST",
+      "status": "Open as of 2026-10-15 (per RHTP Legislative Quarterly Report Q3)",
+      "description": "OHCA is soliciting information from EHR vendors to support the rural EHR Expansion sub-initiative under RHTP's OKSHINE program. This is a vendor-facing RFI, distinct from the already-tracked provider-facing OHCA HIE & EHR Assistance (Year 1) application.",
+      "why_it_matters": "High relevance \u2014 a live, RHTP-funded EHR vendor solicitation, core to Allstar's health-IT/EHR interoperability practice.",
+      "first_seen": "2026-10-21",
+      "last_updated": "2026-10-21"
+    },
+    {
+      "id": "OK:news:legislative-quarterly-report-q3",
+      "type": "news",
+      "title": "RHTP Legislative Quarterly Report \u2014 Q3 2026 (Jul 1-Sep 30, 2026) Published",
+      "url": "https://oklahoma.gov/content/dam/ok/en/rhtp/documents/legislative-reports/10-16-26%20RHTP%20Legislative%20Quarterly%20Report_Q3.pdf",
+      "amount": "n/a \u2014 program-wide report covering all 29 RHTP programs' Year 1 allocation, obligated amount, and spend-to-date",
+      "recipients": "n/a",
+      "deadline": "n/a",
+      "status": "Published/updated 2026-10-16",
+      "description": "OSDH's quarterly legislative report on RHTP program status. Confirms Year 1 funds must be obligated by 2026-10-30 and that CMS's Budget Period 2 funding announcement is expected by 2026-10-31. Also notes an RPM vendor RFP for a maternal-health blood-pressure-cuff program is 'in progress' but not yet posted.",
+      "why_it_matters": "High relevance \u2014 the single best consolidated source on obligation status and pending/active vendor solicitations across the whole Oklahoma RHTP program; also the source for two award items below.",
+      "first_seen": "2026-10-21",
+      "last_updated": "2026-10-21"
+    },
+    {
+      "id": "OK:award:transportation-expansion-swoda-vehicles",
+      "type": "award",
+      "title": "Transportation Expansion \u2014 SWODA Competitive Vehicle Procurement Completed",
+      "url": "https://oklahoma.gov/content/dam/ok/en/rhtp/documents/legislative-reports/10-16-26%20RHTP%20Legislative%20Quarterly%20Report_Q3.pdf",
+      "amount": "part of Transportation Expansion's $2,651,000 Year 1 allocation (fully obligated); no per-vehicle figure stated",
+      "recipients": "20 vehicles awarded to 12 rural transit agencies (not individually named)",
+      "deadline": "n/a \u2014 procurement completed",
+      "status": "Completed, per RHTP Legislative Quarterly Report Q3 (2026-10-16)",
+      "description": "SW Oklahoma Development Authority (SWODA) completed a competitive vehicle procurement under RHTP's Transportation Expansion initiative, awarding 20 vehicles to 12 transit agencies, alongside the already-tracked mileage-reimbursement voucher program.",
+      "why_it_matters": "Low relevance \u2014 fleet/transportation procurement, not health IT or cybersecurity.",
+      "first_seen": "2026-10-21",
+      "last_updated": "2026-10-21"
+    },
+    {
+      "id": "OK:award:rural-relocation-incentives-bh-providers",
+      "type": "award",
+      "title": "HWTC Rural Relocation Incentives \u2014 10 Behavioral Health Providers Awarded",
+      "url": "https://oklahoma.gov/content/dam/ok/en/rhtp/documents/legislative-reports/10-16-26%20RHTP%20Legislative%20Quarterly%20Report_Q3.pdf",
+      "amount": "program Year 1 allocation $713,532 (fully obligated); per-provider amounts not stated",
+      "recipients": "10 behavioral health providers awarded relocation support; 20 additional providers selected, to serve rural areas by 2027-02",
+      "deadline": "n/a",
+      "status": "10 awarded as of RHTP Legislative Quarterly Report Q3 (2026-10-16); 20 more pending",
+      "description": "Health Workforce Training Commission (HWTC) relocation-incentive program for behavioral health providers moving to rural Oklahoma.",
+      "why_it_matters": "Low relevance \u2014 a workforce relocation incentive program, not a technology/cybersecurity engagement.",
+      "first_seen": "2026-10-21",
+      "last_updated": "2026-10-21"
     }
   ]
 }
