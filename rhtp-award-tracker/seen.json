@@ -1,19 +1,8 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-21",
+  "last_run": "2026-10-22",
   "runs": [
-    {
-      "date": "2026-09-14",
-      "sources_checked": 31,
-      "sources_failed": 31,
-      "sources_failed_note": "Direct WebFetch and curl to all 31 state/federal source domains again returned EGRESS_BLOCKED / connect_rejected from the network egress proxy (confirmed via a live WebFetch test on arkansasrhtp.com and a curl test against the same host before falling back). All findings this run came from WebSearch using the sources.json fallback queries plus targeted follow-ups on baseline open items: IN GROW regions 2/4/8 (still unannounced), WI Rural Technology Transformation Fund Round 1 awardees (award notification still estimated September 2026, list not yet published), IL Hospital Transformation Planning Grant awardee list (still not published), IL Community Care Infrastructure / Healthcare Transformation Collaboratives NOFO deadlines (still unconfirmed), AR RISE/HEART NOFOs (still not opened per arkansasrhtp.com), and AR/IL/WI procurement portals (no new RHTP-tagged solicitations found).",
-      "items_new": 1,
-      "items_updated": 1,
-      "email_sent": true,
-      "email_type": "alert",
-      "note": "New: Indiana announced GROW Regional Grant Region 3 (west-central Indiana, 8 counties) at $9.7M on 2026-09-11, the 5th of 8 regions confirmed. Updated the existing 'regions 2/3/4/8 unconfirmed' placeholder item to drop Region 3 (now confirmed) and reflect that only Regions 2, 4, and 8 remain unannounced. No new/updated items found for AR, IL, WI, or Federal since the 2026-09-11 run -- the CMS press-release recycling pattern (same AR $149.3M and IN $120M figures reappearing under new headlines) continued but was confirmed non-material and not re-reported."
-    },
     {
       "date": "2026-09-15",
       "sources_checked": 31,
@@ -332,6 +321,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "All ten states and federal sources checked directly, each cross-referenced against seen.json by id/URL/title via a dedicated per-state research pass, plus the standard 3 web-search-fallback queries per state (last ~4 days) and 3 federal queries. New in LA (1): H.E.R.O. Fund Round 3 application window opened 2026-10-20 (LA:news:hero-fund-round3-applications) \u2014 RHTP funding not confirmed in the source, reported per guardrail on ambiguous RHTP-funded items, low relevance. New in OK (4) + 1 update: OHCA EHR Expansion Vendor RFI opened 2026-10-15, deadline 2026-12-01 (HIGH relevance); RHTP Legislative Quarterly Report Q3 published 2026-10-16, confirming the 2026-10-30 Year-1 obligation deadline and a CMS Budget Period 2 announcement expected by 2026-10-31, and flagging an RPM maternal-health vendor RFP 'in progress' but not yet posted (watch next run); SWODA Transportation Expansion vehicle procurement completed, 20 vehicles to 12 transit agencies (low relevance); HWTC Rural Relocation Incentives, 10 behavioral-health providers awarded with 20 more pending (low relevance); and an UPDATE to the tracked Pulsara EMS platform item with new statewide adoption metrics (174 sites signed up, 86 active in the last 30 days) (HIGH relevance). AR, IL, IN, WI, MO, TN, TX, and Federal: confirmed no new or material changes (the one CMS press release the federal pass flagged, a $78M Texas RHTP release dated 2026-10-15, was cross-checked and found already tracked under TX:award:78m-recipients-oct15, so not reported as new). One MS candidate was investigated and NOT added: a closed RFI (responses were due 2026-09-09) sourced only from a third-party bid aggregator (bidbanana.thebidlab.com) that the research pass could not independently verify against a primary source after the aggregator and a corroborating site were both proxy-blocked on retry; excluded per the guardrail to prefer missing an ambiguous item over reporting an unverifiable one, and it would not have been actionable (window already closed). Watch items carried forward, most racing the 2026-10-30 Year-1 obligation deadline: MS WEI/PES-EmPATH awards (window Oct 14-29, still unannounced as of today); LA's six remaining Year-1 NOFO public award lists (NOI confirmed sent 10-02, denial notices completed 10-16, still no recipient list) and LA Rural Tech Catalyst Fund Cohort 1 results (said 'anticipated mid-October', now overdue as of today with nothing posted); WI RTTF Round 1 awards (Advisory Council meets 2026-10-22, no result posted yet); MO IFB DSS26015 (~$40M) results and Virtual Care Expansion RFI outcome; TN's ~8 remaining competitive grant lines and the RFA 34347-39627 Perinatal Behavioral Health Workforce outcome; TX Initiatives 2/3/5 (patient portals/AI-telehealth/cybersecurity \u2014 HIGH relevance) still unopened, official HHSC timeline unchanged; TX/OK CMS Budget Period 2 allocation announcements expected ~2026-10-31; OK RPM maternal-health vendor RFP 'in progress', not yet posted."
+    },
+    {
+      "date": "2026-10-22",
+      "sources_checked": 66,
+      "sources_failed": 19,
+      "sources_failed_note": "AR: www.ark.org procurement (proxy-blocked) and icahn.org (proxy-blocked), both persistent; senate.arkansas.gov bot-check placeholder; illinois.gov news search no results; il.amplifund.com SSO wall (worked around via direct NOFO pages); bidbuy.illinois.gov login wall. IN: resources page only partially read (JS-heavy, 100k/218k chars). WI: news/releases.htm 404; vendornet.wi.gov JS SPA empty. MO: missouribuys.mo.gov JS SPA (home and bid-board); govdelivery bulletin page shows only the single linked bulletin, no index. TN: Caspio Partner Portal not fetched (known-dead JS SPA). MS: medicaid.ms.gov 404 (site rebuild); governorreeves.ms.gov/newsroom/ only page 1 of 89 reachable. LA: la.io/rural bot-verification wall; ldh.la.gov/page/rhtp-funding-opportunities showed stale cached deadlines not reflecting the Oct 2 NOI update (likely cache artifact, not reported as a change). TX: dshs.texas.gov PDF proxy-blocked; insider.govtech.com proxy-blocked; resources.hhs.texas.gov/rfa has no RHTP-relevant RFAs listed. OK: governor/newsroom.html and health newsroom both JS-filtered, no Oct entries visible. CMS: cms.gov/newsroom/press-releases 404 (worked around via cms.gov/newsroom).",
+      "items_new": 2,
+      "items_updated": 1,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in MS only (2): Governor Reeves announced 60 RHTP awards totaling $32,606,496.32 on 2026-10-21 \u2014 57 Workforce Expansion Initiative awards ($19.29M, 4 sub-programs: recruitment/ecosystem, secondary-ed outreach, preceptor expansion, earn-while-you-learn) and 3 Psychiatric Emergency Services/EmPATH Unit awards ($13.32M to Merit Health Central/Jackson MHA, Memorial Hospital at Gulfport, and UMMC Greenwood Hospital). This closes out the previously-tracked MS:deadline:wei-pes-empath-pending watch item, updated accordingly. AR, IL, IN, WI, MO, TN, LA, TX, OK, and Federal: confirmed no new or material changes via direct source fetches plus web-search fallback (5 parallel per-state-group research passes: AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). WI's RHTP Advisory Council met today (2026-10-22) per a posted agenda on publicmeetings.wi.gov, but the agenda content was not fetchable (JS-rendered) \u2014 this is the most likely venue for WI's long-overdue RTTF Round 1 award results; worth checking directly next run. Watch items carried forward, most still racing or past the 2026-10-30 Year-1 obligation deadline: LA's six remaining Year-1 NOFO public award lists (NOI confirmed 10-02, denial notices completed 10-16, still no recipient list, now ~6 days past that stage) and LA Rural Tech Catalyst Fund Cohort 1 results (said 'mid-October', still unconfirmed); WI RTTF Round 1 awards (Advisory Council met today, result not yet confirmed); MO IFB DSS26015 (~$40M) and Virtual Care Expansion RFI outcomes; TN's ~8 remaining competitive grant lines and RFA 34347-39627 (Perinatal Behavioral Health Workforce) outcome; TX Initiatives 2/3/5 (patient portals/AI-telehealth/cybersecurity \u2014 HIGH relevance) still unopened per HHSC's official timeline (est. Jan 2027 deadlines); TX/OK CMS Budget Period 2 allocation announcements expected ~2026-10-31; OK's RPM maternal-health vendor RFP still 'in progress', not yet posted; MS's newly-opened NOFOs (Innovative Pilot Program Grant, EHR Replacement for Small Rural Providers, Statewide HIE/HDU RFP) still mid-application-window."
     }
   ],
   "items": [
@@ -1732,12 +1732,12 @@
       "title": "WEI & PES-EmPATH Awards Pending",
       "url": "https://vicksburgnews.com/health-announcement-warren-county-health-services-to-benefit-from-gov/",
       "amount": "WEI $16.8M across 4 workforce-shortage grant programs; PES/EmPATH $14M for ED-based crisis units",
-      "recipients": "not yet announced",
+      "recipients": "See MS:award:wei-workforce-grants-oct21 and MS:award:pes-empath-units-oct21",
       "deadline": "~30-45 days from 2026-09-14, i.e. roughly Oct 14-29, 2026 (per Mississippi Today; narrows prior 'late Oct 2026' estimate)",
-      "status": "Under review; dollar figures now confirmed (previously amount not stated)",
+      "status": "Awarded 2026-10-21 (57 WEI awards $19,290,464.32 + 3 EmPATH awards $13,316,032.00 = $32,606,496.32 total, 60 awards)",
       "description": "Workforce Expansion Initiative and Psychiatric Emergency Services/EmPATH Units grant decisions pending; first-round MS RHTP budget also reported increased from ~$80M to $104M planned due to high demand.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-21"
+      "last_updated": "2026-10-22"
     },
     {
       "id": "MS:solicitation:ems-capacity-assessment-rfp",
@@ -5539,6 +5539,34 @@
       "why_it_matters": "Low relevance \u2014 a workforce relocation incentive program, not a technology/cybersecurity engagement.",
       "first_seen": "2026-10-21",
       "last_updated": "2026-10-21"
+    },
+    {
+      "id": "MS:award:wei-workforce-grants-oct21",
+      "type": "award",
+      "title": "Workforce Expansion Initiative (WEI) \u2014 57 Awards Across 4 Programs",
+      "url": "https://governorreeves.ms.gov/governor-reeves-announces-60-rural-health-transformation-program-awards-totaling-32-6-million/",
+      "amount": "$19,290,464.32 total (Workforce Recruitment & Sustainable Ecosystem Development $6,207,040.92/20 awards; Secondary Education Medical Career Outreach $1,012,835.34/4 awards; Preceptor Expansion $3,019,993.00/12 awards; Earn While You Learn $9,050,595.06/21 awards)",
+      "recipients": "57 organizations statewide (full list in source)",
+      "deadline": "n/a",
+      "status": "Announced 2026-10-21",
+      "description": "First awards under MS RHTP's Workforce Expansion Initiative, funding recruitment, preceptor expansion, secondary-school medical career outreach, and earn-while-you-learn training pipelines for rural providers.",
+      "why_it_matters": "Low relevance \u2014 workforce/training grants, not a technology or cybersecurity engagement, though sub-awardees may need compliance/reporting support.",
+      "first_seen": "2026-10-22",
+      "last_updated": "2026-10-22"
+    },
+    {
+      "id": "MS:award:pes-empath-units-oct21",
+      "type": "award",
+      "title": "Psychiatric Emergency Services (EmPATH Units) \u2014 3 Awards",
+      "url": "https://governorreeves.ms.gov/governor-reeves-announces-60-rural-health-transformation-program-awards-totaling-32-6-million/",
+      "amount": "$13,316,032.00 total \u2014 Merit Health Central/Jackson MHA, LLC (Hinds County) $4,500,000.00; Memorial Hospital at Gulfport (Harrison County) $4,496,000.00; UMMC Greenwood Hospital (Leflore County) $4,320,032.00",
+      "recipients": "Merit Health Central/Jackson MHA LLC; Memorial Hospital at Gulfport; UMMC Greenwood Hospital",
+      "deadline": "n/a",
+      "status": "Announced 2026-10-21",
+      "description": "Capital/operational funding to stand up psychiatric emergency (EmPATH) units at three rural-serving hospitals.",
+      "why_it_matters": "Medium relevance \u2014 EmPATH units typically require clinical data/interoperability integration; worth flagging as a vendor-engagement watch item, not core IT spend on its face.",
+      "first_seen": "2026-10-22",
+      "last_updated": "2026-10-22"
     }
   ]
 }
