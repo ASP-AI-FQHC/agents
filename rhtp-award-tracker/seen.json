@@ -1,19 +1,8 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-22",
+  "last_run": "2026-10-23",
   "runs": [
-    {
-      "date": "2026-09-15",
-      "sources_checked": 31,
-      "sources_failed": 31,
-      "sources_failed_note": "Direct WebFetch and curl to all 31 state/federal source domains again returned EGRESS_BLOCKED / connect_rejected from the network egress proxy (confirmed via /__agentproxy/status showing no relay failures yet a live curl test to arkansasrhtp.com and www.dhs.wisconsin.gov both failed with 'CONNECT tunnel failed, response 403'). All findings this run came from WebSearch using the sources.json fallback queries plus targeted follow-ups on every baseline open item: AR RISE and HEART NOFOs (see items_updated -- both actually opened and closed months ago, contradicting the 2026-09-10/09-11/09-14 runs' 'not yet opened' status, which appears to have been stale/unverified rather than re-checked against a live page each run), WI Rural Dental Efficiency & Access Grants award list (still not published), WI Rural Technology Transformation Fund Round 1 awardees (still not published, notification still 'estimated September 2026'), IL Hospital Transformation Planning Grant awardee list (still not published) and IL Implementation Grants Years 2-5 window (still unannounced), and IN GROW Regions 2/4/8 (still no press coverage found; 5 of 8 regions now confirmed).",
-      "items_new": 0,
-      "items_updated": 2,
-      "email_sent": true,
-      "email_type": "alert",
-      "note": "Updated AR:nofo:rise-nofo-pending and AR:nofo:heart-nofo-pending: both RISE AR and HEART AR NOFOs are confirmed to have opened and closed (RISE AR opened 2026-06-22, closed 2026-07-24, with sub-initiative ceilings LEAD $4.3M/PATHWAY $7.0M/RETAIN $14.4M/SKILL-UP $1.6M per the rhtp.amemobile.net opportunity page; HEART AR closed 2026-07-10, open date not confirmed). No award list published yet for either. No other new/updated items found for AR, IL, IN, WI, or Federal this run."
-    },
     {
       "date": "2026-09-15",
       "sources_checked": 60,
@@ -332,6 +321,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in MS only (2): Governor Reeves announced 60 RHTP awards totaling $32,606,496.32 on 2026-10-21 \u2014 57 Workforce Expansion Initiative awards ($19.29M, 4 sub-programs: recruitment/ecosystem, secondary-ed outreach, preceptor expansion, earn-while-you-learn) and 3 Psychiatric Emergency Services/EmPATH Unit awards ($13.32M to Merit Health Central/Jackson MHA, Memorial Hospital at Gulfport, and UMMC Greenwood Hospital). This closes out the previously-tracked MS:deadline:wei-pes-empath-pending watch item, updated accordingly. AR, IL, IN, WI, MO, TN, LA, TX, OK, and Federal: confirmed no new or material changes via direct source fetches plus web-search fallback (5 parallel per-state-group research passes: AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). WI's RHTP Advisory Council met today (2026-10-22) per a posted agenda on publicmeetings.wi.gov, but the agenda content was not fetchable (JS-rendered) \u2014 this is the most likely venue for WI's long-overdue RTTF Round 1 award results; worth checking directly next run. Watch items carried forward, most still racing or past the 2026-10-30 Year-1 obligation deadline: LA's six remaining Year-1 NOFO public award lists (NOI confirmed 10-02, denial notices completed 10-16, still no recipient list, now ~6 days past that stage) and LA Rural Tech Catalyst Fund Cohort 1 results (said 'mid-October', still unconfirmed); WI RTTF Round 1 awards (Advisory Council met today, result not yet confirmed); MO IFB DSS26015 (~$40M) and Virtual Care Expansion RFI outcomes; TN's ~8 remaining competitive grant lines and RFA 34347-39627 (Perinatal Behavioral Health Workforce) outcome; TX Initiatives 2/3/5 (patient portals/AI-telehealth/cybersecurity \u2014 HIGH relevance) still unopened per HHSC's official timeline (est. Jan 2027 deadlines); TX/OK CMS Budget Period 2 allocation announcements expected ~2026-10-31; OK's RPM maternal-health vendor RFP still 'in progress', not yet posted; MS's newly-opened NOFOs (Innovative Pilot Program Grant, EHR Replacement for Small Rural Providers, Statewide HIE/HDU RFP) still mid-application-window."
+    },
+    {
+      "date": "2026-10-23",
+      "sources_checked": 68,
+      "sources_failed": 18,
+      "sources_failed_note": "AR: www.ark.org procurement proxy-blocked (persistent). IL: icahn.org and omb.illinois.gov newly proxy-blocked this run (worked in prior runs); il.amplifund.com SSO wall; bidbuy.illinois.gov not exhaustively paged. IN: no failures of note. WI: publicmeetings.wi.gov DNS-blocked again (2nd consecutive run) \u2014 could not read the 10-22 RHTP Advisory Council agenda, the most likely venue for overdue RTTF Round 1 results; 5 DHS grant-detail contract pages 403'd. MO: mohospitals.org DNS/proxy-blocked; MissouriBUYS JS SPA still unreadable; GovDelivery bulletin archive/index returns 404. TN: 4 tn.gov pages 403'd to WebFetch, recovered via curl fallback; Caspio Partner Portal still JS-unreadable. MS: medicaid.ms.gov still 404 (site rebuild); DFA bid portal search interface only, no server-side keyword search executed. LA: ldh.la.gov pages 403 to WebFetch, recovered via curl with browser UA; gov.louisiana.gov/news is JS-rendered, press list not retrievable; LaPAC search not executed against live listings. TX: no significant failures this run. OK: governor newsroom still JS-filtered showing only 2025 items; OMES solicitation search landing page only, no query executed.",
+      "items_new": 4,
+      "items_updated": 3,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in MS, TX, OK (7 items total). MS (2 updates): Innovative Pilot Program Grant and EHR Replacement for Small Rural Providers NOFOs both opened their application windows exactly on their previously-scheduled dates (10-14 and 10-21) \u2014 no amount/deadline change, status only. TX (1 new, 1 update): $8.1M/28-provider Rural Texas Strong tranche announced 10-22 (Initiatives 1/4/6, no tech component); Initiative 2 (patient portals/RPM, HIGH relevance) deadline slipped again to 2027-01-12 and is still not open for applications. OK (3 new): Community Paramedicine Consulting RFP (due 11-18); OSU Tech Co-Op provider-enrollment NOFO for a shared rural PCP/BH technology-procurement cooperative (HIGH relevance, deadlines 12-01/12-15); and OK's Year 2 CMS budget narrative, which gives concrete BP2 EHR/HIE/analytics/EMS-tech dollar figures and confirms the long-watched RPM maternal-health vendor RFP is still in internal vendor-evaluation, not yet posted. AR, IL, IN, WI, LA, MO, TN, and Federal: confirmed no new or material changes via direct source fetches plus web-search fallback (5 parallel per-state-group research passes: AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Two candidate items were deliberately excluded as not meeting the bar: (1) a secondhand-only (primary sources blocked) news story about a CMS program-wide fund-commitment/clawback deadline (Oct 30, 2026) surfaced for WI \u2014 the deadline itself is already known/tracked across MO/TN/OK status notes, and the story could not be verified against a primary source, so it was not added; (2) a TN 'Stillbirth Funeral Assistance' RFA (due today) that appears to be Title V MCH Block Grant-funded rather than RHTP-funded, and has no tech/vendor angle even if RHTP-linked. Watch items carried forward: LA's six remaining Year-1 NOFO award lists and Rural Tech Catalyst Fund Cohort 1 results, both now overdue past their own stated timelines; WI RTTF Round 1 awards (still unannounced, publicmeetings.wi.gov unreachable 2 runs running); MO IFB DSS26015 and Virtual Care Expansion RFI outcomes; TN's ~8 remaining competitive grant-line awards; CMS Budget Period 2 (Year 2) allocation announcements expected ~2026-10-31 for all states, most urgently TX and OK; OK's RPM maternal-health vendor RFP (clarified this run as still pre-RFP); and the imminent 2026-10-30 Year-1 obligation deadline for MO, TN, and OK."
     }
   ],
   "items": [
@@ -2123,11 +2123,11 @@
       "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
       "amount": "amount not stated",
       "recipients": "Eligibility clarified: 2+ clinically integrated networks, ACOs, or similar cooperatives supporting hospitals, clinics/physicians, and behavioral health providers (each network >=60% rural)",
-      "deadline": "Timeline shifted again on HHSC's live table: applications now due 2027-01-05 (was 2026-11-30), Notice of Award 2027-03-08 (was 2027-02-28), contract routing 2027-07-06 (was 2027-04-30). Page now also lists an explicit program-start date of 2026-11-18. Still labeled 'ESTIMATED... subject to change.'",
+      "deadline": "Timeline shifted again on HHSC's live table: applications now due 2027-01-12 (was 2027-01-05), program-start date moved to 2026-11-09 (was 2026-11-18). Notice of Award 2027-03-08 and contract routing 2027-07-06 unchanged. Still labeled 'ESTIMATED... subject to change.'",
       "status": "Still confirmed NOT open as of 2026-10-09",
       "description": "Consumer-facing patient portal/RPM technology investment.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-09"
+      "last_updated": "2026-10-23"
     },
     {
       "id": "TX:nofo:initiative3-ai-telehealth",
@@ -5205,10 +5205,10 @@
       "amount": "Awards capped at $2,000,000 per entity; total program funding pool not stated",
       "recipients": "Not yet announced \u2014 application opens 2026-10-14",
       "deadline": "Opens 2026-10-14; due 2026-11-16 5:00pm CST; awardees expected ~January 2027",
-      "status": "Open (application window not yet started)",
+      "status": "Open \u2014 application window now active (opened 2026-10-14 as scheduled)",
       "description": "New MS RHTP NOFO under the BRIDGE initiative supporting integrated care delivery, school-based health, behavioral health partnerships, maternal/child health, nutrition, and workforce wellness via cross-sector collaboration. Eligible applicants: rural/critical access hospitals, post-acute providers, RHCs/FQHCs/community health centers, behavioral health providers, EMS/first responders, community-based orgs. One application per entity. NOFO explicitly excludes telehealth, EHR, broadband, and cybersecurity spend (funded under MS's separate HTAM/TAPS programs).",
       "first_seen": "2026-10-07",
-      "last_updated": "2026-10-07"
+      "last_updated": "2026-10-23"
     },
     {
       "id": "FEDERAL:news:cms-54-6m-arkansas-workforce-maternal-chronic-disease",
@@ -5374,10 +5374,10 @@
       "amount": "not stated",
       "recipients": "not yet announced",
       "deadline": "Opens 2026-10-21; applications due 2026-11-23, 5:00pm CST",
-      "status": "Upcoming \u2014 NOFO and application posted on the Resources hub 2026-10-13/14; listed as Open & Upcoming on the Funding page",
+      "status": "Open \u2014 application window now active (opened 2026-10-21 as scheduled)",
       "description": "New, specifically-named MS RHTP NOFO under the HTAM initiative funding replacement of outdated/non-certified EHR systems at small rural providers (data migration, workflow redesign, staff training, interoperability testing). Supersedes the previously-tracked placeholder item MS:nofo:october-2026-ehr-and-gap-opportunities.",
       "first_seen": "2026-10-14",
-      "last_updated": "2026-10-14"
+      "last_updated": "2026-10-23"
     },
     {
       "id": "LA:deadline:denial-notifications-remaining-strategies-oct16",
@@ -5567,6 +5567,58 @@
       "why_it_matters": "Medium relevance \u2014 EmPATH units typically require clinical data/interoperability integration; worth flagging as a vendor-engagement watch item, not core IT spend on its face.",
       "first_seen": "2026-10-22",
       "last_updated": "2026-10-22"
+    },
+    {
+      "id": "TX:award:8m-recipients-oct22",
+      "type": "award",
+      "title": "Gov. Abbott, HHSC Announce Recipients of $8 Million in Rural Texas Strong Grants",
+      "url": "https://www.hhs.texas.gov/news/2026/10/gov-abbott-hhsc-announce-recipients-8-million-rural-texas-strong-grants",
+      "amount": "$8,145,444.89",
+      "recipients": "28 rural healthcare providers (not individually named in the release)",
+      "deadline": "n/a",
+      "status": "Announced 2026-10-22",
+      "description": "Latest weekly Rural Texas Strong disbursement tranche, covering Initiatives 1 (Make Rural Texans Healthy Again), 4 (workforce), and 6 (Infrastructure and Capital Investments). No Initiative 2/3/5 (telehealth/RPM/AI/cybersecurity) component.",
+      "first_seen": "2026-10-23",
+      "last_updated": "2026-10-23"
+    },
+    {
+      "id": "OK:solicitation:community-paramedicine-consulting-rfp",
+      "type": "solicitation",
+      "title": "Community Paramedicine Consulting Services RFP",
+      "url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html",
+      "amount": "not stated",
+      "recipients": "open \u2014 mandatory statewide contract via OMES Central Purchasing; available to all state agencies and state affiliates",
+      "deadline": "3:00 PM CST, 2026-11-18",
+      "status": "Open",
+      "description": "RFP for a consultant to develop Oklahoma's Community Paramedicine deployment strategy and a path to a sustainable payment model, with possible extension to integrate other RHTP programs. Apply via the financials.ok.gov supplier portal.",
+      "first_seen": "2026-10-23",
+      "last_updated": "2026-10-23"
+    },
+    {
+      "id": "OK:nofo:osu-tech-coop-enrollment",
+      "type": "nofo",
+      "title": "Oklahoma RHTP Technology Cooperative \u2014 OSU Tech Co-Op Provider Enrollment",
+      "url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html",
+      "amount": "not stated \u2014 draws on the previously-tracked $13.8M Tech Co-Op for PCP & BH Providers and $3.3M Consumer-Facing Technology budget lines; enrollment does not guarantee funding, technology selection, or deployment",
+      "recipients": "not yet selected \u2014 open enrollment for rural primary-care and behavioral-health providers/clinics/care sites",
+      "deadline": "Provider Enrollment & Priority Interest Form and Technology Integration & Deployment Readiness Survey due 2026-12-01, 11:59 PM CST; Clinic/Site Profile Survey due 2026-12-15, 11:59 PM CST",
+      "status": "Open \u2014 enrollment phase",
+      "description": "OSU's Oklahoma Rural Health Research, Innovation and Deployment Network (ORHRIDN) is running a shared technology-purchasing/implementation cooperative for rural PCP/behavioral-health providers; ORHRIDN identifies, evaluates, and coordinates procurement of technology for participating sites. Forms hosted at okstatebusiness.az1.qualtrics.com.",
+      "first_seen": "2026-10-23",
+      "last_updated": "2026-10-23"
+    },
+    {
+      "id": "OK:document:year2-budget-narrative",
+      "type": "document",
+      "title": "Oklahoma RHTP Year 2 (Budget Period 2) Budget Narrative submitted to CMS",
+      "url": "https://oklahoma.gov/content/dam/ok/en/rhtp/documents/year-2/OK_Y2%20Budget%20Narrative.pdf",
+      "amount": "5-year (FY2026-FY2030) total request $1,046,953,897.24; Year 2 total project cost $223,476,948.62 (flat repeat of Year 1 award, per CMS guidance). Notable Year 2 sub-lines: OHCA EHR expansion $12,360,000 (up from $5.5M in BP1); OHCA HIE expansion $5,850,000; OHCA Data & Analytics $2,140,000; OHCA RPM/maternal blood-pressure-cuff program $762,000; Carahsoft EMS Centralization/Pulsara $3,790,000 (continuing); Rural Health Collaborative Nonprofit $36,073,099",
+      "recipients": "n/a \u2014 state-level budget planning document, not an award list",
+      "deadline": "n/a \u2014 submitted to CMS 2026-08-27 (due 2026-08-31)",
+      "status": "Submitted",
+      "description": "First primary-source look at Oklahoma's Year 2 spending plan. Confirms the RPM maternal-health blood-pressure-cuff vendor program is still in internal design/vendor-evaluation for Year 2 and has not yet become an open RFP.",
+      "first_seen": "2026-10-23",
+      "last_updated": "2026-10-23"
     }
   ]
 }
