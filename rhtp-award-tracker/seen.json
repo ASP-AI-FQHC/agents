@@ -1,19 +1,8 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-23",
+  "last_run": "2026-10-26",
   "runs": [
-    {
-      "date": "2026-09-15",
-      "sources_checked": 60,
-      "sources_failed": 60,
-      "sources_failed_note": "Direct WebFetch/curl to all state .gov and federal (cms.gov, taggs.hhs.gov) domains again returned EGRESS_BLOCKED / CONNECT tunnel 403 (confirmed via live tests on arkansasrhtp.com, www.dhs.wisconsin.gov, dss.mo.gov, and via WebFetch on arkansasrhtp.com). Several third-party RHTP-tracker/aggregator sites (rhtp.amemobile.net, myfundingtracker.com, rhtptracker.com, thetexan.news, grantedai.com) were also found blocked this run -- the block is broader than just .gov/taggs domains. All findings this run (established-state deltas and new-state baselines) came from WebSearch using sources.json fallback queries plus targeted follow-ups, via 10 parallel research passes (one per state) plus direct federal-level WebSearch checks. WebSearch session budgets were exhausted in several state research passes (IN, WI, MS, LA, TX, OK), which may have limited coverage depth -- flagged per-state in item descriptions.",
-      "items_new": 112,
-      "items_updated": 4,
-      "email_sent": true,
-      "email_type": "baseline+alert",
-      "note": "Baseline run for newly added states MO, TN, MS, LA, TX, OK (108 items recorded). Established states: AR had 3 new individual sub-award recipient stories under the already-known $149.3M Round 1 THRIVE+PACT pool (Univ. of Arkansas THRIVE RADAR $777,351; UA telehealth readiness for older adults $176,847; North Arkansas Regional Medical Center PACT award $3M). IN had 1 new item (RHTP07 Teleconsult/Telehealth Landscape Assessment RFP) and 1 updated item (Program Evaluator RFP status) -- both sourced only from a secondary RHTP tracker and flagged UNCONFIRMED pending primary-source verification next run. WI had 3 minor deadline-field clarifications for already-closed NOFOs (HEART, DPI, WTCS) -- non-material, not included in the email. IL: no new or updated items found. No new program-wide federal/CMS items affecting the ten tracked states."
-    },
     {
       "date": "2026-09-15",
       "sources_checked": 63,
@@ -332,6 +321,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in MS, TX, OK (7 items total). MS (2 updates): Innovative Pilot Program Grant and EHR Replacement for Small Rural Providers NOFOs both opened their application windows exactly on their previously-scheduled dates (10-14 and 10-21) \u2014 no amount/deadline change, status only. TX (1 new, 1 update): $8.1M/28-provider Rural Texas Strong tranche announced 10-22 (Initiatives 1/4/6, no tech component); Initiative 2 (patient portals/RPM, HIGH relevance) deadline slipped again to 2027-01-12 and is still not open for applications. OK (3 new): Community Paramedicine Consulting RFP (due 11-18); OSU Tech Co-Op provider-enrollment NOFO for a shared rural PCP/BH technology-procurement cooperative (HIGH relevance, deadlines 12-01/12-15); and OK's Year 2 CMS budget narrative, which gives concrete BP2 EHR/HIE/analytics/EMS-tech dollar figures and confirms the long-watched RPM maternal-health vendor RFP is still in internal vendor-evaluation, not yet posted. AR, IL, IN, WI, LA, MO, TN, and Federal: confirmed no new or material changes via direct source fetches plus web-search fallback (5 parallel per-state-group research passes: AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Two candidate items were deliberately excluded as not meeting the bar: (1) a secondhand-only (primary sources blocked) news story about a CMS program-wide fund-commitment/clawback deadline (Oct 30, 2026) surfaced for WI \u2014 the deadline itself is already known/tracked across MO/TN/OK status notes, and the story could not be verified against a primary source, so it was not added; (2) a TN 'Stillbirth Funeral Assistance' RFA (due today) that appears to be Title V MCH Block Grant-funded rather than RHTP-funded, and has no tech/vendor angle even if RHTP-linked. Watch items carried forward: LA's six remaining Year-1 NOFO award lists and Rural Tech Catalyst Fund Cohort 1 results, both now overdue past their own stated timelines; WI RTTF Round 1 awards (still unannounced, publicmeetings.wi.gov unreachable 2 runs running); MO IFB DSS26015 and Virtual Care Expansion RFI outcomes; TN's ~8 remaining competitive grant-line awards; CMS Budget Period 2 (Year 2) allocation announcements expected ~2026-10-31 for all states, most urgently TX and OK; OK's RPM maternal-health vendor RFP (clarified this run as still pre-RFP); and the imminent 2026-10-30 Year-1 obligation deadline for MO, TN, and OK."
+    },
+    {
+      "date": "2026-10-26",
+      "sources_checked": 113,
+      "sources_failed": 22,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Persistent/unchanged failures: AR procurement portal (arkansas.gov/ark.org, proxy connect_rejected); IL icahn.org and 5 omb.illinois.gov CSFA pages (proxy connect_rejected), il.amplifund.com (SSO login wall); IN idoa/procurement (404); WI vendornet.wi.gov (empty JS/Blazor shell), a DHS contracts detail page (403), publicmeetings.wi.gov (DNS/proxy-blocked, 2nd+ consecutive run \u2014 still the likeliest venue for WI's overdue RTTF Round 1 results); MO memsa.org (403) and mohospitals.org (proxy-blocked); TN tha.com (proxy-blocked) and the Caspio Partner Portal (JS shell); MS medicaid.ms.gov (404, site rebuild, persistent); one TX file-URL guess on the wrong domain (self-corrected to pfd.hhs.texas.gov). No primary state program-home page was unreachable.",
+      "items_new": 1,
+      "items_updated": 2,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in AR, MO, TX (3 items). AR (1 new): St. Bernards Foundation RHTP RISE AR + HEART awards (~$4.8M, Jonesboro) \u2014 previously-untracked sub-award-recipient detail within the already-tracked Round 2 RISE AR + HEART announcement (2026-09-24, $54.6M total); source page could not be fetched directly (egress-blocked), figures taken from a WebSearch snippet of Talk Business & Politics reporting, not independently re-verified. MO (1 update): DSS published the full 20-hospital, dollar-by-dollar recipient list for the Strategic Minor Renovations Program (~$34.6M itemized; previously only the ~$35M aggregate and one hospital's figure were known). TX (1 update): HHSC's weekly Rural Texas Strong recipient spreadsheet grew sharply \u2014 312\u2192441 line items, $475.0M\u2192$675.6M intent-to-award, 97\u2192159 contracts fully executed \u2014 verified by downloading and parsing the .xlsx directly; Initiatives 2/3/5 (Allstar's highest-relevance lines: patient portals/RPM, AI-telehealth, cybersecurity) remain confirmed not open. IL, IN, WI, TN, LA, OK, and Federal: confirmed no new or material changes. Four candidate items were checked and found to be FALSE POSITIVES from this run's research passes, not added: three MS NOFO/solicitation 'deadline now specified' items (Innovative Pilot Program Grant due 11-16, EHR Replacement for Small Rural Providers due 11-23, Statewide HIE/HDU RFP due 11-3) and four OK solicitation/NOFO 'deadline now specified' items (Community Paramedicine Consulting RFP due 11-18, OHCA EHR Expansion RFI due 12-1, OHCA HIE & EHR Assistance due 12-31, OSU Tech Co-Op due 12-1/12-15) plus an OK meeting-schedule item \u2014 all of these deadlines were already recorded verbatim in seen.json from the 2026-10-21/2026-10-23 runs; the research sub-agents flagged them as new only because the compact seen-item extract they were given for dedup omitted the `deadline` field. Also excluded: a 'new federal' CMS press release on ~$32M/60 Mississippi awards (recruitment/training/psychiatric-ED) \u2014 cross-checked against the full seen.json and confirmed to be the exact same action already tracked in full itemized detail as MS:award:wei-workforce-grants-oct21 ($19,290,464.32) + MS:award:pes-empath-units-oct21 ($13,316,032.00) since the 2026-10-22 run ($32,606,496.32 / 60 awards combined, matching exactly). A WI advisory-council page update (two additional meeting dates \u2014 2026-07-23 past, 2026-10-22 upcoming \u2014 now listed beyond the original 2026-04-23 meeting) was reviewed and judged not material (no funding content, agenda itself unreachable) \u2014 not added to seen.json, but worth a direct check next run since 10-22 is the likeliest venue for WI's overdue RTTF Round 1 results. Watch items carried forward, racing or past the 2026-10-30 Year-1 obligation deadline: LA's six remaining Year-1 NOFO award lists and Rural Tech Catalyst Fund Cohort 1 results (both overdue); WI RTTF Round 1 awards (still unannounced); MO IFB DSS26015 (~$40M) and Virtual Care Expansion RFI outcomes (DSS26015 has reportedly disappeared from MO's live bid board); TN's ~8 remaining competitive grant-line awards and RFA 34347-39627 outcome; TX Initiatives 2/3/5 (still unopened, Jan 2027 deadlines) and TX/OK CMS Budget Period 2 (Year 2) allocation announcements (expected ~2026-10-31, no early signal found in TAGGS); OK's RPM maternal-health vendor RFP (still no public trace)."
     }
   ],
   "items": [
@@ -1171,14 +1171,14 @@
       "id": "MO:solicitation:vital-rural-hospital-repairs-ifb",
       "type": "solicitation",
       "title": "Strategic Minor Renovations Program \u2014 20 Rural Hospital Projects Awarded (formerly Vital Rural Hospital Repairs IFB #DSS26009001)",
-      "url": "https://www.cms.gov/newsroom/press-releases/trump-administration-announces-more-45-million-upgrade-rural-missouri-hospitals-connect-families",
-      "amount": "~$35 million (official CMS/DSS figure, up from ~$32M secondary-sourced estimate)",
-      "recipients": "20 rural hospital projects, now confirmed by name: Citizens Memorial Hospital; Golden Valley Memorial Hospital; John Fitzgibbon Memorial Hospital; Lake Regional Health System; Northeast Regional Medical Center; Poplar Bluff Regional Medical Center; Scotland County Hospital; Texas County Memorial Hospital; Bothwell Regional Health Center; Cameron Regional Medical Center; Carroll County Memorial Hospital; Hannibal Regional Healthcare System; Hermann Area District Hospital; Missouri Delta Medical Center; Nevada Regional Medical Center; Phelps County Regional Medical Center; Ray County Memorial Hospital; Saint Francis Medical Center; Salem Memorial District Hospital; Washington County Memorial Hospital. Per-project dollar amounts not published (only the ~$35M total).",
+      "url": "https://dss.mo.gov/rhtp-strategic-minor-renovations-program",
+      "amount": "~$34,646,479 individually itemized across 20 hospitals (was: ~$35M aggregate only, one hospital's figure known). Largest: Citizens Memorial Hospital $2,500,000.00 and Saint Francis Medical Center $2,500,000.00; smallest: Northeast Regional Medical Center $216,376.59.",
+      "recipients": "20 rural Missouri hospitals, now with exact dollar amounts each: Citizens Memorial Hospital $2,500,000.00; Golden Valley Memorial Hospital $1,272,647.00; John Fitzgibbon Memorial Hospital $2,450,000.00; Lake Regional Health System $2,482,429.00; Northeast Regional Medical Center $216,376.59; Poplar Bluff Regional Medical Center $742,416.92; Scotland County Hospital $2,233,540.12; Texas County Memorial Hospital $568,898.74; Bothwell Regional Health Center $2,409,200.00; Cameron Regional Medical Center $574,200.00; Carroll County Memorial Hospital $2,175,000.00; Hannibal Regional Healthcare System $439,650.76; Hermann Area District Hospital $1,894,539.00; Missouri Delta Medical Center $2,380,000.00; Nevada Regional Medical Center $2,431,684.00; Phelps County Regional Medical Center $1,529,100.00; Ray County Memorial Hospital $1,808,703.71; Saint Francis Medical Center $2,500,000.00; Salem Memorial District Hospital $1,700,599.50; Washington County Memorial Hospital $2,337,494.00.",
       "deadline": "Closed 2026-06-11 (after 4 amendments)",
-      "status": "Awarded/announced 2026-09-22 (was: closed, awards pending)",
-      "description": "CMS and DSS jointly announced the outcome of the previously-tracked Vital Rural Hospital Repairs IFB \u2014 20 projects funded for building-system upgrades, diagnostic equipment, and critical-care renovations. Excludes IT/digital projects. First hospital-specific dollar figure now public: Texas County Memorial Hospital's individual award is $580,000 (energy efficiency, security, hospital-operations equipment/systems).",
+      "status": "Awarded; full itemized hospital-by-hospital recipient list now published on a dedicated DSS program page (was: aggregate ~$35M figure announced 2026-09-22, only one hospital's individual amount known).",
+      "description": "DSS's dedicated program page now lists all 20 Strategic Minor Renovations Program (formerly Vital Rural Hospital Repairs IFB) awardees by name with exact dollar amounts, summing to roughly $34.6 million, consistent with the ~$35M total announced 2026-09-22.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-29"
+      "last_updated": "2026-10-26"
     },
     {
       "id": "MO:award:mih-cp-memsa-partnership",
@@ -5331,14 +5331,14 @@
       "id": "TX:award:award-recipients-list-2026-10-08",
       "type": "award",
       "title": "HHSC Publishes First Consolidated \"Rural Texas Strong\" Award Recipients List (Initiatives 1, 4, 6)",
-      "url": "https://pfd.hhs.texas.gov/sites/default/files/documents/rural-hlth-prgm/10-15-2026-list-award-recipients.xlsx",
-      "amount": "$474,991,508.18 aggregate intent-to-award across 312 subrecipient line items (Initiative 1: 92 entries/$337,208,367.30; Initiative 4: 162 entries/$90,602,595.02; Initiative 6: 58 entries/$47,180,545.86); 97 entries now show contract fully executed, totaling $289,807,450.16 (up from 68/$238,000,000 on 2026-10-08)",
-      "recipients": "312 named subrecipients \u2014 rural hospital districts, hospital authorities, clinics, FQHC-type orgs, physician practices, MHMR centers, and EMS providers across Initiatives 1, 4, and 6 (up from 284 on 2026-10-08)",
+      "url": "https://pfd.hhs.texas.gov/sites/default/files/documents/rural-hlth-prgm/10-23-2026-list-award-recipients.xlsx",
+      "amount": "$675,611,554.49 aggregate intent-to-award across 441 subrecipient line items as of 2026-10-23 (was $474,991,508.18 / 312 line items as of 2026-10-15). Initiative 1: 111 entries/$437,704,727.29; Initiative 4: 186 entries/$107,067,035.61; Initiative 6: 144 entries/$130,839,791.59 (Initiative 6 more than doubled in both count and dollars). 159 entries now show \"Awarded (Contract Fully Executed)\" totaling $336,866,617.16 (was 97/$289,807,450.16).",
+      "recipients": "441 named Texas subrecipients (rural hospital districts, health centers, providers) across Initiatives 1, 4, and 6; not individually reconciled in this pass.",
       "deadline": "n/a \u2014 results list, updated weekly by HHSC",
-      "status": "Published 2026-10-08; updated weekly by HHSC \u2014 latest figures as of 2026-10-15",
-      "description": "First primary-source, line-item recipient disclosure for Rural Texas Strong. Contains zero rows for Initiatives 2 (patient portals/RPM), 3 (AI/telehealth), or 5 (cybersecurity), confirming those tracks still have no applicants or awards as of 2026-10-08.",
+      "status": "Spreadsheet republished 2026-10-23 (file footer: \"Added Oct. 23, 2026\"); HHSC updates it weekly; applications remain at \"Intent to Award\" until contract is fully executed.",
+      "description": "HHSC's consolidated recipient spreadsheet grew substantially week-over-week: line items 312\u2192441, aggregate intent-to-award $475.0M\u2192$675.6M, contracts fully executed 97/$289.8M\u2192159/$336.9M. Initiatives 2 (patient portals/RPM), 3 (AI/telehealth), and 5 (cybersecurity) remain confirmed not open.",
       "first_seen": "2026-10-12",
-      "last_updated": "2026-10-16"
+      "last_updated": "2026-10-26"
     },
     {
       "id": "TN:nofo:perinatal-telehealth-rfgp-34347-98027",
@@ -5619,6 +5619,19 @@
       "description": "First primary-source look at Oklahoma's Year 2 spending plan. Confirms the RPM maternal-health blood-pressure-cuff vendor program is still in internal design/vendor-evaluation for Year 2 and has not yet become an open RFP.",
       "first_seen": "2026-10-23",
       "last_updated": "2026-10-23"
+    },
+    {
+      "id": "AR:award:st-bernards-foundation-rise-heart",
+      "type": "award",
+      "title": "St. Bernards Foundation \u2014 RHTP RISE AR + HEART Awards",
+      "url": "https://talkbusiness.net/2026/10/st-bernards-foundation-distributes-4-8-million-in-grants/",
+      "amount": "~$4.8M combined (RISE AR $3,850,000 + HEART $948,000, per Talk Business & Politics reporting; source could not be directly fetched due to an egress block, figures are from a third-party WebSearch snippet of the article)",
+      "recipients": "St. Bernards Foundation / St. Bernards Healthcare (Jonesboro, AR)",
+      "deadline": "n/a",
+      "status": "Reported October 2026; appears to be sub-award-recipient detail within the Round 2 RISE AR + HEART awards the Governor announced 2026-09-24 (tracked as AR:award:rhtp-round2-rise-heart-award-announcement, $54.6M total), not a separate new round.",
+      "description": "St. Bernards Foundation received two Arkansas RHTP grants totaling about $4.8 million: $3.85 million through RISE AR for local training/recruitment/retention of physicians and clinicians, and $948,000 through HEART for community nutrition, physical activity, and chronic-disease-management programs. New sub-award-recipient detail not previously itemized in the tracker.",
+      "first_seen": "2026-10-26",
+      "last_updated": "2026-10-26"
     }
   ]
 }
