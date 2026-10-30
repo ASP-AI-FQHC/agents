@@ -1,19 +1,8 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-29",
+  "last_run": "2026-10-30",
   "runs": [
-    {
-      "date": "2026-09-18",
-      "sources_checked": 70,
-      "sources_failed": 70,
-      "sources_failed_note": "Direct WebFetch/curl to all 70 state and federal source URLs across 6 parallel research agents (5 state-pairs + federal) again returned EGRESS_BLOCKED / CONNECT tunnel 403 -- confirmed as a general proxy policy block (even non-.gov domains like example.com and google.com failed), not domain-specific. All findings came from WebSearch fallback queries per sources.json.",
-      "items_new": 15,
-      "items_updated": 8,
-      "email_sent": true,
-      "email_type": "alert",
-      "note": "New: 4 AR Round-1 sub-award recipient stories (Baxter Health $19.7M combined THRIVE+PACT incl. RPM/telehealth/cybersecurity; CHC of Arkansas $130,410 FQHC clinical decision support; MySwaddle/Doula Alliance $860,500 low relevance; Le Bonheur Jonesboro $340,725 low relevance); 3 IN GROW sub-awards (Region 4 $15.2M + Ball State $358,170 sub-award; Valley Oaks Health $828,375 Region 3 sub-award); 1 MO home-visiting NOFO ($588,000/yr pool, low relevance); 2 TN items (RTCF federal approval as 1 of 8 states, high relevance tech-vendor channel; MCAN grant line confirmed as distinct 9th TN line); 5 MS recipient-level awards from the 167-award/$104.1M pool plus the federal CMS press release itemizing category totals. Updated: AR Mercy Fort Smith (amount corrected to full $19.06M w/ THRIVE+PACT breakdown); IL ICAHN (category breakdown: $31M tech/cyber, $14M disease prevention, $5M workforce); IN GROW regions placeholder narrowed to just Regions 2 and 8; MO hospital-repairs IFB (first unconfirmed ~$32M estimate); MS's 3 award-category items (category-level $ totals now confirmed, summing to the known $104.1M); TX Initiative 3 AI/Telehealth (RFA number HHS0015684, earlier Sept 2026 estimated posting date, both unconfirmed on a primary document). No news found for WI, LA, OK, or program-wide Federal this run. Skipped as non-material/low-confidence: OK Doula Program deadline detail (secondary-sourced only, no material new fact); two ambiguous Abbott rural-hospital grant headlines with no confirmed RHTP linkage or date."
-    },
     {
       "date": "2026-09-21",
       "sources_checked": 77,
@@ -331,6 +320,17 @@
       "items_updated": 0,
       "email_sent": false,
       "note": "No new or materially-changed items found for any of the ten tracked states or federal, after full re-verification against the dedup list by 5 parallel per-state-group research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). One candidate flagged by the IN+WI pass — a WI DPI Rural LEA Healthcare Career Pathways Grant 'recipient list now published' — was checked directly against the full seen.json record and found to be a FALSE POSITIVE: the 21-district recipient list and 'Awarded' status the sub-agent found live on dpi.wi.gov were already recorded verbatim under WI:nofo:dpi-rural-lea-career-pathways-grant since the 2026-09-22 run; the sub-agent's compact dedup extract for this run omitted the `recipients` field, so it had no way to know this was already known (same class of error documented in the 2026-10-26 run note). Not added or updated. Two secondary-source-only elaborations were found but judged non-material (status/amount/deadline/recipients unchanged) and were NOT written to seen.json, only noted here for continuity: (1) LA Rural Tech Catalyst Fund Cohort 1 — still 'under review, no awards announced' as of today, but WebSearch snippets of technical.ly/Business Report coverage (primary articles unreachable) suggest the delay is because CMS requires a 15-business-day pre-notice review of RTCF finalists before a state can announce recipients, which may be in tension with tomorrow's Year-1 obligation deadline; (2) GAO-27-108853 (program-wide CMS monitoring/clawback report, still unreadable in full — gao.gov DNS-blocked 3rd+ run) — secondary-source snippets (hcinnovationgroup.com, vitallaw.com, also unreachable directly) add that CMS plans to allot up to $40B of the remaining RHTP funds over Budget Periods 2–5 conditioned on each state demonstrating 'satisfactory progress', with no clawback/withhold language found. Standing watch items, all now at or past the 2026-10-30 Year-1 obligation deadline (TOMORROW) with CMS Budget Period 2 / Year 2 allocation announcements expected ~2026-10-31 for all ten states (checked directly today via TAGGS for TX/OK and multiple searches — nothing posted yet for any of the ten states as of 2026-10-29): LA's six remaining Year-1 NOFO award lists (re-confirmed unchanged via direct ldh.la.gov fetch — still shows 'October 2, 2026' NOI date with no recipients) and Rural Tech Catalyst Fund Cohort 1 results (now well past 'mid-October', reason for delay surfaced above); WI RTTF Round 1 / CHW / Rural Dental / Care Coordination awards (Advisory Council met 2026-10-22, agenda host publicmeetings.wi.gov now confirmed network/proxy-blocked rather than just slow-to-resolve — recommend allow-listing it); MO's Smart Growth & Service Line IFB DSS26015 (~$40M; bid document re-confirmed 404 on MO's own site, department's own program page has not been updated to reflect the known closing or any award) and Virtual Care Expansion RFI outcome; TN's ~8 of 9 remaining competitive grant-line awards (TDH's own program page still says award details 'will be provided in the weeks ahead') and RFA 34347-39627 outcome; OK's RPM maternal-health vendor RFP (still unposted, confirmed still in internal design); full text of GAO-27-108853 (still unreadable, 3rd+ consecutive run). No email sent: nothing met the material-change bar this run."
+    },
+    {
+      "date": "2026-10-30",
+      "sources_checked": 98,
+      "sources_failed": 9,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). AR: www.arkansas.gov/tss procurement (proxy connect_rejected, persistent). IL: icahn.org and omb.illinois.gov/.../csfa=3983 (DNS-blocked at network level, worse than prior proxy-block); il.amplifund.com (SSO wall). IN: no failures this run. WI: dhs.wisconsin.gov/news/releases.htm (404, URL may have moved); RTTF contract detail page (403 bot-blocked); publicmeetings.wi.gov not attempted this run but remains the standing blocker for WI's overdue RTTF Round 1/CHW/Rural Dental/Care Coordination awards (6th+ consecutive run unresolved). MO/TN: no hard failures (missouribuys.mo.gov's own bid-board sub-pages weren't independently reachable but homepage loaded). MS: medicaid.ms.gov (503/timeout, persistent across runs, site rebuild). LA: no failures (ldh.la.gov 403s to WebFetch recovered via curl with browser User-Agent, as in prior runs). TX/OK: no failures. Federal: cms.gov/newsroom/press-releases (404, index URL may have changed -- worth checking next run); gao.gov (DNS resolution failure, 4th+ consecutive run -- GAO-27-108853 still unread in full, recommend allow-listing gao.gov).",
+      "items_new": 2,
+      "items_updated": 7,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in MO, LA, TX (2 new + 7 updated items total), on the CMS Year-1 funds-obligation deadline day. AR, IL, IN, WI, TN, MS, OK, Federal: confirmed no new or material changes via direct source fetches plus web-search fallback (5 parallel per-state-group research passes). MO (1 new, medium relevance): a new Year-2-contingent 'Workforce Retention and Enablers Funding' line (~$11.1M across the 27 existing ToRCH Care Hub Anchors, proposal window opens 2026-11-02) -- a new disbursement channel through hubs rather than a core health-IT item, but worth tracking. LA (7 updated, no new recipient/dollar detail but a material status change on the deadline day itself): LDH's program page now states all RHTP Budget Year 1 award notifications were completed as of today (2026-10-30), with contract execution to finish in November 2026 and Year 2 funding announcements narrowed to January 2027 (previously guided Jan-Mar 2027) -- affects the six still-unnamed Year 1 NOFOs (Collaborative Provider Models, Rural Medicaid APM, Regional Care Conveners, Food is Medicine, Telehealth Infrastructure, Rural Health Facilities Capital Improvement, ~$85.5M combined) and the EHR Voucher/Year 2 timeline; still zero recipient names or dollar breakdowns published for any of the six -- flagged as the top watch item for the next run, since LDH's own internal 'notifications completed' milestone implies recipients know but the public page does not yet. LA's Rural Tech Catalyst Fund Cohort 1 results also remain unannounced, now well past 'mid-October' and past today's deadline. TX (1 new + 1 updated, medium relevance): Gov. Abbott announced $87M/129 providers in new Rural Texas Strong grants (2026-10-29, same weekly-tranche pattern as prior announcements); separately, HHSC's weekly consolidated recipient spreadsheet grew to 445 line items/$680.6M intent-to-award, with fully-executed contracts jumping from 159 to 204 (+45/+$65.4M in one week) -- the largest weekly execution jump recorded, consistent with today's deadline. TX Initiatives 2 (Patient Portals/RPM), 3 (AI/Telehealth), and 5 (Cybersecurity) -- Allstar's highest-relevance TX lines -- remain confirmed not open. MO watch items unchanged: DSS26015 Smart Growth IFB (~$40M) outcome still murky, Virtual Care Expansion RFI outcome still unposted. TN watch items unchanged: ~8 of 9 remaining competitive grant-line awards and RFA 34347-39627 outcome still not posted despite today's deadline. WI watch items unchanged: RTTF Round 1 (~$61M), CHW, Rural Dental, and Care Coordination award lists still entirely unpublished, now 6th+ consecutive run with publicmeetings.wi.gov unreachable -- recommend allow-listing this domain or having a human pull the Oct 22 Advisory Council agenda manually. IL watch items unchanged: ICAHN Technology Innovation Grant and Mobile Healthcare Innovation NOFO award lists both still unposted past their deadlines; icahn.org now DNS-blocked at the network level (worse than prior proxy-block). OK watch items unchanged: RPM maternal-health vendor RFP still in internal design, not posted. Federal: no CMS Budget Period 2 (Year 2) allocation announcement yet for any of the ten states (checked directly via TAGGS for TX/OK plus medicaid.gov and CMS newsroom); expected ~2026-10-31 (tomorrow) -- the single most important thing to check first thing on the next run. GAO-27-108853 (program-wide CMS monitoring/clawback report) remains unread in full, gao.gov now fails at DNS resolution (4th+ consecutive run, recommend allow-listing). cms.gov/newsroom/press-releases now 404s -- check if the URL structure changed."
     }
   ],
   "items": [
@@ -1889,10 +1889,10 @@
       "amount": "~$3.0M projected Budget Year 1 funding (confirmed again in Oct 1, 2026 webinar allocation table)",
       "recipients": "not yet announced (lead applicant + consortium partners)",
       "deadline": "Within Jun25-Aug14 2026 window",
-      "status": "Closed; per Oct 1, 2026 ORHTS webinar, award-selection notifications underway now (current as of Oct 2, 2026); denials by Oct 16, 2026; CEA/contract completion by Oct 30, 2026",
+      "status": "Closed. LDH's Important Dates block (ldh.la.gov/page/rural-health-transformation-program, re-confirmed 2026-10-30) now reads: \"All RHTP Budget Year 1 award notifications have been completed as of October 30, 2026. Contract execution will be completed in November 2026.\" No individual recipient names or dollar amounts published yet for this program.",
       "description": "Funds consortia of rural providers forming collaborative care/network models.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-30"
     },
     {
       "id": "LA:nofo:rural-medicaid-apm",
@@ -1902,10 +1902,10 @@
       "amount": "~$30.0M projected Budget Year 1 funding (Oct 1, 2026 webinar breaks this into Innovative Care Models/APM $20.0M + Risk-Sharing Value-Based Arrangements $10.0M)",
       "recipients": "not yet announced",
       "deadline": "Within Jun25-Aug14 2026 window",
-      "status": "Closed; per Oct 1, 2026 ORHTS webinar, award-selection notifications underway now (current as of Oct 2, 2026); denials by Oct 16, 2026; CEA/contract completion by Oct 30, 2026",
+      "status": "Closed. LDH's Important Dates block (re-confirmed 2026-10-30) now reads: \"All RHTP Budget Year 1 award notifications have been completed as of October 30, 2026. Contract execution will be completed in November 2026.\" No individual recipient names or dollar amounts published yet.",
       "description": "Supports rural providers transitioning to Medicaid value-based payment/APM participation.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-30"
     },
     {
       "id": "LA:nofo:regional-care-conveners",
@@ -1915,10 +1915,10 @@
       "amount": "~$3.5M projected Budget Year 1 funding (confirmed as $3.50M in Oct 1, 2026 webinar allocation table)",
       "recipients": "not yet announced",
       "deadline": "Mid-August 2026 (approx.)",
-      "status": "Closed; per Oct 1, 2026 ORHTS webinar, award-selection notifications underway now (current as of Oct 2, 2026); denials by Oct 16, 2026; CEA/contract completion by Oct 30, 2026",
+      "status": "Closed. LDH's Important Dates block (re-confirmed 2026-10-30) now reads: \"All RHTP Budget Year 1 award notifications have been completed as of October 30, 2026. Contract execution will be completed in November 2026.\" No individual recipient names or dollar amounts published yet.",
       "description": "Builds regional care-coordination/navigation networks spanning acute, behavioral health, and social services.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-30"
     },
     {
       "id": "LA:nofo:food-is-medicine",
@@ -1928,10 +1928,10 @@
       "amount": "~$2.7M projected Budget Year 1 funding (confirmed as $2.70M in Oct 1, 2026 webinar allocation table)",
       "recipients": "not yet announced",
       "deadline": "Closed 2026-08-14",
-      "status": "Closed; per Oct 1, 2026 ORHTS webinar, award-selection notifications underway now (current as of Oct 2, 2026); denials by Oct 16, 2026; CEA/contract completion by Oct 30, 2026",
+      "status": "Closed. LDH's Important Dates block (re-confirmed 2026-10-30) now reads: \"All RHTP Budget Year 1 award notifications have been completed as of October 30, 2026. Contract execution will be completed in November 2026.\" No individual recipient names or dollar amounts published yet.",
       "description": "Funds start-up of Food is Medicine nutrition interventions for rural Medicaid members.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-30"
     },
     {
       "id": "LA:nofo:telehealth-infrastructure",
@@ -1941,10 +1941,10 @@
       "amount": "~$4.71M projected Budget Year 1 funding (confirmed as $4.71M in Oct 1, 2026 webinar allocation table)",
       "recipients": "not yet announced",
       "deadline": "Within Jun25-Aug14 2026 window (published 2026-06-01)",
-      "status": "Closed; per Oct 1, 2026 ORHTS webinar, award-selection notifications underway now (current as of Oct 2, 2026); denials by Oct 16, 2026; CEA/contract completion by Oct 30, 2026",
+      "status": "Closed. LDH's Important Dates block (re-confirmed 2026-10-30) now reads: \"All RHTP Budget Year 1 award notifications have been completed as of October 30, 2026. Contract execution will be completed in November 2026.\" No individual recipient names or dollar amounts published yet.",
       "description": "Targeted capital investment in telehealth infrastructure for rural access statewide.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-30"
     },
     {
       "id": "LA:nofo:capital-improvement",
@@ -1954,10 +1954,10 @@
       "amount": "~$41.60M projected Budget Year 1 funding (confirmed as $41.6M in Oct 1, 2026 webinar allocation table)",
       "recipients": "not yet announced",
       "deadline": "Within Jun25-Aug14 2026 window (published 2026-06-18)",
-      "status": "Closed; per Oct 1, 2026 ORHTS webinar, award-selection notifications underway now (current as of Oct 2, 2026); denials by Oct 16, 2026; CEA/contract completion by Oct 30, 2026",
+      "status": "Closed. LDH's Important Dates block (re-confirmed 2026-10-30) now reads: \"All RHTP Budget Year 1 award notifications have been completed as of October 30, 2026. Contract execution will be completed in November 2026.\" No individual recipient names or dollar amounts published yet.",
       "description": "Capital investments strengthening rural healthcare facility infrastructure.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-30"
     },
     {
       "id": "LA:solicitation:ehr-implementation-partner-rfi",
@@ -1992,11 +1992,11 @@
       "url": "https://ldh.la.gov/page/rhtp-funding-opportunities",
       "amount": "amount not stated",
       "recipients": "not yet announced",
-      "deadline": "Anticipated January-March 2027 (per Oct 1, 2026 ORHTS webinar; previously guided as ~Nov 2026)",
+      "deadline": "Narrowed to January 2027 (previously guided as January-March 2027; LDH's Important Dates block, re-confirmed 2026-10-30, now says \"RHTP Budget Year 2 anticipated funding announcements - January 2027\")",
       "status": "Program design preliminarily published (as of 9/1/2026); still pre-NOFO. Per Oct 1, 2026 ORHTS webinar 'What's Ahead' slide, Year 2 NOFO publication is now anticipated January-March 2027, with a 2027 regional-visit calendar and streamlined application process planned.",
       "description": "Preliminary EHR Voucher Program design published: reimbursement formula with floor and ceiling at 75% of cost; software/licensing reimbursed up to 3 years; professional services/internal labor reimbursed up to 50%; hardware/equipment and cybersecurity NOT eligible under this voucher (potentially covered by Capital Improvement and Telehealth initiatives instead); ONC-certified EHR migration required. Separately, the Oct 1, 2026 webinar shows a 'Net-New State EHR Instance' line item budgeted at $32.9M for Year 1 under Tech Innovation, distinct from this voucher concept.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-30"
     },
     {
       "id": "LA:deadline:advisory-council-meeting-nov",
@@ -5331,13 +5331,13 @@
       "type": "award",
       "title": "HHSC Publishes First Consolidated \"Rural Texas Strong\" Award Recipients List (Initiatives 1, 4, 6)",
       "url": "https://pfd.hhs.texas.gov/sites/default/files/documents/rural-hlth-prgm/10-23-2026-list-award-recipients.xlsx",
-      "amount": "$675,611,554.49 aggregate intent-to-award across 441 subrecipient line items as of 2026-10-23 (was $474,991,508.18 / 312 line items as of 2026-10-15). Initiative 1: 111 entries/$437,704,727.29; Initiative 4: 186 entries/$107,067,035.61; Initiative 6: 144 entries/$130,839,791.59 (Initiative 6 more than doubled in both count and dollars). 159 entries now show \"Awarded (Contract Fully Executed)\" totaling $336,866,617.16 (was 97/$289,807,450.16).",
+      "amount": "$680,588,520.61 aggregate intent-to-award across 445 subrecipient line items as of 2026-10-29 (was $675,611,554.49 / 441 line items as of 2026-10-23). Initiative 1: 111 entries/$437,704,727.29 (unchanged); Initiative 4: 187 entries/$107,792,035.61 (was 186/$107,067,035.61); Initiative 6: 147 entries/$135,091,757.71 (was 144/$130,839,791.59). 204 entries now show \"Awarded (Contract Fully Executed)\" totaling $402,299,796.22 (was 159/$336,866,617.16) -- a jump of 45 contracts/+$65.4M in one week, the largest execution jump recorded, coinciding with the 2026-10-30 Year-1 obligation deadline.",
       "recipients": "441 named Texas subrecipients (rural hospital districts, health centers, providers) across Initiatives 1, 4, and 6; not individually reconciled in this pass.",
       "deadline": "n/a — results list, updated weekly by HHSC",
-      "status": "Spreadsheet republished 2026-10-23 (file footer: \"Added Oct. 23, 2026\"); HHSC updates it weekly; applications remain at \"Intent to Award\" until contract is fully executed.",
-      "description": "HHSC's consolidated recipient spreadsheet grew substantially week-over-week: line items 312→441, aggregate intent-to-award $475.0M→$675.6M, contracts fully executed 97/$289.8M→159/$336.9M. Initiatives 2 (patient portals/RPM), 3 (AI/telehealth), and 5 (cybersecurity) remain confirmed not open.",
+      "status": "Spreadsheet republished 2026-10-29 (file footer: \"Added Oct. 29, 2026\"); HHSC updates it weekly; applications remain at \"Intent to Award\" until contract is fully executed.",
+      "description": "HHSC's consolidated recipient spreadsheet continued its steady weekly growth (line items 441->445, aggregate intent-to-award $675.6M->$680.6M) but contract execution surged (97->159->204 fully-executed contracts over the last two runs), likely reflecting a push to finalize Year-1 obligations ahead of the 2026-10-30 deadline. Initiatives 2 (patient portals/RPM), 3 (AI/telehealth), and 5 (cybersecurity) remain confirmed not open.",
       "first_seen": "2026-10-12",
-      "last_updated": "2026-10-26"
+      "last_updated": "2026-10-30"
     },
     {
       "id": "TN:nofo:perinatal-telehealth-rfgp-34347-98027",
@@ -5764,6 +5764,34 @@
       "first_seen": "2026-10-28",
       "last_updated": "2026-10-28",
       "not_emailed_reason": "Duplicates content already reported in seen.json under LA:news:rhtp-y1-workforce-investments-37m; no material new fact."
+    },
+    {
+      "id": "MO:nofo:workforce-retention-enablers-funding",
+      "type": "nofo",
+      "title": "ToRCH Care Workforce Retention and Enablers Funding",
+      "url": "https://dss.mo.gov/mhd/rural-health",
+      "amount": "~$11,124,000 total (~$412,000 per Hub x 27 ToRCH Care Hubs, over two program years); contingent on CMS Year 2 approval",
+      "recipients": "not yet announced -- the 27 existing ToRCH Care Hub Anchor organizations",
+      "deadline": "Proposal window 2026-11-02 to 2026-11-22; informational webinar 2026-11-12, 2-3pm CT; participation agreements due by CMS deadline 2026-12-31",
+      "status": "Announced/pre-opening",
+      "description": "New Year-2-contingent workforce funding line disbursed through Missouri's 27 existing ToRCH Care Hub Anchors (~$412K/hub) for community-driven workforce retention strategies; proposal window opens Nov 2, 2026.",
+      "why_it_matters": "Workforce funding routed through existing hubs, not core health IT, but a new disbursement channel worth tracking -- medium relevance.",
+      "first_seen": "2026-10-30",
+      "last_updated": "2026-10-30"
+    },
+    {
+      "id": "TX:award:87m-recipients-oct29",
+      "type": "award",
+      "title": "Gov. Abbott Announces Recipients of $87 Million in Rural Texas Strong Grants",
+      "url": "https://www.hhs.texas.gov/news/2026/10/gov-abbott-announces-recipients-87-million-rural-texas-strong-grants",
+      "amount": "$87 million (HHSC \"plans to award\"; not individually reconciled to the weekly recipient spreadsheet total)",
+      "recipients": "129 rural healthcare providers statewide (not individually named in the release)",
+      "deadline": "n/a",
+      "status": "Announced 2026-10-29",
+      "description": "Latest weekly Rural Texas Strong funding-intent announcement; release does not identify which numbered initiatives it covers or name recipients. Same weekly-tranche pattern as the Oct 15 ($78M/216 providers) and Oct 22 ($8M/28 providers) announcements. Independently corroborated via gov.texas.gov's news listing (same headline, same date).",
+      "why_it_matters": "Continues the core RHTP sub-award distribution to rural hospital districts/providers (Initiative 1/4/6 pattern); not confirmed as touching Allstar's highest-relevance TX tech/cyber initiatives (2/3/5), which remain unopened -- medium relevance.",
+      "first_seen": "2026-10-30",
+      "last_updated": "2026-10-30"
     }
   ]
 }
