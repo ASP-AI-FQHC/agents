@@ -1,3 +1,33 @@
 {
-  "reported": []
+  "_comment": "Findings already reported, so the daily routine does not raise them again. Seeded by the first run on 2026-10-31, which reviewed every dimension at once; normal runs cover one dimension a day.",
+  "reported": [
+    {"id": "uds-sum-labelled-partial-total", "first": "2026-10-31", "severity": "high",
+     "summary": "pipeline/uds.py sum_labelled returns a total built from whichever of the male/female columns is present, so a blank column publishes a halved patient count as a reported HRSA figure"},
+    {"id": "uds-coded-total-component-mistaken", "first": "2026-10-31", "severity": "high",
+     "summary": "pipeline/uds.py total_from_coded_lines takes any line equal to half the sum as the total, so two equal components with no total row publish one component as the count"},
+    {"id": "uds-stream-sheet-missing-data-veto", "first": "2026-10-31", "severity": "high",
+     "summary": "pipeline/uds.py _stream_sheet tests looks_like_descriptions without the looks_like_data_row veto that sheet_headers applies, so the first health center on a sheet can be eaten as a header row"},
+    {"id": "website-email-from-next-person", "first": "2026-10-31", "severity": "high",
+     "summary": "pipeline/website.py searches range(index, index+2) for an email, so a person is given the address printed on the following person's line and it reaches the outreach list"},
+    {"id": "suppression-file-path-mismatch", "first": "2026-10-31", "severity": "high",
+     "summary": "README documents data/suppression.txt but config.resolve puts it at the project root, so opt-outs placed where the README says are silently not honoured and no warning is printed"},
+    {"id": "roles-administrator-as-chief-executive", "first": "2026-10-31", "severity": "medium",
+     "summary": "app/roles.py matches \\badministrator\\b as CHIEF_EXECUTIVE and tests it before TECHNOLOGY, so IT/Systems Administrator and Board President are reported as the CEO; app/roles.py has no test asserting any classify() outcome"},
+    {"id": "contacts-uds-director-forced-chief-executive", "first": "2026-10-31", "severity": "medium",
+     "summary": "app/queries.py hard-codes role_kind=CHIEF_EXECUTIVE on the UDS project-director row, so a CFO who happens to be the HRSA contact is exported in the Chief executive role (the title precedence itself is deliberate and documented)"},
+    {"id": "website-title-pattern-missing-right-boundary", "first": "2026-10-31", "severity": "medium",
+     "summary": "pipeline/website.py _TITLE_PATTERN word group is bounded on the left only, so surnames beginning with a role word (Boardman, Chairez, Chiefley) are rejected as titles and those people are dropped"},
+    {"id": "normalize-state-truncates-spelled-out-names", "first": "2026-10-31", "severity": "medium",
+     "summary": "pipeline/text.py normalize_state returns text[:2], so a source that spells the state out turns Arizona into AR and Mississippi into MI, breaking dedup keys, the footprint filter and state-match EIN scoring"},
+    {"id": "changes-zero-prior-year-renders-zero-percent", "first": "2026-10-31", "severity": "medium",
+     "summary": "pipeline/changes.py uses `share = delta/previous if previous else 0` then renders {share:.0%}, producing 'up 0% from $0'; the UI layer already returns None for this case with a test saying dividing by zero is not infinite growth"},
+    {"id": "501c3-asserted-not-sourced", "first": "2026-10-31", "severity": "medium",
+     "summary": "app/queries.py prints 'IRS classification: 501(c)(3) public charity' whenever a confirmed EIN has any filing; no subsection code is read anywhere in the codebase"},
+    {"id": "grant-is-active-final-day", "first": "2026-10-31", "severity": "low",
+     "summary": "app/models.py Grant.is_active compares a midnight-UTC end date against now, so an award reports as ended for the whole of its final day; pipeline/grants.py DATE_FORMATS entry '%d %b %Y' is also unreachable because the value is split on space first"},
+    {"id": "irs-persist-profile-programs-untested", "first": "2026-10-31", "severity": "low",
+     "summary": "pipeline/irs.py _persist_profile and _persist_programs are entirely uncovered; the parse is tested and the render is tested, but the write path between them is not"},
+    {"id": "readme-drift-sections-stages-hardcoded", "first": "2026-10-31", "severity": "low",
+     "summary": "README says twelve profile sections (template has thirteen, Grants awarded missing), says the end-to-end test runs five stages (nine), and says nothing is hard-coded while scoring.py MINIMUM_SITES_SCORE=60 has no config key; the website stage reports a bland zero the README says it will not"}
+  ]
 }
