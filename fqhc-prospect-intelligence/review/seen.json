@@ -1,33 +1,149 @@
 {
   "_comment": "Findings already reported, so the daily routine does not raise them again. Seeded by the first run on 2026-10-31, which reviewed every dimension at once; normal runs cover one dimension a day.",
   "reported": [
-    {"id": "uds-sum-labelled-partial-total", "first": "2026-10-31", "severity": "high",
-     "summary": "pipeline/uds.py sum_labelled returns a total built from whichever of the male/female columns is present, so a blank column publishes a halved patient count as a reported HRSA figure"},
-    {"id": "uds-coded-total-component-mistaken", "first": "2026-10-31", "severity": "high",
-     "summary": "pipeline/uds.py total_from_coded_lines takes any line equal to half the sum as the total, so two equal components with no total row publish one component as the count"},
-    {"id": "uds-stream-sheet-missing-data-veto", "first": "2026-10-31", "severity": "high",
-     "summary": "pipeline/uds.py _stream_sheet tests looks_like_descriptions without the looks_like_data_row veto that sheet_headers applies, so the first health center on a sheet can be eaten as a header row"},
-    {"id": "website-email-from-next-person", "first": "2026-10-31", "severity": "high",
-     "summary": "pipeline/website.py searches range(index, index+2) for an email, so a person is given the address printed on the following person's line and it reaches the outreach list"},
-    {"id": "suppression-file-path-mismatch", "first": "2026-10-31", "severity": "high",
-     "summary": "README documents data/suppression.txt but config.resolve puts it at the project root, so opt-outs placed where the README says are silently not honoured and no warning is printed"},
-    {"id": "roles-administrator-as-chief-executive", "first": "2026-10-31", "severity": "medium",
-     "summary": "app/roles.py matches \\badministrator\\b as CHIEF_EXECUTIVE and tests it before TECHNOLOGY, so IT/Systems Administrator and Board President are reported as the CEO; app/roles.py has no test asserting any classify() outcome"},
-    {"id": "contacts-uds-director-forced-chief-executive", "first": "2026-10-31", "severity": "medium",
-     "summary": "app/queries.py hard-codes role_kind=CHIEF_EXECUTIVE on the UDS project-director row, so a CFO who happens to be the HRSA contact is exported in the Chief executive role (the title precedence itself is deliberate and documented)"},
-    {"id": "website-title-pattern-missing-right-boundary", "first": "2026-10-31", "severity": "medium",
-     "summary": "pipeline/website.py _TITLE_PATTERN word group is bounded on the left only, so surnames beginning with a role word (Boardman, Chairez, Chiefley) are rejected as titles and those people are dropped"},
-    {"id": "normalize-state-truncates-spelled-out-names", "first": "2026-10-31", "severity": "medium",
-     "summary": "pipeline/text.py normalize_state returns text[:2], so a source that spells the state out turns Arizona into AR and Mississippi into MI, breaking dedup keys, the footprint filter and state-match EIN scoring"},
-    {"id": "changes-zero-prior-year-renders-zero-percent", "first": "2026-10-31", "severity": "medium",
-     "summary": "pipeline/changes.py uses `share = delta/previous if previous else 0` then renders {share:.0%}, producing 'up 0% from $0'; the UI layer already returns None for this case with a test saying dividing by zero is not infinite growth"},
-    {"id": "501c3-asserted-not-sourced", "first": "2026-10-31", "severity": "medium",
-     "summary": "app/queries.py prints 'IRS classification: 501(c)(3) public charity' whenever a confirmed EIN has any filing; no subsection code is read anywhere in the codebase"},
-    {"id": "grant-is-active-final-day", "first": "2026-10-31", "severity": "low",
-     "summary": "app/models.py Grant.is_active compares a midnight-UTC end date against now, so an award reports as ended for the whole of its final day; pipeline/grants.py DATE_FORMATS entry '%d %b %Y' is also unreachable because the value is split on space first"},
-    {"id": "irs-persist-profile-programs-untested", "first": "2026-10-31", "severity": "low",
-     "summary": "pipeline/irs.py _persist_profile and _persist_programs are entirely uncovered; the parse is tested and the render is tested, but the write path between them is not"},
-    {"id": "readme-drift-sections-stages-hardcoded", "first": "2026-10-31", "severity": "low",
-     "summary": "README says twelve profile sections (template has thirteen, Grants awarded missing), says the end-to-end test runs five stages (nine), and says nothing is hard-coded while scoring.py MINIMUM_SITES_SCORE=60 has no config key; the website stage reports a bland zero the README says it will not"}
+    {
+      "id": "uds-sum-labelled-partial-total",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "pipeline/uds.py sum_labelled returns a total built from whichever of the male/female columns is present, so a blank column publishes a halved patient count as a reported HRSA figure"
+    },
+    {
+      "id": "uds-coded-total-component-mistaken",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "pipeline/uds.py total_from_coded_lines takes any line equal to half the sum as the total, so two equal components with no total row publish one component as the count"
+    },
+    {
+      "id": "uds-stream-sheet-missing-data-veto",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "pipeline/uds.py _stream_sheet tests looks_like_descriptions without the looks_like_data_row veto that sheet_headers applies, so the first health center on a sheet can be eaten as a header row"
+    },
+    {
+      "id": "website-email-from-next-person",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "pipeline/website.py searches range(index, index+2) for an email, so a person is given the address printed on the following person's line and it reaches the outreach list"
+    },
+    {
+      "id": "suppression-file-path-mismatch",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "README documents data/suppression.txt but config.resolve puts it at the project root, so opt-outs placed where the README says are silently not honoured and no warning is printed"
+    },
+    {
+      "id": "roles-administrator-as-chief-executive",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "app/roles.py matches \\badministrator\\b as CHIEF_EXECUTIVE and tests it before TECHNOLOGY, so IT/Systems Administrator and Board President are reported as the CEO; app/roles.py has no test asserting any classify() outcome"
+    },
+    {
+      "id": "contacts-uds-director-forced-chief-executive",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "app/queries.py hard-codes role_kind=CHIEF_EXECUTIVE on the UDS project-director row, so a CFO who happens to be the HRSA contact is exported in the Chief executive role (the title precedence itself is deliberate and documented)"
+    },
+    {
+      "id": "website-title-pattern-missing-right-boundary",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "pipeline/website.py _TITLE_PATTERN word group is bounded on the left only, so surnames beginning with a role word (Boardman, Chairez, Chiefley) are rejected as titles and those people are dropped"
+    },
+    {
+      "id": "normalize-state-truncates-spelled-out-names",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "pipeline/text.py normalize_state returns text[:2], so a source that spells the state out turns Arizona into AR and Mississippi into MI, breaking dedup keys, the footprint filter and state-match EIN scoring"
+    },
+    {
+      "id": "changes-zero-prior-year-renders-zero-percent",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "pipeline/changes.py uses `share = delta/previous if previous else 0` then renders {share:.0%}, producing 'up 0% from $0'; the UI layer already returns None for this case with a test saying dividing by zero is not infinite growth"
+    },
+    {
+      "id": "501c3-asserted-not-sourced",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "app/queries.py prints 'IRS classification: 501(c)(3) public charity' whenever a confirmed EIN has any filing; no subsection code is read anywhere in the codebase"
+    },
+    {
+      "id": "grant-is-active-final-day",
+      "first": "2026-10-31",
+      "severity": "low",
+      "summary": "app/models.py Grant.is_active compares a midnight-UTC end date against now, so an award reports as ended for the whole of its final day; pipeline/grants.py DATE_FORMATS entry '%d %b %Y' is also unreachable because the value is split on space first"
+    },
+    {
+      "id": "irs-persist-profile-programs-untested",
+      "first": "2026-10-31",
+      "severity": "low",
+      "summary": "pipeline/irs.py _persist_profile and _persist_programs are entirely uncovered; the parse is tested and the render is tested, but the write path between them is not"
+    },
+    {
+      "id": "readme-drift-sections-stages-hardcoded",
+      "first": "2026-10-31",
+      "severity": "low",
+      "summary": "README says twelve profile sections (template has thirteen, Grants awarded missing), says the end-to-end test runs five stages (nine), and says nothing is hard-coded while scoring.py MINIMUM_SITES_SCORE=60 has no config key; the website stage reports a bland zero the README says it will not"
+    },
+    {
+      "id": "irs-index-cache-flattens-paths",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "pipeline/irs.py _save_index_cache stores only ref.path.name while _load_index_cache rebuilds directory/name, so documents found inside an expanded archive resolve to a path that does not exist on every run after the first; the grants stage then reports 'Read N returns, 0 with a Schedule I' and writes nothing, identical to a genuinely grant-free corpus, and _load_index_cache clears _SCAN_PROBLEMS so scan_problems() stays silent. Expansion is the normal path for Deflate64 archives, which the real IRS bulk downloads use above 4 GB. Reproduced end to end."
+    },
+    {
+      "id": "queries-base-query-eager-sites",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "app/queries.py base_query applies selectinload(Organization.sites) for every consumer, but Organization.sites is read only by the detail page (which has its own loader at queries.py:453) and pipeline/dossier.py. Measured 456.7 ms against 73.2 ms for the same 1,500-row join without it, and it is paid by the dashboard, /table, the review queue and both exports."
+    },
+    {
+      "id": "queries-similar-organizations-unbounded",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "app/queries.py similar_organizations calls fetch_rows with no page_size or limit and filters to the same state in Python, so every profile view loads the national table. 415 ms of the detail page's 583 ms at 1,500 organizations; 6.4 s at 15,000."
+    },
+    {
+      "id": "queries-fetch-contacts-n-plus-one",
+      "first": "2026-10-31",
+      "severity": "high",
+      "summary": "app/queries.py fetch_contacts calls organization_people and organization_website_people inside the per-row loop. Measured /contacts.csv at 1,500 organizations: 3.3 s and 5,708 queries; 33 s at 15,000. The UDS directors lookup immediately above already does the same work as two bulk queries."
+    },
+    {
+      "id": "models-ein-property-lazy-loads-match",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "app/models.py Organization.ein reads the ein_match relationship, which base_query selects as a separate entity but never attaches, so every row access emits a SELECT: 1,507 queries for a 1,500-row /export.csv. ProspectRow already carries the match entity."
+    },
+    {
+      "id": "css-focus-ring-removed-on-filters",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "app/static/css/brand.css:732 sets outline:none on .field input:focus and .field select:focus, which outranks the global :focus-visible ring. Keyboard focus on the seven filter fields is left with only a 1px border colour change. WCAG 2.4.7."
+    },
+    {
+      "id": "templates-no-aria-state",
+      "first": "2026-10-31",
+      "severity": "medium",
+      "summary": "No aria-sort on the sortable table headers (sort state is carried only by a bare triangle glyph), no aria-current on the 13 profile sidebar links (active state is a CSS class only), and no live region anywhere, so search-as-you-type replaces the table and updates the result count in silence."
+    },
+    {
+      "id": "css-sticky-header-gap",
+      "first": "2026-10-31",
+      "severity": "low",
+      "summary": "app/static/css/brand.css sets .table thead th { top: 8px } to clear the page star band, but .table-wrap--tall is its own overflow-y container, so sticky resolves against the wrapper and a 9px sliver of the previous row shows above the column names."
+    },
+    {
+      "id": "grants-prefilter-docstring-overstates",
+      "first": "2026-10-31",
+      "severity": "low",
+      "summary": "pipeline/grants.py: the has_schedule_i pre-filter saves 1.9x, not the order of magnitude the docstring implies, because 79% of the cost is zlib decompression that happens before the filter can run. The per-archive grouping in iter_document_bytes is what carries the stage (59x at 5,000 members) and the docstring understates it. Measured 6.19 s for 20,000 documents, 96 MB peak, linear."
+    },
+    {
+      "id": "review-queue-unpaginated",
+      "first": "2026-10-31",
+      "severity": "low",
+      "summary": "app/queries.py review_queue takes no page size; /review renders 195 KB of HTML at 1,500 organizations and 1.97 MB at 15,000."
+    }
   ]
 }
