@@ -1,19 +1,8 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-10-30",
+  "last_run": "2026-11-02",
   "runs": [
-    {
-      "date": "2026-09-21",
-      "sources_checked": 77,
-      "sources_failed": 77,
-      "sources_failed_note": "Direct WebFetch/curl to all 77 state and federal source URLs (plus every other domain tried, including non-.gov local news and third-party trackers) again returned EGRESS_BLOCKED / CONNECT tunnel 403 across 11 parallel research passes (10 states + federal) -- confirmed as a general proxy policy block via curl tests on arkansasrhtp.com, www.dhs.wisconsin.gov, and example.com before dispatching research. All findings came from WebSearch fallback queries per sources.json; several passes (AR, IN, WI, MO, TN, MS, LA, TX, OK, Federal) hit the shared session-wide WebSearch budget cap before exhausting their planned follow-ups, which may have limited coverage depth -- flagged per-state in item descriptions.",
-      "items_new": 5,
-      "items_updated": 8,
-      "email_sent": true,
-      "email_type": "alert",
-      "note": "New: 3 AR Round-1 THRIVE/PACT sub-award recipient stories (White County Medical Center/Unity Health Newport WELL+CICAP $1.07M; Conway Regional maternal mobile health unit $795,960; Baptist Health Magnolia Regional transition $3M); 2 MS recipient-level awards from the 167-award pool (Tippah County $1.07M incl. cybersecurity/cloud ERP; DeSoto County $842,710). Updated: AR Baptist Health/South Arkansas Regional (IT/virtual-care sub-line $589,378 added); AR Rural Health Partnership (amount revised to $18.8M combined, conflicts with prior ~$2.25M+ estimate -- flagged for verification, not reconciled); MS 97-award and 43-award category pools (category totals ~$47.4M and ~$43.3M added); MS WEI/PES-EmPATH (split to $16.8M/$14M, timing narrowed to ~Oct 14-29); LA UL Lafayette grant (amount split $1.6M+$498,723 confirmed); LA Rural Tech Catalyst Fund (fund size $20M and per-company award range/eligibility added); TN RAMP state program (moved from design-stage placeholder to a live $104.4M TennCare Shared Savings solicitation with a Sept 30 2026 deadline -- state-funded, explicitly complements RHTP, RHTP funding itself not confirmed). Skipped as duplicate/non-material/unconfirmed: a CMS press release re-confirming AR's already-known $149.3M Round 1 total (same recycling pattern excluded in prior runs); a TX 'Rural Hospital Officers Academy' item confirmed HB18-state-funded, not RHTP; an MS DFA compliance-oversight RFx with an unclear/possibly-stale date; an OK ROOTS Year-2 $10,000/site detail and OKSHINE connection-fee sub-page, both secondary-aggregator-sourced only. No news found for IL, IN, WI, MO, TX, OK, or Federal this run."
-    },
     {
       "date": "2026-09-22",
       "sources_checked": 77,
@@ -331,6 +320,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in MO, LA, TX (2 new + 7 updated items total), on the CMS Year-1 funds-obligation deadline day. AR, IL, IN, WI, TN, MS, OK, Federal: confirmed no new or material changes via direct source fetches plus web-search fallback (5 parallel per-state-group research passes). MO (1 new, medium relevance): a new Year-2-contingent 'Workforce Retention and Enablers Funding' line (~$11.1M across the 27 existing ToRCH Care Hub Anchors, proposal window opens 2026-11-02) -- a new disbursement channel through hubs rather than a core health-IT item, but worth tracking. LA (7 updated, no new recipient/dollar detail but a material status change on the deadline day itself): LDH's program page now states all RHTP Budget Year 1 award notifications were completed as of today (2026-10-30), with contract execution to finish in November 2026 and Year 2 funding announcements narrowed to January 2027 (previously guided Jan-Mar 2027) -- affects the six still-unnamed Year 1 NOFOs (Collaborative Provider Models, Rural Medicaid APM, Regional Care Conveners, Food is Medicine, Telehealth Infrastructure, Rural Health Facilities Capital Improvement, ~$85.5M combined) and the EHR Voucher/Year 2 timeline; still zero recipient names or dollar breakdowns published for any of the six -- flagged as the top watch item for the next run, since LDH's own internal 'notifications completed' milestone implies recipients know but the public page does not yet. LA's Rural Tech Catalyst Fund Cohort 1 results also remain unannounced, now well past 'mid-October' and past today's deadline. TX (1 new + 1 updated, medium relevance): Gov. Abbott announced $87M/129 providers in new Rural Texas Strong grants (2026-10-29, same weekly-tranche pattern as prior announcements); separately, HHSC's weekly consolidated recipient spreadsheet grew to 445 line items/$680.6M intent-to-award, with fully-executed contracts jumping from 159 to 204 (+45/+$65.4M in one week) -- the largest weekly execution jump recorded, consistent with today's deadline. TX Initiatives 2 (Patient Portals/RPM), 3 (AI/Telehealth), and 5 (Cybersecurity) -- Allstar's highest-relevance TX lines -- remain confirmed not open. MO watch items unchanged: DSS26015 Smart Growth IFB (~$40M) outcome still murky, Virtual Care Expansion RFI outcome still unposted. TN watch items unchanged: ~8 of 9 remaining competitive grant-line awards and RFA 34347-39627 outcome still not posted despite today's deadline. WI watch items unchanged: RTTF Round 1 (~$61M), CHW, Rural Dental, and Care Coordination award lists still entirely unpublished, now 6th+ consecutive run with publicmeetings.wi.gov unreachable -- recommend allow-listing this domain or having a human pull the Oct 22 Advisory Council agenda manually. IL watch items unchanged: ICAHN Technology Innovation Grant and Mobile Healthcare Innovation NOFO award lists both still unposted past their deadlines; icahn.org now DNS-blocked at the network level (worse than prior proxy-block). OK watch items unchanged: RPM maternal-health vendor RFP still in internal design, not posted. Federal: no CMS Budget Period 2 (Year 2) allocation announcement yet for any of the ten states (checked directly via TAGGS for TX/OK plus medicaid.gov and CMS newsroom); expected ~2026-10-31 (tomorrow) -- the single most important thing to check first thing on the next run. GAO-27-108853 (program-wide CMS monitoring/clawback report) remains unread in full, gao.gov now fails at DNS resolution (4th+ consecutive run, recommend allow-listing). cms.gov/newsroom/press-releases now 404s -- check if the URL structure changed."
+    },
+    {
+      "date": "2026-11-02",
+      "sources_checked": 99,
+      "sources_failed": 16,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal), covering the gap since the last run (2026-10-30, a Friday) through today (Monday). AR: www.arkansas.gov/tss procurement redirects to www.ark.org which doesn't resolve in this session; icahn.org DNS/network-blocked (still blocks confirming the Oct 28 ICAHN hospital-info-form deadline outcome and the Technology Innovation / Mobile Healthcare Innovation award lists); il.amplifund.com SSO-walled. IN: no hard failures; www.in.gov/idoa/procurement/ sub-pages not separately fetched (low priority). WI: publicmeetings.wi.gov and dva.wi.gov confirmed as session-level network-allowlist blocks (proxy 'host not allowed for this session'), not transient DNS — recommend allow-listing; dhs.wisconsin.gov's /contracts/ and /node/ paths specifically 403 bot traffic (the 4 overdue WI award-list pages all live under these paths) while /rhtp/ and /business/rhtpac.htm remain reachable; vendornet.wi.gov loads but returns no extractable content. MO: dss.mo.gov's old DSS26015 bid-doc PDF now 404s (moot — award outcome found via a new dedicated award page instead); tha.com-equivalent-for-MO (mohospitals.org) not reached this run via that route but MO's own award page sufficed. TN: tha.com DNS-blocked (session-level, not transient); Caspio Partner Portal JS-shell, no content (standing, expected). MS: medicaid.ms.gov 404 (persistent); ms.gov DFA bid search loads but is a client-side form with no static results; ruralhealthinfo.org DNS-blocked (session-level) — blocks primary-adjacent confirmation of the new MS EHR program's $9.5M figure. LA: gov.louisiana.gov/news loads but returns 'No Results' (JS/filter-dependent); LaPAC loads but is a bare search form with no static listing (both standing, expected). TX/OK/Federal: gao.gov confirmed as a session-level network-allowlist block via both WebFetch and raw curl (6th+ consecutive run) — GAO-27-108853 still unread in full, recommend allow-listing gao.gov; secondary sources named as fallbacks (hcinnovationgroup.com, kffhealthnews.org, fiercehealthcare.com, hospitalogy.com) are ALSO session-blocked, only WebSearch snippets of them were obtainable; www.cms.gov/newsroom/press-releases (the federal index URL in sources.json) now 404s — working replacement identified at www.cms.gov/Newsroom (sources.json itself was not edited per the routine's instruction to modify only seen.json — flagging here for a human to update it); oklahoma.gov/health/rhtp/rhtp-funding-recipients.html's award-list content renders via a Power BI/iframe widget not capturable by WebFetch text extraction, a new award list there can't be ruled out; txsmartbuy.gov/esbd has 2,514 pages, only page 1 was inspectable (no real keyword search available via fetch).",
+      "items_new": 3,
+      "items_updated": 2,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in WI, MO, MS (3 new + 2 updated items total). AR, IL, IN, TN, LA, TX, OK: confirmed no new or material changes via direct source fetches plus web-search fallback (5 parallel per-state-group research passes). MO (1 new award, medium-high relevance, resolves a weeks-long watch item): the ~$40M Smart Growth & Service Line Modification IFB (DSS26015) was finally awarded 2026-10-30 — $39,400,820.55 to 25 named rural MO providers (hospitals, FQHC-adjacent community health centers, behavioral health orgs) for maternal-health, behavioral-health, and diagnostic-equipment projects; corroborated the same week by a CMS federal press release citing a slightly different $39.7M/26-provider figure (added to seen.json as a separate FEDERAL item and cross-referenced, not emailed as a second line item to avoid duplicating the same underlying disbursement). Existing seen item MO:solicitation:smart-growth-service-line-ifb-dss26015 updated from 'Closed, awards pending' to 'Awarded'. WI (1 new NOFO, medium relevance): a Community Health Workers (CHW) Training Providers Application, distinct from WI's already-tracked CHW Grants — amount not stated, deadline unconfirmed (DHS detail page 403-blocked; a third-party aggregator's date looks like a mis-scrape of a different grant's deadline), flagged accordingly in the email. MS (1 update, high relevance): the EHR Replacement for Small Rural Providers Program (HTAM) NOFO, open since 2026-10-21 with applications due 2026-11-23, now has a reported program ceiling of ~$9.5M — found only via a secondary-source (ruralhealthinfo.org) listing since that domain is session-blocked and MSDH's own pages still don't state a figure; flagged in the email as unverified/secondary-sourced pending primary confirmation. Watch items carried forward, all still open: CMS Budget Period 2 (Year 2) allocation announcements, expected '~2026-10-31' per the prior run's notes, have NOT materialized for ANY of the ten tracked states as of today (confirmed exhaustively across all 5 research passes via CMS's own newsroom/medicaid.gov news feed, TAGGS records for IL/IN/WI/MO/TN/TX/OK, and multiple states' own program pages) — now 2+ days past CMS's own expected date, the single most important thing to check first on the next run. WI's RTTF Round 1 (~$61M), CHW Grants, Rural Dental, and Care Coordination award lists remain entirely unpublished, now 7+ consecutive runs overdue against DHS's own internal 'September' award-announcement target, with publicmeetings.wi.gov and dva.wi.gov now confirmed as session network-allowlist blocks (not transient) — recommend allow-listing both, plus gao.gov (GAO-27-108853 still unread in full, 6th+ consecutive run, same root cause). LA's six remaining Year 1 NOFOs (~$85.5M combined, Collaborative Provider Models/Rural Medicaid APM/Regional Care Conveners/Food is Medicine/Telehealth Infrastructure/Capital Improvement) still have zero recipient names or dollar breakdowns published despite LDH's own page saying all Year 1 award notifications were completed as of 2026-10-30; Rural Tech Catalyst Fund Cohort 1 results remain unannounced, now ~2.5 weeks past LDH's own 'mid-October' target with stale, unacknowledged page text. TN's ~8 of 9 remaining competitive grant-line awards and RFA 34347-39627 outcome remain unposted, 3+ days past the 2026-10-30 obligation deadline. TX Initiatives 2 (Patient Portals/RPM), 3 (AI/Telehealth), and 5 (Cybersecurity) — Allstar's highest-relevance TX lines — confirmed still not open. OK's RPM maternal-health vendor RFP remains in internal design, not posted. IL's ICAHN Technology Innovation Grant and Mobile Healthcare Innovation NOFO award lists, and the Oct 28 ICAHN hospital-info-form deadline outcome, remain unverified (icahn.org/ruralhealthinfo.org-class domains session-blocked)."
     }
   ],
   "items": [
@@ -1213,10 +1213,10 @@
       "amount": "Up to $5M/award; ~$40M total across Program Years 1-2",
       "recipients": "not yet announced; eligible = rural facilities proposing maternal health, behavioral health, or diagnostics/outpatient service-line projects",
       "deadline": "Closed 2026-09-01 (amended from 8/28)",
-      "status": "Closed, awards pending",
+      "status": "Awarded 2026-10-30 — see MO:award:smart-growth-service-line-modernization-394m for the $39.4M/25-recipient outcome",
       "description": "One-time infrastructure grants for service-line expansion/modification; excludes new construction and cosmetic upgrades.",
       "first_seen": "2026-09-15",
-      "last_updated": "2026-09-15"
+      "last_updated": "2026-11-02"
     },
     {
       "id": "MO:solicitation:virtual-care-expansion-rfi",
@@ -5370,13 +5370,13 @@
       "type": "nofo",
       "title": "EHR Replacement for Small Rural Providers Program (HTAM)",
       "url": "https://mississippirhtp.com/funding/",
-      "amount": "not stated",
+      "amount": "~$9.5 million estimated total program funding (secondary-sourced via a ruralhealthinfo.org listing — NOT independently verified from a primary MSDH/mississippirhtp.com page; ruralhealthinfo.org is unreachable from this session, flag for primary-source confirmation next run)",
       "recipients": "not yet announced",
       "deadline": "Opens 2026-10-21; applications due 2026-11-23, 5:00pm CST",
       "status": "Open — application window now active (opened 2026-10-21 as scheduled)",
       "description": "New, specifically-named MS RHTP NOFO under the HTAM initiative funding replacement of outdated/non-certified EHR systems at small rural providers (data migration, workflow redesign, staff training, interoperability testing). Supersedes the previously-tracked placeholder item MS:nofo:october-2026-ehr-and-gap-opportunities.",
       "first_seen": "2026-10-14",
-      "last_updated": "2026-10-23"
+      "last_updated": "2026-11-02"
     },
     {
       "id": "LA:deadline:denial-notifications-remaining-strategies-oct16",
@@ -5792,6 +5792,45 @@
       "why_it_matters": "Continues the core RHTP sub-award distribution to rural hospital districts/providers (Initiative 1/4/6 pattern); not confirmed as touching Allstar's highest-relevance TX tech/cyber initiatives (2/3/5), which remain unopened -- medium relevance.",
       "first_seen": "2026-10-30",
       "last_updated": "2026-10-30"
+    },
+    {
+      "id": "MO:award:smart-growth-service-line-modernization-394m",
+      "type": "award",
+      "title": "Missouri Awards $39.4 Million to Modernize Rural Healthcare Services (Smart Growth & Service Line Modernization — DSS26015 outcome)",
+      "url": "https://dss.mo.gov/mhd/rhtp/missouri-awards-394-million-modernize-rural-healthcare-services",
+      "amount": "$39,400,820.55 across 25 named providers (CMS's federal press release separately states $39.7M to 26 providers — minor discrepancy, likely one recipient omitted from the state's public list)",
+      "recipients": "25 named MO providers incl. Missouri Delta Medical Center ($3,265,760.63), Heartland Regional Medical Center ($5,000,000.00), Hermann Area District Hospital ($3,637,412.00), Ozarks Medical Center ($3,582,525.00), Western Missouri Medical Center ($3,183,443.00), and 20 others (full list on source page) — mix of rural hospitals, FQHC-adjacent community health centers, and behavioral health organizations",
+      "deadline": "n/a (awarded)",
+      "status": "Awarded 2026-10-30. Two recipients explicitly flagged on-page as already \"approved by CMS\" (Missouri Delta Medical Center, Heartland Regional Medical Center); page implies the rest remain pending final CMS sign-off on individual projects.",
+      "description": "Resolution of long-pending IFB DSS26015 (ToRCH Care Smart Growth & Service Line Modification, Horizon 2). Funds one-time renovation/repurposing projects in maternal health (new labor/delivery/triage rooms), behavioral health, and diagnostics/outpatient service lines across rural MO providers. Corroborated at the federal level by a CMS press release the same week (see FEDERAL:news:cms-39-7m-missouri-modernize-rural-healthcare).",
+      "first_seen": "2026-11-02",
+      "last_updated": "2026-11-02"
+    },
+    {
+      "id": "FEDERAL:news:cms-39-7m-missouri-modernize-rural-healthcare",
+      "type": "federal",
+      "title": "Trump Administration Announces $39.7 Million to Modernize Rural Healthcare Across Missouri",
+      "url": "https://www.cms.gov/newsroom/press-releases/trump-administration-announces-39-7-million-modernize-rural-healthcare-across-missouri",
+      "amount": "$39.7 million",
+      "recipients": "26 rural healthcare providers across Missouri (not individually named in the release)",
+      "deadline": "n/a",
+      "status": "Published 2026-10-30",
+      "description": "CMS press release corroborating Missouri's Smart Growth & Service Line Modernization award (see MO:award:smart-growth-service-line-modernization-394m). Funds facility renovation/reconfiguration, maternal and behavioral health service expansion, and diagnostic equipment upgrades. Note: www.cms.gov/newsroom/press-releases (the index page in sources.json) now 404s — working replacement found at www.cms.gov/Newsroom; individual press-release URLs like this one still resolve.",
+      "first_seen": "2026-11-02",
+      "last_updated": "2026-11-02"
+    },
+    {
+      "id": "WI:nofo:chw-training-providers",
+      "type": "nofo",
+      "title": "Community Health Workers (CHW) Training Providers Application",
+      "url": "https://www.dhs.wisconsin.gov/node/152821",
+      "amount": "amount not stated",
+      "recipients": "not yet named — open to academic institutions, community-based organizations, local and Tribal health departments, and other training organizations",
+      "deadline": "not confirmed — a third-party aggregator (Grantable) shows 2026-08-21, but that date matches the separate Care Coordination grant's deadline and looks like a mis-scrape; DHS's own detail page returns HTTP 403 to automated fetch so this could not be verified on a primary source",
+      "status": "Open application period per DHS RHTP program listing; exact open/close dates unconfirmed",
+      "description": "Distinct from the already-tracked WI Community Health Worker Grants ($400–600K/yr to CHW-employing organizations). Funds training providers to develop, deliver, and evaluate CHW/CHW-supervisor training curricula, tied to upcoming Medicaid CHW reimbursement training standards. Reference materials: https://www.dhs.wisconsin.gov/rhtp/community-health-workers-training-providers-application-reference-copy.pdf ; application portal: https://survey.alchemer.com/s3/8939082/Community-Health-Workers-CHW-Training-Providers-Application",
+      "first_seen": "2026-11-02",
+      "last_updated": "2026-11-02"
     }
   ]
 }
