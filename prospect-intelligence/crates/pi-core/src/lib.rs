@@ -3,7 +3,10 @@ pub mod db;
 pub mod geo;
 pub mod models;
 pub mod repo;
-pub mod scoring;
+pub mod icp;
+pub mod naics;
+pub mod dedupe;
+pub mod csvio;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {

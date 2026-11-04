@@ -113,7 +113,7 @@ pub async fn search(req: SearchRequest) -> Result<Vec<Prospect>, String> {
             address: street, city: g("addr:city"), zip: g("addr:postcode"), state, county: county.clone(),
             lat: el["lat"].as_f64().or_else(|| el["center"]["lat"].as_f64()),
             lon: el["lon"].as_f64().or_else(|| el["center"]["lon"].as_f64()),
-            source: "osm".into(), source_id: Some(format!("{ty}/{id}")),
+            source: "osm".into(), origin: "live".into(), export_ok: true, source_id: Some(format!("{ty}/{id}")),
             source_url: Some(format!("https://www.openstreetmap.org/{ty}/{id}")),
             ..Default::default()
         });

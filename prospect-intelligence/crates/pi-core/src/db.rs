@@ -28,6 +28,37 @@ CREATE TABLE activities(
   id INTEGER PRIMARY KEY, prospect_id INTEGER NOT NULL REFERENCES prospects(id) ON DELETE CASCADE,
   kind TEXT NOT NULL, summary TEXT NOT NULL, occurred_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE settings(key TEXT PRIMARY KEY, value TEXT NOT NULL);
+"#, r#"
+ALTER TABLE prospects ADD COLUMN legal_name TEXT;
+ALTER TABLE prospects ADD COLUMN naics TEXT;
+ALTER TABLE prospects ADD COLUMN sic TEXT;
+ALTER TABLE prospects ADD COLUMN revenue_range TEXT;
+ALTER TABLE prospects ADD COLUMN year_established INTEGER;
+ALTER TABLE prospects ADD COLUMN parent_company TEXT;
+ALTER TABLE prospects ADD COLUMN facilities INTEGER;
+ALTER TABLE prospects ADD COLUMN products TEXT;
+ALTER TABLE prospects ADD COLUMN owner TEXT;
+ALTER TABLE prospects ADD COLUMN tags TEXT;
+ALTER TABLE prospects ADD COLUMN origin TEXT NOT NULL DEFAULT 'manual';
+ALTER TABLE prospects ADD COLUMN export_ok INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE prospects ADD COLUMN tier TEXT NOT NULL DEFAULT 'Low';
+ALTER TABLE prospects ADD COLUMN completeness INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE contacts ADD COLUMN profile_url TEXT;
+ALTER TABLE contacts ADD COLUMN verified_on TEXT;
+CREATE TABLE field_sources(
+  id INTEGER PRIMARY KEY, prospect_id INTEGER NOT NULL REFERENCES prospects(id) ON DELETE CASCADE,
+  field TEXT NOT NULL, value TEXT NOT NULL, source TEXT NOT NULL, source_ref TEXT,
+  retrieved_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, status TEXT NOT NULL DEFAULT 'unverified', confidence TEXT);
+CREATE INDEX idx_fs_prospect ON field_sources(prospect_id, field);
+CREATE TABLE signals(
+  id INTEGER PRIMARY KEY, prospect_id INTEGER NOT NULL REFERENCES prospects(id) ON DELETE CASCADE,
+  kind TEXT NOT NULL, summary TEXT NOT NULL, source TEXT NOT NULL, source_url TEXT, event_date TEXT);
+CREATE TABLE lists(id INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE);
+CREATE TABLE list_members(list_id INTEGER NOT NULL REFERENCES lists(id) ON DELETE CASCADE,
+  prospect_id INTEGER NOT NULL REFERENCES prospects(id) ON DELETE CASCADE, PRIMARY KEY(list_id, prospect_id));
+CREATE TABLE tasks(id INTEGER PRIMARY KEY, prospect_id INTEGER NOT NULL REFERENCES prospects(id) ON DELETE CASCADE,
+  title TEXT NOT NULL, due TEXT, done INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE saved_searches(id INTEGER PRIMARY KEY, name TEXT NOT NULL, kind TEXT NOT NULL, body TEXT NOT NULL);
 "#];
 
 pub fn open(path: &Path) -> Result<Connection> {
