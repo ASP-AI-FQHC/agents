@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@theme {
+  --color-brand-50: #eef6ff; --color-brand-100: #d9ebff; --color-brand-500: #1f6feb;
+  --color-brand-600: #1a5fcb; --color-brand-700: #154ba3; --color-brand-900: #0b2447;
+}
+html, body, #root { height: 100%; }
+body { @apply bg-slate-50 text-slate-800 antialiased; font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif; }
+.btn { @apply inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-sm font-medium transition disabled:opacity-50; }
+.btn-primary { @apply bg-brand-600 text-white hover:bg-brand-700; }
+.btn-ghost { @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-100; }
+.input { @apply rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500; }
+.card { @apply rounded-lg border border-slate-200 bg-white shadow-sm; }
