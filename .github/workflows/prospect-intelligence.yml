@@ -36,6 +36,21 @@ jobs:
           Get-FileHash dist-installers/* -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  $(Split-Path $_.Path -Leaf)" } | Set-Content dist-installers/SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with: { name: windows-installers, path: prospect-intelligence/dist-installers/* }
+  macos:
+    needs: core
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: dtolnay/rust-toolchain@stable
+        with: { targets: "aarch64-apple-darwin,x86_64-apple-darwin" }
+      - run: npm ci
+      - run: npx tauri build --target universal-apple-darwin --bundles dmg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg-unsigned
+          path: prospect-intelligence/target/universal-apple-darwin/release/bundle/dmg/*.dmg
   release:
     if: startsWith(github.ref, 'refs/tags/pi-v')
     needs: windows

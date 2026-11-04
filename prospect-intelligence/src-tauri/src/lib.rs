@@ -109,10 +109,19 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
+            use tauri_plugin_dialog::DialogExt;
             let dir = app.path().app_data_dir()?;
             std::fs::create_dir_all(&dir)?;
-            app.manage(Db(Mutex::new(db::open(&dir.join("prospects.db"))?)));
-            Ok(())
+            match db::open(&dir.join("prospects.db")) {
+                Ok(conn) => { app.manage(Db(Mutex::new(conn))); Ok(()) }
+                Err(err) => {
+                    let log = dir.join("startup-error.log");
+                    let _ = std::fs::write(&log, format!("Could not open the prospect database: {err}\n"));
+                    app.dialog().message(format!("IT Architechs Prospect Intelligence could not open its local database.\n\n{err}\n\nDetails were saved to:\n{}", log.display()))
+                        .title("Startup problem").blocking_show();
+                    Err(err.into())
+                }
+            }
         })
         .invoke_handler(tauri::generate_handler![
             list_regions, set_region_enabled, add_county, remove_county, list_prospects, get_prospect, save_prospect,
