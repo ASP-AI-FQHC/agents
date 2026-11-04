@@ -80,7 +80,7 @@ pub struct Activity {
     pub occurred_at: String,
 }
 
-pub const STAGES: &[&str] = &["new", "researching", "qualified", "contacted", "meeting", "proposal", "won", "lost"];
+pub const STAGES: &[&str] = &["new", "researching", "qualified", "contacted", "meeting", "opportunity", "proposal", "won", "lost", "not_a_fit"];
 pub const VERTICALS: &[&str] = &["manufacturing", "wholesale", "warehousing", "industrial", "transportation", "other"];
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

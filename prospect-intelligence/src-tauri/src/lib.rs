@@ -93,6 +93,10 @@ fn lock<'a>(s: &'a State<Db>) -> R<std::sync::MutexGuard<'a, Connection>> { s.0.
 /// Live search; results are returned unsaved so the rep chooses what to keep.
 #[tauri::command] async fn search_companies(request: osm::SearchRequest) -> R<Vec<Prospect>> { osm::search(request).await }
 
+/// Only reports success after a real request succeeds. Providers without an adapter report "Not implemented".
+#[tauri::command] async fn test_connection(provider: String) -> R<String> {
+    match provider.as_str() { "osm" => osm::test_connection().await, p => Err(format!("{p}: adapter not implemented; credential saved only")) }
+}
 #[tauri::command] fn set_secret(name: String, value: String) -> R<()> { secrets::set(&name, &value) }
 #[tauri::command] fn delete_secret(name: String) -> R<()> { secrets::delete(&name) }
 #[tauri::command] fn secret_status() -> Vec<(String, bool)> { secrets::KNOWN.iter().map(|k| (k.to_string(), secrets::has(k))).collect() }
@@ -115,7 +119,7 @@ pub fn run() {
             delete_prospect, delete_all_data, set_stage, set_next_action, list_activities, add_activity, list_contacts, add_contact,
             list_signals, add_signal, field_sources, conflicts, dashboard, get_icp, save_icp, naics_catalog, lists, create_list, add_to_list, delete_list,
             save_search, saved_searches, delete_saved_search, add_task, list_tasks, complete_task, import_csv, export_csv, backup_db, restore_db,
-            search_companies, set_secret, delete_secret, secret_status, get_setting, set_setting
+            search_companies, test_connection, set_secret, delete_secret, secret_status, get_setting, set_setting
         ])
         .run(tauri::generate_context!())
         .expect("error running application");

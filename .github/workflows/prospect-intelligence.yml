@@ -1,7 +1,9 @@
 name: prospect-intelligence-build
 on:
   push:
+    branches: ["**"]
     paths: ["prospect-intelligence/**", ".github/workflows/prospect-intelligence.yml"]
+    tags: ["pi-v*"]
   workflow_dispatch:
 defaults:
   run:
@@ -14,6 +16,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo test -p pi-core
   windows:
+    needs: core
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,10 +24,25 @@ jobs:
         with: { node-version: 22 }
       - uses: dtolnay/rust-toolchain@stable
       - run: npm ci
+      - run: npm run build
       - run: npx tauri build
+      - name: Stable installer names
+        shell: pwsh
+        run: |
+          $v = (Get-Content src-tauri/tauri.conf.json | ConvertFrom-Json).version
+          New-Item -ItemType Directory -Force dist-installers | Out-Null
+          Copy-Item (Get-ChildItem target/release/bundle/nsis/*-setup.exe | Select-Object -First 1) "dist-installers/ITArchitechs-Prospect-Intelligence-Setup.exe"
+          Copy-Item (Get-ChildItem target/release/bundle/msi/*.msi | Select-Object -First 1) "dist-installers/ITArchitechs-Prospect-Intelligence-$v.msi"
+          Get-FileHash dist-installers/* -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  $(Split-Path $_.Path -Leaf)" } | Set-Content dist-installers/SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
-        with:
-          name: windows-installers
-          path: |
-            prospect-intelligence/target/release/bundle/nsis/*.exe
-            prospect-intelligence/target/release/bundle/msi/*.msi
+        with: { name: windows-installers, path: prospect-intelligence/dist-installers/* }
+  release:
+    if: startsWith(github.ref, 'refs/tags/pi-v')
+    needs: windows
+    runs-on: ubuntu-latest
+    permissions: { contents: write }
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: windows-installers, path: out }
+      - uses: softprops/action-gh-release@v2
+        with: { files: out/*, draft: true, name: "Prospect Intelligence ${{ github.ref_name }}" }

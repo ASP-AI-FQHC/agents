@@ -120,3 +120,13 @@ pub async fn search(req: SearchRequest) -> Result<Vec<Prospect>, String> {
     }
     Ok(out)
 }
+
+/// Real connectivity check: succeeds only if both public services answer.
+pub async fn test_connection() -> Result<String, String> {
+    let c = reqwest::Client::builder().user_agent(UA).timeout(std::time::Duration::from_secs(20)).build().map_err(|e| e.to_string())?;
+    c.get("https://nominatim.openstreetmap.org/status.php?format=json").send().await.map_err(|e| format!("Nominatim unreachable: {e}"))?
+        .error_for_status().map_err(|e| format!("Nominatim: {e}"))?;
+    c.get("https://overpass-api.de/api/status").send().await.map_err(|e| format!("Overpass unreachable: {e}"))?
+        .error_for_status().map_err(|e| format!("Overpass: {e}"))?;
+    Ok("Connected to Nominatim and Overpass".into())
+}

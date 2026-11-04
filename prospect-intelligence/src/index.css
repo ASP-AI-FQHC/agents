@@ -10,3 +10,4 @@ body { @apply bg-slate-50 text-slate-800 antialiased; font-family: "Segoe UI Var
 .btn-ghost { @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-100; }
 .input { @apply rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500; }
 .card { @apply rounded-lg border border-slate-200 bg-white shadow-sm; }
+@media print { aside, header.print\:hidden { display: none !important; } main { overflow: visible !important; padding: 0 !important; } body { background: white; } .card { box-shadow: none; } }

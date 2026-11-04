@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import { VERTICALS, type Geography, type Prospect, type Region } from "../lib/types";
-import ScoreBadge from "../components/ScoreBadge";
+import { Tier } from "../components/Bits";
 
 type Mode = Geography["kind"];
 const SEARCHABLE = VERTICALS.filter((v) => v !== "transportation" && v !== "other");
@@ -20,6 +20,7 @@ export default function Search({ onOpen }: { onOpen: (id: number) => void }) {
   const [saved, setSaved] = useState<Record<string, number>>({});
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  const [imp, setImp] = useState("");
 
   useEffect(() => { api.regions(state).then((r) => { const en = r.filter((x) => x.enabled); setCounties(en); setCounty(en[0]?.name ?? ""); }).catch((e) => setErr(String(e))); }, [state]);
 
@@ -43,7 +44,9 @@ export default function Search({ onOpen }: { onOpen: (id: number) => void }) {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold text-brand-900">Discover prospects</h1>
+      <div className="flex items-center justify-between"><h1 className="text-xl font-semibold text-brand-900">Find Prospects</h1>
+        <button className="btn btn-ghost" onClick={async () => { try { const r = await api.importCsv(); if (r) setImp(`Imported ${r.inserted} new, merged ${r.merged} duplicate(s), skipped ${r.skipped}.${r.errors.length ? " " + r.errors.slice(0, 3).join("; ") : ""}`); } catch (e) { setErr(String(e)); } }}>Import CSV lead list</button></div>
+      {imp && <div className="rounded bg-emerald-50 p-2 text-sm text-emerald-800">{imp}</div>}
       <div className="card space-y-3 p-4">
         <div className="flex flex-wrap items-end gap-3">
           <label className="text-sm">Search by
@@ -86,11 +89,11 @@ export default function Search({ onOpen }: { onOpen: (id: number) => void }) {
               const k = p.sourceId ?? p.name; const id = saved[k];
               return (<tr key={k} className="border-t border-slate-100">
                 <td className="p-2 font-medium">{p.name}</td><td className="capitalize">{p.vertical}</td><td>{p.city ?? "—"}</td>
-                <td><ScoreBadge score={p.score} /></td>
+                <td><Tier tier={p.tier} /></td>
                 <td className="pr-2 text-right">{id ? <button className="btn btn-ghost" onClick={() => onOpen(id)}>Open</button> : <button className="btn btn-primary" onClick={() => keep(p)}>Save</button>}</td>
               </tr>);})}</tbody>
           </table>
-          <div className="p-2 text-xs text-slate-500">{results.length} results. Fit scores are computed on save from verified fields only.</div>
+          <div className="p-2 text-xs text-slate-500">{results.length} results. Industry (NAICS), headcount and contacts are not available from this source; add them by import or manually. Fit tiers are computed on save.</div>
         </div>)}
     </div>
   );
