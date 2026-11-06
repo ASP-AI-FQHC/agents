@@ -1,0 +1,40 @@
+{
+  "_comment": "Sources the FQHC Breach & Advisory Watch checks every run. Edit freely; the routine reads this file fresh each time. 'kind' is a hint for how to read the page.",
+  "recipients": ["gfuller@allstarpartners.com"],
+  "fqhc_verification": "https://findahealthcenter.hrsa.gov/",
+  "priority_states": ["IL", "AR", "IN", "WI", "MO", "TN", "MS", "LA", "TX", "OK"],
+  "sources": [
+    {"url": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf", "kind": "ocr-breach-portal", "note": "500+ individual breaches, currently under investigation. JS app; fall back to web search if it will not render."},
+    {"url": "https://www.hhs.gov/hipaa/newsroom/index.html", "kind": "ocr-enforcement"},
+    {"url": "https://www.hhs.gov/about/news/", "kind": "hhs-press"},
+    {"url": "https://www.hhs.gov/hipaa/for-professionals/compliance-enforcement/agreements/index.html", "kind": "ocr-resolution-agreements"},
+    {"url": "https://405d.hhs.gov/", "kind": "hhs-405d"},
+    {"url": "https://www.hhs.gov/about/agencies/asa/ocio/hc3/index.html", "kind": "hc3", "note": "Check whether HC3 is still publishing; record if inactive."},
+    {"url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog", "kind": "cisa-kev", "note": "Flag additions affecting EHR, practice-management, remote access/VPN, email, or identity products common in FQHCs."},
+    {"url": "https://www.cisa.gov/news-events/cybersecurity-advisories", "kind": "cisa-advisories"},
+    {"url": "https://www.ic3.gov/PSA", "kind": "fbi-ic3"},
+    {"url": "https://health-isac.org/category/alerts/", "kind": "health-isac"},
+    {"url": "https://bphc.hrsa.gov/", "kind": "hrsa-bphc"},
+    {"url": "https://oag.ca.gov/privacy/databreach/list", "kind": "state-ag-breach-list"},
+    {"url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html", "kind": "state-ag-breach-list"},
+    {"url": "https://www.mass.gov/lists/data-breach-notification-reports", "kind": "state-ag-breach-list"},
+    {"url": "https://ago.vermont.gov/data-broker-and-security-breach-notices", "kind": "state-ag-breach-list"},
+    {"url": "https://www.atg.wa.gov/data-breach-notifications", "kind": "state-ag-breach-list"},
+    {"url": "https://www.texasattorneygeneral.gov/consumer-protection/data-breach-reports", "kind": "state-ag-breach-list"},
+    {"url": "https://www.in.gov/attorneygeneral/consumer-protection-division/id-theft-prevention/security-breaches/", "kind": "state-ag-breach-list"},
+    {"url": "https://www.hipaajournal.com/", "kind": "trade-press-leads-only"},
+    {"url": "https://databreaches.net/", "kind": "trade-press-leads-only"}
+  ],
+  "web_search_fallback": [
+    "community health center data breach",
+    "FQHC data breach notice",
+    "health center \"notice of data security incident\"",
+    "community health center ransomware",
+    "HHS OCR breach portal health center",
+    "HHS OCR HIPAA settlement",
+    "OCR risk analysis initiative enforcement",
+    "CISA healthcare advisory",
+    "known exploited vulnerability EHR",
+    "Health-ISAC alert"
+  ]
+}
