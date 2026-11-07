@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "clientName": "Any FQHC",
+    "productLine": "ASP Healthcare IT - ConnectSecure",
+    "preparedByName": "Guy Fuller",
+    "preparedByEmail": "gfuller@allstarpartners.com",
+    "proposalId": "CS-40021",
+    "proposalDate": "2026-08-25",
+    "serviceTermMonths": 12,
+    "nrc": 500,
+    "tmHourlyRate": 195
+  },
+  "lines": [
+    { "service": "ASP Healthcare IT - Managed Service - ConnectSecure", "perUnit": "ConnectSecure", "qty": 1, "unitPrice": 500.00, "monthly": 500.00 }
+  ],
+  "totals": { "monthlyTotal": 500.00 }
+}
