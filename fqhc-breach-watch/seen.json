@@ -1,6 +1,182 @@
 {
-  "initialized": false,
-  "last_run": null,
-  "runs": [],
-  "items": []
+  "initialized": true,
+  "last_run": "2026-11-10",
+  "runs": [
+    {
+      "date": "2026-11-10",
+      "sources_checked": 20,
+      "sources_failed": [
+        "ocrportal.hhs.gov (live portal not rendered; cached listing ends 2026-10-15)",
+        "hhs.gov HC3 page (empty)",
+        "health-isac.org alerts (not found)",
+        "ago.vermont.gov (not found)",
+        "texasattorneygeneral.gov (not found)",
+        "maine.gov AG (public database offline per notice)",
+        "ic3.gov/PSA (no listing returned)",
+        "in.gov AG (list is linked PDF, not read)",
+        "hhs.gov/hipaa/newsroom and hhs.gov/about/news (index without dated entries)"
+      ],
+      "items_new": 7,
+      "items_updated": 0,
+      "alert_sent": "yes",
+      "note": "Baseline run, 30-day lookback 2026-10-11..2026-11-10. Direct fetch blocked in session; pages read via Exa fetch/search. HC3 status not determined."
+    }
+  ],
+  "items": [
+    {
+      "id": "breach:northshore-health-centers-2026-10",
+      "type": "breach",
+      "title": "NorthShore Health Centers",
+      "state": "IN",
+      "urls": [
+        "https://northshorehealth.org/wp-content/uploads/NorthShore-Website-Notice-10-19-26.pdf"
+      ],
+      "status": "CONFIRMED",
+      "summary": "Entity notice dated 2026-10-14: unknown actor accessed parts of network 2026-08-10 to 2026-08-11; data review ongoing; letters not yet mailed.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center Program award H8002458 (HHS TAGGS)",
+      "incident_date": "2026-08-10 to 2026-08-11",
+      "disclosure_date": "2026-10-14",
+      "affected_count": null,
+      "cause": "unauthorized network access by unknown actor; method not disclosed",
+      "ocr_action": null,
+      "litigation": null
+    },
+    {
+      "id": "breach:integrated-health-centers-of-west-virginia-2026-10",
+      "type": "breach",
+      "title": "Ritchie County Primary Care Association d/b/a Integrated Health Centers of West Virginia",
+      "state": "WV",
+      "urls": [
+        "https://databreachrights.com/ritchie-county-primary-care-association-data-breach/"
+      ],
+      "status": "REPORTED",
+      "summary": "Secondary source says a breach notice was filed with the Vermont AG in October 2026; SSNs and health records involved. Vermont AG page did not load; no primary notice found.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10",
+      "reported": true,
+      "fqhc_verified": "entity website states FQHC designation (ihcwv.org)",
+      "incident_date": null,
+      "disclosure_date": "2026-10 (day not disclosed)",
+      "affected_count": null,
+      "cause": null,
+      "ocr_action": null,
+      "litigation": null
+    },
+    {
+      "id": "breach:arcare-2022-02",
+      "type": "breach",
+      "title": "ARcare, Inc. (2022 breach) - class action settlement",
+      "state": "AR",
+      "urls": [
+        "https://www.arcaredatasettlement.com/media/7477984/preliminary_approval_order.pdf",
+        "https://www.hipaajournal.com/arcare-data-breach-settlement/",
+        "https://openclassactions.com/settlements/data-breaches/arcare-data-breach-settlement.php"
+      ],
+      "status": "CONFIRMED (settlement, preliminary approval); REPORTED (class size, claim deadline, revised hearing date)",
+      "summary": "Hale v. ARcare, E.D. Ark. 3:22-cv-00117-BSM: $3,900,000 non-reversionary fund; preliminary approval order dated 2026-08-03. Reported: ~345,000 notified; claims due 2027-01-07; final approval hearing moved to 2027-01-28.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10",
+      "reported": true,
+      "fqhc_verified": "Community Health Centers of Arkansas member; HRSA UDS awardee",
+      "incident_date": "discovered 2022-02-24",
+      "disclosure_date": "2022",
+      "affected_count": "approximately 345,000 (REPORTED)",
+      "cause": "unauthorized network access",
+      "ocr_action": null,
+      "litigation": "$3.9M class settlement, preliminary approval 2026-08-03; final approval pending"
+    },
+    {
+      "id": "ocr-enforcement:lehigh-valley-health-network-2026-10",
+      "type": "ocr-enforcement",
+      "title": "HHS OCR settlement with Lehigh Valley Health Network",
+      "state": "PA",
+      "urls": [
+        "https://www.hhs.gov/press-room/hhs-ocr-settles-ransomware-investigation-lehigh-valley-health-network.html"
+      ],
+      "status": "CONFIRMED",
+      "summary": "Announced 2026-10-29: $800,000 and 3-year corrective action plan; ransomware discovered 2023-02-04; 248,359 individuals; findings include no accurate and thorough risk analysis, no regular review of system activity, late breach notification. OCR's 22nd ransomware enforcement action. Not an FQHC; alerted under rule 3.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10",
+      "reported": true,
+      "announcement_date": "2026-10-29",
+      "amount": "$800,000"
+    },
+    {
+      "id": "kev:ivanti-connect-secure-cve-2026-111357-cve-2026-118527",
+      "type": "kev",
+      "title": "CISA KEV: Ivanti Connect Secure CVE-2026-111357, CVE-2026-118527",
+      "state": null,
+      "urls": [
+        "https://www.cisa.gov/news-events/alerts/2026/10/30/cisa-adds-two-known-exploited-vulnerabilities-catalog"
+      ],
+      "status": "CONFIRMED",
+      "summary": "Added to KEV 2026-10-30 on evidence of active exploitation. SSL VPN / remote access product.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10",
+      "reported": true,
+      "date_added": "2026-10-30"
+    },
+    {
+      "id": "kev:sonicwall-sonicos-sslvpn-cve-2026-19868",
+      "type": "kev",
+      "title": "CISA KEV: SonicWall SonicOS SSLVPN CVE-2026-19868",
+      "state": null,
+      "urls": [
+        "https://www.cisa.gov/news-events/alerts/2026/11/06/cisa-adds-one-known-exploited-vulnerability-catalog"
+      ],
+      "status": "CONFIRMED",
+      "summary": "Added to KEV 2026-11-06. Use of single-factor authentication vulnerability in SSLVPN. Reported (BleepingComputer): allows bypass of SAML-enforced MFA.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10",
+      "reported": true,
+      "date_added": "2026-11-06"
+    },
+    {
+      "id": "kev:barracuda-esg-cve-2026-116606-cve-2026-111560",
+      "type": "kev",
+      "title": "CISA KEV: Barracuda Email Security Gateway CVE-2026-116606 and multiple-product CVE-2026-111560; Microsoft Outlook CVE-2026-124194",
+      "state": null,
+      "urls": [
+        "https://www.cisa.gov/news-events/alerts/2026/11/10/cisa-adds-six-known-exploited-vulnerabilities-catalog",
+        "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      ],
+      "status": "CONFIRMED",
+      "summary": "Added to KEV 2026-11-10. ESG authentication bypass chained with OS command injection (root); due date 2026-11-13 with forensic triage required. Same alert adds an Outlook flaw.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10",
+      "reported": true,
+      "date_added": "2026-11-10"
+    },
+    {
+      "id": "breach:community-health-services-soul-2026-11",
+      "type": "breach",
+      "title": "Community Health Services (ransomware leak-site listing, Soul group)",
+      "state": null,
+      "urls": [
+        "https://databreach.watch/breach/community-health-services-2026-november"
+      ],
+      "status": "REPORTED",
+      "reported": false,
+      "reason": "Leak-site claim only (listed 2026-11-04); entity ambiguous, FQHC status and breach unverified. Re-check if an entity or regulator notice appears.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10"
+    },
+    {
+      "id": "ocr-enforcement:perry-johnson-associates-multistate-2026-11",
+      "type": "ocr-enforcement",
+      "title": "Perry Johnson & Associates multi-state AG settlement",
+      "state": null,
+      "urls": [
+        "https://www.hipaajournal.com/pja-multi-state-settlement-hipaa/"
+      ],
+      "status": "REPORTED",
+      "reported": false,
+      "reason": "State AG action, not HHS OCR; entity not an FQHC; outside rules 3 and 4.",
+      "first_seen": "2026-11-10",
+      "last_updated": "2026-11-10"
+    }
+  ]
 }
