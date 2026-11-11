@@ -149,9 +149,27 @@ per item plus source link. This proves the pipeline works end to end.
   press release or directory from the current year. Cite the source. If the
   only source is older than a year, add "(as of <year>, not reconfirmed)".
 - **CEO email:** only an address explicitly published on a public page, with
-  its source. Never construct or guess an address from a naming pattern. If
-  none is published, write "not published" and give the general contact
-  address or form if one exists.
+  its source. Never construct or guess an address from a naming pattern.
+  Work in this order:
+  1. Search and read the entity's own site (leadership, staff, contact
+     pages) and public documents that name the CEO.
+  2. If that finds nothing, run the Exa research agent (`agent_run`, effort
+     `medium`, one run for all CEOs still missing an address). Ask it for
+     the exact address, the URL where that address appears with the
+     person's name, and whether the person is still CEO this year; tell it
+     not to infer addresses from patterns.
+  3. Verify every address the agent returns: fetch the cited URL yourself
+     and confirm the exact address is on the page next to that person. The
+     agent has cited pages that do not contain the address it reported.
+     - On the page: report it as `<address> (<source URL>, <source date>)`.
+     - Not on the page, or the page will not load: do not put it in the
+       "CEO email" line. Write "not published" and store the address in
+       `seen.json` under `contact.ceo_email_unverified` with a note.
+  4. If the Exa agent is unavailable, skip step 2 and say so in the run
+     record.
+  If no address is verified, write "not published" and give the general
+  contact address or form if one exists. Reuse a verified address already
+  in `seen.json` → `contact` unless it is more than a year old.
 - **Outreach draft:** a short email from Guy Fuller to the CEO, 120–170
   words, ready to paste. It offers Allstar's Executive Vulnerability
   Management with a Strategic Business Review. Hold to this message: no
