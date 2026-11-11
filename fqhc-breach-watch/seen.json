@@ -1,6 +1,7 @@
 {
   "initialized": true,
   "last_run": "2026-11-11",
+  "ocr_portal_last_date": "2026-10-15",
   "runs": [
     {
       "date": "2026-11-10",
@@ -57,7 +58,7 @@
       "items_new": 0,
       "items_updated": 0,
       "alert_sent": "no",
-      "note": "Scheduled run, second on this UTC date. Lookback 2026-11-09..11. No qualifying item. KEV JSON feed and ic3.gov read directly; no KEV additions since 2026-11-10; latest IC3 PSA 2026-10-23. One leak-site-only FQHC claim recorded as not reported."
+      "note": "Scheduled run, second on this UTC date. Lookback 2026-11-09..11. No qualifying item. KEV JSON feed and ic3.gov read directly; no KEV additions since 2026-11-10; latest IC3 PSA 2026-10-23. One leak-site-only FQHC claim recorded as not reported. Later same day (manual maintenance): OCR portal read directly via ocr_portal.js, 719 rows, newest submission 2026-10-15; no FQHC entry dated within the lookback."
     }
   ],
   "items": [

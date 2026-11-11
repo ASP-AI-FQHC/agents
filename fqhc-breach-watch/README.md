@@ -6,13 +6,14 @@ advisories (CISA, HHS, FBI, Health-ISAC, HRSA) for developments involving
 federally qualified health centers. It alerts only when a verified item bears
 on Allstar's identity security, vulnerability management, or HIPAA services.
 
-There is no server and no code to run. A Claude Code cloud routine clones this
+There is no server to run. A Claude Code cloud routine clones this
 repo every morning, follows `PROMPT.md`, and commits `seen.json` back.
 
 | File | Purpose |
 | --- | --- |
 | `PROMPT.md` | The routine's full instructions. |
 | `sources.json` | Every URL checked, the web-search fallback queries, and the recipient list. Edit to add a source or recipient. |
+| `ocr_portal.js` | Reads the HHS OCR breach portal with headless Chromium and prints the newest rows as JSON. Run by the routine; `node fqhc-breach-watch/ocr_portal.js 2`. |
 | `seen.json` | The routine's memory: every item already reported (or checked and rejected), and a log of the last 30 runs. |
 
 ## Schedule and delivery

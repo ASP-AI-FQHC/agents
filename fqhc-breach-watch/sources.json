@@ -1,27 +1,41 @@
 {
   "_comment": "Sources the FQHC Breach & Advisory Watch checks every run. Edit freely; the routine reads this file fresh each time. 'kind' is a hint for how to read the page.",
-  "recipients": ["gfuller@allstarpartners.com", "jdudek@allstarpartners.com", "jgrychowski@allstarpartners.com"],
+  "recipients": [
+    "gfuller@allstarpartners.com",
+    "jdudek@allstarpartners.com",
+    "jgrychowski@allstarpartners.com"
+  ],
   "fqhc_verification": "https://findahealthcenter.hrsa.gov/",
-  "priority_states": ["IL", "AR", "IN", "WI", "MO", "TN", "MS", "LA", "TX", "OK"],
+  "priority_states": [
+    "IL",
+    "AR",
+    "IN",
+    "WI",
+    "MO",
+    "TN",
+    "MS",
+    "LA",
+    "TX",
+    "OK"
+  ],
   "sources": [
-    {"url": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf", "kind": "ocr-breach-portal", "note": "500+ individual breaches, currently under investigation. JS app; fall back to web search if it will not render."},
-    {"url": "https://www.hhs.gov/hipaa/newsroom/index.html", "kind": "ocr-enforcement"},
-    {"url": "https://www.hhs.gov/about/news/", "kind": "hhs-press"},
+    {"url": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf", "kind": "ocr-breach-portal", "note": "500+ individual breaches under investigation, newest submission first. JS app: read it with `node fqhc-breach-watch/ocr_portal.js 2` (headless Chromium), not a page fetch. Listings lag submission by weeks. Fall back to web search only if the script fails."},
+    {"url": "https://www.hhs.gov/ocr/newsroom/index.html", "kind": "ocr-enforcement", "note": "Dated OCR press releases. hhs.gov returns 403 to curl; read with a fetch tool."},
     {"url": "https://www.hhs.gov/hipaa/for-professionals/compliance-enforcement/agreements/index.html", "kind": "ocr-resolution-agreements"},
     {"url": "https://405d.hhs.gov/", "kind": "hhs-405d"},
     {"url": "https://www.hhs.gov/about/agencies/asa/ocio/hc3/index.html", "kind": "hc3", "note": "Check whether HC3 is still publishing; record if inactive."},
     {"url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog", "kind": "cisa-kev", "note": "Flag additions affecting EHR, practice-management, remote access/VPN, email, or identity products common in FQHCs."},
     {"url": "https://www.cisa.gov/news-events/cybersecurity-advisories", "kind": "cisa-advisories"},
     {"url": "https://www.ic3.gov/PSA", "kind": "fbi-ic3"},
-    {"url": "https://health-isac.org/category/alerts/", "kind": "health-isac"},
+    {"url": "https://health-isac.org/post-topic/threat-intelligence-post-topics/", "kind": "health-isac", "note": "Public threat-intelligence posts (infrequent). TLP:WHITE bulletins are mirrored on aha.org; use the H-ISAC search query to find them."},
     {"url": "https://bphc.hrsa.gov/", "kind": "hrsa-bphc"},
     {"url": "https://oag.ca.gov/privacy/databreach/list", "kind": "state-ag-breach-list"},
     {"url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html", "kind": "state-ag-breach-list"},
     {"url": "https://www.mass.gov/lists/data-breach-notification-reports", "kind": "state-ag-breach-list"},
-    {"url": "https://ago.vermont.gov/data-broker-and-security-breach-notices", "kind": "state-ag-breach-list"},
+    {"url": "https://ago.vermont.gov/categories/security-breach-notices", "kind": "state-ag-breach-list", "note": "Feed: https://ago.vermont.gov/taxonomy/term/10/feed. As of 2026-11-11 the newest posted notice is dated 2026-04-10; record if still stale."},
     {"url": "https://www.atg.wa.gov/data-breach-notifications", "kind": "state-ag-breach-list"},
-    {"url": "https://www.texasattorneygeneral.gov/consumer-protection/data-breach-reports", "kind": "state-ag-breach-list"},
-    {"url": "https://www.in.gov/attorneygeneral/consumer-protection-division/id-theft-prevention/security-breaches/", "kind": "state-ag-breach-list"},
+    {"url": "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage", "kind": "state-ag-breach-list", "note": "Table is filled by script; a plain fetch returns headers only. If rows do not load, record as failed and rely on search."},
+    {"url": "https://www.in.gov/attorneygeneral/consumer-protection-division/id-theft-prevention/security-breaches/", "kind": "state-ag-breach-list", "note": "The list is the year-to-date PDF linked under '2026' on this page; download and read that PDF."},
     {"url": "https://www.hipaajournal.com/", "kind": "trade-press-leads-only"},
     {"url": "https://databreaches.net/", "kind": "trade-press-leads-only"}
   ],
@@ -35,6 +49,7 @@
     "OCR risk analysis initiative enforcement",
     "CISA healthcare advisory",
     "known exploited vulnerability EHR",
-    "Health-ISAC alert"
+    "Health-ISAC alert",
+    "H-ISAC TLP White threat bulletin aha.org"
   ]
 }
