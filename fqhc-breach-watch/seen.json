@@ -59,6 +59,17 @@
       "items_updated": 0,
       "alert_sent": "no",
       "note": "Scheduled run, second on this UTC date. Lookback 2026-11-09..11. No qualifying item. KEV JSON feed and ic3.gov read directly; no KEV additions since 2026-11-10; latest IC3 PSA 2026-10-23. One leak-site-only FQHC claim recorded as not reported. Later same day (manual maintenance): OCR portal read directly via ocr_portal.js, 719 rows, newest submission 2026-10-15; no FQHC entry dated within the lookback."
+    },
+    {
+      "date": "2026-11-11",
+      "sources_checked": 2,
+      "sources_failed": [
+        "Texas AG listing (table not loaded)"
+      ],
+      "items_new": 8,
+      "items_updated": 0,
+      "alert_sent": "yes",
+      "note": "Manual backfill requested by Guy Fuller: eight priority-state FQHC breach reports predating the baseline, verified against the OCR portal and HRSA site list; one email to gfuller only. Not a scheduled run."
     }
   ],
   "items": [
@@ -286,6 +297,192 @@
       "fqhc_verified": "HHS OCR resolution agreement page (2020) describes entity as a Federally Qualified Health Center",
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11"
+    },
+    {
+      "id": "breach:erie-family-health-centers-2026-03",
+      "type": "breach",
+      "title": "Erie Family Health Centers",
+      "state": "IL",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.eriefamilyhealth.org/notification/",
+        "https://www.hipaajournal.com/erie-family-health-centers-data-breach/"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Unauthorized network access 2025-12-10 to 2026-01-27 per entity notice; Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00115",
+      "incident_date": "2025-12-10 to 2026-01-27",
+      "ocr_submission_date": "2026-03-27",
+      "affected_count": 570000,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
+      "cause": "unauthorized network access; no group claim REPORTED"
+    },
+    {
+      "id": "breach:chicago-family-health-center-2026-06",
+      "type": "breach",
+      "title": "Chicago Family Health Center",
+      "state": "IL",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://consumer.zlk.com/data-breach/chicago-family-health-center/"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server. Entity notice not found.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00514",
+      "incident_date": null,
+      "ocr_submission_date": "2026-06-22",
+      "affected_count": 90000,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
+      "cause": null
+    },
+    {
+      "id": "breach:windrose-health-network-2026-01",
+      "type": "breach",
+      "title": "WindRose Health Network (2025-08 incident)",
+      "state": "IN",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.hipaajournal.com/jbs-mental-health-authority-data-breach/"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server. REPORTED: unauthorized access began 2025-08-22.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS02456",
+      "incident_date": "2025-08-22 (REPORTED)",
+      "ocr_submission_date": "2026-01-27",
+      "affected_count": 9087,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
+      "cause": null
+    },
+    {
+      "id": "breach:windrose-health-network-2026-09",
+      "type": "breach",
+      "title": "WindRose Health Network (2026-08 incident)",
+      "state": "IN",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.hipaajournal.com/windrose-health-network-data-breach/"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server. REPORTED: undisclosed flaw in a vendor's remote access tool exploited 2026-08-03 to 2026-08-04.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS02456",
+      "incident_date": "2026-08-03 to 2026-08-04 (REPORTED)",
+      "ocr_submission_date": "2026-09-16",
+      "affected_count": 33158,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
+      "cause": "vendor remote access tool vulnerability (REPORTED)"
+    },
+    {
+      "id": "breach:family-health-centers-of-southern-indiana-2026-06",
+      "type": "breach",
+      "title": "Family Health Centers of Southern Indiana",
+      "state": "IN",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.classaction.org/media/family-health-centers-of-southern-indiana-data-breach-web-notice-2026.pdf",
+        "https://www.hipaajournal.com/data-breach-round-up-july-6-2026/"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Unauthorized network activity discovered on or about 2026-01-16; letters 2026-06-18. OCR portal lists state as IL.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), awardee shown as Family Health Center Clark County, H80CS08782",
+      "incident_date": "discovered on or about 2026-01-16",
+      "ocr_submission_date": "2026-06-18",
+      "affected_count": 7117,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
+      "cause": "unauthorized network access; Termite ransomware claim REPORTED",
+      "attribution": "REPORTED: Termite group claimed about 250 GB"
+    },
+    {
+      "id": "breach:central-ozarks-medical-center-2026-01",
+      "type": "breach",
+      "title": "Central Ozarks Medical Center",
+      "state": "MO",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), sites under awardee Richland Medical Center Inc., H80CS00132",
+      "incident_date": null,
+      "ocr_submission_date": "2026-01-09",
+      "affected_count": 11818,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
+      "cause": null
+    },
+    {
+      "id": "breach:greater-meridian-health-clinic-2025-11",
+      "type": "breach",
+      "title": "Greater Meridian Health Clinic, Inc.",
+      "state": "MS",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00439",
+      "incident_date": null,
+      "ocr_submission_date": "2025-11-24",
+      "affected_count": 4651,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
+      "cause": null
+    },
+    {
+      "id": "breach:lone-star-community-health-center-aesto-2026-08",
+      "type": "breach",
+      "title": "Lone Star Community Health Center (Aesto, LLC vendor breach)",
+      "state": "TX",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.prnewswire.com/news-releases/lone-star-community-health-data-breach-alert-edelson-lechtzin-llp-investigates-exposure-of-250-130-patients-personal-and-medical-information-302852385.html",
+        "https://www.claimdepot.com/data-breach/lone-star-community-health-center-2026"
+      ],
+      "status": "REPORTED (entity figures); CONFIRMED (Aesto portal entry)",
+      "summary": "REPORTED: Texas AG filing 2026-08-14, 250,130 Texans, via Aesto Health incident on or about 2025-12-18. CONFIRMED: Aesto, LLC on OCR portal, 9,540,683 individuals, submitted 2026-07-31. Lone Star not listed separately on portal.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS02451",
+      "incident_date": "on or about 2025-12-18 at vendor (REPORTED)",
+      "ocr_submission_date": null,
+      "affected_count": "250,130 Texans (REPORTED)",
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
+      "cause": "business associate breach (Aesto, LLC)"
     }
   ]
 }
