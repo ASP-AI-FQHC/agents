@@ -14,6 +14,7 @@ repo every morning, follows `PROMPT.md`, and commits `seen.json` back.
 | `PROMPT.md` | The routine's full instructions. |
 | `sources.json` | Every URL checked, the web-search fallback queries, and the recipient list. Edit to add a source or recipient. |
 | `ocr_portal.js` | Reads the HHS OCR breach portal with headless Chromium and prints the newest rows as JSON. Run by the routine; `node fqhc-breach-watch/ocr_portal.js 2`. |
+| `state_lists.js` | Reads the Texas, Oregon, Indiana and Wisconsin breach lists and prints filings since a date as JSON. `node fqhc-breach-watch/state_lists.js 2026-11-01`. |
 | `seen.json` | The routine's memory: every item already reported (or checked and rejected), and a log of the last 30 runs. |
 
 ## Schedule and delivery

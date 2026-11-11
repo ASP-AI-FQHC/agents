@@ -67,6 +67,16 @@ under a "Possible FQHC — unverified" heading.
    the newest submission date seen. Portal listings lag submission by weeks;
    that is normal. Only if the script fails, use the `web_search_fallback`
    queries and mark OCR-derived facts "portal not directly verified".
+   **State lists (TX, OR, IN, WI):** run
+   `node fqhc-breach-watch/state_lists.js <lookback start, YYYY-MM-DD>`
+   once. It prints every filing reported since that date. Check each
+   healthcare-looking entity for FQHC status against the HRSA site list.
+   Facts read this way are CONFIRMED (state filing). State counts are that
+   state's residents unless the row gives a total; say which. If a state's
+   count differs from the OCR portal's, report both and do not reconcile
+   them. Sources named under `failed` in the output count as failed.
+   Entries under `blocked_sources` and `no_public_list` in `sources.json`
+   are not fetched and are not failures.
 4. Run every `web_search_fallback` query, limited to the lookback window.
    Trade press is for discovering leads only; every alerted fact must trace
    to a primary source or be labeled REPORTED.
@@ -205,4 +215,5 @@ per item plus source link. This proves the pipeline works end to end.
 - Only email the addresses in `sources.json` → `recipients`. Never forward,
   reply to, or read other mail.
 - Only modify `fqhc-breach-watch/seen.json`. Do not edit other files, and do
-  not change `ocr_portal.js`; if it breaks, report that in the run record.
+  not change `ocr_portal.js` or `state_lists.js`; if one breaks, report that in
+  the run record.

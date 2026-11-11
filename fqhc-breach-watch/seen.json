@@ -82,7 +82,7 @@
       "items_new": 12,
       "items_updated": 0,
       "alert_sent": "yes",
-      "note": "Manual year-to-date report requested by Guy Fuller: 18 FQHC breaches for 2026 (OCR portal + HRSA match), CEO contacts and outreach draft; one email to gfuller only. Not a scheduled run."
+      "note": "Manual year-to-date report requested by Guy Fuller: 18 FQHC breaches for 2026 (OCR portal + HRSA match), CEO contacts and outreach draft; one email to gfuller only. Not a scheduled run. Later: added state_lists.js (TX, OR, IN, WI) and new state sources; five further FQHC filings recorded, not emailed."
     }
   ],
   "items": [
@@ -358,7 +358,8 @@
         "website": "https://www.eriefamilyhealth.org",
         "telephone": "312-666-3494",
         "as_of": "2026-11-11"
-      }
+      },
+      "count_note": "Indiana AG list (notification sent 2026-07-10) gives total affected 483,245; OCR portal gives 570,000. Not reconciled."
     },
     {
       "id": "breach:chicago-family-health-center-2026-06",
@@ -484,7 +485,8 @@
         "website": "https://www.fhcenters.org",
         "telephone": "812-283-2308",
         "as_of": "2026-11-11"
-      }
+      },
+      "count_note": "Indiana AG list gives 7,037 Indiana residents, 7,304 total; OCR portal gives 7,117. Not reconciled."
     },
     {
       "id": "breach:central-ozarks-medical-center-2026-01",
@@ -554,9 +556,10 @@
       "urls": [
         "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
         "https://www.prnewswire.com/news-releases/lone-star-community-health-data-breach-alert-edelson-lechtzin-llp-investigates-exposure-of-250-130-patients-personal-and-medical-information-302852385.html",
-        "https://www.claimdepot.com/data-breach/lone-star-community-health-center-2026"
+        "https://www.claimdepot.com/data-breach/lone-star-community-health-center-2026",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
       ],
-      "status": "REPORTED (entity figures); CONFIRMED (Aesto portal entry)",
+      "status": "CONFIRMED (Texas AG listing published 2026-08-14: 250,130 Texans; Aesto portal entry)",
       "summary": "REPORTED: Texas AG filing 2026-08-14, 250,130 Texans, via Aesto Health incident on or about 2025-12-18. CONFIRMED: Aesto, LLC on OCR portal, 9,540,683 individuals, submitted 2026-07-31. Lone Star not listed separately on portal.",
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11",
@@ -564,7 +567,7 @@
       "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS02451",
       "incident_date": "on or about 2025-12-18 at vendor (REPORTED)",
       "ocr_submission_date": null,
-      "affected_count": "250,130 Texans (REPORTED)",
+      "affected_count": "250,130 Texans",
       "ocr_action": null,
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
@@ -853,17 +856,18 @@
       "state": "ID",
       "urls": [
         "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
-        "https://www.federmanlaw.com/blog/kaniksu-community-health-data-breach-investigated-by-federman-sherwood/"
+        "https://www.federmanlaw.com/blog/kaniksu-community-health-data-breach-investigated-by-federman-sherwood/",
+        "https://justice.oregon.gov/consumer/DataBreach/"
       ],
-      "status": "REPORTED",
+      "status": "CONFIRMED (Oregon DOJ listing reported 2026-09-15)",
       "summary": "REPORTED: affected by Aesto, LLC incident; California AG notice per law-firm summary.",
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11",
       "reported": true,
       "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00302",
-      "incident_date": "on or about 2025-12-18 at vendor (REPORTED)",
+      "incident_date": "2025-12-02 to 2025-12-18",
       "ocr_submission_date": null,
-      "affected_count": null,
+      "affected_count": "81,136 per Oregon DOJ listing (column is number affected; scope not stated)",
       "ocr_action": null,
       "litigation": null,
       "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
@@ -918,6 +922,106 @@
       "litigation": null,
       "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
       "fqhc_note": "Parent Health & Hospital Corp of Marion County holds a Health Center award; report may not involve the health centers."
+    },
+    {
+      "id": "breach:barrio-comprehensive-family-health-care-center-2026-03",
+      "type": "breach",
+      "title": "Barrio Comprehensive Family Health Care Center (CommuniCare)",
+      "state": "TX",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "status": "CONFIRMED (state AG filing read directly 2026-11-11)",
+      "summary": "Texas AG listing published 2026-03-09: 19,885 Texans.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": false,
+      "reason": "Found 2026-11-11 while adding state sources; predates lookback. Not yet emailed; awaiting Guy's decision on an addendum.",
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00672",
+      "incident_date": null,
+      "affected_count": "19,885 Texans",
+      "ocr_action": null,
+      "litigation": null
+    },
+    {
+      "id": "breach:peoples-community-clinic-2026-03",
+      "type": "breach",
+      "title": "People's Community Clinic",
+      "state": "TX",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "status": "CONFIRMED (state AG filing read directly 2026-11-11)",
+      "summary": "Texas AG listing published 2026-03-12: 1,788 Texans.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": false,
+      "reason": "Found 2026-11-11 while adding state sources; predates lookback. Not yet emailed; awaiting Guy's decision on an addendum.",
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS24150",
+      "incident_date": null,
+      "affected_count": "1,788 Texans",
+      "ocr_action": null,
+      "litigation": null
+    },
+    {
+      "id": "breach:marana-health-center-aesto-2026-09",
+      "type": "breach",
+      "title": "Marana Health Center (Aesto, LLC vendor breach date)",
+      "state": "AZ",
+      "urls": [
+        "https://www.in.gov/attorneygeneral/consumer-protection-division/id-theft-prevention/security-breaches/"
+      ],
+      "status": "CONFIRMED (state AG filing read directly 2026-11-11)",
+      "summary": "Indiana AG list: notification sent 2026-09-23, breach date 2025-12-18, 94 Indiana residents, 191,295 total. Breach date matches the Aesto incident; vendor link is inference.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": false,
+      "reason": "Found 2026-11-11 while adding state sources; predates lookback. Not yet emailed; awaiting Guy's decision on an addendum.",
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00231",
+      "incident_date": "2025-12-18",
+      "affected_count": "191,295 total",
+      "ocr_action": null,
+      "litigation": null
+    },
+    {
+      "id": "breach:jane-pauley-community-health-center-2026-02",
+      "type": "breach",
+      "title": "Jane Pauley Community Health Center",
+      "state": "IN",
+      "urls": [
+        "https://www.in.gov/attorneygeneral/consumer-protection-division/id-theft-prevention/security-breaches/"
+      ],
+      "status": "CONFIRMED (state AG filing read directly 2026-11-11)",
+      "summary": "Indiana AG list: notification sent 2026-02-09, breach date 2024-11-30, 3,174 Indiana residents; total not given.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": false,
+      "reason": "Found 2026-11-11 while adding state sources; predates lookback. Not yet emailed; awaiting Guy's decision on an addendum.",
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS26566",
+      "incident_date": "2024-11-30",
+      "affected_count": "3,174 Indiana residents",
+      "ocr_action": null,
+      "litigation": null
+    },
+    {
+      "id": "breach:heart-city-health-center-2026",
+      "type": "breach",
+      "title": "Heart City Health Center (four single-person incidents)",
+      "state": "IN",
+      "urls": [
+        "https://www.in.gov/attorneygeneral/consumer-protection-division/id-theft-prevention/security-breaches/"
+      ],
+      "status": "CONFIRMED (state AG filing read directly 2026-11-11)",
+      "summary": "Indiana AG list: four filings in 2026 (01-27, 03-26 twice, 05-20), one person each.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": false,
+      "reason": "Single-person incidents; below alert relevance. Recorded so later runs skip them.",
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS08221",
+      "incident_date": null,
+      "affected_count": "1 each",
+      "ocr_action": null,
+      "litigation": null
     }
   ]
 }
