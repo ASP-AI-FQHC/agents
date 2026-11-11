@@ -83,6 +83,15 @@
       "items_updated": 0,
       "alert_sent": "yes",
       "note": "Manual year-to-date report requested by Guy Fuller: 18 FQHC breaches for 2026 (OCR portal + HRSA match), CEO contacts and outreach draft; one email to gfuller only. Not a scheduled run. Later: added state_lists.js (TX, OR, IN, WI) and new state sources; five further FQHC filings recorded, not emailed."
+    },
+    {
+      "date": "2026-11-11",
+      "sources_checked": 4,
+      "sources_failed": [],
+      "items_new": 4,
+      "items_updated": 4,
+      "alert_sent": "yes",
+      "note": "Manual addendum requested by Guy Fuller: four FQHC filings from the Texas and Indiana AG lists with CEO contacts; updates to Lone Star, Kaniksu, Erie, Southern Indiana. One email to gfuller only. Not a scheduled run."
     }
   ],
   "items": [
@@ -935,13 +944,21 @@
       "summary": "Texas AG listing published 2026-03-09: 19,885 Texans.",
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11",
-      "reported": false,
-      "reason": "Found 2026-11-11 while adding state sources; predates lookback. Not yet emailed; awaiting Guy's decision on an addendum.",
+      "reported": true,
       "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00672",
       "incident_date": null,
       "affected_count": "19,885 Texans",
       "ocr_action": null,
-      "litigation": null
+      "litigation": null,
+      "contact": {
+        "ceo": "Paul Nguyen, MHA, President and Chief Executive Officer",
+        "ceo_source": "https://communicaresa.org/executive-leadership/",
+        "ceo_email": "not published (Exa agent run 2026-11-11 found none)",
+        "website": "https://communicaresa.org",
+        "telephone": "210-233-7000",
+        "as_of": "2026-11-11"
+      },
+      "note": "Addendum emailed 2026-11-11 to gfuller only."
     },
     {
       "id": "breach:peoples-community-clinic-2026-03",
@@ -955,13 +972,21 @@
       "summary": "Texas AG listing published 2026-03-12: 1,788 Texans.",
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11",
-      "reported": false,
-      "reason": "Found 2026-11-11 while adding state sources; predates lookback. Not yet emailed; awaiting Guy's decision on an addendum.",
+      "reported": true,
       "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS24150",
       "incident_date": null,
       "affected_count": "1,788 Texans",
       "ocr_action": null,
-      "litigation": null
+      "litigation": null,
+      "contact": {
+        "ceo": "Matt Balthazar, CEO (signed letter 2026-06-05)",
+        "ceo_source": "https://www.austinpcc.org/a-letter-from-our-ceo-on-site-pharmacy-coming-in-2027/",
+        "ceo_email": "not published (Exa agent run 2026-11-11 found none)",
+        "website": "https://www.austinpcc.org",
+        "telephone": "512-478-4939",
+        "as_of": "2026-11-11"
+      },
+      "note": "Addendum emailed 2026-11-11 to gfuller only."
     },
     {
       "id": "breach:marana-health-center-aesto-2026-09",
@@ -975,13 +1000,21 @@
       "summary": "Indiana AG list: notification sent 2026-09-23, breach date 2025-12-18, 94 Indiana residents, 191,295 total. Breach date matches the Aesto incident; vendor link is inference.",
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11",
-      "reported": false,
-      "reason": "Found 2026-11-11 while adding state sources; predates lookback. Not yet emailed; awaiting Guy's decision on an addendum.",
+      "reported": true,
       "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00231",
       "incident_date": "2025-12-18",
       "affected_count": "191,295 total",
       "ocr_action": null,
-      "litigation": null
+      "litigation": null,
+      "contact": {
+        "ceo": "Joshua Carzoli, CEO (as of 2025-07, not reconfirmed)",
+        "ceo_source": "https://maranahealth.org/media/",
+        "ceo_email": "not published (Exa agent run 2026-11-11 found none)",
+        "website": "https://maranahealth.org",
+        "telephone": "520-682-4111",
+        "as_of": "2026-11-11"
+      },
+      "note": "Addendum emailed 2026-11-11 to gfuller only."
     },
     {
       "id": "breach:jane-pauley-community-health-center-2026-02",
@@ -995,13 +1028,21 @@
       "summary": "Indiana AG list: notification sent 2026-02-09, breach date 2024-11-30, 3,174 Indiana residents; total not given.",
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11",
-      "reported": false,
-      "reason": "Found 2026-11-11 while adding state sources; predates lookback. Not yet emailed; awaiting Guy's decision on an addendum.",
+      "reported": true,
       "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS26566",
       "incident_date": "2024-11-30",
       "affected_count": "3,174 Indiana residents",
       "ocr_action": null,
-      "litigation": null
+      "litigation": null,
+      "contact": {
+        "ceo": "Marc Hackett, Chief Executive Officer (2025 media kit; listed first on current leadership page)",
+        "ceo_source": "https://janepauleychc.org/leadership/",
+        "ceo_email": "not published (Exa agent run 2026-11-11 found none)",
+        "website": "https://janepauleychc.org",
+        "telephone": "844-695-7242",
+        "as_of": "2026-11-11"
+      },
+      "note": "Addendum emailed 2026-11-11 to gfuller only."
     },
     {
       "id": "breach:heart-city-health-center-2026",
