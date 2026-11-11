@@ -70,6 +70,19 @@
       "items_updated": 0,
       "alert_sent": "yes",
       "note": "Manual backfill requested by Guy Fuller: eight priority-state FQHC breach reports predating the baseline, verified against the OCR portal and HRSA site list; one email to gfuller only. Not a scheduled run."
+    },
+    {
+      "date": "2026-11-11",
+      "sources_checked": 3,
+      "sources_failed": [
+        "Texas AG listing",
+        "Maine AG (offline)",
+        "HC3 page"
+      ],
+      "items_new": 12,
+      "items_updated": 0,
+      "alert_sent": "yes",
+      "note": "Manual year-to-date report requested by Guy Fuller: 18 FQHC breaches for 2026 (OCR portal + HRSA match), CEO contacts and outreach draft; one email to gfuller only. Not a scheduled run."
     }
   ],
   "items": [
@@ -95,7 +108,15 @@
       "cause": "unauthorized network access by unknown actor per entity; ransomware/extortion claim REPORTED",
       "ocr_action": null,
       "litigation": null,
-      "attribution": "REPORTED: Insomnia ransomware group listed the entity on its leak site (listing dated 2026-09-07 per ransomware.live) and leaked data (HIPAA Journal, 2026-10-27). Not confirmed by the entity."
+      "attribution": "REPORTED: Insomnia ransomware group listed the entity on its leak site (listing dated 2026-09-07 per ransomware.live) and leaked data (HIPAA Journal, 2026-10-27). Not confirmed by the entity.",
+      "contact": {
+        "ceo": "David Hall, Chief Executive Officer",
+        "ceo_source": "https://northshorehealth.org/administration-and-board-members/",
+        "ceo_email": "dhall@northshorehealth.org (entity audit RFP dated 2024-11-27)",
+        "website": "https://northshorehealth.org",
+        "telephone": "219-763-8112",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:integrated-health-centers-of-west-virginia-2026-10",
@@ -116,7 +137,15 @@
       "affected_count": null,
       "cause": null,
       "ocr_action": null,
-      "litigation": null
+      "litigation": null,
+      "contact": {
+        "ceo": "Amy Yokum, Chief Executive Officer",
+        "ceo_source": "https://www.newsandsentinel.com/news/business/2026/05/kanawha-elementary-integrated-health-centers-in-partnership/",
+        "ceo_email": "not published",
+        "website": "https://www.ihcwv.org",
+        "telephone": "304-643-4005",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:arcare-2022-02",
@@ -320,7 +349,15 @@
       "ocr_action": null,
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
-      "cause": "unauthorized network access; no group claim REPORTED"
+      "cause": "unauthorized network access; no group claim REPORTED",
+      "contact": {
+        "ceo": "Lee Francis, MD, MPH, President and CEO",
+        "ceo_source": "https://www.eriefamilyhealth.org/about-us/ourpeople/",
+        "ceo_email": "not published",
+        "website": "https://www.eriefamilyhealth.org",
+        "telephone": "312-666-3494",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:chicago-family-health-center-2026-06",
@@ -343,7 +380,15 @@
       "ocr_action": null,
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
-      "cause": null
+      "cause": null,
+      "contact": {
+        "ceo": "Sherry Pace, MBA, Chief Executive Officer",
+        "ceo_source": "https://chicagofamilyhealth.org/about-us/executive-team/",
+        "ceo_email": "not published",
+        "website": "https://chicagofamilyhealth.org",
+        "telephone": "773-768-5000",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:windrose-health-network-2026-01",
@@ -366,7 +411,15 @@
       "ocr_action": null,
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
-      "cause": null
+      "cause": null,
+      "contact": {
+        "ceo": "Scott Rollett, MBA, Chief Executive Officer",
+        "ceo_source": "https://www.windrosehealth.net/about",
+        "ceo_email": "srollett@windrosehealth.net (https://www.windrosehealth.net/scott-rollett)",
+        "website": "https://www.windrosehealth.net",
+        "telephone": "317-739-4895 ext. 2401",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:windrose-health-network-2026-09",
@@ -389,7 +442,15 @@
       "ocr_action": null,
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
-      "cause": "vendor remote access tool vulnerability (REPORTED)"
+      "cause": "vendor remote access tool vulnerability (REPORTED)",
+      "contact": {
+        "ceo": "Scott Rollett, MBA, Chief Executive Officer",
+        "ceo_source": "https://www.windrosehealth.net/about",
+        "ceo_email": "srollett@windrosehealth.net (https://www.windrosehealth.net/scott-rollett)",
+        "website": "https://www.windrosehealth.net",
+        "telephone": "317-739-4895 ext. 2401",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:family-health-centers-of-southern-indiana-2026-06",
@@ -414,7 +475,15 @@
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
       "cause": "unauthorized network access; Termite ransomware claim REPORTED",
-      "attribution": "REPORTED: Termite group claimed about 250 GB"
+      "attribution": "REPORTED: Termite group claimed about 250 GB",
+      "contact": {
+        "ceo": "Lori Harris, Chief Executive Officer",
+        "ceo_source": "https://npiregistry.cms.hhs.gov/provider-view/1528125341",
+        "ceo_email": "not published",
+        "website": "https://www.fhcenters.org",
+        "telephone": "812-283-2308",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:central-ozarks-medical-center-2026-01",
@@ -436,7 +505,15 @@
       "ocr_action": null,
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
-      "cause": null
+      "cause": null,
+      "contact": {
+        "ceo": "DawnElyn Schneider, Chief Executive Officer (appointed 2026-07-29)",
+        "ceo_source": "https://centralozarks.org/central-ozarks-medical-center-appoints-dawnelyn-schneider-as-chief-executive-officer/",
+        "ceo_email": "not published",
+        "website": "https://centralozarks.org",
+        "telephone": "877-406-2662",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:greater-meridian-health-clinic-2025-11",
@@ -458,7 +535,15 @@
       "ocr_action": null,
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
-      "cause": null
+      "cause": null,
+      "contact": {
+        "ceo": "Wilbert L. Jones, Chief Executive Officer (no 2026-dated confirmation)",
+        "ceo_source": "https://www.gmhcinc.org/department-managers",
+        "ceo_email": "wjones@gmhcinc.org (https://www.gmhcinc.org/department-managers)",
+        "website": "https://www.gmhcinc.org",
+        "telephone": "601-693-0118 ext. 118",
+        "as_of": "2026-11-11"
+      }
     },
     {
       "id": "breach:lone-star-community-health-center-aesto-2026-08",
@@ -482,7 +567,354 @@
       "ocr_action": null,
       "litigation": null,
       "note": "Backfill alert sent 2026-11-11 to gfuller only; predates baseline window.",
-      "cause": "business associate breach (Aesto, LLC)"
+      "cause": "business associate breach (Aesto, LLC)",
+      "contact": {
+        "ceo": "Karen Harwell, CPA, Chief Executive Officer",
+        "ceo_source": "https://www.lonestarfamily.org/leadership-team/",
+        "ceo_email": "not published",
+        "website": "https://www.lonestarfamily.org",
+        "telephone": "936-539-4004",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:boston-health-care-for-the-homeless-program-2026-08",
+      "type": "breach",
+      "title": "Boston Health Care for the Homeless Program",
+      "state": "MA",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://oag.ca.gov/system/files/BHCHP%20CA%20Reg%20Notice%20Letter.docx__0.pdf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00006",
+      "incident_date": "2025-10-31, discovered 2025-11-11 (REPORTED)",
+      "ocr_submission_date": "2026-08-10",
+      "affected_count": 201260,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Denise De Las Nueces, MD, MPH, CEO",
+        "ceo_source": "https://www.bhchp.org/about/our-leadership/executive-team/",
+        "ceo_email": "not published",
+        "website": "https://www.bhchp.org",
+        "telephone": "857-654-1000",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:kentucky-mountain-health-alliance-2026-06",
+      "type": "breach",
+      "title": "Kentucky Mountain Health Alliance",
+      "state": "KY",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://kymha.com/notice-of-data-breech-1"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Unauthorized individual viewed and obtained files; letters began 2026-06-12.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS07772",
+      "incident_date": null,
+      "ocr_submission_date": "2026-06-19",
+      "affected_count": 30830,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Ellen Vance, CEO",
+        "ceo_source": "https://kymha.com/little-flower-staff-1",
+        "ceo_email": "not published",
+        "website": "https://kymha.com",
+        "telephone": "606-487-9505",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:corporacion-de-servicios-medicos-hatillo-2026-03",
+      "type": "breach",
+      "title": "Corporacion de Servicios Medicos Primarios y Prevencion de Hatillo",
+      "state": "PR",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00334",
+      "incident_date": null,
+      "ocr_submission_date": "2026-03-26",
+      "affected_count": 24236,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Dra. Lorena D. Torres Mercado, Directora Ejecutiva",
+        "ceo_source": "https://csmpr.org/administracion/",
+        "ceo_email": "lorena.torres@csmpr.org (PR government directory revised 05/2022; may be outdated)",
+        "website": "https://csmpr.org",
+        "telephone": "787-898-4190",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:pennyroyal-healthcare-services-2026-03",
+      "type": "breach",
+      "title": "Pennyroyal Healthcare Services",
+      "state": "KY",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.prnewswire.com/news-releases/pennyroyal-healthcare-services-provides-notice-of-data-incident-302833552.html"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Unauthorized network access; public notice 2026-07-24.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS26595",
+      "incident_date": "2026-01-02 (learned 2026-01-03)",
+      "ocr_submission_date": "2026-03-23",
+      "affected_count": 24122,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Kecia Fulcher, CEO (as of 2024, not reconfirmed)",
+        "ceo_source": "https://www.wpkyonline.com/2024/08/27/princeton-celebrates-grand-opening-of-new-community-medical-clinic-facility/news-edge/",
+        "ceo_email": "not published",
+        "website": "https://www.communitymedicalclinic.org",
+        "telephone": "270-365-0227",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:benton-county-health-2026-01",
+      "type": "breach",
+      "title": "Benton County Health (Community Health Centers of Benton and Linn Counties)",
+      "state": "OR",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), awardee Benton County, H80CS02592",
+      "incident_date": null,
+      "ocr_submission_date": "2026-01-16",
+      "affected_count": 1476,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Lacey Mollel, Executive Director, Community Health Centers of Benton and Linn Counties",
+        "ceo_source": "https://clinics.bentoncountyor.gov/my-community-my-health-center-campaign/",
+        "ceo_email": "lacey.mollel@bentoncountyor.gov (older county job posting; not verified current)",
+        "website": "https://clinics.bentoncountyor.gov",
+        "telephone": "541-766-6835",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:camden-on-gauley-medical-center-2026-09",
+      "type": "breach",
+      "title": "Camden-on-Gauley Medical Center (Camden Family Health)",
+      "state": "WV",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.camdenfamilyhealth.com/Camden-Website-Notice.pdf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00078",
+      "incident_date": "2026-07-18",
+      "ocr_submission_date": "2026-09-15",
+      "affected_count": "501 (placeholder; review ongoing)",
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Margaret \"Meg\" Hickey, Chief Executive Officer (no 2026-dated confirmation)",
+        "ceo_source": "https://www.wvpca.org/about",
+        "ceo_email": "not published",
+        "website": "https://www.camdenfamilyhealth.com",
+        "telephone": "304-226-5725",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:cherry-street-services-2026-06",
+      "type": "breach",
+      "title": "Cherry Street Services, Inc. (Cherry Health)",
+      "state": "MI",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.classaction.org/media/cherry-health-data-breach-online-notice-2026.pdf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00770",
+      "incident_date": "aware on or about 2026-04-19",
+      "ocr_submission_date": "2026-06-18",
+      "affected_count": "501 (placeholder; review ongoing)",
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Tasha Blackmon, President & Chief Executive Officer",
+        "ceo_source": "https://cherryhealth.org/about/our-leadership/",
+        "ceo_email": "not published",
+        "website": "https://cherryhealth.org",
+        "telephone": "616-965-8308",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:community-health-center-of-buffalo-2026-06",
+      "type": "breach",
+      "title": "Community Health Center of Buffalo, Inc.",
+      "state": "NY",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00157",
+      "incident_date": null,
+      "ocr_submission_date": "2026-06-19",
+      "affected_count": "501 (placeholder)",
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Dr. LaVonne Ansari, PhD, Chief Executive Officer and Executive Director",
+        "ceo_source": "https://chcb.net/leadership/",
+        "ceo_email": "not published",
+        "website": "https://chcb.net",
+        "telephone": "716-986-9199",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:altamed-health-services-2026-02",
+      "type": "breach",
+      "title": "AltaMed Health Services Corporation",
+      "state": "CA",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00142",
+      "incident_date": null,
+      "ocr_submission_date": "2026-02-26",
+      "affected_count": "501 (placeholder)",
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Castulo de la Rocha, President and CEO",
+        "ceo_source": "https://www.altamed.org/leadership",
+        "ceo_email": "not published",
+        "website": "https://www.altamed.org",
+        "telephone": "888-499-9303",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:kaniksu-community-health-aesto-2026",
+      "type": "breach",
+      "title": "Kaniksu Community Health (Aesto, LLC vendor breach)",
+      "state": "ID",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.federmanlaw.com/blog/kaniksu-community-health-data-breach-investigated-by-federman-sherwood/"
+      ],
+      "status": "REPORTED",
+      "summary": "REPORTED: affected by Aesto, LLC incident; California AG notice per law-firm summary.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": "HRSA Health Center site list (data dated 2026-11-10), H80CS00302",
+      "incident_date": "on or about 2025-12-18 at vendor (REPORTED)",
+      "ocr_submission_date": null,
+      "affected_count": null,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "contact": {
+        "ceo": "Kevin Knepper, Chief Executive Officer",
+        "ceo_source": "https://bonnercountydailybee.com/news/2026/sep/19/kaniksu-community-health-earns-national-honors/",
+        "ceo_email": "kevin@kchni.org (HHS TAGGS record, about 2023; may be dated)",
+        "website": "https://kchnorthidaho.org",
+        "telephone": "208-263-7101",
+        "as_of": "2026-11-11"
+      }
+    },
+    {
+      "id": "breach:good-samaritan-health-center-ga-2026-03",
+      "type": "breach",
+      "title": "Good Samaritan Health Center (GA) - possible FQHC, unverified",
+      "state": "GA",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": null,
+      "incident_date": null,
+      "ocr_submission_date": "2026-03-16",
+      "affected_count": 10000,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only."
+    },
+    {
+      "id": "breach:eskenazi-health-2026-09",
+      "type": "breach",
+      "title": "Eskenazi Health - possible FQHC, unverified",
+      "state": "IN",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "summary": "Hacking/IT Incident, network server.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "fqhc_verified": null,
+      "incident_date": null,
+      "ocr_submission_date": "2026-09-25",
+      "affected_count": 1604,
+      "ocr_action": null,
+      "litigation": null,
+      "note": "Included in year-to-date report sent 2026-11-11 to gfuller only.",
+      "fqhc_note": "Parent Health & Hospital Corp of Marion County holds a Health Center award; report may not involve the health centers."
     }
   ]
 }
