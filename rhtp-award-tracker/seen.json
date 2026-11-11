@@ -1,19 +1,8 @@
 {
   "initialized": true,
   "baseline_pending": [],
-  "last_run": "2026-11-10",
+  "last_run": "2026-11-11",
   "runs": [
-    {
-      "date": "2026-09-29",
-      "sources_checked": 79,
-      "sources_failed": 5,
-      "sources_failed_note": "11 parallel research passes (10 states + federal). Hard failures: arkansas.gov/tss/procurement/bids (egress-blocked redirect to ark.org); il.amplifund.com public opportunities listing (SSO wall, worked around via ICAHN's own page + web search); vendornet.wi.gov (Blazor SPA); TDH Caspio partner portal (JS-only shell); cms.gov/newsroom/press-releases index (404, worked around via individual press-release URLs). Several other portals (bidbuy.illinois.gov, missouribuys.mo.gov, txsmartbuy.gov/ESBD, ok.gov/dcs/solicit, MS DFA bid search, LaPAC, gov.louisiana.gov/news) loaded but are JS/interactive-only with no static content; not counted as hard failures per past-run convention.",
-      "items_new": 15,
-      "items_updated": 19,
-      "email_sent": true,
-      "email_type": "alert",
-      "note": "New: 3 AR Round-1 sub-award line items resolving prior discrepancies (CHC Arkansas HIE/cybersecurity platform $1.91M; Baptist Health Cardiology Pilot $1.14M; White County BRIDGE breast imaging $839K); 1 IL item (ICAHN Technology Innovation Grant application window open for 78 hospitals, due 2026-10-09, sourced from search snippets only); 1 MO item (unconfirmed-RHTP GME solicitation, pre-posting); 10 MS recipient-level awards newly itemized from the 167-award/$104.1M pool (8 high relevance: cybersecurity, RPM, telehealth). Updated: 4 AR discrepancy resolutions; 2 MS recipients gained a previously-missed award line (George County cybersecurity/servers $395.5K; Northwest MS Regional cardiovascular connectivity $212.7K); MO Vital Rural Hospital Repairs IFB gained its first named hospital-level dollar figure (Texas County Memorial $580K); TX $51M CMS award corroborated by HHSC/Governor's office with a confirmed $750K x 68 hospital-district recipient breakdown; all 8 IN GROW regions upgraded from county-lists to full named sub-recipient rosters (up to 32 orgs/region, many FQHCs and rural hospitals) plus the IN regional/statewide surplus ($16.25M) formally awarded and the Initiative 1 ACO feasibility study (Deloitte) marked Awarded; LA Rural Tech Catalyst Fund gained a non-material disbursement-structure detail (20% milestone cap), recorded but not emailed. No news found for WI, TN, OK, or program-wide Federal this run (3 federal press releases re-surfaced were already fully tracked under AR/MO/TX from prior runs)."
-    },
     {
       "date": "2026-09-30",
       "sources_checked": 91,
@@ -331,6 +320,17 @@
       "email_sent": true,
       "email_type": "alert",
       "note": "New in AR, IL, IN, WI, TN, MS, LA, TX, OK (9 of 10 states) plus Federal. Headline: CMS published its Year-2 (FY2027/Budget Period 2) nationwide RHTP award announcement on 2026-11-09, with a matching 'Supplement for Expansion' TAGGS action dated 2026-11-06 finalizing each state's FY2027 amount -- confirmed for AR, IL, IN, WI, TN, MS, LA, TX, OK. Missouri is the one tracked state with NO matching Nov 6 TAGGS action found this run -- flagged as a watch item for next run, not reported as a MO news item since nothing has changed yet. Tennessee also announced its first comprehensive award wave: $422.2M across 138 projects covering 8 of its 9 original competitive grant lines (2026-11-09). Louisiana announced Year 1 fully obligated (551 applications, $498M+ requested against the $208.4M award) and separate press coverage of hospitals questioning RHTP spending transparency, both tied to the 2026-11-05 Advisory Council meeting. No material news found for AR/IL/IN/WI/MS/TX/OK beyond the federal Year-2 confirmation; MO had no new or materially-changed items this run."
+    },
+    {
+      "date": "2026-11-11",
+      "sources_checked": 95,
+      "sources_failed": 27,
+      "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). AR: www.arkansas.gov/tss redirects to DNS-blocked www.ark.org (persistent). IL: il.amplifund.com SSO-walled; omb.illinois.gov CSFA pages newly unreachable this run (blocked several already-tracked IL NOFO primary sources, and left the new CSFA 4104 find unverified). IN: in.gov/gov/newsroom, in.gov/idoa/procurement and events.in.gov are JS shells with no extractable listing content; third-party IN procurement aggregators (govly, samsearch, procure-frontend, indianaruralhealth.org) DNS-blocked. WI: three dhs.wisconsin.gov award-status node pages (RTTF Round 1, CHW Grants, Rural Dental) still 403 bot-blocked, now 11th+ consecutive run; vendornet.wi.gov still an empty JS-rendered Blazor app. MO: memsa.org/rht-funding still empty/unreachable. TN: Caspio Partner Portal still an unreadable JS shell; ruralhealthinfo.org DNS-blocked. MS: medicaid.ms.gov still 503; ms.gov DFA bid search still 403 (client-side form); mississippitoday.org and procurement.opengov.com DNS-blocked. LA: ldh.la.gov program-home, funding-opportunities and news pages all 403'd (no User-Agent workaround attempted this run per updated guardrails). TX/OK/Federal: gao.gov still a hard DNS-level block (11th consecutive run, GAO-27-108853 still unread beyond secondary coverage); highergov.com DNS-blocked.",
+      "items_new": 2,
+      "items_updated": 2,
+      "email_sent": true,
+      "email_type": "alert",
+      "note": "New in IL, MO (2 new + 2 updated items; one update \u2014 the GAO report enrichment \u2014 was not material enough to email, see below). AR, IN, WI, TN, MS, LA, TX, OK: confirmed no new or materially-changed items via direct source fetches plus web-search fallback. IL (1 new, low-moderate relevance, unverified): a previously-untracked IDPH-administered EMS CSFA line (482-00-4104) surfaced via web search only \u2014 the primary omb.illinois.gov CSFA page was unreachable this run, so amount/deadline/recipients are unconfirmed; flagged per guardrails rather than omitted. MO (1 update, HIGH relevance, + 1 corroborating news item): CMS's TAGGS record confirmed Missouri's full Year 2 (FY2027) federal tranche at $118,547,090 Supplement for Expansion (posted 2026-11-09, 6 days after the Oct 30 base $100M continuation), bringing Missouri's Year 2 total to $218,547,090 and resolving the 'no matching TAGGS action' watch item flagged in the 2026-11-10 run; Gov. Kehoe's office publicly confirmed the same figure (rounded to $218M) on 2026-11-10, reiterating that Year 2 money is earmarked partly for technology/data-sharing/care-coordination investment (MO's Digital Backbone pillar). FEDERAL (not emailed, enrichment only): secondary-source coverage of GAO-27-108853 added detail on CMS's baseline/workload funding-component structure and the finding that OBBBA limits states' ability to appeal CMS funding decisions \u2014 gao.gov itself remains blocked (11th consecutive run), so the item's amount/deadline/status/recipient fields are unchanged and this was treated as a quiet enrichment, not an emailed update. Watch items carried forward: WI's RTTF Round 1 (~$61M), CHW Grants, Rural Dental, and Care Coordination award lists remain unpublished (11th+ consecutive run overdue), though WI's WIG:HEART page now explicitly says awards are 'coming soon' \u2014 worth a priority re-check. LA's six remaining Year 1 NOFOs (~$85.5M) and Rural Tech Catalyst Fund Cohort 1 results remain unannounced (now ~4 weeks past LDH's 'mid-October' target for the latter) and ldh.la.gov remains unreachable to this session. TN's 1 of 9 remaining competitive grant-line awards (likely the County Health Council CARE line, Healthy Built Environment, Policy/Systems/Environmental, or Rural Non-Emergency Transportation) remains unposted. OK's RPM maternal blood-pressure-cuff vendor RFP (targeted for public OMES posting in Q4 2026) has not yet appeared. TX's Initiatives 2 (Patient Portals/RPM), 3 (AI/Telehealth), and 5 (Cybersecurity) \u2014 Allstar's highest-relevance TX lines \u2014 remain confirmed not open, and TX's weekly Initiative 1/4/6 award-tranche press releases appear to have paused since 2026-10-29. MS's two open application windows (Innovative Pilot Program due 11/16, EHR Replacement for Small Rural Providers due 11/23) and its closed Statewide HIE/HDU RFP (responses closed 11/3) are all still awaiting outcomes \u2014 check again after their deadlines pass. Non-RHTP side note for Allstar's cyber practice: Wisconsin DHS issued an Oct 30 warning about a phishing campaign impersonating DHS staff using fake 'bid proposal' links against DHS business partners/vendors, in the same procurement ecosystem RHTP vendors operate in."
     }
   ],
   "items": [
@@ -5732,10 +5732,10 @@
       "amount": "n/a",
       "recipients": "n/a (program-wide, affects all 50 states including all ten tracked states)",
       "deadline": "n/a",
-      "status": "Published 2026-10-06. Still unread in full \u2014 gao.gov now fails at DNS resolution for this session (escalated from \"proxy-blocked\" in the prior run), so findings on clawback/withholding authority remain unverified beyond secondary summary. Title and publish date independently reconfirmed 2026-10-28 via a search hit on GAO's own domain; secondary coverage adds that CMS's Year-1 awards ranged $147M (NJ) to $281M (TX) and that CMS plans to monitor states via ongoing conversations and review of state-submitted data.",
+      "status": "Published 2026-10-06. Still unread in full \u2014 gao.gov now fails at DNS resolution for this session (escalated from \"proxy-blocked\" in the prior run), so findings on clawback/withholding authority remain unverified beyond secondary summary. Title and publish date independently reconfirmed 2026-10-28 via a search hit on GAO's own domain; secondary coverage adds that CMS's Year-1 awards ranged $147M (NJ) to $281M (TX) and that CMS plans to monitor states via ongoing conversations and review of state-submitted data. Secondary-source search on 2026-11-11 adds: CMS Year-1 awards had a \"baseline\" and a \"workload\" funding component, and the report flags that RHTP's authorizing legislation (OBBBA) limits states' ability to appeal or challenge CMS funding decisions. gao.gov itself remains DNS-blocked for this session (11th consecutive run).",
       "description": "GAO review of CMS's early RHTP implementation (NOFO issuance, Year-1 awards of $147M-$281M per state) and planned monitoring (ongoing communication, review of state-submitted data, audits/site visits). Per secondary coverage, also covers how CMS scored applications, how future-year allotments are set, and the circumstances under which CMS may withhold, reduce, or recover a state's funding.",
       "first_seen": "2026-10-27",
-      "last_updated": "2026-10-28"
+      "last_updated": "2026-11-11"
     },
     {
       "id": "IL:deadline:icahn-hospital-info-form-oct28",
@@ -5839,14 +5839,14 @@
       "type": "federal",
       "title": "CMS RHTP Budget Period 2 (Year 2) Continuation Award to Missouri",
       "url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332090&arg_ProgOfficeCode=190",
-      "amount": "$100,000,000 (FY2027/Budget Period 2 Non-Competing Continuation, TAGGS action dated 2026-10-30); cumulative award-to-date $316,276,818",
+      "amount": "$218,547,090 total (FY2027/Budget Period 2: $100,000,000 Non-Competing Continuation dated 2026-10-30 + $118,547,090 Supplement for Expansion dated 2026-11-09); cumulative award-to-date $434,823,908",
       "recipients": "Missouri Department of Social Services (MO HealthNet Division)",
       "deadline": "n/a",
-      "status": "Action dated 2026-10-30, confirmed via CMS TAGGS (primary source). Likely a partial/initial Year 2 tranche rather than Missouri's full Year 2 allocation.",
+      "status": "Full Year 2 federal tranche confirmed via CMS TAGGS (primary source): $100,000,000 Non-Competing Continuation (2026-10-30) plus $118,547,090 Supplement for Expansion (2026-11-09). Publicly confirmed by Gov. Kehoe press release dated 2026-11-10 (state figure: \"$218 million\").",
       "description": "First confirmation of Year 2 (Budget Period 2) federal funding to Missouri's ToRCH Care program.",
       "why_it_matters": "Will drive a fresh round of ToRCH Care sub-awards (Digital Backbone, Workforce, Provider Strengthening pillars) relevant to Allstar's health-IT/cybersecurity/vendor-solicitation tracking.",
       "first_seen": "2026-11-03",
-      "last_updated": "2026-11-03"
+      "last_updated": "2026-11-11"
     },
     {
       "id": "TN:federal:budget-period-2-continuation-100m",
@@ -6052,6 +6052,32 @@
       "description": "At/after the Nov 5 meeting, LDH said it cannot yet provide a list of funded organizations/projects; hospital leaders (one cited $1M for lab-equipment replacement, calling it short of need) criticized the pace and transparency of RHTP disbursement.",
       "first_seen": "2026-11-10",
       "last_updated": "2026-11-10"
+    },
+    {
+      "id": "IL:nofo:rht-ems-idph-csfa4104",
+      "type": "nofo",
+      "title": "Rural Health Transformation \u2014 Overcoming Geographical Barriers to Care: Emergency Medical Services (IDPH, CSFA 482-00-4104)",
+      "url": "https://omb.illinois.gov/public/gata/csfa/Program.aspx?csfa=4104",
+      "amount": "amount not stated (unverified \u2014 primary CSFA page unreachable this run)",
+      "recipients": "not stated; administering agency is Illinois Dept. of Public Health (IDPH), distinct from the already-tracked HFS-administered EMS/Mobile Healthcare NOFOs (CSFA 3982/3983)",
+      "deadline": "reportedly 10/31/26 per an unverified web-search snippet of the primary page; window may already be closed. RHTP funding not independently confirmed.",
+      "status": "Discovered via web search 2026-11-11; could not independently confirm from the primary CSFA registry page (omb.illinois.gov was unreachable to this session this run).",
+      "description": "A CSFA registry entry for an IDPH-administered EMS-related Rural Health Transformation funding line, apparently separate from the already-tracked HFS-administered EMS Support and Mobile Healthcare Innovation NOFOs. Relationship to Illinois's tracked EMS/Mobile Healthcare funding not confirmed.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11"
+    },
+    {
+      "id": "MO:news:governor-kehoe-218m-year2-announcement",
+      "type": "news",
+      "title": "Governor Kehoe Announces Missouri Secures $218 Million in Year 2 RHTP Funding",
+      "url": "https://governor.mo.gov/press-releases/archive/missouri-secures-218-million-year-2-funding-expand-rural-healthcare-access",
+      "amount": "$218 million (state's rounded figure; matches TAGGS FY2027 total of $218,547,090)",
+      "recipients": "n/a (state-level announcement)",
+      "deadline": "n/a",
+      "status": "Published 2026-11-10",
+      "description": "Governor's office press release confirming Missouri's CMS Year 2 RHTP award; reiterates ToRCH Care priorities including hospital/facility modernization, technology for data sharing/care coordination, workforce, and payment-model innovation.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11"
     }
   ]
 }
