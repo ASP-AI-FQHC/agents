@@ -40,6 +40,24 @@
       "items_updated": 1,
       "alert_sent": "yes",
       "note": "Manual run. Lookback 2026-11-08..11 found no new in-window FQHC breach. Alert covers one update (NorthShore attribution) and two qualifying items the baseline missed. Pages read via Exa fetch/search."
+    },
+    {
+      "date": "2026-11-11",
+      "sources_checked": 20,
+      "sources_failed": [
+        "ocrportal.hhs.gov (live portal not rendered)",
+        "hhs.gov HC3 page (403 / empty)",
+        "health-isac.org alerts (404)",
+        "ago.vermont.gov (404)",
+        "texasattorneygeneral.gov (404)",
+        "maine.gov AG (database offline)",
+        "in.gov AG (list is linked PDF, not read)",
+        "hhs.gov HIPAA newsroom and press room (no dated entries)"
+      ],
+      "items_new": 0,
+      "items_updated": 0,
+      "alert_sent": "no",
+      "note": "Scheduled run, second on this UTC date. Lookback 2026-11-09..11. No qualifying item. KEV JSON feed and ic3.gov read directly; no KEV additions since 2026-11-10; latest IC3 PSA 2026-10-23. One leak-site-only FQHC claim recorded as not reported."
     }
   ],
   "items": [
@@ -249,6 +267,22 @@
       "status": "CONFIRMED",
       "reported": false,
       "reason": "Not clearly EHR, practice-management, VPN, email or identity products common in FQHCs; OpenSSH entry details not retrieved. Re-check if healthcare-specific guidance appears.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11"
+    },
+    {
+      "id": "breach:metropolitan-community-health-services-agape-insomnia-2026-09",
+      "type": "breach",
+      "title": "Metropolitan Community Health Services d/b/a Agape Health Services (ransomware leak-site listing, Insomnia group)",
+      "state": "NC",
+      "urls": [
+        "https://siberpol.com/metropolitan-community-health-services-listed-on-insomnia-ransomware-leak-site",
+        "https://www.breachsense.com/breaches/agape-health-services-data-breach/"
+      ],
+      "status": "REPORTED",
+      "reported": false,
+      "reason": "Leak-site claim only (listing dated 2026-09-14/15 per secondary trackers). No entity notice, OCR portal entry or AG filing found; entity home page shows no notice. FQHC status confirmed by HHS OCR 2020 resolution page. Re-check if a primary notice appears.",
+      "fqhc_verified": "HHS OCR resolution agreement page (2020) describes entity as a Federally Qualified Health Center",
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11"
     }
