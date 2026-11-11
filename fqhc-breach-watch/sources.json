@@ -21,14 +21,14 @@
     {"url": "https://www.hhs.gov/ocr/newsroom/index.html", "kind": "ocr-enforcement", "note": "Dated OCR press releases. hhs.gov returns 403 to curl; read with a fetch tool."},
     {"url": "https://www.hhs.gov/hipaa/for-professionals/compliance-enforcement/agreements/index.html", "kind": "ocr-resolution-agreements"},
     {"url": "https://405d.hhs.gov/", "kind": "hhs-405d"},
-    {"url": "https://www.hhs.gov/about/agencies/asa/ocio/hc3/index.html", "kind": "hc3", "note": "Check whether HC3 is still publishing; record if inactive."},
+    {"url": "https://www.hhs.gov/about/agencies/asa/ocio/hc3/index.html", "kind": "hc3", "note": "Check whether HC3 is still publishing; record if inactive. Page returns empty content to fetch tools. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."},
     {"url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog", "kind": "cisa-kev", "note": "Flag additions affecting EHR, practice-management, remote access/VPN, email, or identity products common in FQHCs."},
     {"url": "https://www.cisa.gov/news-events/cybersecurity-advisories", "kind": "cisa-advisories"},
     {"url": "https://www.ic3.gov/PSA", "kind": "fbi-ic3"},
     {"url": "https://health-isac.org/post-topic/threat-intelligence-post-topics/", "kind": "health-isac", "note": "Public threat-intelligence posts (infrequent). TLP:WHITE bulletins are mirrored on aha.org; use the H-ISAC search query to find them."},
     {"url": "https://bphc.hrsa.gov/", "kind": "hrsa-bphc"},
     {"url": "https://oag.ca.gov/privacy/databreach/list", "kind": "state-ag-breach-list"},
-    {"url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html", "kind": "state-ag-breach-list"},
+    {"url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html", "kind": "state-ag-breach-list", "note": "Public database taken offline by the Maine AG. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."},
     {"url": "https://www.mass.gov/lists/data-breach-notification-reports", "kind": "state-ag-breach-list"},
     {"url": "https://ago.vermont.gov/categories/security-breach-notices", "kind": "state-ag-breach-list", "note": "Feed: https://ago.vermont.gov/taxonomy/term/10/feed. As of 2026-11-11 the newest posted notice is dated 2026-04-10; record if still stale."},
     {"url": "https://www.atg.wa.gov/data-breach-notifications", "kind": "state-ag-breach-list"},
@@ -39,7 +39,7 @@
     {"url": "https://justice.oregon.gov/consumer/DataBreach/", "kind": "state-ag-breach-list", "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Catches multi-state filings, including Idaho and other western health centers."},
     {"url": "https://datcp.wi.gov/Pages/Programs_Services/DataBreaches.aspx", "kind": "state-ag-breach-list", "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Short list (about 20 entries a year); as of 2026-11-11 the newest entry is July 2026."},
     {"url": "https://dojmt.gov/office-of-consumer-protection/reported-data-breaches/", "kind": "state-ag-breach-list", "note": "Returns 403 to curl; read with a fetch tool. Table is not in date order: scan the DATE REPORTED column."},
-    {"url": "https://www.doj.nh.gov/citizens/consumer-protection-antitrust-bureau/security-breach-notifications", "kind": "state-ag-breach-list", "note": "Returns 403 to curl; read with a fetch tool. Listed by company name; many multi-state health filings appear here."}
+    {"url": "https://www.doj.nh.gov/citizens/consumer-protection-antitrust-bureau/security-breach-notifications", "kind": "state-ag-breach-list", "note": "Returns 403 to curl; read with a fetch tool. Listed by company name; many multi-state health filings appear here. Fetch tools return the page text without the list. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."}
   ],
   "web_search_fallback": [
     "community health center data breach",
