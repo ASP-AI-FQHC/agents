@@ -92,6 +92,20 @@
       "items_updated": 4,
       "alert_sent": "yes",
       "note": "Manual addendum requested by Guy Fuller: four FQHC filings from the Texas and Indiana AG lists with CEO contacts; updates to Lone Star, Kaniksu, Erie, Southern Indiana. One email to gfuller only. Not a scheduled run."
+    },
+    {
+      "date": "2026-11-11",
+      "sources_checked": 25,
+      "sources_failed": [
+        "HC3 page (empty content)",
+        "Maine AG (database offline)",
+        "NH DOJ (list not rendered)",
+        "Montana DOJ (table truncated, newest rows not read)"
+      ],
+      "items_new": 0,
+      "items_updated": 0,
+      "alert_sent": "no",
+      "note": "test run in dedicated session. OCR portal reader ran (second attempt; first returned no rows): newest submission still 2026-10-15, nothing new. state_lists.js ran for 2026-11-09 on: 9 TX filings, no FQHCs. Web searches found only items already recorded (ArCare, Brockton settlements). Two non-qualifying items recorded to skip later. Gmail and Exa available."
     }
   ],
   "items": [
@@ -1063,6 +1077,34 @@
       "affected_count": "1 each",
       "ocr_action": null,
       "litigation": null
+    },
+    {
+      "id": "kev:google-chromium-cve-2026-125350",
+      "type": "kev",
+      "title": "CISA KEV: Google Chromium CVE-2026-125350 (added 2026-11-10)",
+      "urls": [
+        "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      ],
+      "status": "CONFIRMED (CISA KEV)",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": false,
+      "reason": "Browser flaw; not an EHR, practice-management, remote-access/VPN, email or identity product. Other 2026-11-10 additions (Cisco BroadWorks, Openwave Webtop) not common in FQHCs; Barracuda and Microsoft Office already recorded."
+    },
+    {
+      "id": "breach:premise-health-2026-03",
+      "type": "breach",
+      "title": "Premise Health Holding Corp (insider data copy)",
+      "state": "TN",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list",
+        "https://www.atg.wa.gov/data-breach-notifications"
+      ],
+      "status": "CONFIRMED (TX, CA, WA AG filings)",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": false,
+      "reason": "Employer onsite-clinic operator, not an FQHC. Large multi-state filing likely to resurface. TX AG: 261,654 Texans; WA: 49,444 Washingtonians (state counts, not totals)."
     }
   ]
 }
