@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-10",
+  "last_run": "2026-11-11",
   "runs": [
     {
       "date": "2026-11-10",
@@ -20,6 +20,26 @@
       "items_updated": 0,
       "alert_sent": "yes",
       "note": "Baseline run, 30-day lookback 2026-10-11..2026-11-10. Direct fetch blocked in session; pages read via Exa fetch/search. HC3 status not determined."
+    },
+    {
+      "date": "2026-11-11",
+      "sources_checked": 20,
+      "sources_failed": [
+        "ocrportal.hhs.gov (live portal not rendered)",
+        "hhs.gov HC3 page (empty)",
+        "health-isac.org alerts (not found)",
+        "ago.vermont.gov (not found)",
+        "texasattorneygeneral.gov (not found)",
+        "maine.gov AG (database offline)",
+        "ic3.gov/PSA (no listing returned)",
+        "in.gov AG (list is linked PDF, not read)",
+        "hhs.gov HIPAA newsroom and press room (no dated entries)",
+        "one CISA 2026-11-09 alert URL (not found)"
+      ],
+      "items_new": 2,
+      "items_updated": 1,
+      "alert_sent": "yes",
+      "note": "Manual run. Lookback 2026-11-08..11 found no new in-window FQHC breach. Alert covers one update (NorthShore attribution) and two qualifying items the baseline missed. Pages read via Exa fetch/search."
     }
   ],
   "items": [
@@ -29,20 +49,23 @@
       "title": "NorthShore Health Centers",
       "state": "IN",
       "urls": [
-        "https://northshorehealth.org/wp-content/uploads/NorthShore-Website-Notice-10-19-26.pdf"
+        "https://northshorehealth.org/wp-content/uploads/NorthShore-Website-Notice-10-19-26.pdf",
+        "https://www.hipaajournal.com/data-breach-northshore-health-centers/",
+        "https://ransomware.live/id/Tm9ydGhTaG9yZSBIZWFsdGggQ2VudGVyc0BpbnNvbW5pYQ"
       ],
       "status": "CONFIRMED",
       "summary": "Entity notice dated 2026-10-14: unknown actor accessed parts of network 2026-08-10 to 2026-08-11; data review ongoing; letters not yet mailed.",
       "first_seen": "2026-11-10",
-      "last_updated": "2026-11-10",
+      "last_updated": "2026-11-11",
       "reported": true,
       "fqhc_verified": "HRSA Health Center Program award H8002458 (HHS TAGGS)",
       "incident_date": "2026-08-10 to 2026-08-11",
       "disclosure_date": "2026-10-14",
       "affected_count": null,
-      "cause": "unauthorized network access by unknown actor; method not disclosed",
+      "cause": "unauthorized network access by unknown actor per entity; ransomware/extortion claim REPORTED",
       "ocr_action": null,
-      "litigation": null
+      "litigation": null,
+      "attribution": "REPORTED: Insomnia ransomware group listed the entity on its leak site (listing dated 2026-09-07 per ransomware.live) and leaked data (HIPAA Journal, 2026-10-27). Not confirmed by the entity."
     },
     {
       "id": "breach:integrated-health-centers-of-west-virginia-2026-10",
@@ -177,6 +200,57 @@
       "reason": "State AG action, not HHS OCR; entity not an FQHC; outside rules 3 and 4.",
       "first_seen": "2026-11-10",
       "last_updated": "2026-11-10"
+    },
+    {
+      "id": "breach:brockton-neighborhood-health-center-2024-11",
+      "type": "breach",
+      "title": "Brockton Neighborhood Health Center (2024 breach) - class action settlement",
+      "state": "MA",
+      "urls": [
+        "https://www.bnhdatasettlement.com/",
+        "https://www.hipaajournal.com/brockton-neighborhood-health-center-data-breach-settlement/"
+      ],
+      "status": "CONFIRMED (settlement up to $825,000, incident dates, per settlement website); REPORTED (class size, approval date, deadlines, attribution)",
+      "summary": "Howard v. Brockton Neighborhood Health Center, Plymouth County Superior Court (MA). Up to $825,000. Reported: 97,488 class members; preliminary approval 2026-08-06; claims due 2026-12-08; final hearing 2027-01-12; Interlock ransomware. HIPAA Journal cites $850,000 in places.",
+      "fqhc_verified": null,
+      "fqhc_note": "FQHC status not verified this run; reported under Possible FQHC - unverified",
+      "incident_date": "2024-11-01 to 2024-11-03",
+      "affected_count": "97,488 (REPORTED)",
+      "litigation": "settlement up to $825,000; final approval pending",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "note": "Published 2026-10-27; missed by baseline run."
+    },
+    {
+      "id": "guidance:ocr-cybersecurity-newsletter-2026-10",
+      "type": "guidance",
+      "title": "HHS OCR October 2026 Cybersecurity Newsletter (Securing the Next 250)",
+      "state": null,
+      "urls": [
+        "https://www.nycdentalsociety.org/news-publications/nysda-publications/2026/10/31/ocr-issues-cybersecurity-newsletter",
+        "https://www.hipaaworks.com/news/ocr-october-2026-newsletter-security-rule-mapping"
+      ],
+      "status": "REPORTED (text reproduced by secondary sources; hhs.gov page not retrieved)",
+      "summary": "Maps CISA essential cyber steps (phishing training, passwords/MFA, patching, logging, backups, encryption, incident response, contingency) to HIPAA Security Rule provisions; states reporting to CISA does not satisfy HIPAA breach reporting. Posting date reported as 2026-10-30 by some sources and 2026-11-03 by another.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11",
+      "reported": true,
+      "note": "Missed by baseline run."
+    },
+    {
+      "id": "kev:cisa-2026-11-09-gpustack-freeswitch-openssh-aspera",
+      "type": "kev",
+      "title": "CISA KEV additions 2026-11-09 (GPUStack, FreeSwitch, OpenSSH CVE-2026-123158, IBM Aspera Faspex)",
+      "state": null,
+      "urls": [
+        "https://www.cisa.gov/news-events/alerts/2026/11/09/cisa-adds-four-known-exploited-vulnerabilities-catalog"
+      ],
+      "status": "CONFIRMED",
+      "reported": false,
+      "reason": "Not clearly EHR, practice-management, VPN, email or identity products common in FQHCs; OpenSSH entry details not retrieved. Re-check if healthcare-specific guidance appears.",
+      "first_seen": "2026-11-11",
+      "last_updated": "2026-11-11"
     }
   ]
 }
