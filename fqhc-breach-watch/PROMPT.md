@@ -126,8 +126,51 @@ per item plus source link. This proves the pipeline works end to end.
       Sources: <URLs, each on its own line>
       (UPDATE items: add "What changed: <...>")
 
+  FQHC BREACHES items (and POSSIBLE FQHC items) also carry a contact block
+  and an outreach draft, placed after "Recommended actions":
+
+      CEO: <full name, title> (<source URL>) or "not found"
+      CEO email: <address> (<source URL>) or "not published"
+      Website: <URL>
+      Telephone: <main number>
+      Outreach draft: <see "Contact block and outreach draft" below>
+
 - Close with one line naming the sources that failed to load, if any, and
   whether `seen.json` pushed.
+
+## Contact block and outreach draft (every FQHC breach item)
+
+- **Website and telephone:** take them from HRSA's Health Center site list
+  (https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv,
+  columns `Site Web Address` and `Site Telephone Number` for the matching
+  `Health Center Name`) or from the entity's own site.
+- **CEO name:** the current chief executive (CEO, President & CEO, or
+  Executive Director) from the entity's own leadership page; failing that, a
+  press release or directory from the current year. Cite the source. If the
+  only source is older than a year, add "(as of <year>, not reconfirmed)".
+- **CEO email:** only an address explicitly published on a public page, with
+  its source. Never construct or guess an address from a naming pattern. If
+  none is published, write "not published" and give the general contact
+  address or form if one exists.
+- **Outreach draft:** a short email from Guy Fuller to the CEO, 120–170
+  words, ready to paste. It offers Allstar's Executive Vulnerability
+  Management with a Strategic Business Review. Hold to this message: no
+  technical fluff — a clear picture of where the organization stands and
+  what to decide next. Write for an executive, not an IT manager.
+  - Tone: warm, respectful, peer to peer. Acknowledge the public notice in
+    one neutral sentence; never assign blame, speculate on cause, or cite
+    attacker names, leak sites, lawsuits or patient counts.
+  - Say only what Allstar offers in general terms: an executive-level view
+    of exposure, priorities ranked by business risk, and a review meeting
+    that ends in decisions. Do not invent pricing, timelines, client names,
+    statistics, guarantees or product features.
+  - One clear ask: a 30-minute conversation. Sign as Guy Fuller, Partner,
+    Allstar Partners.
+  - Drafts are for Guy to review and send himself. Never send them, and
+    never email anyone at the breached organization.
+- Do not write an outreach draft for an entity while its incident appears
+  to be active (systems down, notice issued within the last 14 days); write
+  "Outreach draft: held — incident still active" instead.
 
 ## Accuracy rules (non-negotiable — client trust depends on it)
 
