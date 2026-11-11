@@ -1,6 +1,6 @@
 {
   "_comment": "Sources the FQHC Breach & Advisory Watch checks every run. Edit freely; the routine reads this file fresh each time. 'kind' is a hint for how to read the page.",
-  "recipients": ["gfuller@allstarpartners.com"],
+  "recipients": ["gfuller@allstarpartners.com", "jdudek@allstarpartners.com", "jgrychowski@allstarpartners.com"],
   "fqhc_verification": "https://findahealthcenter.hrsa.gov/",
   "priority_states": ["IL", "AR", "IN", "WI", "MO", "TN", "MS", "LA", "TX", "OK"],
   "sources": [
