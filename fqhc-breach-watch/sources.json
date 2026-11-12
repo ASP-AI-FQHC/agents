@@ -54,7 +54,11 @@
     "Health-ISAC alert",
     "H-ISAC TLP White threat bulletin aha.org",
     "Illinois Attorney General data breach notice health center",
-    "\"community health center\" data breach Arkansas OR Missouri OR Tennessee OR Mississippi OR Louisiana OR Oklahoma"
+    "\"community health center\" data breach Arkansas OR Missouri OR Tennessee OR Mississippi OR Louisiana OR Oklahoma",
+    "medical group OR physician practice data breach notice",
+    "hospital data breach notice of data security incident",
+    "critical access hospital OR county hospital cyberattack",
+    "healthcare data breach announced this week"
   ],
   "blocked_sources": [
     {"url": "https://databreachnoticetoattorneygeneral.illinoisattorneygeneral.gov/databreach-search", "state": "IL", "note": "Illinois AG public breach search. Protected by a CAPTCHA; do not attempt to automate or bypass it. Do not count as a failed source. Illinois coverage comes from the OCR portal, the Indiana and Texas lists (multi-state filings), and the Illinois search query. Guy can search it by hand."},

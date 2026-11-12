@@ -1113,7 +1113,8 @@
       "first_seen": "2026-11-11",
       "last_updated": "2026-11-11",
       "reported": false,
-      "reason": "Employer onsite-clinic operator, not an FQHC. Large multi-state filing likely to resurface. TX AG: 261,654 Texans; WA: 49,444 Washingtonians (state counts, not totals)."
+      "reason": "Employer onsite-clinic operator, not an FQHC. Large multi-state filing likely to resurface. TX AG: 261,654 Texans; WA: 49,444 Washingtonians (state counts, not totals). Scope widened 2026-11-12: to be reported on next run.",
+      "include_next_run": true
     },
     {
       "id": "breach:central-ohio-primary-care-physicians-2026-08",
@@ -1128,8 +1129,9 @@
       "first_seen": "2026-11-12",
       "last_updated": "2026-11-12",
       "reported": false,
-      "reason": "Physician group, not an FQHC. Large breach likely to resurface in press and state lists.",
-      "affected_count": "1,351,650 (OCR portal)"
+      "reason": "Physician group, not an FQHC. Large breach likely to resurface in press and state lists. Scope widened 2026-11-12: to be reported on next run.",
+      "affected_count": "1,351,650 (OCR portal)",
+      "include_next_run": true
     }
   ]
 }
