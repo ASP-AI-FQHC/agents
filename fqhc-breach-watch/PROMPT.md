@@ -148,9 +148,14 @@ under a "Possible FQHC — unverified" heading.
      First seen, Last updated, In email (Yes/No).
    - **Prospects** tab: one row per Tier 1 and Tier 2 breach (one row per
      organization; if an entity is already there under another id, update
-     that row). Routine columns: ID, Entity, State, Group, CEO name, CEO email
-     (verified), Website URL, Phone, Board of Directors, Board source (URL,
-     date), Outreach draft (Tier 1 only). New rows get Stage "New".
+     that row). Routine columns: ID, Entity, State, Group, ALLSTAR score,
+     Cyber opportunity tier, CEO name, CEO email (verified), Website URL,
+     Phone, Board of Directors, Board source (URL, date), IT / security lead,
+     IT lead email (verified), Compliance / privacy officer, Compliance email
+     (verified), Contacts source, Annual revenue (990), Total expenses (990),
+     990 fiscal year end, Patients (UDS 2025), Sites (HRSA), Staff FTE (UDS
+     2025), EHR system (UDS 2025), Size sources, Score breakdown (ALLSTAR
+     method), Outreach draft (Tier 1 only). New rows get Stage "New".
      - CEO name, CEO email and Website URL follow "Contact block and outreach
        draft" below; the email column holds verified addresses only, with
        source, else "not published".
@@ -163,6 +168,31 @@ under a "Possible FQHC — unverified" heading.
        source: "<URL> (<page date or 990 tax year>)". If none is published,
        write "not published" and say where you looked. Refresh a board only
        if its source is more than a year old.
+     - IT / security lead and Compliance / privacy officer: name and title as
+       published, from the organization's own leadership, staff or privacy-
+       notice pages (press releases or Form 990 Part VII acceptable, dated).
+       Same email rule as the CEO. A notice that names only the role is "not
+       published (<role> named, no name)". Mark anything older than a year
+       "(as of <date>, not reconfirmed)".
+     - Size and the score (Tier 1 FQHCs only; other tiers leave these blank,
+       Score "n/a"). Use the `fqhc-market-intelligence` skill if the session
+       has it: match the entity to its HRSA grant number in the HRSA site list
+       (`Health Center Name`, city, state; confirm with the UDS project
+       director), then take patients, staff FTE, EHR and the urban/rural and
+       special-population flags from the latest UDS workbook (`H80-<year>.xlsx`
+       on data.hrsa.gov), the active site count from the site list, and
+       revenue, expenses and fiscal year from the latest Form 990 via the
+       ProPublica API (fetch tool; reject foundations and look-alike names).
+       Score with the skill's `references/scoring.md`, with two documented
+       deviations used since 2026-11-12: federal funding scores 0 (USAspending
+       is unreachable from this environment), and the rural component uses
+       the UDS organization-level urban/rural flag (rural 0.80, urban 0.10,
+       plus 0.15 for migrant, homeless, public-housing funding or school-based
+       sites). Put the component arithmetic in Score breakdown. HRSA-suppressed
+       values are "suppressed by HRSA", never zero. If the UDS project
+       director is the CEO on file, their UDS email may fill CEO email, cited
+       "(HRSA UDS <year>, project director contact)". If a match is ambiguous,
+       leave size and score blank and say why.
    - **Advisories & OCR** tab: one row per `ocr-enforcement`, `advisory`,
      `kev` and `guidance` item. Routine columns: ID, Type, Title, Date,
      Summary, Source, First seen.

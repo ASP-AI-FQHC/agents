@@ -151,6 +151,23 @@
         "board": "Scott Cherry (Chairman); Matt Claussen (Vice Chairman); Roman Bronson; Tom Cripliver; Tom Mosley (Assistant Secretary/Treasurer); Tom Aldrich; Jena Bellezza; Denneese Concepcion; Steve Disney, Ph.D.; Isis McCann; Connie Rudd; Wilma Vazquez",
         "board_source": "https://northshorehealth.org/administration-and-board-members/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 61.4,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.85x15; Sites 0.80x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, school-based sites); Cyber 0.90x13 (25,000+ patients; 22 sites; no named security, compliance or privacy officer; published breach; 7 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS02458",
+        "ein": "35-2028588",
+        "revenue_990": 64117803,
+        "expenses_990": 62846704,
+        "fy_990": "2023-12",
+        "patients_uds2025": 84040,
+        "sites_hrsa": 22,
+        "fte_uds2025": 524.33,
+        "ehr_uds2025": "NextGen Healthcare (not including OSIS) / NextGen Enterprise EHR",
+        "uds_project_director": "David  Hall",
+        "uds_project_director_email": "dhall@northshorehealth.org"
       }
     },
     {
@@ -184,6 +201,23 @@
         "board": "Mary Beth McDougal; Amy Roby; Samuel Rogers II; Mike Ring; Rick Coffman; Steven Smith; Shelley Taylor; Julie S. Bertram; Christopher Miller; Darlene Murphy",
         "board_source": "https://www.ihcwv.org/about.html (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 45.9,
+        "tier": "Tier 3 — Developing",
+        "score_breakdown": "Scale 0.30x15; Sites 0.80x12; Revenue 0.30x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.95x8 (rural per UDS, school-based sites); Cyber 0.45x13 (21 sites; published breach; 18 school-based sites); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00843",
+        "ein": "55-0737963",
+        "revenue_990": 6948008,
+        "expenses_990": 6671157,
+        "fy_990": "2023-06",
+        "patients_uds2025": 7047,
+        "sites_hrsa": 21,
+        "fte_uds2025": null,
+        "ehr_uds2025": "Athenahealth / athenaclinicals",
+        "uds_project_director": "Amy  Yokum",
+        "uds_project_director_email": "ayokum@ihcwv.org"
       }
     },
     {
@@ -216,6 +250,23 @@
         "ceo_email": "not published",
         "website": "https://www.arcare.net",
         "as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 76.5,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 1.00x15; Sites 1.00x12; Revenue 1.00x12; Federal funding 0x10 (not available); Tech 0.75x12 (IT complexity High); Leadership 0.00x8; Rural/underserved 0.95x8 (rural per UDS, migrant, public housing, school-based sites); Cyber 0.90x13 (25,000+ patients; 138 sites; no named security, compliance or privacy officer; published breach; 13 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00207",
+        "ein": "58-1666179",
+        "revenue_990": 236672917,
+        "expenses_990": 218190252,
+        "fy_990": "2023-12",
+        "patients_uds2025": 125836,
+        "sites_hrsa": 138,
+        "fte_uds2025": 1441.29,
+        "ehr_uds2025": "Greenway Health / Intergy",
+        "uds_project_director": "Steven  Collier",
+        "uds_project_director_email": "steven.collier@arcare.net"
       }
     },
     {
@@ -336,6 +387,23 @@
         "ceo_email": "not published",
         "website": "https://www.bnhc.org",
         "as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 48.2,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.70x15; Sites 0.60x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.60x13 (25,000+ patients; no named security, compliance or privacy officer; published breach); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00560",
+        "ein": "04-3165044",
+        "revenue_990": 76540491,
+        "expenses_990": 80386291,
+        "fy_990": "2023-06",
+        "patients_uds2025": 39526,
+        "sites_hrsa": 8,
+        "fte_uds2025": null,
+        "ehr_uds2025": "Epic Systems Corporation (not including OCHIN) / EpicCare Ambulatory Base",
+        "uds_project_director": "Maria  Celli",
+        "uds_project_director_email": "cellima@bnhc.org"
       }
     },
     {
@@ -418,7 +486,24 @@
         "board_source": "https://www.eriefamilyhealth.org/about-us/ourpeople/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
       },
-      "count_note": "Indiana AG list (notification sent 2026-07-10) gives total affected 483,245; OCR portal gives 570,000. Not reconciled."
+      "count_note": "Indiana AG list (notification sent 2026-07-10) gives total affected 483,245; OCR portal gives 570,000. Not reconciled.",
+      "prospect": {
+        "allstar_score": 61.2,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.85x15; Sites 0.60x12; Revenue 1.00x12; Federal funding 0x10 (not available); Tech 0.75x12 (IT complexity High); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, school-based sites); Cyber 0.70x13 (25,000+ patients; 13 sites; published breach; 5 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00115",
+        "ein": "36-3088628",
+        "revenue_990": 111889573,
+        "expenses_990": 105443960,
+        "fy_990": "2023-06",
+        "patients_uds2025": 95878,
+        "sites_hrsa": 13,
+        "fte_uds2025": 794.08,
+        "ehr_uds2025": "OCHIN Epic (Epic Systems Corporation) / EpicCare Ambulatory Base",
+        "uds_project_director": "Lee  Francis",
+        "uds_project_director_email": "lfrancis@eriefamilyhealth.org"
+      }
     },
     {
       "id": "breach:chicago-family-health-center-2026-06",
@@ -452,6 +537,23 @@
         "board": "Nora Reyes (Chair); Kevin McGhee (Vice Chair); Fulton Nolen; Cheryl A. Briscoe; Rev. Mark Brummel, C.M.F.; Blair Dietrich; Markena D. Peavy, Esq.; Lyleth Rodriguez; James Simmons; Rachel Smith-Kovarsky; Lupe Valadez",
         "board_source": "https://chicagofamilyhealth.org/about-us/board-of-directors/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 43.5,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.70x15; Sites 0.40x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, school-based sites); Cyber 0.70x13 (25,000+ patients; no named security, compliance or privacy officer; published breach; 1 school-based sites); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00514",
+        "ein": "36-2893854",
+        "revenue_990": 32531645,
+        "expenses_990": 30565008,
+        "fy_990": "2022-06",
+        "patients_uds2025": 28800,
+        "sites_hrsa": 7,
+        "fte_uds2025": null,
+        "ehr_uds2025": "Athenahealth / AthenaOne",
+        "uds_project_director": "Sherry T Pace",
+        "uds_project_director_email": "space@chicagofamilyhealth.org"
       }
     },
     {
@@ -486,6 +588,23 @@
         "board": "William Mink (President); A. Nicole Spears (Vice President); Sharon Waltz (Secretary-Treasurer); Tom Weartz; Atin Tandon; Shirley Robertson; Juan Pablo Ardila Zorro; Janet L. Buchanan; Melissa J. Harrier; Richard P. Rahe; Hlalum (Helen) Thangmatu; Sharonda Stephens; Abby Clemens; Jazmine Rivera Franco; Van Sui; Michael Kolenda",
         "board_source": "https://www.windrosehealth.net/about (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 39.5,
+        "tier": "Tier 4 — Monitor",
+        "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.25x13 (published breach; named compliance officer but no named security leader); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS02456",
+        "ein": "35-2001054",
+        "revenue_990": 24223205,
+        "expenses_990": 22421712,
+        "fy_990": "2023-12",
+        "patients_uds2025": 21991,
+        "sites_hrsa": 8,
+        "fte_uds2025": null,
+        "ehr_uds2025": "eClinicalWorks, LLC / eClinicalWorks",
+        "uds_project_director": "Scott K Rollett",
+        "uds_project_director_email": "srollett@windrosehealth.net"
       }
     },
     {
@@ -520,6 +639,23 @@
         "board": "William Mink (President); A. Nicole Spears (Vice President); Sharon Waltz (Secretary-Treasurer); Tom Weartz; Atin Tandon; Shirley Robertson; Juan Pablo Ardila Zorro; Janet L. Buchanan; Melissa J. Harrier; Richard P. Rahe; Hlalum (Helen) Thangmatu; Sharonda Stephens; Abby Clemens; Jazmine Rivera Franco; Van Sui; Michael Kolenda",
         "board_source": "https://www.windrosehealth.net/about (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 39.5,
+        "tier": "Tier 4 — Monitor",
+        "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.25x13 (published breach; named compliance officer but no named security leader); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS02456",
+        "ein": "35-2001054",
+        "revenue_990": 24223205,
+        "expenses_990": 22421712,
+        "fy_990": "2023-12",
+        "patients_uds2025": 21991,
+        "sites_hrsa": 8,
+        "fte_uds2025": null,
+        "ehr_uds2025": "eClinicalWorks, LLC / eClinicalWorks",
+        "uds_project_director": "Scott K Rollett",
+        "uds_project_director_email": "srollett@windrosehealth.net"
       }
     },
     {
@@ -557,7 +693,24 @@
         "board_source": "Site mentions a board but publishes no names. Checked: https://www.fhcenters.org",
         "board_as_of": "2026-11-12"
       },
-      "count_note": "Indiana AG list gives 7,037 Indiana residents, 7,304 total; OCR portal gives 7,117. Not reconciled."
+      "count_note": "Indiana AG list gives 7,037 Indiana residents, 7,304 total; OCR portal gives 7,117. Not reconciled.",
+      "prospect": {
+        "allstar_score": 20.8,
+        "tier": "Tier 4 — Monitor",
+        "score_breakdown": "Scale 0.15x15; Sites 0.40x12; Revenue 0.15x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.15x13 (published breach); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS08782",
+        "ein": "35-1842342",
+        "revenue_990": 4552774,
+        "expenses_990": 4571927,
+        "fy_990": "2023-06",
+        "patients_uds2025": 3911,
+        "sites_hrsa": 5,
+        "fte_uds2025": 28.44,
+        "ehr_uds2025": "eClinicalWorks, LLC / eClinical Works University",
+        "uds_project_director": "Lori  Harris",
+        "uds_project_director_email": "lharris@fhcenters.org"
+      }
     },
     {
       "id": "breach:central-ozarks-medical-center-2026-01",
@@ -590,6 +743,23 @@
         "board": "Tom Reagan (Board President); no full roster published",
         "board_source": "https://centralozarks.org/central-ozarks-medical-center-appoints-dawnelyn-schneider-as-chief-executive-officer/ (announcement 2026-07-29)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 57.7,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.50x15; Sites 0.80x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.80x8 (new CEO DawnElyn Schneider appointed 2026-07-29, https://centralozarks.org/central-ozarks-medical-center-appoints-dawnelyn-schneider-as-chief-executive-officer/); Rural/underserved 0.95x8 (rural per UDS, school-based sites); Cyber 0.65x13 (18 sites; no named security, compliance or privacy officer; published breach; 8 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00132",
+        "ein": "43-1183442",
+        "revenue_990": 24657971,
+        "expenses_990": 25209047,
+        "fy_990": "2023-11",
+        "patients_uds2025": 24493,
+        "sites_hrsa": 18,
+        "fte_uds2025": 189.44,
+        "ehr_uds2025": "eClinicalWorks, LLC / eClinical Works",
+        "uds_project_director": "Kelly  Miller",
+        "uds_project_director_email": "kmiller@centralozarks.org"
       }
     },
     {
@@ -623,6 +793,23 @@
         "board": "LaToria Brown; Laura Carmichael; Jennifer Gentry; Ralph Henson; Gwendolyn Hughes; Tonya Hunt; Trevelle McGlothin; Dede Mogollon; Deron Radcliff; Robbie Robinson; Lisa Silliman; Jimmie Smith; Deborah Todd",
         "board_source": "https://www.gmhcinc.org/board-directors (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 40.9,
+        "tier": "Tier 3 — Developing",
+        "score_breakdown": "Scale 0.30x15; Sites 0.60x12; Revenue 0.30x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.95x8 (rural per UDS, school-based sites); Cyber 0.45x13 (10 sites; published breach; 2 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00439",
+        "ein": "64-0732893",
+        "revenue_990": 8643137,
+        "expenses_990": 9454731,
+        "fy_990": "2024-03",
+        "patients_uds2025": 6505,
+        "sites_hrsa": 10,
+        "fte_uds2025": 88.5,
+        "ehr_uds2025": "eClinicalWorks, LLC / eClinicalWorks, LLC",
+        "uds_project_director": "Wilbert  Jones",
+        "uds_project_director_email": "wjones@gmhcinc.org"
       }
     },
     {
@@ -659,6 +846,23 @@
         "board": "Rod Chaves (Chairman); Hector Forestier (Vice Chairman); Stephanie Chaney Atkins (Secretary); Denise Cipolla; Duke Coon; Paola Gorman; Chris Grice; Karen Lonon; Anthony Shelton; Ana Stella, M.D.",
         "board_source": "https://www.lonestarfamily.org/leadership-team/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 47.0,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.70x15; Sites 0.40x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, school-based sites); Cyber 0.70x13 (25,000+ patients; no named security, compliance or privacy officer; published breach; 1 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS02451",
+        "ein": "30-0038860",
+        "revenue_990": 31485574,
+        "expenses_990": 30847991,
+        "fy_990": "2023-12",
+        "patients_uds2025": 29739,
+        "sites_hrsa": 6,
+        "fte_uds2025": 228.95,
+        "ehr_uds2025": "Athenahealth / athenaClinicals",
+        "uds_project_director": "Karen  Harwell",
+        "uds_project_director_email": "kharwell@lonestarfamily.org"
       }
     },
     {
@@ -692,6 +896,23 @@
         "board": "Barbara Blakeney, RN, MS, FNAP (Board Chair); Tom Dehner (Vice Chair); Steve Tringale (Treasurer); Joanne Guarino; Deion S. Hawkins, PhD; Francis Hyatt; Kimi Kobayashi, MD, MBA; Ryan O'Donnell; Brett Painchaud; Mala M. Rafik, Esquire; Valeria Ramdin PhD, MS, CNP, CNE; Sara Reid; Paul J. Selian; Alice K. Walsh, CFP; Steve Walsh; Derek Winbush",
         "board_source": "https://www.bhchp.org/about/our-leadership/board-of-directors/ (page dated 2022-10-24)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 48.2,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.50x15; Sites 0.80x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, homeless); Cyber 0.55x13 (27 sites; no named security, compliance or privacy officer; published breach); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00006",
+        "ein": "04-3160480",
+        "revenue_990": 80334496,
+        "expenses_990": 80161446,
+        "fy_990": "2023-06",
+        "patients_uds2025": 11260,
+        "sites_hrsa": 27,
+        "fte_uds2025": null,
+        "ehr_uds2025": "OCHIN Epic (Epic Systems Corporation) / EPIC Care Ambulatory Base",
+        "uds_project_director": "Stan  McLaren",
+        "uds_project_director_email": "smclaren@bhchp.org"
       }
     },
     {
@@ -726,6 +947,23 @@
         "board": "not published",
         "board_source": "Site publishes no board roster. Checked: https://kymha.com",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 39.6,
+        "tier": "Tier 3 — Developing",
+        "score_breakdown": "Scale 0.50x15; Sites 0.40x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.95x8 (rural per UDS, homeless); Cyber 0.35x13 (no named security, compliance or privacy officer; published breach); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS07772",
+        "ein": "61-1355382",
+        "revenue_990": 15629447,
+        "expenses_990": 15988684,
+        "fy_990": "2023-12",
+        "patients_uds2025": 15866,
+        "sites_hrsa": 5,
+        "fte_uds2025": 186.3,
+        "ehr_uds2025": "NextGen Healthcare (not including OSIS) / Nextgen Enterprise EHR",
+        "uds_project_director": "Ellen  Vance",
+        "uds_project_director_email": "ellen@kymha.org"
       }
     },
     {
@@ -758,6 +996,23 @@
         "board": "not published",
         "board_source": "Site mentions its Junta de Gobierno but publishes no names. Checked: https://csmpr.org",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 49.2,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, migrant, public housing); Cyber 0.55x13 (12 sites; no named security, compliance or privacy officer; published breach); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00334",
+        "ein": "66-0427194",
+        "revenue_990": 63835666,
+        "expenses_990": 57651099,
+        "fy_990": "2024-01",
+        "patients_uds2025": 21025,
+        "sites_hrsa": 12,
+        "fte_uds2025": 273.86,
+        "ehr_uds2025": "eClinicalWorks, LLC / eCW",
+        "uds_project_director": "Lorena D Torres Mercado",
+        "uds_project_director_email": "lorena.torres@csmpr.org"
       }
     },
     {
@@ -791,6 +1046,23 @@
         "board": "not verified",
         "board_source": "Not verified: IRS Form 990 page on ProPublica would not load for checking. Checked: https://projects.propublica.org/nonprofits/organizations/273618164/202512119349301111/full",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 27.8,
+        "tier": "Tier 4 — Monitor",
+        "score_breakdown": "Scale 0.15x15; Sites 0.40x12; Revenue 0.30x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.80x8 (rural per UDS); Cyber 0.15x13 (published breach); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS26595",
+        "ein": "27-3618164",
+        "revenue_990": 6248554,
+        "expenses_990": 5399446,
+        "fy_990": "2023-09",
+        "patients_uds2025": 4608,
+        "sites_hrsa": 4,
+        "fte_uds2025": null,
+        "ehr_uds2025": "eClinicalWorks, LLC / eClinicalWorks",
+        "uds_project_director": "Starla  Cummings",
+        "uds_project_director_email": "scummings@communitymedicalclinic.org"
       }
     },
     {
@@ -823,6 +1095,23 @@
         "board": "Jeffrey Bethel (Chair); Catherine Biscoe; Rachel Bretbrunner; Sara Fuller (Vice-Chair); Brooke Knutzen; LeTisha McCoy; Grace Robinson (Secretary); Rommy Streicher; Stephanie Toney",
         "board_source": "https://clinics.bentoncountyor.gov/our-board-of-directors/ (page lists 2026 board)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 33.5,
+        "tier": "Tier 3 — Developing",
+        "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.00x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, migrant, school-based sites); Cyber 0.45x13 (no named security, compliance or privacy officer; published breach; 2 school-based sites); Data quality 0.79x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS02592",
+        "ein": null,
+        "revenue_990": null,
+        "expenses_990": null,
+        "fy_990": null,
+        "patients_uds2025": 10784,
+        "sites_hrsa": 8,
+        "fte_uds2025": 170.41,
+        "ehr_uds2025": "OCHIN Epic (Epic Systems Corporation) / EpicCare Ambulatory Base",
+        "uds_project_director": "Lacey A Mollel",
+        "uds_project_director_email": "Lacey.mollel@bentoncountyor.gov"
       }
     },
     {
@@ -856,6 +1145,23 @@
         "board": "James Gamble; Sharon Hanna; Roy Moose; Barbara Elaine Butler; Elizabeth Snyder; Tiffany Montgomery; Jane Sherwood; Michael Schartiger; Aaron Evans",
         "board_source": "https://projects.propublica.org/nonprofits/organizations/550592596 (IRS Form 990, FY ending 2024-11, filed 2025-10-06)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 50.9,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.50x15; Sites 0.80x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.95x8 (rural per UDS, school-based sites); Cyber 0.65x13 (28 sites; no named security, compliance or privacy officer; published breach; 17 school-based sites); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00078",
+        "ein": "55-0592596",
+        "revenue_990": 16569780,
+        "expenses_990": 17026051,
+        "fy_990": "2023-11",
+        "patients_uds2025": 14022,
+        "sites_hrsa": 28,
+        "fte_uds2025": null,
+        "ehr_uds2025": "Greenway Health / Greenway Intergy",
+        "uds_project_director": "Margaret  Hickey",
+        "uds_project_director_email": "meg@cfhwv.org"
       }
     },
     {
@@ -889,6 +1195,23 @@
         "board": "Shoran Reid Williams (President); Andrea Scott (Vice President); Elizabeth Triezenberg (Treasurer); Barbara Wybrecht (Secretary); Kareem Scales (Director-at-Large); Maggie McGuinness; Scott Alfree; Gwynn Bult; Antonio Cardenas Jr.; Willie Gholston II; Leslie King; Kimberly Lavender; Ziyadah Shakir; David Smith",
         "board_source": "https://cherryhealth.org/about/board-of-directors/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 61.4,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.85x15; Sites 0.80x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, migrant, homeless, school-based sites); Cyber 0.90x13 (25,000+ patients; 25 sites; no named security, compliance or privacy officer; published breach; 11 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00770",
+        "ein": "38-2853534",
+        "revenue_990": 91875833,
+        "expenses_990": 83933339,
+        "fy_990": "2023-03",
+        "patients_uds2025": 57759,
+        "sites_hrsa": 25,
+        "fte_uds2025": 582.63,
+        "ehr_uds2025": "NextGen Healthcare (not including OSIS) / NextGen Enterprise EHR",
+        "uds_project_director": "Cynthia  Duncanson",
+        "uds_project_director_email": "cynthiaduncanson@cherryhealth.com"
       }
     },
     {
@@ -921,6 +1244,23 @@
         "board": "Mark King; Stephen Bojdak (Treasurer); Rev. Raymond Allen; Denise Dennis-Coke, MD; Rashied McDuffie, Esq.; John Torrey, PhD; Kathleen Duke-Purdue; Andrew Huff; Michael Ikpeze",
         "board_source": "https://chcb.net/board-of-directors/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 33.6,
+        "tier": "Tier 3 — Developing",
+        "score_breakdown": "Scale 0.50x15; Sites 0.40x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, homeless, public housing); Cyber 0.35x13 (no named security, compliance or privacy officer; published breach); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00157",
+        "ein": "16-1566929",
+        "revenue_990": 18505836,
+        "expenses_990": 19283758,
+        "fy_990": "2023-12",
+        "patients_uds2025": 17629,
+        "sites_hrsa": 6,
+        "fte_uds2025": null,
+        "ehr_uds2025": "eClinicalWorks, LLC / eClinicalWorks",
+        "uds_project_director": "LaVonne  Ansari",
+        "uds_project_director_email": "lansari@chcb.net"
       }
     },
     {
@@ -954,6 +1294,23 @@
         "board": "Lucy Herrera (Vice Chair); Victor Olmos (Treasurer); Ricardo Robles (Secretary); Maria Cervantes; Marc Victor; Maria Grimaldo; Joseph Gomez; Nadia Alvarez",
         "board_source": "https://www.altamed.org/altamed-board-directors (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 66.2,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 1.00x15; Sites 1.00x12; Revenue 1.00x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, homeless, public housing, school-based sites); Cyber 0.80x13 (25,000+ patients; 133 sites; published breach; named compliance officer but no named security leader; 44 school-based sites); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00142",
+        "ein": "95-2810095",
+        "revenue_990": 1480779622,
+        "expenses_990": 1392162287,
+        "fy_990": "2023-12",
+        "patients_uds2025": 312739,
+        "sites_hrsa": 133,
+        "fte_uds2025": null,
+        "ehr_uds2025": "Epic Systems Corporation (not including OCHIN) / EpicCare Ambulatory Base",
+        "uds_project_director": "Castulo  de la Rocha",
+        "uds_project_director_email": "grants@altamed.org"
       }
     },
     {
@@ -988,6 +1345,23 @@
         "board": "not published",
         "board_source": "Page says individual board profiles are not shared. Checked: https://kchnorthidaho.org/about-us/leadership-2/",
         "board_as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 50.9,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.50x15; Sites 0.80x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.95x8 (rural per UDS, migrant, school-based sites); Cyber 0.65x13 (20 sites; no named security, compliance or privacy officer; published breach; 13 school-based sites); Data quality 0.88x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00302",
+        "ein": "04-3634356",
+        "revenue_990": 19031990,
+        "expenses_990": 19054455,
+        "fy_990": "2023-12",
+        "patients_uds2025": 14128,
+        "sites_hrsa": 20,
+        "fte_uds2025": null,
+        "ehr_uds2025": "Athenahealth / AthenaOne",
+        "uds_project_director": "Kevin  Knepper",
+        "uds_project_director_email": "kevin@kaniksuhealthservices.org"
       }
     },
     {
@@ -1017,6 +1391,12 @@
         "ceo": "not confirmed (research named Breanna Lathrop; not on the fetched page)",
         "ceo_email": "not published",
         "website": "https://goodsamatlanta.org (match to the breached entity not confirmed)",
+        "as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": "n/a",
+        "tier": "n/a",
+        "score_breakdown": "Not scored: breached entity not matched to an HRSA grantee (three Georgia 'Good Samaritan' candidates)",
         "as_of": "2026-11-12"
       }
     },
@@ -1049,6 +1429,23 @@
         "ceo_email": "not published",
         "website": "https://www.eskenazihealth.edu",
         "as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": 56.2,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 1.00x15; Sites 0.60x12; Revenue 0.00x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.80x8 (new CEO of Eskenazi Health Center (the FQHC division) named Oct 2026, https://www.eskenazihealth.edu/news/dr.-saura-fortin-erazo-named-new-ceo-of-eskenazi-health-center--the-primary-care-division-of-eskenazi-health); Rural/underserved 0.25x8 (urban per UDS, public housing, school-based sites); Cyber 0.90x13 (25,000+ patients; 12 sites; no named security, compliance or privacy officer; published breach; 1 school-based sites); Data quality 0.79x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS25436",
+        "ein": null,
+        "revenue_990": null,
+        "expenses_990": null,
+        "fy_990": null,
+        "patients_uds2025": 109563,
+        "sites_hrsa": 12,
+        "fte_uds2025": 562.75,
+        "ehr_uds2025": "Epic Systems Corporation (not including OCHIN) / Epic Care Ambulatory Base",
+        "uds_project_director": "Allison  Thurman",
+        "uds_project_director_email": "allison.thurman@eskenazihealth.edu"
       }
     },
     {
@@ -1080,7 +1477,24 @@
         "board_source": "https://communicaresa.org/executive-leadership/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
       },
-      "note": "Addendum emailed 2026-11-11 to gfuller only."
+      "note": "Addendum emailed 2026-11-11 to gfuller only.",
+      "prospect": {
+        "allstar_score": 66.6,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 1.00x15; Sites 1.00x12; Revenue 1.00x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, public housing); Cyber 0.80x13 (25,000+ patients; 36 sites; no named security, compliance or privacy officer; published breach); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00672",
+        "ein": "74-1724391",
+        "revenue_990": 337258147,
+        "expenses_990": 322730709,
+        "fy_990": "2024-01",
+        "patients_uds2025": 141525,
+        "sites_hrsa": 36,
+        "fte_uds2025": 1089.9,
+        "ehr_uds2025": "eClinicalWorks, LLC / eClinicalWorks EHR",
+        "uds_project_director": "Paul  Nguyen",
+        "uds_project_director_email": "pnguyen@communicaresa.org"
+      }
     },
     {
       "id": "breach:peoples-community-clinic-2026-03",
@@ -1111,7 +1525,24 @@
         "board_source": "https://www.austinpcc.org/about-us-2/leadership/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
       },
-      "note": "Addendum emailed 2026-11-11 to gfuller only."
+      "note": "Addendum emailed 2026-11-11 to gfuller only.",
+      "prospect": {
+        "allstar_score": 39.4,
+        "tier": "Tier 3 — Developing",
+        "score_breakdown": "Scale 0.50x15; Sites 0.40x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, school-based sites); Cyber 0.35x13 (published breach; named compliance officer but no named security leader; 1 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS24150",
+        "ein": "23-7087608",
+        "revenue_990": 43248973,
+        "expenses_990": 37148414,
+        "fy_990": "2023-12",
+        "patients_uds2025": 21946,
+        "sites_hrsa": 5,
+        "fte_uds2025": 289.85,
+        "ehr_uds2025": "OCHIN Epic (Epic Systems Corporation) / Epic Systems Corporation",
+        "uds_project_director": "Matt  Balthazar",
+        "uds_project_director_email": "matt.balthazar@austinpcc.org"
+      }
     },
     {
       "id": "breach:marana-health-center-aesto-2026-09",
@@ -1142,7 +1573,24 @@
         "board_source": "https://maranahealth.org/board-of-directors/ (page accessed 2026-11-12)",
         "board_as_of": "2026-11-12"
       },
-      "note": "Addendum emailed 2026-11-11 to gfuller only."
+      "note": "Addendum emailed 2026-11-11 to gfuller only.",
+      "prospect": {
+        "allstar_score": 58.2,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.85x15; Sites 0.60x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.75x12 (IT complexity High); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.70x13 (25,000+ patients; 13 sites; published breach; named compliance officer but no named security leader); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS00231",
+        "ein": "86-6053462",
+        "revenue_990": 89046158,
+        "expenses_990": 88850681,
+        "fy_990": "2023-06",
+        "patients_uds2025": 58028,
+        "sites_hrsa": 13,
+        "fte_uds2025": 678.07,
+        "ehr_uds2025": "Athenahealth / athenaClinicals",
+        "uds_project_director": "Joshua  Carzoli",
+        "uds_project_director_email": "jcarzoli@mhchealthcare.org"
+      }
     },
     {
       "id": "breach:jane-pauley-community-health-center-2026-02",
@@ -1173,7 +1621,24 @@
         "board_source": "https://janepauleychc.org/leadership/ (page accessed 2026-11-12; page shows no officer titles)",
         "board_as_of": "2026-11-12"
       },
-      "note": "Addendum emailed 2026-11-11 to gfuller only."
+      "note": "Addendum emailed 2026-11-11 to gfuller only.",
+      "prospect": {
+        "allstar_score": 69.0,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.85x15; Sites 1.00x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.75x12 (IT complexity High); Leadership 0.50x8 (new CIO Eric Serrano appointed 2025-10-20, https://janepauleychc.org/general/jane-pauley-community-health-center-appoints-new-executive-leadership/); Rural/underserved 0.25x8 (urban per UDS, school-based sites); Cyber 0.90x13 (25,000+ patients; 45 sites; no named security, compliance or privacy officer; published breach; 27 school-based sites); Data quality 0.92x10",
+        "as_of": "2026-11-12",
+        "hrsa_grant": "H80CS26566",
+        "ein": "01-0945309",
+        "revenue_990": 35569581,
+        "expenses_990": 39448072,
+        "fy_990": "2023-12",
+        "patients_uds2025": 57968,
+        "sites_hrsa": 45,
+        "fte_uds2025": 387.06,
+        "ehr_uds2025": "OCHIN Epic (Epic Systems Corporation) / EpicCare Ambulatory Base",
+        "uds_project_director": "Marc  Hackett",
+        "uds_project_director_email": "mhackett@janepauleychc.org"
+      }
     },
     {
       "id": "breach:heart-city-health-center-2026",
@@ -1247,6 +1712,12 @@
         "ceo": "Donald Deep, MD, Chief Executive Officer (https://www.copcp.com/about-us/)",
         "ceo_email": "not published",
         "website": "https://www.copcp.com",
+        "as_of": "2026-11-12"
+      },
+      "prospect": {
+        "allstar_score": "n/a",
+        "tier": "n/a",
+        "score_breakdown": "Not scored: physician group, not an FQHC; the ALLSTAR score covers FQHCs only",
         "as_of": "2026-11-12"
       }
     }
