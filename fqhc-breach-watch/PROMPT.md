@@ -154,8 +154,8 @@ under a "Possible FQHC — unverified" heading.
      IT lead email (verified), Compliance / privacy officer, Compliance email
      (verified), Contacts source, Annual revenue (990), Total expenses (990),
      990 fiscal year end, Patients (UDS 2025), Sites (HRSA), Staff FTE (UDS
-     2025), EHR system (UDS 2025), Size sources, Score breakdown (ALLSTAR
-     method), Outreach draft (Tier 1 only). New rows get Stage "New".
+     2025), EHR system (UDS 2025), Size sources, Why this score, Outreach
+     draft (Tier 1 only). New rows get Stage "New".
      - CEO name, CEO email and Website URL follow "Contact block and outreach
        draft" below; the email column holds verified addresses only, with
        source, else "not published".
@@ -188,7 +188,15 @@ under a "Possible FQHC — unverified" heading.
        is unreachable from this environment), and the rural component uses
        the UDS organization-level urban/rural flag (rural 0.80, urban 0.10,
        plus 0.15 for migrant, homeless, public-housing funding or school-based
-       sites). Put the component arithmetic in Score breakdown. HRSA-suppressed
+       sites). In Why this score write one or two plain-English sentences, no
+       numbers beyond counts and dollars: a size word (Very large 100k+
+       patients, Large 50k+, Mid-size 25k+, Small 10k+, Very small below),
+       then patients, sites and revenue, then "Plus:" the factors that raised
+       it (no named security or privacy officer; new CEO or CIO with month;
+       rural; 5+ school sites) and "Minus:" those that held it back (already
+       has a named compliance or security lead; no revenue data). Keep the
+       component arithmetic in `seen.json` under `prospect.score_breakdown`,
+       not in the sheet. HRSA-suppressed
        values are "suppressed by HRSA", never zero. If the UDS project
        director is the CEO on file, their UDS email may fill CEO email, cited
        "(HRSA UDS <year>, project director contact)". If a match is ambiguous,
