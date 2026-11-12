@@ -137,24 +137,40 @@ under a "Possible FQHC — unverified" heading.
 6a. Update the tracker sheet (`sources.json` → `tracker_sheet`) with the
    Google Sheets tools. Do this every run that adds or changes an item in
    `seen.json`, whether or not an email went out. Column A of every tab is the
-   `seen.json` id; read column A first and match on it.
-   - **Breaches** tab: one row per breach item, every tier. Columns A–O: ID,
-     Group (FQHC / Possible FQHC — unverified / Physician group / Safety-net
-     hospital / Other healthcare), Entity, State, Individuals affected,
-     Cause / breach type, Incident date, Posted / disclosed, Status
-     (CONFIRMED/REPORTED wording), Litigation / OCR action, Summary, Source
-     URL, First seen, Last updated, In email (Yes/No).
-   - **Prospects** tab: one row per Tier 1 and Tier 2 breach. Columns A–I are
-     yours: ID, Entity, State, Group, CEO, CEO email (verified only), Website,
-     Phone, Outreach draft (Tier 1 only). New rows get Stage "New".
+   `seen.json` id; read the whole tab first, match rows on column A, and find
+   columns by their header text in row 1, never by letter (Guy may insert
+   or move columns).
+   - **Breaches** tab: one row per breach item, every tier. Routine columns:
+     ID, Group (FQHC / Possible FQHC — unverified / Physician group /
+     Safety-net hospital / Other healthcare), Entity, State, Individuals
+     affected, Cause / breach type, Incident date, Posted / disclosed, Status
+     (CONFIRMED/REPORTED wording), Litigation / OCR action, Summary, Source,
+     First seen, Last updated, In email (Yes/No).
+   - **Prospects** tab: one row per Tier 1 and Tier 2 breach (one row per
+     organization; if an entity is already there under another id, update
+     that row). Routine columns: ID, Entity, State, Group, CEO name, CEO email
+     (verified), Website URL, Phone, Board of Directors, Board source (URL,
+     date), Outreach draft (Tier 1 only). New rows get Stage "New".
+     - CEO name, CEO email and Website URL follow "Contact block and outreach
+       draft" below; the email column holds verified addresses only, with
+       source, else "not published".
+     - Board of Directors: current voting directors, names as printed,
+       officer titles in brackets (e.g. "Jane Doe (Chair)"), separated by
+       "; ". Source in order of preference: the organization's own board
+       page; the latest IRS Form 990 Part VII (ProPublica Nonprofit
+       Explorer); a government or annual-report page. Fetch the page
+       yourself and confirm the names are on it before writing them. Board
+       source: "<URL> (<page date or 990 tax year>)". If none is published,
+       write "not published" and say where you looked. Refresh a board only
+       if its source is more than a year old.
    - **Advisories & OCR** tab: one row per `ocr-enforcement`, `advisory`,
-     `kev` and `guidance` item. Columns A–G: ID, Type, Title, Date, Summary,
-     Source URL, First seen.
+     `kev` and `guidance` item. Routine columns: ID, Type, Title, Date,
+     Summary, Source, First seen.
    - New id: append a row. Existing id with a material change: overwrite only
-     the columns listed above as yours for that tab. Never write to, clear,
-     reorder or delete anything else. Guy's columns (Prospects J–N: Owner,
-     Stage, Last touch, Next step, Notes; Advisories H: Client action taken)
-     and any columns or tabs he adds are his.
+     that tab's routine columns. Never write to, clear, reorder or delete
+     anything else. Every other column (Owner, Stage, Last touch, Next step,
+     Notes, Client action taken, and anything Guy adds) and any tab Guy adds
+     are his.
    - Use the same CONFIRMED / REPORTED / "not disclosed" wording as the email.
    - If the Sheets tools are unavailable or a write fails, carry on: note it
      in the run record and the email's closing line. `seen.json` remains the
