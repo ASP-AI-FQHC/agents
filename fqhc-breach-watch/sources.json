@@ -3,6 +3,7 @@
   "recipients": [
     "gfuller@allstarpartners.com"
   ],
+  "tracker_sheet": {"spreadsheet_id": "18fBWRktC_DT8xO21IzF8V-UMaHWi5XXlpYqxRNbUWIo", "url": "https://docs.google.com/spreadsheets/d/18fBWRktC_DT8xO21IzF8V-UMaHWi5XXlpYqxRNbUWIo/edit", "note": "Guy's working copy of every item. The routine adds and updates rows; see PROMPT.md step 6a."},
   "fqhc_verification": "https://findahealthcenter.hrsa.gov/",
   "priority_states": [
     "IL",

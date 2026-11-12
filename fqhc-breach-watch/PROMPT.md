@@ -134,6 +134,31 @@ under a "Possible FQHC — unverified" heading.
    30 entries. Also record items you checked and rejected as non-qualifying
    only if they are likely to resurface (set `"reported": false` and a
    `reason`), so later runs skip them quickly.
+6a. Update the tracker sheet (`sources.json` → `tracker_sheet`) with the
+   Google Sheets tools. Do this every run that adds or changes an item in
+   `seen.json`, whether or not an email went out. Column A of every tab is the
+   `seen.json` id; read column A first and match on it.
+   - **Breaches** tab: one row per breach item, every tier. Columns A–O: ID,
+     Group (FQHC / Possible FQHC — unverified / Physician group / Safety-net
+     hospital / Other healthcare), Entity, State, Individuals affected,
+     Cause / breach type, Incident date, Posted / disclosed, Status
+     (CONFIRMED/REPORTED wording), Litigation / OCR action, Summary, Source
+     URL, First seen, Last updated, In email (Yes/No).
+   - **Prospects** tab: one row per Tier 1 and Tier 2 breach. Columns A–I are
+     yours: ID, Entity, State, Group, CEO, CEO email (verified only), Website,
+     Phone, Outreach draft (Tier 1 only). New rows get Stage "New".
+   - **Advisories & OCR** tab: one row per `ocr-enforcement`, `advisory`,
+     `kev` and `guidance` item. Columns A–G: ID, Type, Title, Date, Summary,
+     Source URL, First seen.
+   - New id: append a row. Existing id with a material change: overwrite only
+     the columns listed above as yours for that tab. Never write to, clear,
+     reorder or delete anything else. Guy's columns (Prospects J–N: Owner,
+     Stage, Last touch, Next step, Notes; Advisories H: Client action taken)
+     and any columns or tabs he adds are his.
+   - Use the same CONFIRMED / REPORTED / "not disclosed" wording as the email.
+   - If the Sheets tools are unavailable or a write fails, carry on: note it
+     in the run record and the email's closing line. `seen.json` remains the
+     record of truth.
 7. Commit and push: `git add fqhc-breach-watch/seen.json && git commit -m
    "FQHC breach watch: <date> run" && git push origin HEAD:main`. If the push
    is rejected, `git pull --rebase origin main` and push once more. If it
@@ -205,8 +230,9 @@ per item plus source link. This proves the pipeline works end to end.
   more under 1,000 individuals each, all on the OCR portal / <state> list."
   Every item, in every tier, is still recorded in `seen.json`.
 
-- Close with one line naming the sources that failed to load, if any, and
-  whether `seen.json` pushed.
+- Close with one line naming the sources that failed to load, if any,
+  whether `seen.json` pushed, and whether the tracker sheet updated, with
+  its link.
 
 ## Contact block and outreach draft (every FQHC breach item)
 
@@ -277,3 +303,5 @@ per item plus source link. This proves the pipeline works end to end.
 - Only modify `fqhc-breach-watch/seen.json`. Do not edit other files, and do
   not change `ocr_portal.js` or `state_lists.js`; if one breaks, report that in
   the run record.
+- Outside the repo, write only to the tracker sheet named in `sources.json`,
+  and only as step 6a allows. Touch no other Google file.
