@@ -1,7 +1,7 @@
 {
   "initialized": true,
-  "last_run": "2026-11-11",
-  "ocr_portal_last_date": "2026-10-15",
+  "last_run": "2026-11-12",
+  "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
       "date": "2026-11-10",
@@ -106,6 +106,15 @@
       "items_updated": 0,
       "alert_sent": "no",
       "note": "test run in dedicated session. OCR portal reader ran (second attempt; first returned no rows): newest submission still 2026-10-15, nothing new. state_lists.js ran for 2026-11-09 on: 9 TX filings, no FQHCs. Web searches found only items already recorded (ArCare, Brockton settlements). Two non-qualifying items recorded to skip later. Gmail and Exa available."
+    },
+    {
+      "date": "2026-11-12",
+      "sources_checked": 23,
+      "sources_failed": [],
+      "items_new": 0,
+      "items_updated": 0,
+      "alert_sent": "no",
+      "note": "Scheduled run. OCR portal reader ran (second attempt; first returned no rows): two rows after 2026-10-15 (COPC OH 1,351,650; Rose Poney LCMHC VT 662), neither FQHC. state_lists.js ran from 2026-11-09: same 9 TX filings, no FQHCs. No KEV additions since 2026-11-10. Searches found only known items (ArCare, Brockton, PJ&A, Lehigh Valley). Known gaps (HC3, Maine, NH) did not load; not counted. Gmail and Exa available."
     }
   ],
   "items": [
@@ -1105,6 +1114,22 @@
       "last_updated": "2026-11-11",
       "reported": false,
       "reason": "Employer onsite-clinic operator, not an FQHC. Large multi-state filing likely to resurface. TX AG: 261,654 Texans; WA: 49,444 Washingtonians (state counts, not totals)."
+    },
+    {
+      "id": "breach:central-ohio-primary-care-physicians-2026-08",
+      "type": "breach",
+      "title": "Central Ohio Primary Care Physicians, Inc. (COPC)",
+      "state": "OH",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "status": "CONFIRMED (OCR portal: 1,351,650 individuals, hacking/IT incident, network server, submitted 2026-10-16)",
+      "first_seen": "2026-11-12",
+      "last_updated": "2026-11-12",
+      "reported": false,
+      "reason": "Physician group, not an FQHC. Large breach likely to resurface in press and state lists.",
+      "affected_count": "1,351,650 (OCR portal)"
     }
   ]
 }
