@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-13",
+  "last_run": "2026-11-14",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -124,6 +124,15 @@
       "items_updated": 2,
       "alert_sent": "yes",
       "note": "First run under widened scope. OCR portal reader ran (first try): newest submission still 2026-10-16, nothing new. state_lists.js ran from 2026-11-10: TX healthcare-data filings now reported as Tier 3. New FQHC lead: Herald Christian Health Center (Osiris leak-site claim, REPORTED). Carried over COPC and Premise Health. No new KEV entries. Known gaps (HC3, Maine, NH) not counted. Tracker sheet updated. Gmail and Exa available."
+    },
+    {
+      "date": "2026-11-14",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 23,
+      "items_updated": 0,
+      "alert_sent": "yes",
+      "note": "OCR portal reader ran (first try): newest submission still 2026-10-16. state_lists.js ran from 2026-11-11: 11 TX filings, 9 healthcare-related. New: 3 physician groups (1 confirmed, 2 leak-site claims), 19 other healthcare, Check Point KEV advisory. No FQHC items. Known gaps not counted. Tracker sheet updated."
     }
   ],
   "items": [
@@ -1912,6 +1921,351 @@
       "last_updated": "2026-11-13",
       "reported": true,
       "type": "breach"
+    },
+    {
+      "id": "breach:tanner-clinic-inc-claim-2026-11",
+      "type": "breach",
+      "title": "Tanner Clinic - INC Ransom claim",
+      "state": "UT",
+      "tier": 2,
+      "status": "REPORTED (leak-site claim)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://medcomply.ai/intelligence/inc-ransom-claims-tanner-clinic-utah-attack"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:raleigh-orthopaedic-curious-worm-claim-2026-11",
+      "type": "breach",
+      "title": "Raleigh Orthopaedic - Curious Worm claim",
+      "state": "NC",
+      "tier": 2,
+      "status": "REPORTED (leak-site claim)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://medrisk.io/2026/11/12/a-never-seen-extortion-crew-listed-nine-victims-and-six-run-clinical-care/"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:rheumatology-associates-dallas-2026-11",
+      "type": "breach",
+      "title": "Rheumatology Associates (Dallas)",
+      "state": "TX",
+      "tier": 2,
+      "status": "CONFIRMED (TX AG 2026-11-13)",
+      "affected_count": "380 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:access-dental-management-2026-11",
+      "type": "breach",
+      "title": "Access Dental Management LLC",
+      "state": "TX",
+      "tier": 3,
+      "status": "CONFIRMED (TX AG 2026-11-13)",
+      "affected_count": "341,039 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:acadia-healthcare-2026-11",
+      "type": "breach",
+      "title": "Acadia Healthcare Company",
+      "state": "TN",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG 2026-11-13)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:mpowerhealth-holdings-2026-11",
+      "type": "breach",
+      "title": "MPOWERHealth Holdings LLC",
+      "state": "TX",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG 2026-11-13)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:dexcom-2026-11",
+      "type": "breach",
+      "title": "Dexcom, Inc.",
+      "state": "CA",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG 2026-11-13)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:dallas-county-mhmr-metrocare-2026-11",
+      "type": "breach",
+      "title": "Dallas County MHMR (Metrocare)",
+      "state": "TX",
+      "tier": 3,
+      "status": "CONFIRMED (TX AG 2026-11-13)",
+      "affected_count": "20,790 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:dorsata-2026-10",
+      "type": "breach",
+      "title": "Dorsata, Inc. (BA)",
+      "state": "VA",
+      "tier": 3,
+      "status": "CONFIRMED (OCR portal 2026-10-14)",
+      "affected_count": "58,249",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:hood-river-dental-2026-10",
+      "type": "breach",
+      "title": "Hood River Dental (two reports)",
+      "state": "OR",
+      "tier": 3,
+      "status": "CONFIRMED (OCR portal 2026-10-08)",
+      "affected_count": "16,609 and 14,677",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:bay-area-psychological-consultants-2026-10",
+      "type": "breach",
+      "title": "Bay Area Psychological Consultants",
+      "state": "FL",
+      "tier": 3,
+      "status": "CONFIRMED (OCR portal 2026-10-01)",
+      "affected_count": "5,679",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:pch-digital-2026-11",
+      "type": "breach",
+      "title": "PCH Digital (medical/HI data in filing)",
+      "state": "FL",
+      "tier": 3,
+      "status": "CONFIRMED (CA, TX AG)",
+      "affected_count": "49,863 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:employer-solutions-staffing-2026-11",
+      "type": "breach",
+      "title": "Employer Solutions Staffing Group (medical/HI data in filing)",
+      "state": "MN",
+      "tier": 3,
+      "status": "CONFIRMED (CA, TX AG)",
+      "affected_count": "19,551 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:usa-debusk-2026-11",
+      "type": "breach",
+      "title": "USA DeBusk (medical/HI data in filing)",
+      "state": "TX",
+      "tier": 3,
+      "status": "CONFIRMED (TX AG)",
+      "affected_count": "10,972 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:colorado-county-tx-2026-11",
+      "type": "breach",
+      "title": "Colorado County, Texas (medical data in filing)",
+      "state": "TX",
+      "tier": 3,
+      "status": "CONFIRMED (TX AG)",
+      "affected_count": "5,503 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:levin-sedran-berman-2026-11",
+      "type": "breach",
+      "title": "Levin, Sedran & Berman (medical data in filing)",
+      "state": "PA",
+      "tier": 3,
+      "status": "CONFIRMED (CA, TX AG)",
+      "affected_count": "2,687 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:shannon-medical-center-claim-2026-11",
+      "type": "breach",
+      "title": "Shannon Medical Center - Curious Worm claim; safety-net not verified",
+      "state": "TX",
+      "tier": 3,
+      "status": "REPORTED",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://medrisk.io/2026/11/12/a-never-seen-extortion-crew-listed-nine-victims-and-six-run-clinical-care/"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:sbh-health-system-claim-2026-11",
+      "type": "breach",
+      "title": "SBH Health System - Curious Worm claim; safety-net not verified",
+      "state": "NY",
+      "tier": 3,
+      "status": "REPORTED",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://medrisk.io/2026/11/12/a-never-seen-extortion-crew-listed-nine-victims-and-six-run-clinical-care/"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:life-line-screening-claim-2026-11",
+      "type": "breach",
+      "title": "Life Line Screening - Curious Worm claim",
+      "state": "",
+      "tier": 3,
+      "status": "REPORTED",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://medrisk.io/2026/11/12/a-never-seen-extortion-crew-listed-nine-victims-and-six-run-clinical-care/"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:atlas-healthcare-partners-claim-2026-11",
+      "type": "breach",
+      "title": "Atlas Healthcare Partners - Curious Worm claim",
+      "state": "",
+      "tier": 3,
+      "status": "REPORTED",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://medrisk.io/2026/11/12/a-never-seen-extortion-crew-listed-nine-victims-and-six-run-clinical-care/"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:marquis-companies-claim-2026-11",
+      "type": "breach",
+      "title": "Marquis Companies - Curious Worm claim",
+      "state": "",
+      "tier": 3,
+      "status": "REPORTED",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://medrisk.io/2026/11/12/a-never-seen-extortion-crew-listed-nine-victims-and-six-run-clinical-care/"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "breach:delta-dental-missouri-claim-2026-11",
+      "type": "breach",
+      "title": "Delta Dental of Missouri - N0n claim",
+      "state": "MO",
+      "tier": 3,
+      "status": "REPORTED",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://www.drbicuspid.com/dental-practice/patient-communication/privacy/article/16424437/ransomware-group-claims-attack-on-delta-dental-of-mo"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
+    },
+    {
+      "id": "kev:check-point-gaia-cve-2026-123039",
+      "type": "kev",
+      "title": "CISA KEV: Check Point Gaia OS CVE-2026-123039 (firewalls, gateways)",
+      "state": "",
+      "tier": null,
+      "status": "CONFIRMED (CISA KEV 2026-11-13)",
+      "affected_count": null,
+      "urls": [
+        "https://support.checkpoint.com/results/sk/sk1000362"
+      ],
+      "first_seen": "2026-11-14",
+      "last_updated": "2026-11-14",
+      "reported": true
     }
   ]
 }
