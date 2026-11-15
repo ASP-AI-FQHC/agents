@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-14",
+  "last_run": "2026-11-15",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -133,6 +133,15 @@
       "items_updated": 0,
       "alert_sent": "yes",
       "note": "OCR portal reader ran (first try): newest submission still 2026-10-16. state_lists.js ran from 2026-11-11: 11 TX filings, 9 healthcare-related. New: 3 physician groups (1 confirmed, 2 leak-site claims), 19 other healthcare, Check Point KEV advisory. No FQHC items. Known gaps not counted. Tracker sheet updated."
+    },
+    {
+      "date": "2026-11-15",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 2,
+      "items_updated": 0,
+      "alert_sent": "yes",
+      "note": "OCR portal reader ran (first try): newest still 2026-10-16. state_lists.js ran from 2026-11-12: no new filings since 2026-11-13. No new KEV. New: Providence (claim), Lansing Urgent Care (confirmed). Non-US items skipped. Tracker sheet updated."
     }
   ],
   "items": [
@@ -2266,6 +2275,50 @@
       "first_seen": "2026-11-14",
       "last_updated": "2026-11-14",
       "reported": true
+    },
+    {
+      "id": "breach:providence-byod-claim-2026-11",
+      "type": "breach",
+      "title": "Providence - BYOD extortion claim",
+      "state": "WA",
+      "tier": 3,
+      "status": "REPORTED (leak-site claim)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://medrisk.io/2026/11/13/an-extortion-crew-says-it-skipped-encryption-at-providence/"
+      ],
+      "first_seen": "2026-11-15",
+      "last_updated": "2026-11-15",
+      "reported": true
+    },
+    {
+      "id": "breach:lansing-urgent-care-2026-09",
+      "type": "breach",
+      "title": "Lansing Urgent Care",
+      "state": "MI",
+      "tier": 3,
+      "status": "CONFIRMED (entity notice per HIPAA Journal); INC attribution REPORTED",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://www.hipaajournal.com/data-breaches-dorsata-bay-area-psychological-consultants-lansing-urgent-care/"
+      ],
+      "first_seen": "2026-11-15",
+      "last_updated": "2026-11-15",
+      "reported": true
+    },
+    {
+      "id": "breach:keep-smiling-dental-group-2026-11",
+      "type": "breach",
+      "title": "Keep Smiling Dental Group",
+      "tier": 3,
+      "status": "REPORTED (HIPAA Journal headline only)",
+      "urls": [
+        "https://www.hipaajournal.com/"
+      ],
+      "first_seen": "2026-11-15",
+      "last_updated": "2026-11-15",
+      "reported": false,
+      "reason": "No details found; re-check if a filing or notice appears."
     }
   ]
 }
