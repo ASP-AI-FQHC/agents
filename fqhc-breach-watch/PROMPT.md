@@ -236,9 +236,13 @@ per item plus source link. This proves the pipeline works end to end.
 - If nothing is new or updated: send NOTHING, no email and no message. Still
   update `seen.json` and push so the run is recorded. Finish with one line:
   `No qualifying healthcare breach or advisory developments <date>. Sources checked: <n>; failed: <list or none>.`
+  then a second line: `Tracker: <tracker_sheet url>`.
 - Subject: `[FQHC Watch] <n> new — <YYYY-MM-DD>` (or `<n> new, <m> updated`),
   then the tier counts, e.g. `[FQHC Watch] 9 new — 2026-11-13 (FQHC 1,
   physician/safety-net 2, other healthcare 6)`. Omit zero counts.
+- First line of every email body, before anything else:
+  `Updated tracker (Google Sheets): <tracker_sheet url from sources.json>`
+  followed by one blank line.
 - Body, plain text, executive and extremely concise; fragments fine. Groups,
   in this order (omit empty groups): FQHC BREACHES, POSSIBLE FQHC —
   UNVERIFIED, PHYSICIAN GROUPS & SAFETY-NET HOSPITALS, OCR ENFORCEMENT,
