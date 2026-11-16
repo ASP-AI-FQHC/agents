@@ -233,8 +233,16 @@ per item plus source link. This proves the pipeline works end to end.
   `sources.json` → `recipients`, all on the To line. Also send the same text
   with SendUserMessage (and PushNotification if available) so it reaches
   Guy's phone.
-- If nothing is new or updated: send NOTHING, no email and no message. Still
-  update `seen.json` and push so the run is recorded. Finish with one line:
+- If nothing is new or updated: still send ONE short email (Guy asked for a
+  daily email, 2026-11-16). Subject: `[FQHC Watch] Nothing new — <YYYY-MM-DD>`.
+  Body, plain text, exactly these lines:
+      Updated tracker (Google Sheets): <tracker_sheet url>
+
+      No new or updated healthcare breaches, OCR actions or advisories today.
+      Sources checked: <n>; failed: <list or none>. seen.json pushed: <yes/no>.
+  Nothing else: no padding, no recap of old items. Do not send a
+  SendUserMessage or push notification for it. Still update `seen.json` and
+  push so the run is recorded. Finish with one line:
   `No qualifying healthcare breach or advisory developments <date>. Sources checked: <n>; failed: <list or none>.`
   then a second line: `Tracker: <tracker_sheet url>`.
 - Subject: `[FQHC Watch] <n> new — <YYYY-MM-DD>` (or `<n> new, <m> updated`),
