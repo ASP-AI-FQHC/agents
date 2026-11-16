@@ -282,6 +282,7 @@
     "Medicaid Guide Home": "/medicalclients/medicaidguide.html",
     "Medicaid Recovery": "/medicalclients/medicaidestaterecovery.html",
     "Medicaid Technical Assistance Center": "/medicalproviders/mtac.html",
+    "Medicaid Work Requirements Screener": "https://aberp.illinois.gov/screener/ABAWD?lang=EN",
     "Medical Clients": "/medicalclients.html",
     "Medical Programs": "/medicalclients/medicalprograms.html",
     "Medical Providers": "/medicalproviders.html",
@@ -320,6 +321,7 @@
     "Web Accessibility": "https://doit.illinois.gov/initiatives/accessibility/iitaa.html",
     "Work Requirements Screener": "https://aberp.illinois.gov/screener/ABAWD?lang=EN",
     "abe.illinois.gov": "https://abe.illinois.gov/access/",
+    "here": "https://aberp.illinois.gov/screener/ABAWD?lang=EN",
     "{{../this.suggestion}}": "{{../../searchPage}}?q={{convertAnd ../this.suggestion}}"
   },
   "report-center": {
@@ -403,6 +405,8 @@
     "FY 2025 Fiscal and Enrollment Analysis and Demographics: October 2024 (pdf)": "/content/dam/soi/en/web/hfs/sitecollectiondocuments/hbiastracking102024.pdf",
     "FY 2025 Fiscal and Enrollment Analysis and Demographics: September 2024 (pdf)": "/content/dam/soi/en/web/hfs/sitecollectiondocuments/hbias092024.pdf",
     "FY 2026 Fiscal and Enrollment Analysis and Demographics: March 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/hbia/062026hbis.pdf",
+    "FY 2027 Fiscal and Enrollment Analysis and Demographics: August 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/hbia/hbis082026fy26.pdf",
+    "FY 2027 Fiscal and Enrollment Analysis and Demographics: July 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/hbia/hbis072026fy26.pdf",
     "Facts &amp; Figures": "/info/factsfigures.html",
     "Family 1st": "/childsupport/parents/familyfirst.html",
     "Federal Resource Center": "/info/fedresctr.html",
