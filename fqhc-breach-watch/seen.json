@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-16",
+  "last_run": "2026-11-17",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -151,6 +151,15 @@
       "items_updated": 1,
       "alert_sent": "yes",
       "note": "OCR portal reader ran (first try): newest still 2026-10-16. state_lists.js ran from 2026-11-13: nothing new. No new KEV. New: UCHealth, Keep Smiling Dental (details now available), Liberty Healthcare Group; Acadia updated with dates and cause. Tracker sheet updated."
+    },
+    {
+      "date": "2026-11-17",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 11,
+      "items_updated": 0,
+      "alert_sent": "yes",
+      "note": "OCR portal reader ran: newest still 2026-10-16. state_lists.js ran from 2026-11-14: Park Dental new, Dorsata known. No new KEV. Telecare and Amplifon (WA AG) were missed in earlier runs; added now. Tracker sheet updated."
     }
   ],
   "items": [
@@ -1725,7 +1734,8 @@
       "reason": "Employer onsite-clinic operator, not an FQHC. Large multi-state filing likely to resurface. TX AG: 261,654 Texans; WA: 49,444 Washingtonians (state counts, not totals). Scope widened 2026-11-12: to be reported on next run.",
       "tier": 3,
       "cause": "former employee copied patient data (REPORTED, HIPAA Journal)",
-      "incident_date": "2026-03-26 to 2026-03-30"
+      "incident_date": "2026-03-26 to 2026-03-30",
+      "affected_count": "261,654 Texans; 49,444 Washingtonians (state counts, not totals)"
     },
     {
       "id": "breach:central-ohio-primary-care-physicians-2026-08",
@@ -2360,6 +2370,173 @@
       ],
       "first_seen": "2026-11-16",
       "last_updated": "2026-11-16",
+      "reported": true
+    },
+    {
+      "id": "breach:kern-medical-2026-09",
+      "type": "breach",
+      "title": "Kern Medical (Kern County Hospital Authority)",
+      "state": "CA",
+      "tier": 2,
+      "status": "CONFIRMED (hospital notice letter, 2026-11)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://www.turnto23.com/news/local-news/kern-medical-notifying-those-impacted-by-data-breach"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:ridgecrest-regional-hospital-2026-11",
+      "type": "breach",
+      "title": "Ridgecrest Regional Hospital",
+      "state": "CA",
+      "tier": 3,
+      "status": "CONFIRMED cyber incident 2026-11-09; data-leak claim REPORTED (unverified threat actor, 2026-11-16); safety-net status not verified",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://breachnews.com/breaches/ridgecrest-regional-hospital-data-breach-claim-patient-records/"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:monadnock-community-hospital-2026-11",
+      "type": "breach",
+      "title": "Monadnock Community Hospital",
+      "state": "NH",
+      "tier": 3,
+      "status": "CONFIRMED cyber incident (hospital statement 2026-11-16); data impact under investigation; safety-net status not verified",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://www.wgal.com/article/monadnock-community-hospital-server-outage-cyber-incident/74448697"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:trustbridge-empath-health-2026-11",
+      "type": "breach",
+      "title": "Trustbridge / Empath Health (hospice network)",
+      "state": "FL",
+      "tier": 3,
+      "status": "REPORTED (Daixin leak-site claim 2026-11-16; not confirmed by organization)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://pulse.kalir.io/en/brief/ransomware-daixin-publica-a-la-red-63f8c5f9",
+        "https://qpulse.quasarcybertech.com/news/8593/daixin-ransomware-group-claims-attack-on-trustbridge-and-empathhealth"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:lifetouch-health-2026-03",
+      "type": "breach",
+      "title": "Arkansas Hospice Inc. d/b/a LifeTouch Health",
+      "state": "AR",
+      "tier": 3,
+      "status": "CONFIRMED (OCR portal 10/12/2026; announced 2026-11)",
+      "affected_count": 38629,
+      "urls": [
+        "https://www.hipaajournal.com/data-breach-lifetouch-mpower-health-geisinger/"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:geisinger-2026-08",
+      "type": "breach",
+      "title": "Geisinger (employee email compromise)",
+      "state": "PA",
+      "tier": 3,
+      "status": "CONFIRMED (Geisinger notice 2026-11-16)",
+      "affected_count": "fewer than 2,000",
+      "urls": [
+        "https://www.thetimes-tribune.com/2026/11/16/geisinger-email-data-breach-affects-information-of-nearly-2000-patients/",
+        "https://www.hipaajournal.com/data-breach-lifetouch-mpower-health-geisinger/"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:park-dental-partners-2026-08",
+      "type": "breach",
+      "title": "Park Dental Partners Inc.",
+      "state": "OR",
+      "tier": 3,
+      "status": "CONFIRMED (Oregon DOJ, reported 2026-11-16; CA AG)",
+      "affected_count": "368 Oregonians (total not disclosed)",
+      "urls": [
+        "https://justice.oregon.gov/consumer/databreach/"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:telecare-health-2026-01",
+      "type": "breach",
+      "title": "Telecare Health",
+      "state": "WA",
+      "tier": 3,
+      "status": "CONFIRMED (WA AG, reported 11/09/2026; not captured in earlier runs)",
+      "affected_count": "19,922 Washingtonians",
+      "urls": [
+        "https://www.atg.wa.gov/data-breach-notifications"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:amplifon-usa-2026-01",
+      "type": "breach",
+      "title": "Amplifon (USA), Inc.",
+      "state": "WA",
+      "tier": 3,
+      "status": "CONFIRMED (WA AG, reported 11/05/2026; not captured in earlier runs)",
+      "affected_count": "8,491 Washingtonians",
+      "urls": [
+        "https://www.atg.wa.gov/data-breach-notifications"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:prism-medical-products-2026-10",
+      "type": "breach",
+      "title": "Prism Medical Products, LLC",
+      "state": "CA",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG, reported 11/13/2026)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "advisory:hhs-hipaa-privacy-final-rule-2026-11",
+      "type": "ocr_action",
+      "title": "HHS final rule modernizing the HIPAA Privacy Rule",
+      "state": "US",
+      "tier": null,
+      "status": "CONFIRMED (HHS press release 2026-11-16)",
+      "affected_count": null,
+      "urls": [
+        "https://www.hhs.gov/ocr/newsroom/index.html"
+      ],
+      "first_seen": "2026-11-17",
+      "last_updated": "2026-11-17",
       "reported": true
     }
   ]
