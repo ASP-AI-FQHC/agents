@@ -1,19 +1,8 @@
 {
  "initialized": true,
  "baseline_pending": [],
- "last_run": "2026-11-17",
+ "last_run": "2026-11-18",
  "runs": [
-  {
-   "date": "2026-10-06",
-   "sources_checked": 95,
-   "sources_failed": 26,
-   "sources_failed_note": "Hard failures: AR www.arkansas.gov/tss/procurement (301->ark.org, egress-blocked); IL il.amplifund.com (SSO wall), omb.illinois.gov CSFA pages/icahn.org/acmhai.org/cdn.ymaws.com/fundinglandscape.com/webapps.illinois.gov (egress-blocked); WI dhs.wisconsin.gov/news/releases.htm (404, substituted with /news/index.htm), vendornet.wi.gov (Blazor SPA, empty); MO memsa.org (captcha), mohospitals.org/ruralcarejourney.com/ctf4kids.org (egress-blocked), dss.mo.gov/node/36251 (404); TN tndeptofhealth.caspio.app (JS-rendered, empty), tha.com (egress-blocked), grantedai.com (egress-blocked); TX mindbowser.com/governing.com/fiercehealthcare.com/county.org vendor/news pages (egress-blocked, supplementary only); FEDERAL cms.gov/newsroom/press-releases (404, worked around via medicaid.gov RHT page). No primary state program-home page was unreachable.",
-   "items_new": 1,
-   "items_updated": 4,
-   "email_sent": true,
-   "email_type": "alert",
-   "note": "New: OK Behavioral Health Integration (MOUD/MAUD) award list posted, 3 orgs/$1,228,012.70, incl. Andor Health LLC $1,000,000 (health-IT vendor, HIGH relevance). Updated: IL Mobile Healthcare Innovation NOFO now confirmed open (deadline Oct 23 2026, HIGH relevance -- telehealth/interoperability/EHR); MO MIH-CP/MEMSA partnership gained 11 named Year-1 EMS training sub-recipient institutions (MEDIUM relevance); TN Perinatal Behavioral Health Workforce RFA (34347-39627) Amendment 1 posted, $70K pool clarified, evaluation notice date Oct 9 2026 disclosed (LOW-MODERATE relevance, award imminent). AR, IN, WI, MS, LA, TX, and Federal had no new or changed items this run. Excluded as non-RHTP: TN Stillbirth Funeral Assistance RFA (confirmed funded by SFY2027 state appropriations, not RHTP)."
-  },
   {
    "date": "2026-10-07",
    "sources_checked": 120,
@@ -331,6 +320,17 @@
    "email_sent": true,
    "email_type": "alert",
    "note": "New in MS only (1 update, emailed). MS:nofo:innovative-pilot-program-grant: the Innovative Pilot Program Grant (BRIDGE initiative) deadline was extended one day, from 2026-11-16 5:00pm CST to 2026-11-17 5:00pm CST (today) \u2014 confirmed directly on mississippirhtp.com/funding/ via both WebFetch and curl. A secondary source (ruralhealthinfo.org) states an estimated $16,000,000 total pool for this NOFO, not independently confirmed on the official page, so logged as unverified and not written into the amount field. All other states (AR, IL, IN, WI, MO, TN, LA, TX, OK) and FEDERAL confirmed no new or materially-changed items this run via direct source fetches plus web-search fallback. Non-material items observed and NOT emailed: WI DPI Rural LEA Career Pathways page text changed from '20' to '21' secondary schools while still listing the same 20 named districts \u2014 likely a copy inconsistency on the state's own page, logged as a watch item only; OK TAGGS record RHTCMS332048 logged a new $0 administrative-supplement action (11/13) with no cumulative-amount change; TX's weekly award-recipients spreadsheet is unchanged from the 11/12 figures (not re-updated this week). Watch items carried forward unchanged: WI's RTTF Round 1 (~$61M)/CHW Grants/CHW Training Providers/Sources of Strength/Rural Dental award lists remain unpublished (15th+ consecutive run overdue); LA's six remaining Year-1 NOFO recipient lists and Rural Tech Catalyst Fund Cohort 1 results remain unannounced, ldh.la.gov largely unreachable; TN's CARE Grants/Healthy Built Environment/Policy-Systems-Environmental/Rural Non-Emergency Transportation lines remain unresolved despite the Nov 9 award wave; MS's Statewide HIE/HDU RFP (closed 11/3) vendor decision still unannounced and EHR Replacement for Small Rural Providers window closes 11/23; TX's Initiatives 2/3/5 (Allstar's top-priority TX lines) remain not open (RFAs still 404, estimated Jan 2027 dates unchanged); OK's RPM blood-pressure-cuff vendor RFP still not posted and its Community Paramedicine Consulting RFP closes 2026-11-18 (check next run for outcome); MO's Digital Backbone application portal should open following today's 11/17 webinar (check next run); GAO-27-108853 remains unreachable for this session, now 15th consecutive run."
+  },
+  {
+   "date": "2026-11-18",
+   "sources_checked": 152,
+   "sources_failed": 24,
+   "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). AR: www.arkansas.gov/tss procurement redirects to DNS/proxy-blocked www.ark.org (persistent); dfa.arkansas.gov/news/ newly unreachable. IL: il.amplifund.com list view SSO-walled; bidbuy.illinois.gov requires interactive login; omb.illinois.gov (CSFA registry) and icahn.org remain egress-blocked. WI: 5 dhs.wisconsin.gov award-status detail pages (RTTF Round 1, CHW Grants, CHW Training Providers, Sources of Strength, Rural Dental) 403'd again, 16th+ consecutive run; dwd.wisconsin.gov/det/heart/ now 404s (page may have moved); vendornet.wi.gov remains a JS-rendered SPA with no static content. TN: Caspio Partner Portal remains an unreadable JS shell. MS: medicaid.ms.gov DNS-blocked; ms.gov DFA bid search 403. LA: ldh.la.gov fully reachable this run via browser-UA curl (workaround confirmed reliable); LaPAC (wwwcfprd.doa.louisiana.gov) renders only a nav menu, no searchable listings. TX: HHSC's rhtp-award-recipients.xlsx blocked by Akamai on curl / unparseable binary via WebFetch; RFA detail pages HHS0017518 and HHS0017519 still 404. OK: funding-recipients.html award-list widget is a Power-BI-style dropdown, no static data; ok.gov/dcs/solicit is a JS-driven search form. MO: missouribuys.mo.gov loads but has no static bid-board data; memsa.org recovered via curl (not a failure this run). FEDERAL: cms.gov/newsroom/press-releases still 404 (working alternate cms.gov/newsroom used); gao.gov (GAO-27-108853) unreachable via DNS failure, 16th consecutive run.",
+   "items_new": 1,
+   "items_updated": 7,
+   "email_sent": true,
+   "email_type": "alert",
+   "note": "New in MS, TX, OK (1 new + 5 material updates, all emailed; plus 2 non-material LA source corroborations logged only). MS (1 new, HIGH relevance): CMS's nationwide Year 2 ($10B) RHTP distribution (announced 2026-11-09) includes Mississippi's first-sighted FY2027 federal tranche, $204,677,190 (TAGGS RHTCMS332063), cross-validated against a CMS/Medicaid.gov GovDelivery bulletin and Mississippi Today coverage. TX (4 updates, all HIGH/medium relevance, all emailed): Initiatives 2 (Patient Portals/RPM, RFA HHS0017518) and 3 (AI/Telehealth, RFA HHS0017519) now show firm, non-estimated Applications Open dates on HHSC's own program page (11/18 and 11/20 respectively, caveat language removed), and Initiative 5 (Cybersecurity RFO) shows a firm Offers Open date of 11/23 -- these are Allstar's three highest-priority Texas lines and the first forward motion on them in ~6 weeks; none of the three RFAs/RFO resolve yet on the formal resources.hhs.texas.gov/rfa portal or via a confirming GovDelivery bulletin, so treat as a strong but not fully corroborated signal and prioritize re-checking next run. Separately, HHSC's consolidated award list for Initiatives 1/4/6 grew again (program-page summary: 320 contracts / ~$547.8M combined) but could not be reconciled against the underlying spreadsheet this run (Akamai blocked curl; WebFetch could not parse the binary xlsx) -- flagged as directional, not final. OK (1 update, medium relevance, emailed): the Community Paramedicine Consulting RFP deadline, due today (11/18), was extended one week to 11/25 (confirmed verbatim on the state's own page; third-party aggregators show conflicting dates). LA (2 updates, logged, NOT emailed -- non-material corroboration only): LDH published its own primary press releases confirming facts already on record -- the Year 2 $211.9M federal tranche (ranked 8th among states) and the Year 1 100%-obligated status -- no new dollar figures, recipients, or dates in either case. AR, IL, IN, WI, MO, TN confirmed no new or materially-changed items this run via direct source fetches plus web-search fallback. One unresolved low-confidence lead (not elevated): a Missouri DHSS rural GME residency-slot solicitation (reported closing 11/17) surfaced only via blocked third-party procurement aggregators (Bid Banana, BidNetDirect, SAM Search) and could not be tied to RHTP funding or confirmed against a primary MO source -- may be the same item as the already-tracked MO:solicitation:graduate-medical-education-rural-program; re-check via MissouriBUYS directly next run. A low-relevance Oklahoma news story (OKC Fox 25, general audit/oversight scrutiny of OSDH's RHTP stewardship, no specific amounts or recipients named) was observed and logged as a watch item only, per guardrails on 'general commentary.' Watch items carried forward: WI's RTTF Round 1 (~$61M) / CHW Grants / CHW Training Providers / Sources of Strength / Rural Dental award-status pages remain 403-blocked, now 16th+ consecutive run (dwd.wisconsin.gov/det/heart/, the listed HEART source, is now also 404 -- the page may have moved, re-derive the URL next run); LA's six remaining Year 1 NOFO recipient lists and Rural Tech Catalyst Fund Cohort 1 results remain unannounced; TN's CARE Grants/Healthy Built Environment/Policy-Systems-Environmental/Rural Non-Emergency Transportation lines remain unresolved since the Nov 9 award wave; MS's Innovative Pilot Program deadline passed 11/17 with no results yet, its EHR Replacement window closes 11/23, and its Statewide HIE/HDU vendor decision (closed 11/3) is still unannounced (secondary reporting suggests a January 2027 service start, unconfirmed on a primary source); IN's Initiative 10 (Preceptor/Curriculum, deadline 11/16) and Initiative 11 (Threat Assessment workshop, deadline 11/6) outcomes are both now overdue; OK's RPM blood-pressure-cuff vendor RFP has still not posted to OMES; GAO-27-108853 (gao.gov) remains unreachable via DNS failure, now 16th consecutive run."
   }
  ],
  "items": [
@@ -2122,11 +2122,11 @@
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "Primary-source confirmed 2026-10-27 (HHSC's BP2 Budget Narrative, downloaded and read directly): $37,500,000 BP2 allocation toward a $150,000,000 total Initiative 2 Grant Term (5-year). Anticipated project period April 2027\u2013September 2031.",
    "recipients": "Eligibility clarified: 2+ clinically integrated networks, ACOs, or similar cooperatives supporting hospitals, clinics/physicians, and behavioral health providers (each network >=60% rural)",
-   "deadline": "Timeline shifted again on HHSC's live table: applications now due 2027-01-12 (was 2027-01-05), program-start date moved to 2026-11-09 (was 2026-11-18). Notice of Award 2027-03-08 and contract routing 2027-07-06 unchanged. Still labeled 'ESTIMATED... subject to change.'",
-   "status": "RFA number now assigned: HHS0017518, per HHSC GovDelivery bulletin dated 2026-11-06 ('Rural Texas Strong \u2014 Initiative 2 Posting'). Bulletin states 'application dates, deadlines, and timelines will be released soon' \u2014 not yet set. HHSC's own program timeline table (pfd.hhs.texas.gov) is unchanged, still showing the same estimated 2027-01-12 application deadline, and HHS0017518 does not yet resolve on resources.hhs.texas.gov/rfa (404 as of 2026-11-16). Still NOT open for applications \u2014 this is a procedural/numbering step, not a live window.",
+   "deadline": "HHSC's program page now shows a firm, non-estimated Applications Open date of 2026-11-18 (today); the 'ESTIMATED...subject to change' caveat is gone. Close date still implied ~2027-01-12. CAVEAT: RFA HHS0017518 still does not resolve on resources.hhs.texas.gov/rfa (404) and no GovDelivery bulletin yet confirms the live posting \u2014 treat as a strong primary-source signal, not fully corroborated yet.",
+   "status": "Program page shows Applications Open 2026-11-18; formal RFA portal and bulletin confirmation still pending.",
    "description": "Consumer-facing patient portal/RPM technology investment. RFA HHS0017518 assigned 2026-11-06; application window not yet open.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-11-16",
+   "last_updated": "2026-11-18",
    "why_it_matters": "HIGH relevance \u2014 Allstar's top-priority Texas line (patient portals/RPM); first forward movement since long-confirmed 'not open' status, though applications aren't open yet."
   },
   {
@@ -2136,11 +2136,11 @@
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "Now independently confirmed by a primary HHSC source (BP2 Budget Narrative, read directly 2026-10-27): $37,500,000 BP2 allocation toward a $150,000,000 total Initiative 3 Grant Term (5-year) \u2014 matches the previously-unconfirmed third-party figure. Anticipated project period June 2027\u2013September 2031.",
    "recipients": "Eligibility: 2+ clinically integrated networks/ACOs/cooperatives (>=60% rural); focus areas AI tools for maternal health, behavioral health, preventive screening plus telehealth care hubs",
-   "deadline": "Timeline shifted on HHSC's live table: applications now due 2027-01-12 (was 2026-12-31), Notice of Award 2027-03-29 (was printed as 2026-03-31, an apparent typo, now internally consistent), contract routing 2027-07-19 (was 2027-05-31). Page now also lists an explicit program-start date of 2026-11-25.",
-   "status": "RFA number now assigned: HHS0017519, per the same 2026-11-06 HHSC GovDelivery bulletin that posted Initiative 2's RFA number; the bulletin describes Initiative 3 as 'coming out soon.' HHSC's own program timeline table is unchanged, still showing the same estimated 2027-01-12 application deadline, and HHS0017519 does not yet resolve on resources.hhs.texas.gov/rfa (404 as of 2026-11-16). Still NOT open for applications \u2014 a procedural/numbering step, not a live window.",
+   "deadline": "HHSC's program page now shows a firm Applications Open date of 2026-11-20 (previously only an estimated 2027-01-12 close date with no open date / caveat language). RFA HHS0017519 still 404 on resources.hhs.texas.gov/rfa; no bulletin confirmation yet.",
+   "status": "Program page shows Applications Open 2026-11-20; formal RFA portal and bulletin confirmation still pending.",
    "description": "AI-enabled telehealth expansion for specialty/behavioral-health/chronic-disease care, coordinated with Initiatives 2 and 5. RFA HHS0017519 assigned 2026-11-06; application window not yet open.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-11-16",
+   "last_updated": "2026-11-18",
    "why_it_matters": "HIGH relevance \u2014 Allstar's top-priority Texas line (AI/telehealth); first forward movement since long-confirmed 'not open' status, though applications aren't open yet. Initiative 5 (cybersecurity) shows no equivalent movement."
   },
   {
@@ -2150,11 +2150,11 @@
    "url": "https://pfd.hhs.texas.gov/rural-health-transformation-program",
    "amount": "Primary-source BP2 figure now known (HHSC Budget Narrative, read directly 2026-10-27): $25,000,000 BP2 allocation ($1,000,000 GLO interagency contract + $24,000,000 competitive subaward RFO). No 5-year total given in this document, so the previously-cited third-party ~$100M-over-5-years figure remains unconfirmed/unreconciled against this new primary figure. Anticipated project period (competitive Part 2) August 2027\u2013September 2031.",
    "recipients": "Eligibility restricted to vendors already listed as a Managed Security Services Provider (MSSP) with the Texas Department of Information Resources (DIR); procurement mechanism is a formal Request for Offer (RFO), not an RFA/grant application",
-   "deadline": "Timeline shifted on HHSC's live table: offers now due 2027-01-19 (was 2027-01-31, slightly earlier), Notice of Award 2027-03-05 (was 2027-04-30, earlier), contract routing 2027-08-31 (was 2027-06-30, later). Page now also lists an explicit program-start date of 2026-12-01.",
-   "status": "Still confirmed NOT open as of 2026-10-19 (re-checked directly; same Jan 19, 2027 offer-due estimate). HHSC's internal procurement forecast (per GovTech Insider reporting of the 2026-07-31 forecast update) separately lists this RFO as scheduled to POST in November 2026 -- earlier than the live timeline table's Jan 2027 offer-due estimate. Not independently confirmed. Procurement mechanism (RFO restricted to Texas DIR-listed MSSPs) unchanged.",
+   "deadline": "HHSC's program page now shows a firm Offers Open date of 2026-11-23 (previously only an estimated offer-due date, ~2027-01-19/31 depending on prior runs). No RFO number or ESBD/txSmartBuy posting found yet.",
+   "status": "Program page shows Offers Open 2026-11-23 for the DIR-MSSP-restricted RFO; no live ESBD/txSmartBuy posting found yet.",
    "description": "Deploys a managed security solution across rural providers \u2014 endpoint detection & response, 24/7 SOC monitoring, and user security training.",
    "first_seen": "2026-09-15",
-   "last_updated": "2026-10-27"
+   "last_updated": "2026-11-18"
   },
   {
    "id": "TX:news:eligibility-network-requirement",
@@ -3325,11 +3325,11 @@
    "amount": "FY2027 total $211,858,378 ($100,000,000 NCC + $111,858,378 Supplement for Expansion); cumulative all-action total $420,232,826",
    "recipients": "n/a (state-to-CMS reporting/continuation filing)",
    "deadline": "Next Quarterly Report due 11/29/2026",
-   "status": "FY2027 award finalized at the federal level via TAGGS (action dated 2026-11-06), part of CMS's nationwide Year-2 RHTP distribution announced 2026-11-09. No LA-specific CMS or LDH press release located yet as of 2026-11-10. Next Quarterly Report due 2026-11-29 (unchanged).",
+   "status": "FY2027 award finalized at the federal level via TAGGS (unchanged, action dated 2026-11-06). LDH has now published its own primary press release: https://ldh.la.gov/news/RHTP-Y2Funding (2026-11-13) \u2014 'Louisiana ranks eighth of fifty states for Year 2 funding increases, receiving $211.9 million from CMS.' Release confirms cumulative two-year CMS funding of $420,232,826.06 (matches TAGGS exactly) and that LDH met the Oct 30 deadline to report Year 1 commitments. No change to dollar figures \u2014 closes the 'no LA-specific press release yet' gap flagged in prior runs.",
    "description": "CMS TAGGS award RHTCMS332085: Louisiana's FY2027 (Year 2) RHTP allocation is now fully posted.",
    "why_it_matters": "Confirms uninterrupted Year 2 federal funding to Louisiana, underpinning the Year 2 NOFOs (including the planned EHR voucher program) still targeted for ~November 2026 \u2014 high relevance to Allstar's EHR/interoperability practice.",
    "first_seen": "2026-09-22",
-   "last_updated": "2026-11-10"
+   "last_updated": "2026-11-18"
   },
   {
    "id": "TX:nofo:initiative6-part2-capital",
@@ -5334,13 +5334,13 @@
    "type": "award",
    "title": "HHSC Publishes First Consolidated \"Rural Texas Strong\" Award Recipients List (Initiatives 1, 4, 6)",
    "url": "https://pfd.hhs.texas.gov/sites/default/files/documents/rural-hlth-prgm/rhtp-award-recipients.xlsx",
-   "amount": "$673,992,493.67 aggregate intent-to-award across 440 subrecipient line items, unchanged (data as of 2026-11-12; file modified 2026-11-13T22:59:48Z). 'Awarded (Contract Fully Executed)' now 294 entries / $515,724,586.70 (was 241 / $452,561,320.62 as of 2026-11-05) \u2014 +53 contracts, +$63.16M executed in one week. Initiatives 2, 3, and 5 still have zero rows in this spreadsheet.",
+   "amount": "Per HHSC's program-page summary (not the spreadsheet, unreadable this run \u2014 see below): Initiative 1 \u2014 102 contracts executed, $389,269,507.29; Initiative 4 \u2014 132 contracts, $74,828,235.51; Initiative 6 \u2014 86 contracts, $83,740,885.05 (combined ~$547.8M across 320 contracts). This does not cleanly reconcile with the prior spreadsheet snapshot (2026-11-12: 294 executed / $515.7M of a $673,992,493.67 intent-to-award pool) \u2014 likely a different rollup category, not independently verified. Initiatives 2/3/5 still show $0 here.",
    "recipients": "441 named Texas subrecipients (rural hospital districts, health centers, providers) across Initiatives 1, 4, and 6; not individually reconciled in this pass.",
    "deadline": "n/a \u2014 results list, updated weekly by HHSC",
-   "status": "Spreadsheet remains at its stable URL, updated weekly by HHSC. Contract-execution pace continues on Initiatives 1/4/6 only; Initiatives 2 (patient portals/RPM), 3 (AI/telehealth), and 5 (cybersecurity) remain unopened for applications as of 2026-11-16.",
+   "status": "Continued weekly growth in Initiatives 1/4/6 disbursement. Spreadsheet itself could not be read this run (Akamai 'Access Denied' on curl; WebFetch returned only binary bytes) \u2014 figures above are from the program page's own text, flagged as not independently reconciled against the spreadsheet this run.",
    "description": "HHSC's consolidated recipient spreadsheet, updated weekly. Fully-executed contracts jumped from 241/$452.6M to 294/$515.7M (2026-11-05 to 2026-11-12); total intent-to-award pool unchanged at $673,992,493.67.",
    "first_seen": "2026-10-12",
-   "last_updated": "2026-11-16"
+   "last_updated": "2026-11-18"
   },
   {
    "id": "TN:nofo:perinatal-telehealth-rfgp-34347-98027",
@@ -5590,11 +5590,11 @@
    "url": "https://oklahoma.gov/health/rhtp/rhtp-funding.html",
    "amount": "not stated",
    "recipients": "open \u2014 mandatory statewide contract via OMES Central Purchasing; available to all state agencies and state affiliates",
-   "deadline": "3:00 PM CST, 2026-11-18",
-   "status": "Open",
+   "deadline": "EXTENDED from 2026-11-18, 3:00 PM CST to 2026-11-25, 3:00 PM CST (confirmed verbatim, twice, on oklahoma.gov/health/rhtp/rhtp-funding.html).",
+   "status": "Still open; deadline pushed back one week. Third-party aggregators show conflicting dates (Bid Banana: 11/18; Starbridge: 11/19) \u2014 state's own page (authoritative) says 11/25.",
    "description": "RFP for a consultant to develop Oklahoma's Community Paramedicine deployment strategy and a path to a sustainable payment model, with possible extension to integrate other RHTP programs. Apply via the financials.ok.gov supplier portal.",
    "first_seen": "2026-10-23",
-   "last_updated": "2026-10-23"
+   "last_updated": "2026-11-18"
   },
   {
    "id": "OK:nofo:osu-tech-coop-enrollment",
@@ -6033,14 +6033,14 @@
    "id": "LA:news:year1-complete-100pct-obligated",
    "type": "news",
    "title": "LDH Announces Louisiana RHTP Year 1 Fully Obligated: 551 Applications, $498M+ Requested",
-   "url": "https://www.wbrz.com/news/louisiana-completes-first-year-of-program-to-fund-rural-health-initiatives",
+   "url": "https://ldh.la.gov/news/RHTP-Year1Funding-Complete",
    "amount": "$208.4M Year 1 total obligated (100%); $498M+ requested across 551 applications",
    "recipients": "n/a at aggregate level (no recipient list published yet); workforce component adds 235 new healthcare-professional seats across 5 universities",
    "deadline": "n/a",
-   "status": "Announced ~2026-11-05 to 2026-11-07, coinciding with the Nov 5 Advisory Council meeting.",
+   "status": "Primary LDH press release now available (2026-11-08, 'Louisiana maximizes first-year Rural Health Transformation funding...'), previously sourced only via secondary WBRZ coverage. No new dollar figures, recipients, or dates. Reiterates $245.9M in separate non-RHTP state-directed hospital payments for 2026; LDH still has not released a recipient-level list for the six remaining Year 1 NOFOs.",
    "description": "LDH confirms all available Year 1 RHTP money (across 5 initiative categories: Workforce, Tech Innovation, Innovative Care, MRAHA, Sustainable Access) has been obligated, with demand (551 apps/$498M) far exceeding the $208M award; also notes $245.9M in separate state-directed payments to rural hospitals outside RHTP.",
    "first_seen": "2026-11-10",
-   "last_updated": "2026-11-10"
+   "last_updated": "2026-11-18"
   },
   {
    "id": "LA:news:hospitals-question-spending-transparency-nov2026",
@@ -6107,6 +6107,20 @@
    "why_it_matters": "Low relevance \u2014 recap only, no new actionable facts.",
    "first_seen": "2026-11-16",
    "last_updated": "2026-11-16"
+  },
+  {
+   "id": "MS:federal:cms-rhtp-year2-award-204.7m",
+   "type": "federal",
+   "title": "CMS Year 2 (FY2027) RHTP Award to Mississippi",
+   "url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=RHTCMS332063&arg_ProgOfficeCode=190",
+   "amount": "$204,677,190 FY2027 ($100,000,000 Non-Competing Continuation dated 2026-10-30 + $104,677,190 Supplement for Expansion dated 2026-11-06); cumulative all-years total $410,584,410. ~$1.23M less than MS's Year 1 award ($205,907,220).",
+   "recipients": "Executive Office of the State of Mississippi (pass-through, same as Year 1)",
+   "deadline": "n/a",
+   "status": "Finalized at the federal level via TAGGS, part of CMS's nationwide Year 2 RHTP distribution announced 2026-11-09.",
+   "description": "First sighting of MS's Year 2 federal tranche. Corroborated by a CMS/Medicaid.gov GovDelivery bulletin (content.govdelivery.com/accounts/USCMSMEDICAID/bulletins/4322a78, 2026-11-09, which lists Mississippi at exactly $204,677,190) and Mississippi Today's 2026-11-09 coverage.",
+   "why_it_matters": "Confirms uninterrupted Year 2 federal funding behind MS's in-progress NOFOs (EHR Replacement for Small Rural Providers, Statewide HIE/HDU) that are directly in Allstar's health-IT/interoperability wheelhouse.",
+   "first_seen": "2026-11-18",
+   "last_updated": "2026-11-18"
   }
  ]
 }
