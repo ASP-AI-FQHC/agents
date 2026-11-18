@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-17",
+  "last_run": "2026-11-18",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -160,6 +160,15 @@
       "items_updated": 0,
       "alert_sent": "yes",
       "note": "OCR portal reader ran: newest still 2026-10-16. state_lists.js ran from 2026-11-14: Park Dental new, Dorsata known. No new KEV. Telecare and Amplifon (WA AG) were missed in earlier runs; added now. Tracker sheet updated."
+    },
+    {
+      "date": "2026-11-18",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 8,
+      "items_updated": 7,
+      "alert_sent": "yes",
+      "note": "OCR portal reader ran: newest still 2026-10-16. state_lists.js ran from 2026-11-15: new Colla Health, PayrHealth, Southwire, Capitol Pain, ICW; state counts for 6 tracked items. KEV 11-17: Puppet Enterprise only, not FQHC-relevant. MedCom (11-13) missed earlier; added. HC3/Maine/NH known gaps not fetched. Tracker sheet updated. Kern Medical Prospects row added (missed 11-17)."
     }
   ],
   "items": [
@@ -2002,12 +2011,13 @@
       "state": "TX",
       "tier": 3,
       "status": "CONFIRMED (TX AG 2026-11-13)",
-      "affected_count": "341,039 Texans",
+      "affected_count": "341,039 Texans (CONFIRMED); 455,888 total per TX record (REPORTED, BreachNews)",
       "urls": [
-        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
+        "https://breachnews.com/ransomware/access-dental-management-data-breach/"
       ],
       "first_seen": "2026-11-14",
-      "last_updated": "2026-11-14",
+      "last_updated": "2026-11-18",
       "reported": true
     },
     {
@@ -2017,12 +2027,13 @@
       "state": "TN",
       "tier": 3,
       "status": "CONFIRMED (CA AG 2026-11-13)",
-      "affected_count": "not disclosed",
+      "affected_count": "34,873 Texans (TX AG 11/17)",
       "urls": [
-        "https://oag.ca.gov/privacy/databreach/list"
+        "https://oag.ca.gov/privacy/databreach/list",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
       ],
       "first_seen": "2026-11-14",
-      "last_updated": "2026-11-16",
+      "last_updated": "2026-11-18",
       "reported": true,
       "cause": "email security incident",
       "incident_date": "2026-03-21 to 2026-03-25; 2026-07-13"
@@ -2034,12 +2045,13 @@
       "state": "TX",
       "tier": 3,
       "status": "CONFIRMED (CA AG 2026-11-13)",
-      "affected_count": "not disclosed",
+      "affected_count": "88,200 Texans (TX AG 11/17)",
       "urls": [
-        "https://oag.ca.gov/privacy/databreach/list"
+        "https://oag.ca.gov/privacy/databreach/list",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
       ],
       "first_seen": "2026-11-14",
-      "last_updated": "2026-11-14",
+      "last_updated": "2026-11-18",
       "reported": true
     },
     {
@@ -2049,12 +2061,13 @@
       "state": "CA",
       "tier": 3,
       "status": "CONFIRMED (CA AG 2026-11-13)",
-      "affected_count": "not disclosed",
+      "affected_count": "2,782 Texans (TX AG 11/17); 728 Washingtonians (WA AG 11/13)",
       "urls": [
-        "https://oag.ca.gov/privacy/databreach/list"
+        "https://oag.ca.gov/privacy/databreach/list",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
       ],
       "first_seen": "2026-11-14",
-      "last_updated": "2026-11-14",
+      "last_updated": "2026-11-18",
       "reported": true
     },
     {
@@ -2348,13 +2361,14 @@
       "title": "UCHealth - two employee cloud accounts",
       "state": "CO",
       "tier": 3,
-      "status": "REPORTED (statement via press)",
-      "affected_count": "about 129,000",
+      "status": "CONFIRMED (TX AG filing 11/17); total count REPORTED",
+      "affected_count": "about 129,000 (REPORTED); 873 Texans (TX AG 11/17, CONFIRMED)",
       "urls": [
-        "https://hoodline.com/2026/11/uchealth-notifies-129-000-people-of-potential-data-exposure/"
+        "https://hoodline.com/2026/11/uchealth-notifies-129-000-people-of-potential-data-exposure/",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
       ],
       "first_seen": "2026-11-16",
-      "last_updated": "2026-11-16",
+      "last_updated": "2026-11-18",
       "reported": true
     },
     {
@@ -2379,12 +2393,14 @@
       "state": "CA",
       "tier": 2,
       "status": "CONFIRMED (hospital notice letter, 2026-11)",
-      "affected_count": "not disclosed",
+      "affected_count": "428 Texans (TX AG 11/17); total not disclosed",
       "urls": [
-        "https://www.turnto23.com/news/local-news/kern-medical-notifying-those-impacted-by-data-breach"
+        "https://www.turnto23.com/news/local-news/kern-medical-notifying-those-impacted-by-data-breach",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
+        "https://bakersfieldnow.com/news/local/kern-medical-reports-unauthorized-access-to-patient-information-offering-assistance-kern-county-california-hospital-breach-notification-healthcare"
       ],
       "first_seen": "2026-11-17",
-      "last_updated": "2026-11-17",
+      "last_updated": "2026-11-18",
       "reported": true
     },
     {
@@ -2516,12 +2532,13 @@
       "state": "CA",
       "tier": 3,
       "status": "CONFIRMED (CA AG, reported 11/13/2026)",
-      "affected_count": "not disclosed",
+      "affected_count": "120,679 Texans (TX AG 11/17); 16,307 Washingtonians (WA AG 11/14)",
       "urls": [
-        "https://oag.ca.gov/privacy/databreach/list"
+        "https://oag.ca.gov/privacy/databreach/list",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
       ],
       "first_seen": "2026-11-17",
-      "last_updated": "2026-11-17",
+      "last_updated": "2026-11-18",
       "reported": true
     },
     {
@@ -2537,6 +2554,131 @@
       ],
       "first_seen": "2026-11-17",
       "last_updated": "2026-11-17",
+      "reported": true
+    },
+    {
+      "id": "breach:colla-health-2026-08",
+      "type": "breach",
+      "title": "Colla Health, Inc. (psychosocial support vendor to oncology practices)",
+      "state": "TX",
+      "tier": 3,
+      "status": "CONFIRMED (Colla notice 2026-11-16; CA AG 11/16; OR DOJ 11/17; TX AG 11/17)",
+      "affected_count": "366,438 (Oregon DOJ filing); 1,570 Texans",
+      "urls": [
+        "https://www.prnewswire.com/news-releases/notice-of-data-security-incident-302940936.html",
+        "https://oag.ca.gov/ecrime/databreach/reports/sb24-632988"
+      ],
+      "first_seen": "2026-11-18",
+      "last_updated": "2026-11-18",
+      "reported": true
+    },
+    {
+      "id": "breach:payrhealth-2026-08",
+      "type": "breach",
+      "title": "PayrHealth (healthcare revenue management vendor)",
+      "state": "TX",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG 11/16, TX AG 11/17); total REPORTED (aggregators citing TX filing)",
+      "affected_count": "16,793 Texans (CONFIRMED); 121,894 total (REPORTED)",
+      "urls": [
+        "https://oag.ca.gov/ecrime/databreach/reports/sb24-633009",
+        "https://breachrecord.com/breach/payrhealth-2026-11/"
+      ],
+      "first_seen": "2026-11-18",
+      "last_updated": "2026-11-18",
+      "reported": true
+    },
+    {
+      "id": "breach:medcom-solutions-2025-09",
+      "type": "breach",
+      "title": "MedCom Solutions, Inc. (files on former MSP-hosted servers)",
+      "state": "PA",
+      "tier": 3,
+      "status": "CONFIRMED (MedCom notice 2026-11-13); missed in earlier runs",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://www.medcomsolutions.com/notice-of-data-privacy-event"
+      ],
+      "first_seen": "2026-11-18",
+      "last_updated": "2026-11-18",
+      "reported": true
+    },
+    {
+      "id": "breach:southwire-2025-11",
+      "type": "breach",
+      "title": "Southwire Company, LLC (employer; filing lists medical and health insurance info)",
+      "state": "GA",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG 11/14, TX AG 11/17)",
+      "affected_count": "7,977 Texans",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-18",
+      "last_updated": "2026-11-18",
+      "reported": true
+    },
+    {
+      "id": "breach:capitol-pain-institute-2026-11",
+      "type": "breach",
+      "title": "Capitol Pain Institute",
+      "state": "TX",
+      "tier": 3,
+      "status": "CONFIRMED (TX AG 11/17); physician-group status not verified; earlier filings OCR 05/2026 and 10/2026 REPORTED (aggregator)",
+      "affected_count": "658 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
+        "https://breachtally.com/notice/hhs-ocr/31787fe2f5a252dd8ee2"
+      ],
+      "first_seen": "2026-11-18",
+      "last_updated": "2026-11-18",
+      "reported": true
+    },
+    {
+      "id": "breach:icw-group-2026-05",
+      "type": "breach",
+      "title": "ICW Group Holdings, Inc. (workers comp insurer; medical and health insurance info)",
+      "state": "CA",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG 11/13, TX AG 11/17)",
+      "affected_count": "398 Texans",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-18",
+      "last_updated": "2026-11-18",
+      "reported": true
+    },
+    {
+      "id": "breach:south-sound-oral-surgery-claim-2026-11",
+      "type": "breach",
+      "title": "South Sound Oral Surgery PLLC",
+      "state": "WA",
+      "tier": 3,
+      "status": "REPORTED (The Gentlemen ransomware claim 2026-11-17; not confirmed by organization)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://www.hookphish.com/blog/ransomware-group-thegentlemen-hits-south-sound-oral-surgery/"
+      ],
+      "first_seen": "2026-11-18",
+      "last_updated": "2026-11-18",
+      "reported": true
+    },
+    {
+      "id": "breach:ca-hcai-2026-11",
+      "type": "breach",
+      "title": "California Department of Health Care Access and Information",
+      "state": "CA",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG list 11/16); details not reviewed",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "first_seen": "2026-11-18",
+      "last_updated": "2026-11-18",
       "reported": true
     }
   ]
