@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-18",
+  "last_run": "2026-11-19",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -169,6 +169,15 @@
       "items_updated": 7,
       "alert_sent": "yes",
       "note": "OCR portal reader ran: newest still 2026-10-16. state_lists.js ran from 2026-11-15: new Colla Health, PayrHealth, Southwire, Capitol Pain, ICW; state counts for 6 tracked items. KEV 11-17: Puppet Enterprise only, not FQHC-relevant. MedCom (11-13) missed earlier; added. HC3/Maine/NH known gaps not fetched. Tracker sheet updated. Kern Medical Prospects row added (missed 11-17)."
+    },
+    {
+      "date": "2026-11-19",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 3,
+      "items_updated": 2,
+      "alert_sent": "yes",
+      "note": "OCR portal reader ran: newest still 2026-10-16. state_lists.js ran from 2026-11-16: nothing new healthcare. New: Valley Family Health Care (FQHC, ID/OR), PrimeCare of Novi claim, KEV REDCap/Synology. Updates: UCHealth class action, Kern cause (vishing). Outreach draft held (notice 11-18). HC3/Maine/NH known gaps not fetched. Tracker sheet updated."
     }
   ],
   "items": [
@@ -2365,11 +2374,13 @@
       "affected_count": "about 129,000 (REPORTED); 873 Texans (TX AG 11/17, CONFIRMED)",
       "urls": [
         "https://hoodline.com/2026/11/uchealth-notifies-129-000-people-of-potential-data-exposure/",
-        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
+        "https://openclassactions.com/news/data-breaches/uchealth-data-breach.php"
       ],
       "first_seen": "2026-11-16",
-      "last_updated": "2026-11-18",
-      "reported": true
+      "last_updated": "2026-11-19",
+      "reported": true,
+      "litigation": "proposed class action filed 2026-11-18, D. Colo. (REPORTED, Law360 via OpenClassActions)"
     },
     {
       "id": "breach:liberty-healthcare-group-2026-08",
@@ -2397,11 +2408,13 @@
       "urls": [
         "https://www.turnto23.com/news/local-news/kern-medical-notifying-those-impacted-by-data-breach",
         "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
-        "https://bakersfieldnow.com/news/local/kern-medical-reports-unauthorized-access-to-patient-information-offering-assistance-kern-county-california-hospital-breach-notification-healthcare"
+        "https://bakersfieldnow.com/news/local/kern-medical-reports-unauthorized-access-to-patient-information-offering-assistance-kern-county-california-hospital-breach-notification-healthcare",
+        "https://openclassactions.com/news/data-breaches/kern-medical-data-breach.php"
       ],
       "first_seen": "2026-11-17",
-      "last_updated": "2026-11-18",
-      "reported": true
+      "last_updated": "2026-11-19",
+      "reported": true,
+      "cause": "caller posing as Kern IT persuaded employee to change Microsoft 365 login security settings; files copied 2026-09-16 to 09-17 (REPORTED, OpenClassActions summary of CA AG letters)"
     },
     {
       "id": "breach:ridgecrest-regional-hospital-2026-11",
@@ -2680,6 +2693,84 @@
       "first_seen": "2026-11-18",
       "last_updated": "2026-11-18",
       "reported": true
+    },
+    {
+      "id": "breach:valley-family-health-care-2026-03",
+      "type": "breach",
+      "title": "Valley Family Health Care, Inc.",
+      "state": "ID",
+      "tier": 1,
+      "status": "CONFIRMED (entity notice 2026-11-18; FQHC per HRSA grant H80CS00556)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://www.prnewswire.com/news-releases/valley-family-health-care-inc-provides-notice-following-data-security-incident-302944544.html",
+        "https://www.vfhc.org/notices/notice-of-data-breach"
+      ],
+      "first_seen": "2026-11-19",
+      "last_updated": "2026-11-19",
+      "reported": true,
+      "contact": {
+        "ceo": "Ken Hart, Chief Executive Officer",
+        "ceo_source": "https://www.vfhc.org/boardofdirectors/ken-hart",
+        "ceo_email": "khart@vfhc.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://www.vfhc.org",
+        "telephone": "208-642-7364",
+        "board": "Dan Ramirez (President); Carolyn Wesner (Vice President); Shawna Pierson (Secretary); Lynn Findley (Treasurer); Vicki Crank; Carlos Hernandez; Mike Kee; Joni Delgado; Kathleen Oliver; Yami Gonzalez; Carolina Gomez; Mark Redmond",
+        "board_source": "https://www.vfhc.org/boardofdirectors",
+        "board_as_of": "2026-11-19",
+        "it_lead": "Zachary Hodges, Chief Information Officer (IRS Form 990, FY ending 2025-01; not reconfirmed)",
+        "compliance": "not published (Compliance Officer role named on TriZetto notice, no name)"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00556",
+        "ein": "82-0371383",
+        "revenue_990": 36664181,
+        "expenses_990": 36218020,
+        "fye_990": "2026-01",
+        "patients_uds2025": 23862,
+        "sites_hrsa": 13,
+        "site_states": [
+          "ID",
+          "OR"
+        ],
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "OCHIN Epic / EpicCare Ambulatory",
+        "allstar_score": 52.6,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate: multi-state footprint, named CIO); Leadership 0x8; Rural/underserved 0.95x8 (rural per UDS, migrant funding); Cyber 0.55x13 (13 sites; no named security, compliance or privacy officer; published breach); Data quality 0.875x10"
+      },
+      "note": "Earlier vendor incident: TriZetto Provider Solutions (via OCHIN) notice on vfhc.org, CONFIRMED, notice dated after 2025-12-09."
+    },
+    {
+      "id": "breach:primecare-of-novi-claim-2026-11",
+      "type": "breach",
+      "title": "PrimeCare of Novi (family practice; physician-group status not verified)",
+      "state": "MI",
+      "tier": 3,
+      "status": "REPORTED (Lockbit5 leak-site claim 2026-11-18; not confirmed by organization)",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://qpulse.quasarcybertech.com/news/8730/lockbit5-ransomware-group-claims-attack-on-primecare-of-novi"
+      ],
+      "first_seen": "2026-11-19",
+      "last_updated": "2026-11-19",
+      "reported": true
+    },
+    {
+      "id": "kev:cisa-2026-11-18-redcap-synology",
+      "type": "kev",
+      "title": "CISA KEV 2026-11-18: REDCap CVE-2026-90817 (unauthenticated code injection); Synology DSM CVE-2024-10441",
+      "state": "US",
+      "status": "CONFIRMED (CISA KEV catalog)",
+      "affected_count": null,
+      "urls": [
+        "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      ],
+      "first_seen": "2026-11-19",
+      "last_updated": "2026-11-19",
+      "reported": true,
+      "note": "Both federal due dates 2026-11-21. Same day: LiteLLM, Apache Axis (not FQHC-common)."
     }
   ]
 }
