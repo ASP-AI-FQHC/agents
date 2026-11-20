@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-19",
+  "last_run": "2026-11-20",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -178,6 +178,15 @@
       "items_updated": 2,
       "alert_sent": "yes",
       "note": "OCR portal reader ran: newest still 2026-10-16. state_lists.js ran from 2026-11-16: nothing new healthcare. New: Valley Family Health Care (FQHC, ID/OR), PrimeCare of Novi claim, KEV REDCap/Synology. Updates: UCHealth class action, Kern cause (vishing). Outreach draft held (notice 11-18). HC3/Maine/NH known gaps not fetched. Tracker sheet updated."
+    },
+    {
+      "date": "2026-11-20",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 7,
+      "items_updated": 5,
+      "alert_sent": "yes",
+      "note": "OCR portal reader ran: newest still 2026-10-16. state_lists.js ran from 2026-11-17: DentaQuest, Boston Scientific, Takeda new; Valley Family OR 48,269; Prism OR 1,326,066. No new KEV. New FQHC: DotHouse Health settlement (outreach draft written). HC3/Maine/NH known gaps not fetched. Tracker sheet updated."
     }
   ],
   "items": [
@@ -1762,11 +1771,12 @@
       "state": "OH",
       "urls": [
         "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
-        "https://oag.ca.gov/privacy/databreach/list"
+        "https://oag.ca.gov/privacy/databreach/list",
+        "https://topclassactions.com/lawsuit-settlements/lawsuit-news/nearly-1-4m-affected-in-central-ohio-primary-care-physicians-data-breach/"
       ],
       "status": "CONFIRMED (OCR portal: 1,351,650 individuals, hacking/IT incident, network server, submitted 2026-10-16)",
       "first_seen": "2026-11-12",
-      "last_updated": "2026-11-13",
+      "last_updated": "2026-11-20",
       "reported": true,
       "reason": "Physician group, not an FQHC. Large breach likely to resurface in press and state lists. Scope widened 2026-11-12: to be reported on next run.",
       "affected_count": "1,351,650 (OCR portal)",
@@ -1786,7 +1796,9 @@
         "as_of": "2026-11-12"
       },
       "tier": 2,
-      "incident_date": "2026-08-17, 2026-08-25 (CA AG)"
+      "incident_date": "2026-08-17, 2026-08-25 (CA AG)",
+      "cause": "vishing (phone phishing) per notice letter (REPORTED, Top Class Actions/HIPAA Journal); Chaos ransomware claim REPORTED",
+      "litigation": "at least four proposed class actions since mid-October 2026 (REPORTED)"
     },
     {
       "id": "breach:herald-christian-health-center-osiris-2026-11",
@@ -2370,15 +2382,16 @@
       "title": "UCHealth - two employee cloud accounts",
       "state": "CO",
       "tier": 3,
-      "status": "CONFIRMED (TX AG filing 11/17); total count REPORTED",
+      "status": "CONFIRMED (TX AG filing 11/17); total count REPORTED; Handsome Boy Hacking Club data-release claim 2026-11-19 REPORTED, unverified",
       "affected_count": "about 129,000 (REPORTED); 873 Texans (TX AG 11/17, CONFIRMED)",
       "urls": [
         "https://hoodline.com/2026/11/uchealth-notifies-129-000-people-of-potential-data-exposure/",
         "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
-        "https://openclassactions.com/news/data-breaches/uchealth-data-breach.php"
+        "https://openclassactions.com/news/data-breaches/uchealth-data-breach.php",
+        "https://hify.ai/radar/en/uchealth-breach-hits-129-000-hbhc-leaks-stolen-files"
       ],
       "first_seen": "2026-11-16",
-      "last_updated": "2026-11-19",
+      "last_updated": "2026-11-20",
       "reported": true,
       "litigation": "proposed class action filed 2026-11-18, D. Colo. (REPORTED, Law360 via OpenClassActions)"
     },
@@ -2545,13 +2558,14 @@
       "state": "CA",
       "tier": 3,
       "status": "CONFIRMED (CA AG, reported 11/13/2026)",
-      "affected_count": "120,679 Texans (TX AG 11/17); 16,307 Washingtonians (WA AG 11/14)",
+      "affected_count": "1,326,066 (Oregon DOJ filing 2026-11-17); 120,679 Texans; 16,307 Washingtonians",
       "urls": [
         "https://oag.ca.gov/privacy/databreach/list",
-        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
+        "https://justice.oregon.gov/consumer/databreach/"
       ],
       "first_seen": "2026-11-17",
-      "last_updated": "2026-11-18",
+      "last_updated": "2026-11-20",
       "reported": true
     },
     {
@@ -2626,11 +2640,13 @@
       "affected_count": "7,977 Texans",
       "urls": [
         "https://oag.ca.gov/privacy/databreach/list",
-        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
+        "https://www.hipaajournal.com/data-breach-southwire-kern-medical-uchealth/"
       ],
       "first_seen": "2026-11-18",
-      "last_updated": "2026-11-18",
-      "reported": true
+      "last_updated": "2026-11-20",
+      "reported": true,
+      "cause": "unauthorized access Nov 2025 to Jan 2026, files exfiltrated; discovered 2026-01-29; Employee Health & Welfare Plan members (HIPAA media notice, per HIPAA Journal, REPORTED)"
     },
     {
       "id": "breach:capitol-pain-institute-2026-11",
@@ -2701,13 +2717,14 @@
       "state": "ID",
       "tier": 1,
       "status": "CONFIRMED (entity notice 2026-11-18; FQHC per HRSA grant H80CS00556)",
-      "affected_count": "not disclosed",
+      "affected_count": "48,269 (Oregon DOJ filing 2026-11-19)",
       "urls": [
         "https://www.prnewswire.com/news-releases/valley-family-health-care-inc-provides-notice-following-data-security-incident-302944544.html",
-        "https://www.vfhc.org/notices/notice-of-data-breach"
+        "https://www.vfhc.org/notices/notice-of-data-breach",
+        "https://justice.oregon.gov/consumer/databreach/"
       ],
       "first_seen": "2026-11-19",
-      "last_updated": "2026-11-19",
+      "last_updated": "2026-11-20",
       "reported": true,
       "contact": {
         "ceo": "Ken Hart, Chief Executive Officer",
@@ -2740,7 +2757,7 @@
         "tier": "Tier 2 — High",
         "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate: multi-state footprint, named CIO); Leadership 0x8; Rural/underserved 0.95x8 (rural per UDS, migrant funding); Cyber 0.55x13 (13 sites; no named security, compliance or privacy officer; published breach); Data quality 0.875x10"
       },
-      "note": "Earlier vendor incident: TriZetto Provider Solutions (via OCHIN) notice on vfhc.org, CONFIRMED, notice dated after 2025-12-09."
+      "note": "Earlier vendor incident: TriZetto Provider Solutions (via OCHIN) notice on vfhc.org, CONFIRMED, notice dated after 2025-12-09. CA AG lists breach date 03/07/2026; entity notice says disruption on or about 03/13/2026."
     },
     {
       "id": "breach:primecare-of-novi-claim-2026-11",
@@ -2771,6 +2788,144 @@
       "last_updated": "2026-11-19",
       "reported": true,
       "note": "Both federal due dates 2026-11-21. Same day: LiteLLM, Apache Axis (not FQHC-common)."
+    },
+    {
+      "id": "breach:dothouse-health-2022-11",
+      "type": "breach",
+      "title": "DotHouse Health, Inc. (2022 breach) - class action settlement",
+      "state": "MA",
+      "tier": 1,
+      "status": "REPORTED (settlement terms per HIPAA Journal 2026-11-19); FQHC CONFIRMED (HRSA grant H80CS11300)",
+      "affected_count": "10,000 on OCR report (REPORTED); lawsuit alleges 190,000 (REPORTED)",
+      "urls": [
+        "https://www.hipaajournal.com/dothouse-health-data-breach-settlement/"
+      ],
+      "first_seen": "2026-11-20",
+      "last_updated": "2026-11-20",
+      "reported": true,
+      "litigation": "Samiotes et al. v. DotHouse Health, Inc. (Suffolk Superior Court): $725,000 settlement fund; objections by 2026-12-29; final hearing 2027-01-19; claims by 2027-01-29 (REPORTED)",
+      "contact": {
+        "ceo": "Michelle Nadow, President and Chief Executive Officer",
+        "ceo_source": "https://www.dorchesterhouse.org/about/leadership.html",
+        "ceo_email": "michelle.nadow@dorchesterhouse.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://www.dorchesterhouse.org",
+        "telephone": "617-288-3230",
+        "board": "Megan Sonderegger (Chair); Christopher McCoy (Vice Chair); Dominique Sye (Treasurer); Rosa Shouder (Secretary); Paulo A. De Barros; Annissa Essaibi George; Jeffrey Lopes; Joel Wool; Maryssa Schneider McLean; Zoe K. Agnew; Nam Pham; Thao Ho; Lauren DeMarco",
+        "board_source": "https://www.dorchesterhouse.org/about/boardofdirectors.html; IRS Form 990 FY ending 2025-09",
+        "board_as_of": "2026-11-20",
+        "it_lead": "Byron Byfield, Chief Information Officer",
+        "compliance": "not published (Compliance Officer role named on privacy page, no name)",
+        "outreach_draft": "Subject: An executive view of DotHouse Health's security posture\n\nDear Ms. Nadow,\n\nI noticed DotHouse Health in recent public coverage of the 2022 data security incident, and I imagine questions about readiness have come back to the table. At Allstar Partners, we work with community health centers on exactly this.\n\nOur Executive Vulnerability Management service gives leadership a clear, plain-language picture of where the organization stands: what is exposed today, which risks matter most to operations and patients, and what to address first. We pair it with a Strategic Business Review, a working session with you and your team that ends in decisions, not a stack of technical findings.\n\nThe aim is simple: confidence for you and your board that priorities are right and resources are well spent.\n\nWould you be open to a 30-minute conversation in the coming weeks? I would be glad to work around your schedule.\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS11300",
+        "ein": "23-7125970",
+        "revenue_990": 43289448,
+        "expenses_990": 41662169,
+        "fye_990": "2025-09",
+        "patients_uds2025": 25364,
+        "sites_hrsa": 1,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "Epic Systems Corporation (not OCHIN) / EpicCare Ambulatory",
+        "allstar_score": 40.4,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.70x15; Sites 0.10x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low: named CIO); Leadership 0x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.60x13 (25,000+ patients; no named security, compliance or privacy officer; published breach); Data quality 0.875x10"
+      }
+    },
+    {
+      "id": "breach:dentaquest-2026-05",
+      "type": "breach",
+      "title": "DentaQuest LLC (dental and vision benefits provider)",
+      "state": "MA",
+      "tier": 3,
+      "status": "CONFIRMED (TX AG 11/19; Iowa AG letter 2026-10-27); OCR portal 15,000,000 (07/16, REPORTED via aggregators)",
+      "affected_count": "29,000,000 total (Iowa AG letter, TX filing); 5,175,000 Texans",
+      "urls": [
+        "https://www.iowaattorneygeneral.gov/media/cms/10272026_DentaQuest_LLC_Supplementa_20256FF3C4474.pdf",
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-20",
+      "last_updated": "2026-11-20",
+      "reported": true,
+      "cause": "threat actor obtained PHI/PI from two network file shares; began 2026-05-17, discovered 2026-05-20 (Iowa AG letter)"
+    },
+    {
+      "id": "breach:ochsner-health-2026-09",
+      "type": "breach",
+      "title": "Ochsner Health (two employee Microsoft accounts)",
+      "state": "LA",
+      "tier": 3,
+      "status": "CONFIRMED (Ochsner release 2026-11-19, as reported by nola.com); Vortex extortion claim 2026-11-19 REPORTED",
+      "affected_count": "not disclosed (review ongoing)",
+      "urls": [
+        "https://www.nola.com/news/ochsner-data-breach-september/article_aea78ebe-f58b-43ed-b0dc-6d4061c7e0b2.html",
+        "https://medrisk.io/2026/11/19/vortex-says-it-walked-out-with-a-health-systems-project-files/"
+      ],
+      "first_seen": "2026-11-20",
+      "last_updated": "2026-11-20",
+      "reported": true
+    },
+    {
+      "id": "breach:margaret-mary-health-bridgestone-2026-07",
+      "type": "breach",
+      "title": "Margaret Mary Health (vendor: Bridgestone Healthcare Revenue Systems)",
+      "state": "IN",
+      "tier": 3,
+      "status": "CONFIRMED (MMH notice 2026-11-19); safety-net status not verified",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://www.mmhealth.org/margaret-mary-health-provides-notification-of-a-data-security-incident/"
+      ],
+      "first_seen": "2026-11-20",
+      "last_updated": "2026-11-20",
+      "reported": true
+    },
+    {
+      "id": "breach:santiam-hospital-2026-10",
+      "type": "breach",
+      "title": "Santiam Hospital & Clinics (Salem Health)",
+      "state": "OR",
+      "tier": 3,
+      "status": "CONFIRMED incident (Salem Health release 2026-10-30, per press); six proposed class actions REPORTED; Anubis claim REPORTED; safety-net status not verified",
+      "affected_count": "not disclosed (Anubis claims ~30,000 patient files, unverified)",
+      "urls": [
+        "https://www.canyonweekly.com/2026/11/19/patients-sue-after-data-breach-at-santiam-hospital/"
+      ],
+      "first_seen": "2026-11-20",
+      "last_updated": "2026-11-20",
+      "reported": true,
+      "litigation": "six suits in Marion County Circuit Court, latest 2026-11-10 (REPORTED)"
+    },
+    {
+      "id": "breach:boston-scientific-2026-11",
+      "type": "breach",
+      "title": "Boston Scientific Corporation (medical devices; filing lists medical and insurance info)",
+      "state": "MA",
+      "tier": 3,
+      "status": "CONFIRMED (TX AG 11/19)",
+      "affected_count": "12,269 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-20",
+      "last_updated": "2026-11-20",
+      "reported": true
+    },
+    {
+      "id": "breach:takeda-pharmaceuticals-usa-2026-11",
+      "type": "breach",
+      "title": "Takeda Pharmaceuticals USA, Inc. (filing lists medical info)",
+      "state": "MA",
+      "tier": 3,
+      "status": "CONFIRMED (TX AG 11/19)",
+      "affected_count": "425 Texans",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-20",
+      "last_updated": "2026-11-20",
+      "reported": true
     }
   ]
 }
