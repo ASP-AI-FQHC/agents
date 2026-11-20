@@ -2927,5 +2927,6 @@
       "last_updated": "2026-11-20",
       "reported": true
     }
-  ]
+  ],
+  "signals_initialized": false
 }

@@ -1,9 +1,13 @@
 {
-  "_comment": "Sources the FQHC Breach & Advisory Watch checks every run. Edit freely; the routine reads this file fresh each time. 'kind' is a hint for how to read the page.",
+  "_comment": "Sources the FQHC Breach & Advisory Watch checks every run (breaches, advisories, and FQHC sales signals). Edit freely; the routine reads this file fresh each time. 'kind' is a hint for how to read the page.",
   "recipients": [
     "gfuller@allstarpartners.com"
   ],
-  "tracker_sheet": {"spreadsheet_id": "18fBWRktC_DT8xO21IzF8V-UMaHWi5XXlpYqxRNbUWIo", "url": "https://docs.google.com/spreadsheets/d/18fBWRktC_DT8xO21IzF8V-UMaHWi5XXlpYqxRNbUWIo/edit", "note": "Guy's working copy of every item. The routine adds and updates rows; see PROMPT.md step 6a."},
+  "tracker_sheet": {
+    "spreadsheet_id": "18fBWRktC_DT8xO21IzF8V-UMaHWi5XXlpYqxRNbUWIo",
+    "url": "https://docs.google.com/spreadsheets/d/18fBWRktC_DT8xO21IzF8V-UMaHWi5XXlpYqxRNbUWIo/edit",
+    "note": "Guy's working copy of every item. The routine adds and updates rows; see PROMPT.md step 6a."
+  },
   "fqhc_verification": "https://findahealthcenter.hrsa.gov/",
   "priority_states": [
     "IL",
@@ -18,29 +22,111 @@
     "OK"
   ],
   "sources": [
-    {"url": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf", "kind": "ocr-breach-portal", "note": "500+ individual breaches under investigation, newest submission first. JS app: read it with `node fqhc-breach-watch/ocr_portal.js 2` (headless Chromium), not a page fetch. Listings lag submission by weeks. Fall back to web search only if the script fails."},
-    {"url": "https://www.hhs.gov/ocr/newsroom/index.html", "kind": "ocr-enforcement", "note": "Dated OCR press releases. hhs.gov returns 403 to curl; read with a fetch tool."},
-    {"url": "https://www.hhs.gov/hipaa/for-professionals/compliance-enforcement/agreements/index.html", "kind": "ocr-resolution-agreements"},
-    {"url": "https://405d.hhs.gov/", "kind": "hhs-405d"},
-    {"url": "https://www.hhs.gov/about/agencies/asa/ocio/hc3/index.html", "kind": "hc3", "note": "Check whether HC3 is still publishing; record if inactive. Page returns empty content to fetch tools. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."},
-    {"url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog", "kind": "cisa-kev", "note": "Flag additions affecting EHR, practice-management, remote access/VPN, email, or identity products common in FQHCs."},
-    {"url": "https://www.cisa.gov/news-events/cybersecurity-advisories", "kind": "cisa-advisories"},
-    {"url": "https://www.ic3.gov/PSA", "kind": "fbi-ic3"},
-    {"url": "https://health-isac.org/post-topic/threat-intelligence-post-topics/", "kind": "health-isac", "note": "Public threat-intelligence posts (infrequent). TLP:WHITE bulletins are mirrored on aha.org; use the H-ISAC search query to find them."},
-    {"url": "https://bphc.hrsa.gov/", "kind": "hrsa-bphc"},
-    {"url": "https://oag.ca.gov/privacy/databreach/list", "kind": "state-ag-breach-list"},
-    {"url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html", "kind": "state-ag-breach-list", "note": "Public database taken offline by the Maine AG. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."},
-    {"url": "https://www.mass.gov/lists/data-breach-notification-reports", "kind": "state-ag-breach-list"},
-    {"url": "https://ago.vermont.gov/categories/security-breach-notices", "kind": "state-ag-breach-list", "note": "Feed: https://ago.vermont.gov/taxonomy/term/10/feed. As of 2026-11-11 the newest posted notice is dated 2026-04-10; record if still stale."},
-    {"url": "https://www.atg.wa.gov/data-breach-notifications", "kind": "state-ag-breach-list"},
-    {"url": "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage", "kind": "state-ag-breach-list", "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Script-filled table; current to within a day. Gives Texans affected and date published."},
-    {"url": "https://www.in.gov/attorneygeneral/consumer-protection-division/id-theft-prevention/security-breaches/", "kind": "state-ag-breach-list", "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Year-to-date PDF; gives Indiana residents and total affected, and breach date."},
-    {"url": "https://www.hipaajournal.com/", "kind": "trade-press-leads-only"},
-    {"url": "https://databreaches.net/", "kind": "trade-press-leads-only"},
-    {"url": "https://justice.oregon.gov/consumer/DataBreach/", "kind": "state-ag-breach-list", "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Catches multi-state filings, including Idaho and other western health centers."},
-    {"url": "https://datcp.wi.gov/Pages/Programs_Services/DataBreaches.aspx", "kind": "state-ag-breach-list", "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Short list (about 20 entries a year); as of 2026-11-11 the newest entry is July 2026."},
-    {"url": "https://dojmt.gov/office-of-consumer-protection/reported-data-breaches/", "kind": "state-ag-breach-list", "note": "Returns 403 to curl; read with a fetch tool. Table is not in date order: scan the DATE REPORTED column."},
-    {"url": "https://www.doj.nh.gov/citizens/consumer-protection-antitrust-bureau/security-breach-notifications", "kind": "state-ag-breach-list", "note": "Returns 403 to curl; read with a fetch tool. Listed by company name; many multi-state health filings appear here. Fetch tools return the page text without the list. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."}
+    {
+      "url": "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+      "kind": "ocr-breach-portal",
+      "note": "500+ individual breaches under investigation, newest submission first. JS app: read it with `node fqhc-breach-watch/ocr_portal.js 2` (headless Chromium), not a page fetch. Listings lag submission by weeks. Fall back to web search only if the script fails."
+    },
+    {
+      "url": "https://www.hhs.gov/ocr/newsroom/index.html",
+      "kind": "ocr-enforcement",
+      "note": "Dated OCR press releases. hhs.gov returns 403 to curl; read with a fetch tool."
+    },
+    {
+      "url": "https://www.hhs.gov/hipaa/for-professionals/compliance-enforcement/agreements/index.html",
+      "kind": "ocr-resolution-agreements"
+    },
+    {
+      "url": "https://405d.hhs.gov/",
+      "kind": "hhs-405d"
+    },
+    {
+      "url": "https://www.hhs.gov/about/agencies/asa/ocio/hc3/index.html",
+      "kind": "hc3",
+      "note": "Check whether HC3 is still publishing; record if inactive. Page returns empty content to fetch tools. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."
+    },
+    {
+      "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "kind": "cisa-kev",
+      "note": "Flag additions affecting EHR, practice-management, remote access/VPN, email, or identity products common in FQHCs."
+    },
+    {
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+      "kind": "cisa-advisories"
+    },
+    {
+      "url": "https://www.ic3.gov/PSA",
+      "kind": "fbi-ic3"
+    },
+    {
+      "url": "https://health-isac.org/post-topic/threat-intelligence-post-topics/",
+      "kind": "health-isac",
+      "note": "Public threat-intelligence posts (infrequent). TLP:WHITE bulletins are mirrored on aha.org; use the H-ISAC search query to find them."
+    },
+    {
+      "url": "https://bphc.hrsa.gov/",
+      "kind": "hrsa-bphc"
+    },
+    {
+      "url": "https://oag.ca.gov/privacy/databreach/list",
+      "kind": "state-ag-breach-list"
+    },
+    {
+      "url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html",
+      "kind": "state-ag-breach-list",
+      "note": "Public database taken offline by the Maine AG. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."
+    },
+    {
+      "url": "https://www.mass.gov/lists/data-breach-notification-reports",
+      "kind": "state-ag-breach-list"
+    },
+    {
+      "url": "https://ago.vermont.gov/categories/security-breach-notices",
+      "kind": "state-ag-breach-list",
+      "note": "Feed: https://ago.vermont.gov/taxonomy/term/10/feed. As of 2026-11-11 the newest posted notice is dated 2026-04-10; record if still stale."
+    },
+    {
+      "url": "https://www.atg.wa.gov/data-breach-notifications",
+      "kind": "state-ag-breach-list"
+    },
+    {
+      "url": "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
+      "kind": "state-ag-breach-list",
+      "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Script-filled table; current to within a day. Gives Texans affected and date published."
+    },
+    {
+      "url": "https://www.in.gov/attorneygeneral/consumer-protection-division/id-theft-prevention/security-breaches/",
+      "kind": "state-ag-breach-list",
+      "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Year-to-date PDF; gives Indiana residents and total affected, and breach date."
+    },
+    {
+      "url": "https://www.hipaajournal.com/",
+      "kind": "trade-press-leads-only"
+    },
+    {
+      "url": "https://databreaches.net/",
+      "kind": "trade-press-leads-only"
+    },
+    {
+      "url": "https://justice.oregon.gov/consumer/DataBreach/",
+      "kind": "state-ag-breach-list",
+      "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Catches multi-state filings, including Idaho and other western health centers."
+    },
+    {
+      "url": "https://datcp.wi.gov/Pages/Programs_Services/DataBreaches.aspx",
+      "kind": "state-ag-breach-list",
+      "note": "Read with `node fqhc-breach-watch/state_lists.js <since>` (one run covers TX, OR, IN, WI). Short list (about 20 entries a year); as of 2026-11-11 the newest entry is July 2026."
+    },
+    {
+      "url": "https://dojmt.gov/office-of-consumer-protection/reported-data-breaches/",
+      "kind": "state-ag-breach-list",
+      "note": "Returns 403 to curl; read with a fetch tool. Table is not in date order: scan the DATE REPORTED column."
+    },
+    {
+      "url": "https://www.doj.nh.gov/citizens/consumer-protection-antitrust-bureau/security-breach-notifications",
+      "kind": "state-ag-breach-list",
+      "note": "Returns 403 to curl; read with a fetch tool. Listed by company name; many multi-state health filings appear here. Fetch tools return the page text without the list. KNOWN GAP (2026-11-11): still try it each run, but if it fails to load do not list it under sources failed; note it only if it loads again."
+    }
   ],
   "web_search_fallback": [
     "community health center data breach",
@@ -62,8 +148,16 @@
     "healthcare data breach announced this week"
   ],
   "blocked_sources": [
-    {"url": "https://databreachnoticetoattorneygeneral.illinoisattorneygeneral.gov/databreach-search", "state": "IL", "note": "Illinois AG public breach search. Protected by a CAPTCHA; do not attempt to automate or bypass it. Do not count as a failed source. Illinois coverage comes from the OCR portal, the Indiana and Texas lists (multi-state filings), and the Illinois search query. Guy can search it by hand."},
-    {"url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html", "state": "ME", "note": "Public database taken offline by the Maine AG (notice on page). Still listed under sources so the routine notices when it returns."}
+    {
+      "url": "https://databreachnoticetoattorneygeneral.illinoisattorneygeneral.gov/databreach-search",
+      "state": "IL",
+      "note": "Illinois AG public breach search. Protected by a CAPTCHA; do not attempt to automate or bypass it. Do not count as a failed source. Illinois coverage comes from the OCR portal, the Indiana and Texas lists (multi-state filings), and the Illinois search query. Guy can search it by hand."
+    },
+    {
+      "url": "https://www.maine.gov/agviewer/content/ag/985235c7-cb95-4be2-8792-a1252b4f8318/list.html",
+      "state": "ME",
+      "note": "Public database taken offline by the Maine AG (notice on page). Still listed under sources so the routine notices when it returns."
+    }
   ],
   "no_public_list": {
     "states": [
@@ -75,5 +169,55 @@
       "OK"
     ],
     "note": "No public attorney general breach list found for these priority states as of 2026-11-11 (Oklahoma began requiring AG notice in 2026 but publishes only a reporting form). Coverage relies on the OCR portal, other states' lists and press."
+  },
+  "signal_sources": [
+    {
+      "url": "https://www.hrsa.gov/about/news/press-releases",
+      "kind": "funding",
+      "note": "HRSA award announcements; a signal only when a named FQHC receives IT, cybersecurity, EHR, telehealth or data funding."
+    },
+    {
+      "url": "https://www.usac.org/rural-health-care/",
+      "kind": "funding",
+      "note": "FCC Rural Health Care Program news; look for funding commitments naming FQHCs."
+    },
+    {
+      "url": "rhtp-award-tracker/seen.json",
+      "kind": "funding-local",
+      "note": "Rural Health Transformation awards tracked by the sibling routine in this repo. Read only; never edit."
+    }
+  ],
+  "signal_searches": {
+    "leadership": [
+      "community health center names new CEO",
+      "FQHC appoints chief executive officer",
+      "community health center interim CEO",
+      "health center appoints chief information officer OR CIO OR \"IT director\"",
+      "community health center new chief financial officer OR chief operating officer",
+      "FQHC compliance officer OR privacy officer appointed"
+    ],
+    "rfp": [
+      "community health center \"request for proposals\" IT services",
+      "FQHC RFP cybersecurity OR \"risk assessment\" OR \"penetration test\"",
+      "health center RFP managed IT services OR network OR cloud",
+      "primary care association RFP cybersecurity health centers",
+      "health center controlled network RFP security",
+      "community health center RFQ HIPAA security risk analysis"
+    ],
+    "funding": [
+      "community health center receives grant cybersecurity OR IT infrastructure",
+      "HRSA award health center technology OR telehealth OR EHR",
+      "state grant health centers cybersecurity",
+      "Rural Health Transformation award community health center",
+      "FCC Rural Health Care funding community health center"
+    ],
+    "initiative": [
+      "community health center Epic go-live OR OCHIN",
+      "FQHC new electronic health record implementation",
+      "community health center telehealth launch OR patient portal launch",
+      "community health center merger OR acquisition health center",
+      "community health center opens new clinic site",
+      "community health center artificial intelligence pilot"
+    ]
   }
 }

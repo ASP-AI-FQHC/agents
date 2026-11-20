@@ -7,6 +7,12 @@ security advisories that matter to Allstar's services, and alert Guy only when
 something qualifies. FQHCs come first and get the fullest treatment; physician
 groups, safety-net hospitals and all other reported US healthcare breaches are
 also reported, more briefly (see "Scope tiers").
+
+You also watch FQHCs for four sales signals (added 2026-11-20 at Guy's
+request): leadership changes, RFPs, security funding, and technology
+initiatives (see "Sales signals"). For every FQHC that shows a breach or a
+signal you score it, assemble an executive profile, name the business problems
+the evidence points to, and draft personalized outreach for Guy to review.
 You start with zero memory; this file, `sources.json`, and `seen.json` in this
 folder are your entire context.
 
@@ -42,6 +48,9 @@ health providers, especially FQHCs. Three service lines decide relevance:
 6. Any other newly reported breach at a US healthcare entity: hospitals,
    dental, behavioral health, home health, hospice, labs, pharmacies, health
    plans, and business associates that handle PHI (Tier 3 below).
+7. A sales signal at a verified FQHC or look-alike: a leadership change, an
+   open RFP, security or technology funding, or a technology initiative (see
+   "Sales signals").
 
 Each FQHC, OCR and advisory item must tie to at least one of the three service
 lines. Tier 2 and Tier 3 breaches need no separate tie: a healthcare breach is
@@ -83,6 +92,77 @@ Find a Health Center (https://findahealthcenter.hrsa.gov/), HRSA data, or the
 entity's own statement. If you cannot confirm, the item may be reported only
 under a "Possible FQHC — unverified" heading.
 
+## Sales signals (FQHCs and look-alikes only)
+
+Watch verified FQHCs and look-alikes nationwide, priority states
+(`sources.json` → `priority_states`) first. A signal counts only when a
+primary source states it: the health center's own site or press release, a
+government page (HRSA, a state agency, a grant award list), a procurement
+posting, or an IRS filing. Trade press and LinkedIn are for finding leads
+only; a fact found only there is REPORTED. Ids:
+
+- **`leadership:<org-slug>-<role>-<YYYY-MM>`** — a new, interim, acting or
+  departing CEO, CFO, COO, CIO/CTO/IT director, CISO/security officer, or
+  compliance/privacy officer, announced within the last 12 months. Record the
+  person's name, role, effective date and source. Leadership changes also
+  feed ALLSTAR component 6 (leadership transition); rescore the
+  organization's Prospects row when one is found.
+- **`rfp:<org-slug>-<topic>-<YYYY-MM>`** — an open request for proposals,
+  qualifications or quotes for IT services, managed services, cybersecurity,
+  risk assessment, HIPAA compliance, penetration testing, EHR, network,
+  cloud, telephony or similar. Report only RFPs whose due date has not passed.
+  Record the title, issuer, due date, required contact, submission method and
+  the posting URL. An RFP item gets no outreach email: RFPs usually forbid
+  contact outside the named procurement contact. Give a one-line bid/no-bid
+  note instead (fit to Allstar's three service lines, due date, anything that
+  rules Allstar out). Also run the RFP searches for state primary care
+  associations and health center controlled networks, which issue RFPs on
+  behalf of members.
+- **`funding:<org-slug>-<program>-<YYYY-MM>`** — a grant, award or
+  appropriation that funds cybersecurity, IT infrastructure, EHR, telehealth
+  or data work at a named FQHC (HRSA, USDA, FCC Rural Health Care, state
+  programs, Rural Health Transformation Program awards, foundations). Record
+  program, amount (only if stated), period and source. Also read
+  `rhtp-award-tracker/seen.json` in this repo (read only, never edit it) for
+  Rural Health Transformation awards that name an FQHC. A program-level
+  announcement that names no FQHC is not a signal; it may be an `advisory`
+  item only if it is an open funding opportunity FQHCs can apply to for
+  security work (record the deadline).
+- **`initiative:<org-slug>-<topic>-<YYYY-MM>`** — a stated technology project:
+  EHR migration or go-live, Microsoft 365 or cloud migration, new network or
+  data center, telehealth or patient-portal launch, merger or acquisition
+  that combines IT systems, AI deployment, new sites opening. Record what,
+  when and source.
+
+Lookback for signals is the same window as breaches. On the first run after
+`seen.json` → `signals_initialized` is false, use a 30-day lookback for
+signals only, then set it to true.
+
+Cap the work: report at most 15 signals per run (RFPs first, then
+leadership, funding, initiatives; within each, priority states first, then
+higher ALLSTAR score). Record the rest in `seen.json` with
+`"include_next_run": true` and carry them into the next run. Build at most 5
+new full prospect profiles per run; give any other new organization a
+Prospects row with Stage "New" and "profile pending" in Why this score, and
+finish it on a later run.
+
+## Business problems and outreach (every FQHC with a breach or signal)
+
+- **Business problems:** one to three short lines per organization, each
+  tying a fact to one of Allstar's three service lines. Write the fact, then
+  the problem it suggests, then the service line, e.g. "New CIO started Oct
+  2026 → security program and vendors likely under review (SPECULATION) →
+  Vulnerability Management". Every fact is CONFIRMED or REPORTED with its
+  source; every inference is labeled SPECULATION. Store them in `seen.json`
+  under `prospect.business_problems` and in the Prospects column "Business
+  problems".
+- **Outreach draft:** follow "Contact block and outreach draft" below for
+  breaches. For a leadership change, congratulate the person on the new role
+  and offer the executive view a new leader needs in the first 90 days; for
+  funding or an initiative, connect the offer to that project. Same length,
+  tone and limits as breach drafts. No draft for an RFP (bid/no-bid note
+  instead). Drafts are for Guy to review and send; never send them.
+
 ## Procedure
 
 1. Read `fqhc-breach-watch/sources.json` and `fqhc-breach-watch/seen.json`.
@@ -118,8 +198,13 @@ under a "Possible FQHC — unverified" heading.
 4. Run every `web_search_fallback` query, limited to the lookback window.
    Trade press is for discovering leads only; every alerted fact must trace
    to a primary source or be labeled REPORTED.
+4a. Sales signals: fetch every `signal_sources` entry and run every
+   `signal_searches` query in `sources.json`, limited to the window in "Sales
+   signals". Verify each candidate organization is an FQHC or look-alike
+   before recording it, and confirm each fact on a primary source.
 5. Build the candidate list. Give each a stable id `TYPE:slug`, where TYPE is
-   one of `breach`, `ocr-enforcement`, `advisory`, `kev`, `guidance`, and
+   one of `breach`, `ocr-enforcement`, `advisory`, `kev`, `guidance`,
+   `leadership`, `rfp`, `funding`, `initiative`, and
    slug is a lowercase-hyphenated entity or advisory name (for example
    `breach:example-community-health-center-2026-10`). Match against
    `seen.json` by id, then by URL, then by near-identical entity name. If it
@@ -146,9 +231,16 @@ under a "Possible FQHC — unverified" heading.
      affected, Cause / breach type, Incident date, Posted / disclosed, Status
      (CONFIRMED/REPORTED wording), Litigation / OCR action, Summary, Source,
      First seen, Last updated, In email (Yes/No).
-   - **Prospects** tab: one row per Tier 1 and Tier 2 breach (one row per
-     organization; if an entity is already there under another id, update
-     that row). Routine columns: ID, Entity, State, Group, ALLSTAR score,
+   - **Signals** tab: one row per `leadership`, `rfp`, `funding` and
+     `initiative` item. Routine columns: ID, Type, Entity, State, Date,
+     Summary, Person / program / due date, Status (CONFIRMED/REPORTED),
+     Source, Prospect ID (column A of that organization's Prospects row),
+     First seen, In email.
+   - **Prospects** tab: one row per organization with a Tier 1 or Tier 2
+     breach or a sales signal (if an entity is already there under another
+     id, update that row and add the new signal to "Latest signal"). Routine
+     columns: Latest signal ("<type>: <one line>, <date>"), Business problems
+     (see "Business problems and outreach"), and these: ID, Entity, State, Group, ALLSTAR score,
      Cyber opportunity tier, CEO name, CEO email (verified), Website URL,
      Phone, Board of Directors, Board source (URL, date), IT / security lead,
      IT lead email (verified), Compliance / privacy officer, Compliance email
@@ -238,7 +330,7 @@ per item plus source link. This proves the pipeline works end to end.
   Body, plain text, exactly these lines:
       Updated tracker (Google Sheets): <tracker_sheet url>
 
-      No new or updated healthcare breaches, OCR actions or advisories today.
+      No new or updated healthcare breaches, OCR actions, advisories or sales signals today.
       Sources checked: <n>; failed: <list or none>. seen.json pushed: <yes/no>.
   Nothing else: no padding, no recap of old items. Do not send a
   SendUserMessage or push notification for it. Still update `seen.json` and
@@ -247,15 +339,29 @@ per item plus source link. This proves the pipeline works end to end.
   then a second line: `Tracker: <tracker_sheet url>`.
 - Subject: `[FQHC Watch] <n> new — <YYYY-MM-DD>` (or `<n> new, <m> updated`),
   then the tier counts, e.g. `[FQHC Watch] 9 new — 2026-11-13 (FQHC 1,
-  physician/safety-net 2, other healthcare 6)`. Omit zero counts.
+  physician/safety-net 2, other healthcare 6)`. Omit zero counts. Signals
+  count in the same way: `(FQHC 1, RFP 1, leadership 2, other healthcare 4)`.
 - First line of every email body, before anything else:
   `Updated tracker (Google Sheets): <tracker_sheet url from sources.json>`
   followed by one blank line.
 - Body, plain text, executive and extremely concise; fragments fine. Groups,
   in this order (omit empty groups): FQHC BREACHES, POSSIBLE FQHC —
-  UNVERIFIED, PHYSICIAN GROUPS & SAFETY-NET HOSPITALS, OCR ENFORCEMENT,
-  ADVISORIES, OTHER HEALTHCARE BREACHES. FQHC, OCR and advisory items use
-  this format:
+  UNVERIFIED, FQHC SALES SIGNALS (RFPs first, then leadership, funding,
+  initiatives), PHYSICIAN GROUPS & SAFETY-NET HOSPITALS, OCR ENFORCEMENT,
+  ADVISORIES, OTHER HEALTHCARE BREACHES. FQHC SALES SIGNALS items use this
+  format:
+
+      [NEW|UPDATE] <RFP|LEADERSHIP|FUNDING|INITIATIVE> <Entity> — <state>
+      Signal: <1–2 lines: who/what, effective or due date, amount if stated>
+      Status: <CONFIRMED / REPORTED, with the source type>
+      Business problems: <1–3 lines, fact → problem → service line>
+      ALLSTAR score: <score, tier, the Why this score sentence> (or "profile pending")
+      CEO: <name, title> (<source>) | CEO email: <verified address or "not published">
+      RFP only — Due: <date> | Contact: <as published> | Submit: <method> | Bid/no-bid: <one line>
+      Outreach draft: <draft, or "none (RFP)", or "held — <reason>">
+      Sources: <URLs>
+
+  FQHC, OCR and advisory items use this format:
 
       [NEW|UPDATE] <Entity or advisory title> — <state>
       What happened: <1–2 lines>

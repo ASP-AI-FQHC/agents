@@ -6,6 +6,13 @@ advisories (CISA, HHS, FBI, Health-ISAC, HRSA) for developments involving
 federally qualified health centers. It alerts only when a verified item bears
 on Allstar's identity security, vulnerability management, or HIPAA services.
 
+Since 2026-11-20 it also watches FQHCs for sales signals: leadership changes,
+open RFPs, security and technology funding, and technology initiatives. For
+each FQHC with a breach or signal it scores the account (ALLSTAR), builds an
+executive profile, names the business problems the evidence points to, and
+drafts outreach for Guy to review. Signals land on the tracker's Signals tab;
+accounts on the Prospects tab.
+
 There is no server to run. A Claude Code cloud routine clones this
 repo every morning, follows `PROMPT.md`, and commits `seen.json` back.
 
@@ -19,10 +26,10 @@ repo every morning, follows `PROMPT.md`, and commits `seen.json` back.
 
 ## Schedule and delivery
 
-- Daily, 6:37 AM Central.
+- Daily, 5:36 AM Central.
 - Alerts are emailed to `sources.json` → `recipients` from Guy Fuller's
   connected Gmail (subject starts `[FQHC Watch]`) and pushed to his phone.
-- Quiet days send nothing. Check `seen.json` → `runs` to confirm it ran.
+- Quiet days send a short "Nothing new" email with the tracker link.
 
 ## Resetting
 
