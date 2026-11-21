@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-20",
+  "last_run": "2026-11-21",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -187,6 +187,15 @@
       "items_updated": 5,
       "alert_sent": "yes",
       "note": "OCR portal reader ran: newest still 2026-10-16. state_lists.js ran from 2026-11-17: DentaQuest, Boston Scientific, Takeda new; Valley Family OR 48,269; Prism OR 1,326,066. No new KEV. New FQHC: DotHouse Health settlement (outreach draft written). HC3/Maine/NH known gaps not fetched. Tracker sheet updated."
+    },
+    {
+      "date": "2026-11-21",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 13,
+      "items_updated": 3,
+      "alert_sent": "yes",
+      "note": "First run with sales signals (30-day lookback). OCR portal newest still 2026-10-16. state_lists.js from 2026-11-18: nothing new in healthcare. KEV 11-20: vCenter, Cisco Expressway. Signals: 4 leadership, 4 initiatives, 0 open RFPs (Family Health Center MS RFP closed 11-20; Alabama PCA RFP closed 11-13). Full profiles: AAPHC, Third Street, DVCH, Union, FHC Laurel; pending: Mercy Care, CHDC, Wright Center. Memorial Community Health (NE) not an FQHC; skipped. HC3/Maine/NH known gaps not fetched."
     }
   ],
   "items": [
@@ -1478,12 +1487,14 @@
       "title": "Eskenazi Health - possible FQHC, unverified",
       "state": "IN",
       "urls": [
-        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.wthr.com/article/news/local/eskenazi-reports-data-breach-involving-patient-electronic-health-information-suspicious-activity-access/531-6ef8d2be-12bd-4977-b418-8299efae4ad4",
+        "https://fox59.com/news/eskenazi-health-investigating-data-breach-involving-patient-information/"
       ],
-      "status": "CONFIRMED (OCR portal read directly 2026-11-11)",
+      "status": "CONFIRMED (OCR portal read directly 2026-11-11); Eskenazi release 2026-11-20 CONFIRMED (as reported by WTHR/FOX59)",
       "summary": "Hacking/IT Incident, network server.",
       "first_seen": "2026-11-11",
-      "last_updated": "2026-11-11",
+      "last_updated": "2026-11-21",
       "reported": true,
       "fqhc_verified": null,
       "incident_date": null,
@@ -1518,7 +1529,8 @@
         "ehr_uds2025": "Epic Systems Corporation (not including OCHIN) / Epic Care Ambulatory Base",
         "uds_project_director": "Allison  Thurman",
         "uds_project_director_email": "allison.thurman@eskenazihealth.edu"
-      }
+      },
+      "cause": "unauthorized access to employees' cloud-based work accounts, June 3 to Sept 2026; incidents identified July 27/28, Aug 31, Sept 21/26 (Eskenazi release 2026-11-20, per WTHR/FOX59)"
     },
     {
       "id": "breach:barrio-comprehensive-family-health-care-center-2026-03",
@@ -2450,13 +2462,14 @@
       "title": "Monadnock Community Hospital",
       "state": "NH",
       "tier": 3,
-      "status": "CONFIRMED cyber incident (hospital statement 2026-11-16); data impact under investigation; safety-net status not verified",
+      "status": "CONFIRMED cyber incident (hospital statement 2026-11-16); data impact under investigation; safety-net status not verified; network disruption detected 2026-11-08 and federal authorities contacted (CEO letter 2026-11-20, per Ledger-Transcript); elective surgery and outpatient lab/radiology cancelled through 2026-11-30; critical access per HIPAA Journal (REPORTED)",
       "affected_count": "not disclosed",
       "urls": [
-        "https://www.wgal.com/article/monadnock-community-hospital-server-outage-cyber-incident/74448697"
+        "https://www.wgal.com/article/monadnock-community-hospital-server-outage-cyber-incident/74448697",
+        "https://ledgertranscript.com/2026/11/20/monadnock-hospital-cyber-investigation/"
       ],
       "first_seen": "2026-11-17",
-      "last_updated": "2026-11-17",
+      "last_updated": "2026-11-21",
       "reported": true
     },
     {
@@ -2624,11 +2637,13 @@
       "status": "CONFIRMED (MedCom notice 2026-11-13); missed in earlier runs",
       "affected_count": "not disclosed",
       "urls": [
-        "https://www.medcomsolutions.com/notice-of-data-privacy-event"
+        "https://www.medcomsolutions.com/notice-of-data-privacy-event",
+        "https://www.walb.com/2026/11/20/phoebe-confirms-patient-information-leaked-former-third-party-vendor-data-breach/"
       ],
       "first_seen": "2026-11-18",
-      "last_updated": "2026-11-18",
-      "reported": true
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "note": "Phoebe Putney Health System (GA) confirmed its patients received MedCom letters (WALB 2026-11-20); MedCom served other south Georgia hospitals."
     },
     {
       "id": "breach:southwire-2025-11",
@@ -2926,7 +2941,413 @@
       "first_seen": "2026-11-20",
       "last_updated": "2026-11-20",
       "reported": true
+    },
+    {
+      "id": "leadership:albany-area-primary-health-care-cfo-2026-10",
+      "type": "leadership",
+      "title": "Albany Area Primary Health Care — new CFO Jeren Stepp",
+      "state": "GA",
+      "status": "CONFIRMED (aaphc.org release 2026-10-26)",
+      "urls": [
+        "https://aaphc.org/events/519-albany-area-primary-health-care-welcomes-jeren-stepp-as-chief-financial-officer",
+        "https://www.aaphc.org/team/leadership"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "person": "Jeren Stepp, Chief Financial Officer",
+      "effective": "announced 2026-10-26",
+      "contact": {
+        "ceo": "Shelley Spires, MSM, Chief Executive Officer",
+        "ceo_source": "https://www.aaphc.org/team/leadership",
+        "ceo_email": "shelley.spires@aaphc.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://www.aaphc.org",
+        "telephone": "229-888-6559",
+        "board": "Brad Stafford (President); Kuanita Murphy (Vice President); Wes Sternenberg (Treasurer); Cassandra Daniels; Victoria Darrisaw; Chester Floyd III; Doug Patton, MD; Willie McNair; Will Peterson; Jim Quinn; Sybil Thomas; Elizabeth West; Brenda Williams",
+        "board_source": "https://projects.propublica.org/nonprofits/organizations/581344015 (IRS Form 990, FY ending 2025-05)",
+        "it_lead": "Steven Thompson, MBA, PMP, Chief Information Officer",
+        "compliance": "Heather Dutton, Director, Grants & Compliance",
+        "outreach_draft": "Subject: Congratulations on joining AAPHC\n\nDear Mr. Stepp,\n\nCongratulations on your appointment as Chief Financial Officer at Albany Area Primary Health Care. The first months in a new finance role bring a long list of decisions, and technology and security spending is usually one of the harder ones to weigh.\n\nAt Allstar Partners we work with community health centers to give leadership a clear, plain-language view of their security posture: what is exposed today, which risks matter most to operations and patients, and what deserves budget first. Our Executive Vulnerability Management service pairs that view with a Strategic Business Review, a working session that ends in decisions rather than a stack of technical findings.\n\nIf it would help as you settle in, I would welcome a 30-minute conversation in the coming weeks.\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners",
+        "outreach_to": "Jeren Stepp, CFO (email not published)"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00763",
+        "ein": "58-1344015",
+        "revenue_990": 74139844,
+        "expenses_990": 70742908,
+        "fye_990": "2025-05",
+        "patients_uds2025": 53017,
+        "sites_hrsa": 36,
+        "fte_uds2025": 379.9,
+        "ehr": "eClinicalWorks, LLC / eClinicalWorks",
+        "allstar_score": 70.0,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.85x15; Sites 1.00x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.75x12 (High: 36 sites, 379.9 FTE, named CIO); Leadership 0.80x8 (new CFO announced 2026-10-26, aaphc.org); Rural/underserved 0.25x8 (urban per UDS, 13 school-based sites); Cyber 0.65x13 (25,000+ patients; 36 sites; named compliance lead but no security leader; 13 school-based sites); Data quality 0.917x10",
+        "business_problems": [
+          "New CFO Jeren Stepp joined Oct 2026 (CONFIRMED) → budget and vendor review likely in his first months (SPECULATION) → HIPAA services (risk analysis to guide spend)",
+          "36 sites incl. 13 school-based, 53,017 patients (CONFIRMED, HRSA/UDS) → wide device and remote-site attack surface (SPECULATION) → Vulnerability Management",
+          "Named CIO and grants/compliance director, no named security officer (CONFIRMED, aaphc.org) → security ownership likely sits inside IT (SPECULATION) → Identity security / vCISO-style executive view"
+        ],
+        "why": "Large: 53,017 patients, 36 sites, $74M revenue. Plus: new CFO (Oct 2026); 13 school sites (many devices to secure). Minus: already has a named compliance lead."
+      }
+    },
+    {
+      "id": "leadership:third-street-family-health-services-coo-2026-11",
+      "type": "leadership",
+      "title": "Third Street Family Health Services — Beth Reitler promoted to COO (and Dr. Chris Yohn to CMO)",
+      "state": "OH",
+      "status": "CONFIRMED (Third Street press release published 2026-11-16; executive team page)",
+      "urls": [
+        "https://www.richlandsource.com/2026/11/16/third-street-family-health-services-announces-promotions-of-beth-reitler-dr-chris-yohn/",
+        "https://www.thirdstreetfamily.org/executive-team"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "person": "Beth Reitler, Chief Operating Officer",
+      "effective": "announced 2026-11-16",
+      "contact": {
+        "ceo": "Peggy Anderson, Chief Executive Officer",
+        "ceo_source": "https://www.thirdstreetfamily.org/executive-team",
+        "ceo_email": "andersonp@thirdstreetfamily.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://www.thirdstreetfamily.org",
+        "telephone": "419-526-7880",
+        "board": "Amber Wertman (President/Chair); Allen Hocker (Vice Chair); Barrett Thomas (Treasurer); Douglas Newsome (Secretary); Dorothy Stratton (Chair of Quality); Brigitte Coles; CJ Miller; Dr. Julie Chaya; Dr. Khushwant Pittenger; Eli Bush; Jalen Reese; James Dolan (990 lists more; see filing)",
+        "board_source": "https://projects.propublica.org/nonprofits/organizations/341753919 (IRS Form 990, FY ending 2024-12; no board page on site)",
+        "it_lead": "not published (no named IT or security leader found)",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "outreach_draft": "Subject: Congratulations on your new role at Third Street\n\nDear Ms. Reitler,\n\nCongratulations on your promotion to Chief Operating Officer at Third Street Family Health Services. Strengthening internal systems across fifteen locations is meaningful work, and security is now part of keeping those systems dependable.\n\nAt Allstar Partners we help community health centers see clearly where they stand: what is exposed today, which risks matter most to operations and patients, and what to address first. Our Executive Vulnerability Management service pairs that picture with a Strategic Business Review, a working session with you and your team that ends in decisions, not technical jargon.\n\nIf it would be useful as you set priorities for the year ahead, I would welcome a 30-minute conversation.\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners",
+        "outreach_to": "Beth Reitler, COO (email not published)"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00581",
+        "ein": "34-1753919",
+        "revenue_990": 33498931,
+        "expenses_990": 32946590,
+        "fye_990": "2024-12",
+        "patients_uds2025": 21172,
+        "sites_hrsa": 15,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "Epic Systems Corporation (not including OCHIN) / Environment OhioHealth PRD (system is provided to us by OhioHealth, we lease to it)",
+        "allstar_score": 57.8,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.50x15; Sites 0.80x12; Revenue 0.70x12; Federal funding 0x10; Tech 0.25x12 (Low: 15 sites); Leadership 0.80x8 (COO promotion 2026-11-16); Rural/underserved 0.95x8 (rural per UDS, 3 school-based sites); Cyber 0.50x13 (15 sites; no named security, compliance or privacy officer; 3 school-based sites); Data quality 0.875x10",
+        "business_problems": [
+          "New COO Beth Reitler (Nov 2026) charged with strengthening internal systems (CONFIRMED) → operations leader setting priorities now (SPECULATION) → HIPAA services",
+          "FY2025 single audit reported a material weakness in internal controls (CONFIRMED, Federal Audit Clearinghouse via ProPublica) → governance and control gaps likely under scrutiny (SPECULATION) → HIPAA services",
+          "Epic leased from OhioHealth, 15 sites, no named security officer (CONFIRMED, UDS/site) → third-party access and account control dependencies (SPECULATION) → Identity security"
+        ],
+        "why": "Small: 21,172 patients, 15 sites, $33M revenue. Plus: no named security or privacy officer; new COO (Nov 2026); rural."
+      }
+    },
+    {
+      "id": "leadership:mercy-care-atlanta-coo-2026-11",
+      "type": "leadership",
+      "title": "Mercy Care (St. Joseph's Mercy Care Services) — new COO Fabio Van Der Merwe",
+      "state": "GA",
+      "status": "CONFIRMED (mercyatlanta.org release 2026-11-17)",
+      "urls": [
+        "https://mercyatlanta.org/mercy-care-welcomes-coo-fabio-van-der-merwe/"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "person": "Fabio Van Der Merwe, M.A., CHC, Chief Operating Officer (first full-time COO)",
+      "effective": "announced 2026-11-17",
+      "contact": {
+        "ceo": "Kathryn Lawler, CEO (named in release)",
+        "ceo_source": "https://mercyatlanta.org/mercy-care-welcomes-coo-fabio-van-der-merwe/"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00022",
+        "ein": "58-1752700",
+        "revenue_990": 33987788,
+        "expenses_990": 33817381,
+        "fye_990": "2025-06",
+        "patients_uds2025": 18089,
+        "sites_hrsa": 9,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "OCHIN Epic (Epic Systems Corporation) / Epic (Hyperspace)",
+        "allstar_score": 45.9,
+        "tier": "Tier 4 — Monitor",
+        "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.80x8; Rural/underserved 0.25x8 (urban per UDS, homeless); Cyber 0.20x13 (no named security, compliance or privacy officer found); Data quality 0.875x10",
+        "why": "profile pending (contacts and board not yet researched). Small: 18,089 patients, 9 sites, $34M revenue."
+      }
+    },
+    {
+      "id": "leadership:wright-center-coo-2026-11",
+      "type": "leadership",
+      "title": "The Wright Center for Community Health — new VP & COO JR Vought",
+      "state": "PA",
+      "status": "CONFIRMED (thewrightcenter.org 2026-11-04)",
+      "urls": [
+        "https://thewrightcenter.org/the-wright-center-names-new-vice-president-chief-operating-officer/"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "person": "JR Vought, Vice President and Chief Operating Officer",
+      "effective": "announced 2026-11-04",
+      "prospect": {
+        "hrsa_grant": "H80CS55716",
+        "why": "profile pending; grant H80CS55716 has no UDS 2025 record (size and score blank)."
+      }
+    },
+    {
+      "id": "initiative:community-health-and-dental-care-epic-2026-11",
+      "type": "initiative",
+      "title": "Community Health & Dental Care — Epic and MyChart go-live (PA Health Center Technology Alliance)",
+      "state": "PA",
+      "status": "CONFIRMED (ch-dc.org release 2026-11-13)",
+      "urls": [
+        "https://ch-dc.org/technology-alliance-epic-mychart/",
+        "https://pachc.org/celebrating-the-alliance-and-epics-go-live/"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "what": "Went live on Epic 2026-11-02 (Orchard model, shared with DVCH and Union Community Care)",
+      "contact": {
+        "ceo": "Bridgette McGivern, CEO (named in release)",
+        "ceo_source": "https://ch-dc.org/technology-alliance-epic-mychart/"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS24147",
+        "ein": "20-2764402",
+        "revenue_990": 22048073,
+        "expenses_990": 22777207,
+        "fye_990": "2025-06",
+        "patients_uds2025": 16237,
+        "sites_hrsa": 7,
+        "fte_uds2025": 156.8,
+        "ehr": "OSIS (NextGen Ambulatory EHR) / NextGen Enterprise 8",
+        "allstar_score": 30.9,
+        "tier": "Tier 4 — Monitor",
+        "score_breakdown": "Scale 0.50x15; Sites 0.40x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.20x13 (no named security, compliance or privacy officer found); Data quality 0.917x10",
+        "why": "profile pending (contacts and board not yet researched). Small: 16,237 patients, 7 sites, $22M revenue."
+      }
+    },
+    {
+      "id": "initiative:delaware-valley-community-health-epic-2026-11",
+      "type": "initiative",
+      "title": "Delaware Valley Community Health — Epic go-live (PA Health Center Technology Alliance)",
+      "state": "PA",
+      "status": "CONFIRMED (PACHC release 2026-11-16)",
+      "urls": [
+        "https://pachc.org/celebrating-the-alliance-and-epics-go-live/"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "what": "Epic go-live through the Alliance (Orchard model); UDS 2025 listed NextGen",
+      "contact": {
+        "ceo": "Brenda Robles Cooke, MBA, President & CEO (since January 2026)",
+        "ceo_source": "https://dvch.org/history/",
+        "ceo_email": "roblesb@dvch.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://dvch.org",
+        "telephone": "215-235-9600",
+        "board": "Nilsa Gonzalez (Chair); William L. Vazquez; Hector Andrew Lopez; Carmen I. Paris; Rick Beaton; Holli Charles; William E. Aaronson, PhD; Diamonique Morgan; Chris McTiernan; Tori Owens; Yemele Ayala; Meg Grant; Chris Witting Jr.; Rev. Robert McFadden",
+        "board_source": "https://dvch.org/history/ (page accessed 2026-11-21; emeritus members excluded)",
+        "it_lead": "Isaiah Nathaniel, CPHIMS, Senior Vice President & Chief Information Officer",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "outreach_draft": "Subject: Securing DVCH's move to Epic\n\nDear Ms. Robles Cooke,\n\nCongratulations to you and the DVCH team on going live with Epic through the Pennsylvania Health Center Technology Alliance. A shared platform of that scale is a real milestone, and it also brings new accounts, connections and access paths that deserve a clear look.\n\nAt Allstar Partners we give community health center leaders a plain-language view of where they stand after a change like this: what is exposed, which risks matter most to patients and operations, and what to address first. Our Executive Vulnerability Management service pairs that view with a Strategic Business Review that ends in decisions, not a stack of technical findings.\n\nWould you be open to a 30-minute conversation in the coming weeks?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners",
+        "outreach_to": "Brenda Robles Cooke, CEO"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00833",
+        "ein": "23-2077750",
+        "revenue_990": 51883740,
+        "expenses_990": 56333841,
+        "fye_990": "2024-12",
+        "patients_uds2025": 52110,
+        "sites_hrsa": 11,
+        "fte_uds2025": 333.53,
+        "ehr": "NextGen Healthcare (not including OSIS) / NextGen Enterprise EHR",
+        "allstar_score": 61.6,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.85x15; Sites 0.60x12; Revenue 0.85x12; Federal funding 0x10; Tech 0.75x12 (High: 11 sites, 333.5 FTE, named CIO); Leadership 0.50x8 (new CEO announced July 2025, effective Jan 2026, dvch.org); Rural/underserved 0.10x8 (urban); Cyber 0.65x13 (25,000+ patients; 11 sites; no named security, compliance or privacy officer); Data quality 0.917x10",
+        "business_problems": [
+          "Epic go-live via the PA Technology Alliance, Nov 2026, replacing NextGen (CONFIRMED, PACHC/UDS) → new accounts, integrations and access paths to secure (SPECULATION) → Identity security / Vulnerability Management",
+          "CEO since Jan 2026 was previously SVP and Chief Administrative and Compliance Officer (CONFIRMED, dvch.org) → compliance-minded leader likely to value an executive risk view (SPECULATION) → HIPAA services",
+          "52,110 patients, 11 sites, no named compliance or security officer (CONFIRMED) → HIPAA services"
+        ],
+        "why": "Large: 52,110 patients, 11 sites, $52M revenue. Plus: no named security or privacy officer; new CEO (Jan 2026)."
+      }
+    },
+    {
+      "id": "initiative:union-community-care-epic-2026-11",
+      "type": "initiative",
+      "title": "Union Community Care — Epic go-live (PA Health Center Technology Alliance)",
+      "state": "PA",
+      "status": "CONFIRMED (PACHC release 2026-11-16)",
+      "urls": [
+        "https://pachc.org/celebrating-the-alliance-and-epics-go-live/"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "what": "Epic go-live through the Alliance (Orchard model); UDS 2025 listed athenaOne",
+      "contact": {
+        "ceo": "Alisa Jones, MPH, President & CEO",
+        "ceo_source": "https://unioncommunitycare.org/blog/welcoming-a-familiar-friend-as-the-new-board-chair-for-union-community-care/",
+        "ceo_email": "Alisa.Jones@unioncomcare.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://unioncommunitycare.org",
+        "telephone": "717-299-6371",
+        "board": "Cindy Stewart (Chair); James M. Cox (Vice Chair); David Kreider (Treasurer); other members not rendered on the page",
+        "board_source": "https://unioncommunitycare.org/board-of-directors/ (page accessed 2026-11-21; partial)",
+        "it_lead": "not published on its own site (no named IT or security leader found)",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "outreach_draft": "Subject: Securing Union Community Care's move to Epic\n\nDear Ms. Jones,\n\nCongratulations on Union Community Care's Epic go-live through the Pennsylvania Health Center Technology Alliance. Moving to a new record system across twenty-six locations is a major achievement, and it is also a natural moment to confirm that access, accounts and legacy data are as secure as the new platform.\n\nAt Allstar Partners we help community health center leaders see clearly where they stand: what is exposed today, which risks matter most to patients and operations, and what to address first. Our Executive Vulnerability Management service pairs that picture with a Strategic Business Review that ends in decisions.\n\nWould you be open to a 30-minute conversation in the coming weeks?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners",
+        "outreach_to": "Alisa Jones, President & CEO"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00495",
+        "ein": "23-1909490",
+        "revenue_990": 65856094,
+        "expenses_990": 58628901,
+        "fye_990": "2025-06",
+        "patients_uds2025": 48277,
+        "sites_hrsa": 26,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "Athenahealth / AthenaOne",
+        "allstar_score": 53.8,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.70x15; Sites 0.80x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, school-based sites); Cyber 0.75x13 (25,000+ patients; 26 sites; no named security, compliance or privacy officer found; 8 school-based sites); Data quality 0.875x10",
+        "why": "Mid-size: 48,277 patients, 26 sites, $66M revenue. Plus: no named security or privacy officer; 8 school sites (many devices to secure).",
+        "business_problems": [
+          "Epic go-live via the PA Technology Alliance, Nov 2026, replacing athenaOne (CONFIRMED, PACHC/UDS) → legacy data, accounts and access to clean up (SPECULATION) → Identity security / HIPAA services",
+          "26 sites incl. 8 school-based, 48,277 patients (CONFIRMED) → many endpoints and remote sites (SPECULATION) → Vulnerability Management",
+          "No named security, privacy or compliance officer on its site (CONFIRMED) → HIPAA services"
+        ]
+      }
+    },
+    {
+      "id": "initiative:family-health-center-laurel-technology-modernization-2026-11",
+      "type": "initiative",
+      "title": "Family Health Center, Inc. (Laurel, MS) — Enterprise Technology Modernization and Digital Health Infrastructure Initiative",
+      "state": "MS",
+      "status": "CONFIRMED (lfhc.net request for bids; proposals closed 2026-11-20)",
+      "urls": [
+        "https://www.lfhc.net/la/about-4-1"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "what": "Rural Provider Technology Grant (RTG) project: server/cloud modernization, EDR/XDR, SIEM, MDR, 24/7 SOC, M365 identity, vulnerability scanning, penetration testing, backup/DR, firewall/VPN, phishing training; bids closed 2026-11-20 noon CST",
+      "funding": "RHTP Rural Provider Technology Grant $750,000 (rhtp-award-tracker: MS:award:family-health-center-jones-county, awarded 2026-09-14)",
+      "contact": {
+        "ceo": "Dr. Rashad N. Ali, MD, JD, FACOG, CEO",
+        "ceo_source": "https://www.lfhc.net/about-5-1",
+        "ceo_email": "fhcadmin@laurelfhc-ms.com",
+        "ceo_email_source": "HRSA UDS 2025, project director contact (general admin address)",
+        "website": "https://www.lfhc.net",
+        "telephone": "601-399-1958",
+        "board": "Dyann Mizell (Board Chair); Trina Heidelberg (Vice Chair); Joan Young (Secretary); Michael Walker; Barbara Pruitt; Lee Farmer; Prince Staten; Cecil Ashford; Howard Lofton; Angela Carmichael",
+        "board_source": "https://www.lfhc.net/board-of-directors (page accessed 2026-11-21)",
+        "it_lead": "not published (no named IT or security leader found)",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "outreach_draft": "Subject: Your technology modernization initiative\n\nDear Dr. Ali,\n\nI read about Family Health Center's Enterprise Technology Modernization and Digital Health Infrastructure Initiative, and I admire the commitment to bringing stronger security to six rural locations across the Pine Belt.\n\nProjects like this succeed when leadership has a clear, plain-language view of the organization's risk before and after the work: what is exposed, which risks matter most to patients and operations, and what should come first. At Allstar Partners, our Executive Vulnerability Management service provides that view, paired with a Strategic Business Review that ends in decisions rather than technical findings.\n\nWhatever partners you select for the build-out, I would welcome a 30-minute conversation about how we might support you and your board.\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners",
+        "outreach_to": "Dr. Rashad Ali, CEO"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00538",
+        "ein": "64-0732896",
+        "revenue_990": 10166189,
+        "expenses_990": 11486768,
+        "fye_990": "2025-03",
+        "patients_uds2025": 17148,
+        "sites_hrsa": 6,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "eClinicalWorks, LLC / eClinicalWorks",
+        "allstar_score": 36.1,
+        "tier": "Tier 4 — Monitor",
+        "score_breakdown": "Scale 0.50x15; Sites 0.40x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.80x8 (rural per UDS); Cyber 0.20x13 (no named security, compliance or privacy officer found); Data quality 0.875x10",
+        "why": "Small: 17,148 patients, 6 sites, $10M revenue. Plus: no named security or privacy officer; rural.",
+        "business_problems": [
+          "RHTP technology grant ($750,000, Sept 2026) funds EDR/XDR, SIEM, MDR, vulnerability scanning, pen testing and M365 identity work (CONFIRMED, lfhc.net / RHTP tracker) → active, funded security build-out (CONFIRMED) → Vulnerability Management / Identity security",
+          "Bids closed 2026-11-20; vendor selection pending (CONFIRMED) → late for the RFP itself; an independent executive view of results may still fit (SPECULATION) → HIPAA services",
+          "No named IT, security or compliance leader; CEO is a physician (CONFIRMED, 990/site) → executive-level risk translation needed (SPECULATION) → HIPAA services"
+        ]
+      }
+    },
+    {
+      "id": "advisory:masscybercenter-rural-health-cybersecurity-grant-2026-11",
+      "type": "advisory",
+      "title": "MassCyberCenter Rural Health Cybersecurity Grant (RHTP 6.4) — NOFO 2027-Cyber-01",
+      "state": "MA",
+      "status": "CONFIRMED (MassTech NOFO issued 2026-11-10; rolling)",
+      "urls": [
+        "https://masscybercenter.org/sites/default/files/2026-11/2027-Cyber-01%20Rural%20Health%20Cybersecurity%20Grant%20NOFO%20Final.pdf"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "note": "Rural-located or rural-serving MA FQHCs eligible; funds CyberTrust Massachusetts assessments, vCISO, MDR/XDR, email security; up to 100% years 1-3; rolling applications; Q&A posted 2026-12-02."
+    },
+    {
+      "id": "kev:cisa-2026-11-20-vcenter-expressway",
+      "type": "kev",
+      "title": "CISA KEV 2026-11-20: VMware vCenter CVE-2026-123890 (auth bypass); Cisco Expressway CVE-2026-76466 (hard-coded credentials)",
+      "state": "US",
+      "status": "CONFIRMED (CISA KEV catalog)",
+      "urls": [
+        "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "note": "Federal due date 2026-11-23 for both. Same day: Apache Roller, SAP NetWeaver (not FQHC-common)."
+    },
+    {
+      "id": "breach:lee-health-medusalocker-claim-2026-11",
+      "type": "breach",
+      "title": "Lee Health (Lee Memorial Health System) — Medusalocker claim; safety-net status not verified",
+      "state": "FL",
+      "tier": 3,
+      "status": "REPORTED (ransomware tracker 2026-11-20; not confirmed by organization)",
+      "affected_count": "not disclosed (actor claims 777 files, 9.3 GB from a clinic file share)",
+      "urls": [
+        "https://qpulse.quasarcybertech.com/news/8896/medusalocker-ransomware-group-targets-lee-memorial-health-system"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true
+    },
+    {
+      "id": "breach:yuma-regional-medical-center-2022-04",
+      "type": "breach",
+      "title": "Yuma Regional Medical Center (Onvida Health) — 2022 ransomware; class action settlement",
+      "state": "AZ",
+      "tier": 3,
+      "status": "CONFIRMED breach (OCR report 738,145); settlement REPORTED (HIPAA Journal 2026-11-20); safety-net status not verified",
+      "affected_count": "738,145 (OCR report, per HIPAA Journal)",
+      "urls": [
+        "https://www.hipaajournal.com/yuma-regional-medical-center-data-breach-settlement/"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true,
+      "litigation": "Clarke et al. v. Yuma Regional Medical Center (D. Ariz.): $1,985,000 settlement fund (REPORTED)"
+    },
+    {
+      "id": "breach:opn-healthcare-2026-06",
+      "type": "breach",
+      "title": "OPN Healthcare, Inc.",
+      "state": "CA",
+      "tier": 3,
+      "status": "CONFIRMED (CA AG list 11/20); details not reviewed",
+      "affected_count": "not disclosed",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "first_seen": "2026-11-21",
+      "last_updated": "2026-11-21",
+      "reported": true
     }
   ],
-  "signals_initialized": false
+  "signals_initialized": true
 }
