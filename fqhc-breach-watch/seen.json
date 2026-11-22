@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-21",
+  "last_run": "2026-11-22",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -196,6 +196,15 @@
       "items_updated": 3,
       "alert_sent": "yes",
       "note": "First run with sales signals (30-day lookback). OCR portal newest still 2026-10-16. state_lists.js from 2026-11-18: nothing new in healthcare. KEV 11-20: vCenter, Cisco Expressway. Signals: 4 leadership, 4 initiatives, 0 open RFPs (Family Health Center MS RFP closed 11-20; Alabama PCA RFP closed 11-13). Full profiles: AAPHC, Third Street, DVCH, Union, FHC Laurel; pending: Mercy Care, CHDC, Wright Center. Memorial Community Health (NE) not an FQHC; skipped. HC3/Maine/NH known gaps not fetched."
+    },
+    {
+      "date": "2026-11-22",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 1,
+      "items_updated": 3,
+      "alert_sent": "yes",
+      "note": "OCR portal newest still 2026-10-16. state_lists.js from 2026-11-19: nothing new in healthcare. No KEV additions since 11-21. New: DFW Fertility Associates ransomware claim (Tier 3, REPORTED). No new sales signals (NY RHTP $79M cybersecurity program names no FQHC; skipped). Completed pending profiles: Mercy Care, CHDC, Wright Center (score blank, no UDS 2025). HC3/Maine/NH known gaps not fetched."
     }
   ],
   "items": [
@@ -3052,13 +3061,23 @@
         "https://mercyatlanta.org/mercy-care-welcomes-coo-fabio-van-der-merwe/"
       ],
       "first_seen": "2026-11-21",
-      "last_updated": "2026-11-21",
+      "last_updated": "2026-11-22",
       "reported": true,
       "person": "Fabio Van Der Merwe, M.A., CHC, Chief Operating Officer (first full-time COO)",
       "effective": "announced 2026-11-17",
       "contact": {
-        "ceo": "Kathryn Lawler, CEO (named in release)",
-        "ceo_source": "https://mercyatlanta.org/mercy-care-welcomes-coo-fabio-van-der-merwe/"
+        "ceo": "Kathryn Lawler, CEO",
+        "ceo_source": "https://mercyatlanta.org/leadership-and-boards/",
+        "ceo_email": "not published",
+        "website": "https://mercyatlanta.org",
+        "telephone": "678-872-7100",
+        "board": "Kirkland A. McGhee (Chair); Christopher A. Parker, MD (Vice Chair); Susana Alfonso, MD; Karen Arnold; Dedra Blanchard; Eve Byrd; Sr. Angela Ebberwein; Teresa Edwards-Farrar; Michele Gandy; Susan J. Kelley; Sr. Elizabeth Linehan; Arthur McClung III; Von Nguyễn, MD; Fr. Jeffery Ott; Chioke Perry; Tamiko Pollard; Martina Jimenez Sperry; Lizanne Stephenson; Fernando Torres; Leticia Valencia; Robert Winborne; Evonne Yancey",
+        "board_source": "https://mercyatlanta.org/leadership-and-boards/ (accessed 2026-11-22; ex officio staff excluded)",
+        "cfo": "Marcus Bowens, Interim CFO",
+        "it_lead": "not published",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "outreach_to": "Fabio Van Der Merwe, COO",
+        "outreach_draft": "Subject: Congratulations on your new role at Mercy Care\n\nDear Mr. Van Der Merwe,\n\nCongratulations on joining Mercy Care as its first full-time Chief Operating Officer. Your compliance background will be an asset as Mercy Care serves patients across nine sites, many of them experiencing homelessness.\n\nA new operations leader often wants a clear, early picture of where the organization stands on security and HIPAA readiness. At Allstar Partners we give community health center leaders exactly that: a plain-language view of what is exposed, which risks matter most to patients and operations, and what to address first. Our Strategic Business Review ends in decisions, not a stack of technical findings.\n\nWould you be open to a 30-minute introductory conversation in your first few months?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
       },
       "prospect": {
         "hrsa_grant": "H80CS00022",
@@ -3073,7 +3092,12 @@
         "allstar_score": 45.9,
         "tier": "Tier 4 — Monitor",
         "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.80x8; Rural/underserved 0.25x8 (urban per UDS, homeless); Cyber 0.20x13 (no named security, compliance or privacy officer found); Data quality 0.875x10",
-        "why": "profile pending (contacts and board not yet researched). Small: 18,089 patients, 9 sites, $34M revenue."
+        "why": "Small: 18,089 patients, 9 sites, $34M revenue. Plus: new COO (Nov 2026); interim CFO; no named security or privacy officer.",
+        "business_problems": [
+          "First full-time COO, announced 2026-11-17, holds CHC credential (CONFIRMED, mercyatlanta.org) → new leader setting operating and compliance priorities (SPECULATION) → HIPAA services / Strategic Business Review",
+          "Interim CFO in place (CONFIRMED, mercyatlanta.org) → leadership in transition; risk ownership may be unclear (SPECULATION) → Executive Vulnerability Management",
+          "No named IT, security or compliance officer; 9 sites on OCHIN Epic (CONFIRMED) → HIPAA services / Identity security"
+        ]
       }
     },
     {
@@ -3086,13 +3110,37 @@
         "https://thewrightcenter.org/the-wright-center-names-new-vice-president-chief-operating-officer/"
       ],
       "first_seen": "2026-11-21",
-      "last_updated": "2026-11-21",
+      "last_updated": "2026-11-22",
       "reported": true,
       "person": "JR Vought, Vice President and Chief Operating Officer",
       "effective": "announced 2026-11-04",
       "prospect": {
         "hrsa_grant": "H80CS55716",
-        "why": "profile pending; grant H80CS55716 has no UDS 2025 record (size and score blank)."
+        "why": "Score blank: grant H80CS55716 has no UDS 2025 record. Size: 18 HRSA sites, $70M revenue (990 FY 2025-06). Plus: new COO (Nov 2026).",
+        "ein": "23-2772504 (Wright Center Medical Group)",
+        "revenue_990": 69850916,
+        "expenses_990": 70202736,
+        "fye_990": "2025-06",
+        "sites_hrsa": 18,
+        "allstar_score": null,
+        "business_problems": [
+          "New VP & COO announced 2026-11-04 (CONFIRMED, thewrightcenter.org) → new leader reviewing operating risk (SPECULATION) → Strategic Business Review",
+          "13 community health centers plus mobile unit, 18 HRSA sites (CONFIRMED) → large, distributed attack surface (SPECULATION) → Executive Vulnerability Management / Identity security",
+          "Named CIO and Chief Compliance Officer (CONFIRMED) → pitch as independent validation, not replacement (SPECULATION) → HIPAA services"
+        ]
+      },
+      "contact": {
+        "ceo": "Linda Thomas-Hemak, MD, President & CEO",
+        "ceo_source": "https://thewrightcenter.org/leadership/",
+        "ceo_email": "not published",
+        "website": "https://thewrightcenter.org",
+        "telephone": "not published",
+        "board": "Pedro L. Anes; Marie Beggin; Jill Durkin, Esq.; Krisy Elrod, PhD; LeeAnn Eschbach, PhD; Gerard J. Geoffroy (Immediate Past Chair); Kim Heritscko; Tracy Hunt; Mary B. Klem; Deborah Kolsovsky; Richard Krebs; Lewis Marcus; Joseph J. Marinelli; Mary Marrara (Secretary); Robert J. Neary; Kenneth Okrepkie (Vice Chair); Kirsten Smith; Adrian Wilck Summa, OD",
+        "board_source": "https://thewrightcenter.org/board-members/ (The Wright Center for Community Health board; CEO excluded)",
+        "it_lead": "John Janosky, Vice President and Chief Information Technology Officer",
+        "compliance": "Sheila Ford, BSN, RN, CHCO, Vice President and Chief Compliance Officer",
+        "outreach_to": "JR Vought, VP & COO",
+        "outreach_draft": "Subject: Congratulations on your new role at The Wright Center\n\nDear Mr. Vought,\n\nCongratulations on your appointment as Vice President and Chief Operating Officer of The Wright Center for Community Health. Leading operations across 13 community health centers and a mobile unit is a significant responsibility.\n\nA new operations leader often wants an early, independent read on security and compliance risk across that many sites. At Allstar Partners we give community health center leaders a plain-language view of what is exposed, which risks matter most to patients and operations, and what to address first. We work alongside existing IT and compliance teams, and our Strategic Business Review ends in decisions, not a stack of technical findings.\n\nWould you be open to a 30-minute introductory conversation once you are settled in?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
       }
     },
     {
@@ -3106,12 +3154,22 @@
         "https://pachc.org/celebrating-the-alliance-and-epics-go-live/"
       ],
       "first_seen": "2026-11-21",
-      "last_updated": "2026-11-21",
+      "last_updated": "2026-11-22",
       "reported": true,
       "what": "Went live on Epic 2026-11-02 (Orchard model, shared with DVCH and Union Community Care)",
       "contact": {
-        "ceo": "Bridgette McGivern, CEO (named in release)",
-        "ceo_source": "https://ch-dc.org/technology-alliance-epic-mychart/"
+        "ceo": "Bridgette McGivern, CEO",
+        "ceo_source": "https://ch-dc.org/technology-alliance-epic-mychart/",
+        "ceo_email": "bmcgivern@ch-dc.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://ch-dc.org",
+        "telephone": "610-326-9460",
+        "board": "Marta Pecharo (President); Frank Buttaro (Vice President); Jack Burns (Treasurer); Ruth Cole (Secretary); Barbara Robinson; Dan Maydonovitch; Monique Becker; Matthew Deichert; Ron Comtois; Trenita Lindsay",
+        "board_source": "IRS Form 990, FY ending 2025-06 (ProPublica)",
+        "it_lead": "not published",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "outreach_to": "Bridgette McGivern, CEO",
+        "outreach_draft": "Subject: Securing CHDC's move to Epic\n\nDear Ms. McGivern,\n\nCongratulations to you and the Community Health & Dental Care team on going live with Epic and MyChart through the Pennsylvania Health Center Technology Alliance. Moving seven sites onto a shared platform is a real milestone, and it also brings new accounts, patient-portal access and connections that deserve a clear look.\n\nAt Allstar Partners we give community health center leaders a plain-language view of where they stand after a change like this: what is exposed, which risks matter most to patients and operations, and what to address first. Our Executive Vulnerability Management service pairs that view with a Strategic Business Review that ends in decisions, not a stack of technical findings.\n\nWould you be open to a 30-minute conversation in the coming weeks?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
       },
       "prospect": {
         "hrsa_grant": "H80CS24147",
@@ -3126,7 +3184,12 @@
         "allstar_score": 30.9,
         "tier": "Tier 4 — Monitor",
         "score_breakdown": "Scale 0.50x15; Sites 0.40x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.20x13 (no named security, compliance or privacy officer found); Data quality 0.917x10",
-        "why": "profile pending (contacts and board not yet researched). Small: 16,237 patients, 7 sites, $22M revenue."
+        "why": "Small: 16,237 patients, 7 sites, $22M revenue. Plus: Epic go-live (Nov 2026); no named security or privacy officer.",
+        "business_problems": [
+          "Epic and MyChart go-live 2026-11-02 via PA Technology Alliance, replacing NextGen (CONFIRMED, ch-dc.org/UDS) → new accounts, portal access and integrations to secure (SPECULATION) → Identity security / Vulnerability Management",
+          "No named IT, security or compliance officer on public sources (CONFIRMED) → HIPAA services",
+          "Expenses exceeded revenue by about $0.7M in FY 2025 (CONFIRMED, 990) → value-focused, fixed-scope engagement more likely to land (SPECULATION) → Strategic Business Review"
+        ]
       }
     },
     {
@@ -3346,6 +3409,21 @@
       ],
       "first_seen": "2026-11-21",
       "last_updated": "2026-11-21",
+      "reported": true
+    },
+    {
+      "id": "breach:dallas-fort-worth-fertility-associates-claim-2026-11",
+      "type": "breach",
+      "title": "Dallas Fort Worth Fertility Associates — ransomware claim (Barracuda group)",
+      "state": "TX",
+      "tier": 3,
+      "status": "REPORTED (ransomware leak-site claim relayed by HookPhish; not confirmed by the organization or a regulator)",
+      "affected_count": "not published",
+      "urls": [
+        "https://www.hookphish.com/blog/ransomware-group-barracuda-hits-dallas-fort-worth-fertility-associates/"
+      ],
+      "first_seen": "2026-11-22",
+      "last_updated": "2026-11-22",
       "reported": true
     }
   ],
