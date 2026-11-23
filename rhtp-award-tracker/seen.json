@@ -1,19 +1,8 @@
 {
  "initialized": true,
  "baseline_pending": [],
- "last_run": "2026-11-20",
+ "last_run": "2026-11-23",
  "runs": [
-  {
-   "date": "2026-10-09",
-   "sources_checked": 157,
-   "sources_failed": 21,
-   "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). Persistent/unchanged: arkansas.gov/ark.org procurement (egress-blocked/DNS), il.amplifund.com (SSO wall), omb.illinois.gov CSFA pages and icahn.org (egress-blocked \u2014 IL's ICAHN Technology Innovation Grant deadline fell today, 2026-10-09, outcome unconfirmed), several dhs.wisconsin.gov /contracts/ and /node/ detail pages (403 \u2014 WI's Rural Technology Transformation Fund award notification is now overdue vs. its 'estimated September 2026' timeline and still unconfirmed), vendornet.wi.gov (Blazor SPA), tndeptofhealth.caspio.app (JS shell), missouribuys.mo.gov and ms.gov DFA bid grid and ok.gov/dcs/solicit and txsmartbuy.gov/ESBD (JS/SPA, unscrapeable by keyword), memsa.org (needed curl fallback, succeeded), LaPAC and gov.louisiana.gov/news (JS-rendered/no results; ldh.la.gov pages needed a browser User-Agent via curl), medicaid.ms.gov (503/empty reply, persistent), cms.gov/newsroom/press-releases (404, worked around via cms.gov/newsroom). No primary state program-home page was unreachable.",
-   "items_new": 2,
-   "items_updated": 3,
-   "email_sent": true,
-   "email_type": "alert",
-   "note": "New in WI, LA; updated in TX; AR, IN, MO, TN, MS, OK, and Federal had no new or changed items this run (MS's BRIDGE Innovative Pilot Program Grant dates reported by one research pass as newly set were found on cross-check to already be in seen.json as of 2026-10-07 \u2014 not an update, logged as a false-positive catch). New: WI 'Sources of Strength' RHTP-funded school suicide-prevention grant (closed, low relevance, previously uncaught, found via web search); LA $37.7M rural workforce investment press release (Rural HERO + Grow Your Own + reconfirmed Rural Clinician Credit Bank, low relevance) which also surfaced a date conflict between LDH's own sources on when Year 2 NOFOs (incl. the EHR Voucher Program) will open \u2014 Nov 2026 per this release vs. Jan-Mar 2027 per LDH's Oct 1 webinar slides, flagged for the team to watch. Updated: TX Initiatives 2, 3, and 5 (patient portals/RPM, AI/telehealth, and rural cybersecurity RFO \u2014 Allstar's three highest-relevance TX watch items) all got shifted estimated timelines on HHSC's live table; none are open yet. CMS federal newsroom activity this week named CO, MT, AL, SD, and NC \u2014 none of the ten tracked states, so nothing reportable at the federal level."
-  },
   {
    "date": "2026-10-12",
    "sources_checked": 117,
@@ -331,6 +320,17 @@
    "email_sent": false,
    "email_type": "none",
    "note": "No new or materially-changed items in any of the 10 states or federal sources this run. All figures, award lists, deadlines, and statuses checked matched seen.json exactly, or reflect already-tracked timelines proceeding on schedule. AR, IL, IN: no changes found via direct source fetches plus web-search fallback. WI: the long-standing 'DPI Rural LEA Career Pathways 20 vs 21 districts' watch item is now resolved as a prior-run miscount (21 districts has always been correct, not a state-side change); DWD HEART recipient names/amounts still not published. MO: Digital Backbone & Ambient AI application window (closes 12/16) and Workforce Retention window (closes 11/22) proceeding on the already-tracked timeline with no new facts. TN: TDH published its own press release (11/19) corroborating the $210.34M Year-2 / $417.23M cumulative figures already known via TAGGS -- not a new fact; CARE/Healthy Built Environment/Policy-Systems-Environmental/Rural Non-Emergency Transportation award lines remain unresolved since the Nov 9 award wave. MS: EHR Replacement for Small Rural Providers (due 11/23) and Rural GME Expansion Grant (opens 11/24) unchanged; the Statewide HIE/HDU RFP and EMS Capacity Assessment RFP have dropped off the state's own funding-opportunities list entirely with no vendor-selection announcement found; Innovative Pilot Program award results overdue since the 11/17 deadline. LA: all three primary ldh.la.gov pages reachable via browser-UA curl this run with no news items posted 11/14-11/20; Rural Tech Catalyst Fund Cohort 1 results still pending (mid-December CMS-review target unchanged); Rural Clinician Credit Bank 59-vs-70 award-count discrepancy remains unresolved. TX: Initiatives 2/3/5 (Allstar's top-priority lines) Applications/Offers Open dates remain TBD, unchanged since the 11/19 reversion from firm dates; consolidated Initiative 1/4/6 award spreadsheet still unreadable (Akamai-blocked). OK: RPM blood-pressure-cuff vendor RFP still not posted; Community Paramedicine Consulting RFP due 11/25 (check next run for outcome); one new $0 TAGGS administrative-supplement action (11/13) carried forward, no cumulative-amount change. FEDERAL: no new CMS items for the 10 tracked states beyond the already-tracked 11/9 Year-2 $10B announcement; GAO-27-108853 remains unreachable, now many consecutive runs."
+  },
+  {
+   "date": "2026-11-23",
+   "sources_checked": 152,
+   "sources_failed": 22,
+   "sources_failed_note": "5 parallel research passes (AR+IL, IN+WI, MO+TN, MS+LA, TX+OK+Federal). AR: www.arkansas.gov/tss procurement redirects to DNS-blocked www.ark.org (persistent). IL: il.amplifund.com SSO-walled; icahn.org and omb.illinois.gov DNS-blocked (persistent). IN: in.gov/gov/newsroom is JS-rendered, no press-release listing returned; events.in.gov calendar returned 0 news/press items (tool limitation, not confirmed absence). WI: vendornet.wi.gov remains a JS-rendered Blazor SPA with no static content. MO: health.mo.gov and dhss.mo.gov blocked at session network level (proxy 403/DNS refusal, not dead links); missouribuys.mo.gov bid board remains JS-rendered with no static RHTP listings. TN: tndeptofhealth.caspio.app Partner Portal remains an unreadable JS shell (not re-checked this run, low yield historically); tn.gov pages 403'd to WebFetch but succeeded via curl with browser UA. MS: medicaid.ms.gov connection timeout; ms.gov DFA bid search and direct bid-detail pages 403; dfa.ms.gov/rfps.its.ms.gov network-blocked; mississippitoday.org DNS-unreachable (a Nov 12 HIE/HDU article could not be fetched). LA: gov.louisiana.gov/news JS-rendered (no results to non-JS fetch); LaPAC (wwwcfprd.doa.louisiana.gov) nav-menu shell only; opportunitylouisiana.gov blocked this run; ldh.la.gov itself fully reachable via browser-UA curl. TX: rhtp-award-recipients.xlsx remains Akamai-blocked (403) to curl, unparseable via WebFetch; www.hhs.texas.gov/news search returned no results; txsmartbuy.gov/esbd remains a JS-driven SuiteCommerce app with no server-rendered results; insider.govtech.com DNS-unreachable (could not verify an Initiative 5 November-forecast claim). OK: rhtp-funding-recipients.html remains a non-scrapable Power BI widget; ok.gov/dcs/solicit remains a JS-driven search form. FEDERAL: cms.gov/newsroom/press-releases still 404s (working alternate cms.gov/newsroom used); GAO-27-108853 (gao.gov) remains DNS-unreachable, now many consecutive runs.",
+   "items_new": 10,
+   "items_updated": 4,
+   "email_sent": true,
+   "email_type": "alert",
+   "note": "New in WI, MO, LA, TX (10 new + 4 updated items, all emailed). WI (5 new + 2 updated, all emailed, mostly HIGH/medium relevance): DHS's technology.htm page disclosed four previously-unenumerated RHTP Initiative 2 technology awards \u2014 WISHIN interoperability projects ($499,078, HIGH relevance: FHIR/HITRUST/eMPI), WIRE/211 closed-loop referral platform ($2M, United Way of WI), an Integrated State Platform/\"No Wrong Door\" mental-health build ($9.398M), and a Farmer Wellness voucher program ($195,384, low relevance). Also confirmed WI DVA's veteran telehealth-rooms award (previously flagged unconfirmed/blocked, now primary-sourced at $1M Year 1) and added planning-period dates to the Care Coordination Planning Grant. Flagged an unresolved contradiction on DWD HEART award status (one DHS page says awarded, DWD's own newly-reachable page says still under review) \u2014 logged, not treated as a confirmed award change. MO (1 new, emailed, flagged unconfirmed): a possible Rural GME Program Development RFP ($500K\u2013$2M/award, closed 11/17) surfaced only via third-party procurement aggregators; could not confirm via MissouriBUYS or health.mo.gov/dhss.mo.gov directly (both network-blocked this session) \u2014 RHTP funding not confirmed, may overlap with an already-tracked MO GME item, needs direct confirmation next run. LA (3 new + 1 updated, emailed, mostly low relevance): LDH's Nov 5 Advisory Council deck named Trinity Health PACE Alexandria as the long-pending PACE Expansion RFI recipient (resolving a previously-open item), disclosed $5,997,662 in University Pathways funding to five public universities (three newly named: LSU-Eunice, LSU-Alexandria, Northwestern State) and $5,000,000 to LCTCS for \"Grow Your Own\" career pathways, and revised the Year 2/BP2 NOFO timeline to January\u2013March 2027 staggered (superseding an earlier ~Nov-2026 RCCB reopening note that does not appear to have happened) \u2014 medium relevance given the EHR voucher NOFO is part of that BP2 wave. A Governor's Executive Order (JML 26-076, Aug 2026) formally re-establishing ORHTS/the Advisory Council was found but is purely procedural/predates baseline; not emailed. TX (1 update + 1 flagged-unconfirmed news item, emailed, medium/HIGH relevance): HHSC's own program-page summary shows Initiative 1/4/6 combined contract totals grew to $593,126,500.63 across 354 contracts (was ~$547.8M/320); the underlying spreadsheet remains Akamai-blocked so this is from page text, not reconciled against the file. Initiatives 2/3/5 (Allstar's top-priority TX lines) remain at $0/TBD on every primary source checked; a secondary (unverifiable) report suggests an Initiative 5 cybersecurity RFO may post in November \u2014 flagged HIGH relevance but unconfirmed, for close watch next run. AR, IL, IN, MS confirmed no new or materially-changed items this run via direct source fetches plus web-search fallback. MO/TN: a TN press release (11/19) corroborating the already-tracked Year-2 $210.34M figure was logged but not emailed (no material change; just restates known numbers with ranking context). MO's Workforce Retention Enablers window closed 11/22 with no results yet (too soon to check). Watch items carried forward: MS's EMS Capacity Assessment RFP shows an \"Awarded\" status tab with no vendor/amount named yet; MS's Statewide HIE/HDU vendor decision (closed 11/3) still unannounced; LA's Rural Clinician Credit Bank 59-vs-70 award-count discrepancy remains unresolved in LDH's own materials; LA's Rural Tech Catalyst Fund Cohort 1 results still pending (mid-December CMS-review target unchanged); OK's Community Paramedicine Consulting RFP due 11/25 (check outcome next run); OK's RPM blood-pressure-cuff vendor RFP still not posted (targeted Q4 2026, not yet overdue); IN's Initiative 10/11 outcomes remain overdue with no results posted; WI's DWD HEART individual grantee names/amounts still unpublished and award status now actively contradicted between two DHS/DWD pages; TX's Initiatives 2/3/5 remain the single most important open item for Allstar, still TBD; GAO-27-108853 remains DNS-unreachable, now many consecutive runs."
   }
  ],
  "items": [
@@ -967,9 +967,9 @@
    "recipients": "TBD",
    "deadline": "Planning-period application due 2026-08-21",
    "status": "Open as of 2026-06-15; full-program NOFO expected Feb 2027",
-   "description": "Grants for new partnership models coordinating fragmented rural care systems.",
+   "description": "Grants for new partnership models coordinating fragmented rural care systems. Planning period confirmed as Nov 1, 2026 \u2013 Apr 30, 2027 (per DHS coordinated-care.htm page, 2026-11-23); DHS pages still disagree on full-program NOFO timing (Feb 2027 vs. \"Spring 2027\").",
    "first_seen": "2026-09-10",
-   "last_updated": "2026-09-10"
+   "last_updated": "2026-11-23"
   },
   {
    "id": "WI:nofo:community-health-worker-grants",
@@ -3309,13 +3309,13 @@
    "title": "PACE (Program of All-Inclusive Care for the Elderly) Expansion RFI, OAAS-ADM-26-021",
    "url": "https://wwwcfprd.doa.louisiana.gov/osp/lapac/agency/pdf/9039100.pdf",
    "amount": "amount not stated",
-   "recipients": "not yet announced (RFI stage; seeking PACE operators to expand into currently unserved rural areas)",
+   "recipients": "Trinity Health PACE Alexandria (Alternative PACE Site model, central Louisiana) \u2014 named 2026-11-23 via LDH's Nov 5 Advisory Council deck; amount not separately stated (folded into the broader Multi-Modal initiative)",
    "deadline": "Responses were due 09/04/2026 4:30 PM CT (issued 07/27/2026; Addendum 1 issued 08/05/2026)",
-   "status": "RFI closed; responses presumably under LDH/OAAS review",
+   "status": "RFI closed; recipient now named",
    "description": "Louisiana OAAS RFI seeking vendors to open new PACE centers in rural areas. The RFI document states PACE is included among services eligible for RHTP incentive funding. Found via the LaPAC state procurement portal.",
    "why_it_matters": "Low-to-medium relevance \u2014 primarily a clinical/community-care-delivery solicitation, but explicitly RHTP-funded; resulting PACE center buildout will eventually need EHR, data-sharing, and interoperability infrastructure.",
    "first_seen": "2026-09-22",
-   "last_updated": "2026-09-22"
+   "last_updated": "2026-11-23"
   },
   {
    "id": "LA:federal:year2-continuation-and-reporting",
@@ -5334,13 +5334,13 @@
    "type": "award",
    "title": "HHSC Publishes First Consolidated \"Rural Texas Strong\" Award Recipients List (Initiatives 1, 4, 6)",
    "url": "https://pfd.hhs.texas.gov/sites/default/files/documents/rural-hlth-prgm/rhtp-award-recipients.xlsx",
-   "amount": "Per HHSC's program-page summary (not the spreadsheet, unreadable this run \u2014 see below): Initiative 1 \u2014 102 contracts executed, $389,269,507.29; Initiative 4 \u2014 132 contracts, $74,828,235.51; Initiative 6 \u2014 86 contracts, $83,740,885.05 (combined ~$547.8M across 320 contracts). This does not cleanly reconcile with the prior spreadsheet snapshot (2026-11-12: 294 executed / $515.7M of a $673,992,493.67 intent-to-award pool) \u2014 likely a different rollup category, not independently verified. Initiatives 2/3/5 still show $0 here.",
+   "amount": "Per HHSC's program-page summary (spreadsheet itself still Akamai-blocked): Initiative 1 \u2014 104 contracts executed, $403,064,187.29 (was 102/$389,269,507.29); Initiative 4 \u2014 139 awarded, $78,930,567.54 (was 132/$74,828,235.51); Initiative 6 \u2014 111 awarded, $111,131,745.42 (was 86/$83,740,885.05). Combined $593,126,500.63 across 354 contracts (was ~$547.8M/320). Initiatives 2/3/5 still $0/TBD.",
    "recipients": "441 named Texas subrecipients (rural hospital districts, health centers, providers) across Initiatives 1, 4, and 6; not individually reconciled in this pass.",
    "deadline": "n/a \u2014 results list, updated weekly by HHSC",
-   "status": "Continued weekly growth in Initiatives 1/4/6 disbursement. Spreadsheet itself could not be read this run (Akamai 'Access Denied' on curl; WebFetch returned only binary bytes) \u2014 figures above are from the program page's own text, flagged as not independently reconciled against the spreadsheet this run.",
+   "status": "Continued incremental contract execution under already-announced tranches; no new standalone press release since Oct 29.",
    "description": "HHSC's consolidated recipient spreadsheet, updated weekly. Fully-executed contracts jumped from 241/$452.6M to 294/$515.7M (2026-11-05 to 2026-11-12); total intent-to-award pool unchanged at $673,992,493.67.",
    "first_seen": "2026-10-12",
-   "last_updated": "2026-11-18"
+   "last_updated": "2026-11-23"
   },
   {
    "id": "TN:nofo:perinatal-telehealth-rfgp-34347-98027",
@@ -5708,10 +5708,10 @@
    "amount": "$1,000,000 in Budget Year 1; multi-year total not stated (contingent on confirmed federal funding in later years)",
    "recipients": "County and Tribal Veterans Services Offices statewide (administered by WI DVA as the RHTP interagency party)",
    "deadline": "n/a",
-   "status": "Funded \u2014 Exhibit 1 Scope of Work published ~August 2026. Source document blocked to direct fetch this run (DNS/proxy-blocked) \u2014 detail reconstructed from WebSearch snippets, not independently verified; flagged for direct re-confirmation next run.",
+   "status": "CONFIRMED via primary source (DHS's own technology.htm page, 2026-11-23), previously flagged unconfirmed/source-blocked. Budget Year 1 = $1,000,000; grants planned for 20 counties each year; listening sessions held.",
    "description": "RHTP dollars flowing to WI DVA to build private telehealth rooms at County/Tribal Veterans Services offices \u2014 technology purchases, privacy remodeling, and veteran tech training \u2014 addressing rural veterans' home-broadband access barriers.",
    "first_seen": "2026-10-27",
-   "last_updated": "2026-10-27"
+   "last_updated": "2026-11-23"
   },
   {
    "id": "MS:federal:cms-press-release-32m-rhtp-oct21",
@@ -6342,6 +6342,146 @@
    "description": "Expansion of community nutrition/fitness partnerships into rural areas (MRAHA initiative).",
    "first_seen": "2026-11-19",
    "last_updated": "2026-11-19"
+  },
+  {
+   "id": "WI:award:wishin-interoperability-projects",
+   "type": "award",
+   "title": "WISHIN Interoperability Projects (RHTP Initiative 2 technology funding)",
+   "url": "https://www.dhs.wisconsin.gov/rhtp/technology.htm",
+   "amount": "$499,078",
+   "recipients": "Wisconsin Statewide Health Information Network (WISHIN)",
+   "deadline": "n/a",
+   "status": "Vendors being evaluated; DHS agreement being finalized",
+   "description": "Four sub-projects: FHIR enablement, data quality, eMPI worklists, HITRUST certification.",
+   "why_it_matters": "Core interoperability/HIE and cybersecurity-adjacent work (FHIR, HITRUST) directly in Allstar's health-IT and cybersecurity practice. HIGH relevance.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "WI:award:wire-211-referral-platform",
+   "type": "award",
+   "title": "WIRE and 211 Closed-Loop Referral Platform",
+   "url": "https://www.dhs.wisconsin.gov/rhtp/technology.htm",
+   "amount": "$2,000,000",
+   "recipients": "United Way of Wisconsin",
+   "deadline": "n/a",
+   "status": "Planning meetings held, staff hired, pilot in development; two local United Ways identified for sub-grants",
+   "description": "RHTP Initiative 2 care-coordination/interoperability closed-loop referral platform.",
+   "why_it_matters": "Care-coordination/data-platform build adjacent to Allstar's practice. Medium relevance.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "WI:award:integrated-state-platform-no-wrong-door",
+   "type": "award",
+   "title": "Integrated State Platform / \"No Wrong Door\" for Mental Health",
+   "url": "https://www.dhs.wisconsin.gov/rhtp/technology.htm",
+   "amount": "$9,398,000",
+   "recipients": "Wisconsin DHS (state-level platform build)",
+   "deadline": "n/a",
+   "status": "Discovery phase",
+   "description": "State-level data/integration platform build under RHTP Initiative 2.",
+   "why_it_matters": "State-level data/integration platform build. Medium-high relevance to Allstar's data-platform practice.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "WI:award:farmer-wellness-program",
+   "type": "award",
+   "title": "Farmer Wellness Program (DATCP)",
+   "url": "https://www.dhs.wisconsin.gov/rhtp/technology.htm",
+   "amount": "$195,384",
+   "recipients": "Wisconsin Dept. of Agriculture, Trade and Consumer Protection (DATCP)",
+   "deadline": "n/a",
+   "status": "Voucher support funded, educational campaign launched",
+   "description": "RHTP-funded farmer mental-health voucher/wellness program.",
+   "why_it_matters": "Clinical/voucher wellness program, not IT. Low relevance.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "WI:news:dwd-heart-award-status-conflict",
+   "type": "news",
+   "title": "DWD HEART workforce grants \u2014 conflicting award status across WI state sources",
+   "url": "https://dwd.wisconsin.gov/det/heart/",
+   "amount": "$15,888,343.35 (aggregate, unchanged)",
+   "recipients": "Individual grantee names/amounts still not published",
+   "deadline": "Application deadline was 2026-08-17",
+   "status": "Conflicting: DHS workforce page says DWD already awarded grants in Fall 2026 (as previously tracked); DWD's own HEART program page (newly reachable, previously 404) says review is still ongoing and awards will be announced soon.",
+   "description": "Flagging an unresolved contradiction between two WI state sources on whether HEART grants have actually been awarded.",
+   "why_it_matters": "Workforce program, lower relevance. RHTP award status not confirmed pending reconciliation next run.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "MO:solicitation:rural-gme-program-development-rfp-unconfirmed",
+   "type": "solicitation",
+   "title": "Possible Rural GME Program Development RFP (contractor to design/expand rural GME in General Surgery, OB/GYN, or Psychiatry)",
+   "url": "https://www.bidnetdirect.com/public/supplier/solicitations/statewide/443371494081/abstract",
+   "amount": "$500,000\u2013$2,000,000 per award (per third-party aggregator; not confirmed on a Missouri primary source)",
+   "recipients": "not yet announced",
+   "deadline": "Closed 2026-11-17 (per aggregator listing)",
+   "status": "RHTP funding not confirmed; sourced only via third-party procurement aggregators (BidNet Direct, Bid Banana), not MissouriBUYS or a Missouri state site directly (health.mo.gov/dhss.mo.gov were network-blocked this run). May overlap with the already-tracked MO:solicitation:graduate-medical-education-rural-program but scope/number do not clearly match.",
+   "description": "Possible rural GME workforce-pipeline solicitation; needs direct confirmation on MissouriBUYS next run.",
+   "why_it_matters": "Workforce pipeline overlaps Allstar's rural-provider-capacity interest. Medium-high relevance if confirmed as RHTP-funded.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "LA:award:university-pathways-five-universities",
+   "type": "award",
+   "title": "University Pathways \u2014 $5,997,662 to five public universities for rural-rotation healthcare seats",
+   "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/AC_Meeting_11.05.2026.pdf",
+   "amount": "$5,997,662",
+   "recipients": "UL-Lafayette, UL-Monroe (ULM), LSU-Eunice, LSU-Alexandria, Northwestern State University",
+   "deadline": "n/a",
+   "status": "Obligated; disclosed in LDH's Nov 5, 2026 Advisory Council deck",
+   "description": "Added healthcare-student seats requiring rural rotation; ties together previously separate UL-Lafayette and ULM award records into one named five-school cohort.",
+   "why_it_matters": "Workforce pipeline, not Allstar's tech/IT focus. Low relevance.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "LA:award:grow-your-own-la-community-technical-colleges",
+   "type": "award",
+   "title": "\"Grow Your Own\" \u2014 $5,000,000 to Louisiana Community and Technical Colleges",
+   "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/AC_Meeting_11.05.2026.pdf",
+   "amount": "$5,000,000",
+   "recipients": "Louisiana Community and Technical College System (LCTCS)",
+   "deadline": "n/a",
+   "status": "Obligated; first cohort expected Fall 2026",
+   "description": "High-school/adult-learner healthcare career-pathway programs.",
+   "why_it_matters": "Workforce pipeline, not IT. Low relevance.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "LA:deadline:year2-nofo-timing-revised",
+   "type": "deadline",
+   "title": "Louisiana Year 2 (Budget Period 2) NOFO timing revised to Jan\u2013Mar 2027",
+   "url": "https://ldh.la.gov/assets/docs/Secretary/RHTP/AC_Meeting_11.05.2026.pdf",
+   "amount": "n/a",
+   "recipients": "n/a",
+   "deadline": "All Year 2 NOFOs (including an EHR voucher NOFO) now targeted January\u2013March 2027, staggered",
+   "status": "Supersedes earlier note that RCCB Year 2 applications would reopen ~Nov 2026 \u2014 no evidence that reopening occurred",
+   "description": "LDH's Nov 5, 2026 Advisory Council \"BP 2 Funding Status\" slide revises the Year 2 NOFO timeline.",
+   "why_it_matters": "Affects timing of Allstar's EHR-voucher-adjacent opportunity. Medium relevance.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
+  },
+  {
+   "id": "TX:news:initiative5-november-forecast-timing",
+   "type": "news",
+   "title": "Texas Initiative 5 (cybersecurity RFO) possibly forecast for November posting \u2014 unconfirmed",
+   "url": "no fetchable primary URL this run \u2014 secondary source (GovTech Insider Texas) only, DNS-unreachable to verify directly",
+   "amount": "n/a",
+   "recipients": "n/a",
+   "deadline": "Forecast November 2026 posting per secondary source; not found live on resources.hhs.texas.gov or txsmartbuy as of 2026-11-23",
+   "status": "RHTP funding/timing not confirmed on a primary HHSC source this run",
+   "description": "A secondary source reports HHSC's procurement forecast targets an Initiative 5 cybersecurity/MSSP RFO posting in November 2026.",
+   "why_it_matters": "HIGH relevance if it materializes \u2014 Initiative 5 is one of Allstar's top three priority Texas lines. Flagging for close watch next run.",
+   "first_seen": "2026-11-23",
+   "last_updated": "2026-11-23"
   }
  ]
 }
