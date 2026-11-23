@@ -207,6 +207,8 @@
     "vaccines.gov": "https://www.vaccines.gov/"
   },
   "medicaid-changes": {
+    "ABE Work Requirements Screener": "https://aberp.illinois.gov/screener/ABAWD?lang=EN",
+    "ABE portal": "https://aberp.illinois.gov/access/",
     "About": "/childsupport/about.html",
     "About Us": "/about/about.html",
     "Address Update Messaging Toolkit": "/medicalproviders/addressupdatemessagingtoolkit.html",
@@ -253,6 +255,7 @@
     "General Changes to Medicaid \u2013 English Flyer (pdf)": "/content/dam/soi/en/web/hfs/medicalclients/medicaidguide/generalmedicaidrcflyerenglish.pdf",
     "General Changes to Medicaid \u2013 Spanish Flyer (pdf)": "/content/dam/soi/en/web/hfs/medicalclients/medicaidguide/generalmedicaidrcflyerspanish.pdf",
     "Get Covered Illinois": "https://getcovered.illinois.gov/",
+    "Go to the ABE Work Requirements Screener": "https://aberp.illinois.gov/screener/ABAWD?lang=EN",
     "Governor JB Pritzker": "https://gov.illinois.gov",
     "HFS": "/",
     "HFS OIG": "/oig/welcome.html",
@@ -282,7 +285,6 @@
     "Medicaid Guide Home": "/medicalclients/medicaidguide.html",
     "Medicaid Recovery": "/medicalclients/medicaidestaterecovery.html",
     "Medicaid Technical Assistance Center": "/medicalproviders/mtac.html",
-    "Medicaid Work Requirements Screener": "https://aberp.illinois.gov/screener/ABAWD?lang=EN",
     "Medical Clients": "/medicalclients.html",
     "Medical Programs": "/medicalclients/medicalprograms.html",
     "Medical Providers": "/medicalproviders.html",
@@ -321,7 +323,6 @@
     "Web Accessibility": "https://doit.illinois.gov/initiatives/accessibility/iitaa.html",
     "Work Requirements Screener": "https://aberp.illinois.gov/screener/ABAWD?lang=EN",
     "abe.illinois.gov": "https://abe.illinois.gov/access/",
-    "here": "https://aberp.illinois.gov/screener/ABAWD?lang=EN",
     "{{../this.suggestion}}": "{{../../searchPage}}?q={{convertAnd ../this.suggestion}}"
   },
   "report-center": {
@@ -376,7 +377,7 @@
     "Eligibility Redetermination Report - December 2025 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/medred/eligredreport122025.pdf",
     "Eligibility Redetermination Report - February 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/medred/eligredreport022026.pdf",
     "Eligibility Redetermination Report - January 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/medred/eligredreport012026.pdf",
-    "Eligibility Redetermination Report - July 2025 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/medred/eligredreport072026.pdf",
+    "Eligibility Redetermination Report - July 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/medred/eligibilityredreport072026.pdf",
     "Eligibility Redetermination Report - June 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/medred/eligredreport062026.pdf",
     "Eligibility Redetermination Report - March 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/medred/eligredreport032026.pdf",
     "Eligibility Redetermination Report - May 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/medred/eligibilityredetrep052026.pdf",
@@ -407,6 +408,7 @@
     "FY 2026 Fiscal and Enrollment Analysis and Demographics: March 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/hbia/062026hbis.pdf",
     "FY 2027 Fiscal and Enrollment Analysis and Demographics: August 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/hbia/hbis082026fy26.pdf",
     "FY 2027 Fiscal and Enrollment Analysis and Demographics: July 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/hbia/hbis072026fy26.pdf",
+    "FY 2027 Fiscal and Enrollment Analysis and Demographics: September 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/hbia/hbis092026fy26.pdf",
     "Facts &amp; Figures": "/info/factsfigures.html",
     "Family 1st": "/childsupport/parents/familyfirst.html",
     "Federal Resource Center": "/info/fedresctr.html",
@@ -451,6 +453,7 @@
     "Info Center Home": "/info.html",
     "LTC Monthly Report - August 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/ltc/ltcmonthlyreportaugust2026.pdf",
     "LTC Monthly Report - July 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/ltc/ltcmonthlyreportjuly2026.pdf",
+    "LTC Monthly Report - October 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/ltc/ltcmonthlyreport102026.pdf",
     "LTC Monthly Report - September 2026 (pdf)": "/content/dam/soi/en/web/hfs/info/reports/ltc/ltcmonthlyreport092026.pdf",
     "Legal Center": "/info/legal.html",
     "Long Term Care": "/medicalproviders/ltss/ltc.html",
