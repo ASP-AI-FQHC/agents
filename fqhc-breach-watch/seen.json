@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-22",
+  "last_run": "2026-11-23",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -205,6 +205,15 @@
       "items_updated": 3,
       "alert_sent": "yes",
       "note": "OCR portal newest still 2026-10-16. state_lists.js from 2026-11-19: nothing new in healthcare. No KEV additions since 11-21. New: DFW Fertility Associates ransomware claim (Tier 3, REPORTED). No new sales signals (NY RHTP $79M cybersecurity program names no FQHC; skipped). Completed pending profiles: Mercy Care, CHDC, Wright Center (score blank, no UDS 2025). HC3/Maine/NH known gaps not fetched."
+    },
+    {
+      "date": "2026-11-23",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 14,
+      "items_updated": 0,
+      "alert_sent": "yes",
+      "note": "OCR portal newest still 2026-10-16. state_lists.js from 2026-11-20: nothing new in healthcare. No KEV additions since 11-20. New: Tier 1 Miami Beach CHC email incident (REPORTED); Tier 3 Tahoe Forest, El Camino, Regions Behavioral claim, Caris claim. Signals: CHCA cybersecurity RFP (due 12-17), Jordan Health CEO+CFO, HICHC CEO, WV RHTP funding (Valley Health, MVA, CCWV), VT RHT (CHCRR, NOTCH). Full profiles: MBCHC, Jordan, HICHC, Valley Health, MVA; pending: CCWV, CHCRR, Richford/NOTCH. Rejected: ANTHC and Self Regional RFPs (not FQHCs), SBC Medical (Japan), Bausch. HC3/Maine/NH known gaps not fetched."
     }
   ],
   "items": [
@@ -3425,6 +3434,495 @@
       "first_seen": "2026-11-22",
       "last_updated": "2026-11-22",
       "reported": true
+    },
+    {
+      "id": "breach:miami-beach-community-health-center-2026-11",
+      "type": "breach",
+      "tier": 1,
+      "state": "FL",
+      "title": "Miami Beach Community Health Center — employee email account accessed",
+      "status": "REPORTED (public notice published 2026-11-22, via NoticeRegistry; not found on mymbchc.org; not on OCR portal yet)",
+      "affected_count": "not disclosed (review ongoing)",
+      "cause": "unauthorized access to one employee email account, 2026-07-13 to 2026-09-21",
+      "incident_date": "2026-07-13 to 2026-09-21 (discovered 2026-09-21)",
+      "posted": "2026-11-22 (call center opened 2026-11-19)",
+      "fqhc_verification": "HRSA Health Center Program site list: MIAMI BEACH COMMUNITY HEALTH CENTER INC, grant H80CS00182",
+      "urls": [
+        "https://www.noticeregistry.com/florida/notice/other-miami-beach-11741929"
+      ],
+      "contact": {
+        "ceo": "Mark L. Rabinowitz, MD, FACOG, Chief Executive Officer and Chief Medical Officer",
+        "ceo_source": "https://mymbchc.org/administration/",
+        "ceo_email": "MRabinowitz@mbchc.com",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://mymbchc.org",
+        "telephone": "305-538-8835",
+        "board": "Mitchell Rubinson (Chair); Therese Gibb (Vice-Chair); Barbara Lambert (Treasurer); Beverly Penzell (Secretary); Pete A. Gutierrez, MD; Jose David Suarez, MD; David Gersten; David Chamberlain; David Massey, Esq.; Luis Fernandez",
+        "board_source": "https://mymbchc.org/boards-of-directors/ (accessed 2026-11-23)",
+        "it_lead": "Dennis Cadiz, Chief Information Officer, Interim Compliance Officer",
+        "compliance": "Dennis Cadiz, Chief Information Officer, Interim Compliance Officer",
+        "contacts_source": "https://mymbchc.org/administration/",
+        "outreach_draft": "held — incident still active (notice issued within the last 14 days)"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00182",
+        "ein": "59-1829984",
+        "revenue_990": 77469556,
+        "expenses_990": 75075520,
+        "fye_990": "2025-12",
+        "patients_uds2025": 47516,
+        "sites_hrsa": 18,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "Epic Systems Corporation (not including OCHIN) / EpicCare Ambulatory Base",
+        "allstar_score": 55.0,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.70x15; Sites 0.80x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.70x13 (25,000+ patients; 18 sites; published breach; named compliance officer but no named security leader); Data quality 0.875x10",
+        "business_problems": [
+          "Employee email account accessed for about ten weeks, Jul–Sep 2026 (REPORTED, public notice) → account takeover and email security gaps (SPECULATION) → Identity security",
+          "Notification under way, count not yet disclosed (REPORTED) → breach notification, OCR reporting and risk analysis follow-up (SPECULATION) → HIPAA services",
+          "CIO also serves as interim compliance officer; no named security leader (CONFIRMED, mymbchc.org) → stretched security and compliance ownership (SPECULATION) → HIPAA services / Vulnerability Management"
+        ],
+        "why": "Mid-size: 47,516 patients, 18 sites, $77M revenue. Plus: published breach; CIO is also interim compliance officer, no named security leader."
+      },
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "breach:tahoe-forest-health-system-2026-09",
+      "type": "breach",
+      "tier": 3,
+      "state": "CA",
+      "title": "Tahoe Forest Health System — employee uploaded ED patient data to ChatGPT; safety-net status not verified",
+      "status": "CONFIRMED (entity statement 2026-11-16)",
+      "affected_count": "not disclosed",
+      "cause": "employee uploaded identifiable PHI to ChatGPT (unauthorized disclosure)",
+      "incident_date": "discovered 2026-09-18",
+      "posted": "2026-11-16",
+      "urls": [
+        "https://www.tfhd.com/news/statement-regarding-recent-personal-health-information-security-incident/"
+      ],
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "breach:el-camino-health-2026-09",
+      "type": "breach",
+      "tier": 3,
+      "state": "CA",
+      "title": "El Camino Health — Microsoft 365 accounts of four employees accessed; safety-net status not verified",
+      "status": "REPORTED (copy of notice letter hosted by a law firm; not on CA AG list as of 2026-11-23)",
+      "affected_count": "not disclosed",
+      "cause": "unauthorized access to four employees' Microsoft 365 accounts, 2026-08-26 to 2026-09-02; documents copied",
+      "incident_date": "2026-08-26 to 2026-09-02",
+      "posted": "not disclosed",
+      "urls": [
+        "https://www.emeryreddy.com/wp-content/uploads/2026/11/El-Camino-California-Notification.pdf"
+      ],
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "breach:regions-behavioral-hospital-claim-2026-11",
+      "type": "breach",
+      "tier": 3,
+      "state": "LA",
+      "title": "Regions Behavioral Hospital (Baton Rouge) — ransomware claim (INC Ransom group)",
+      "status": "REPORTED (leak-site claim relayed by HookPhish; not confirmed by the organization or a regulator)",
+      "affected_count": "not disclosed",
+      "cause": "ransomware (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim relayed 2026-11-21",
+      "urls": [
+        "https://www.hookphish.com/blog/ransomware-group-incransom-hits-regions-behavioral-hospital/"
+      ],
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "breach:caris-life-sciences-claim-2026-11",
+      "type": "breach",
+      "tier": 3,
+      "state": "TX",
+      "title": "Caris Life Sciences — data theft claim (Vortex group; Salesforce data)",
+      "status": "REPORTED (leak-site claim relayed by QPulse; not independently verified)",
+      "affected_count": "not disclosed (group claims 25,032,356 records, mostly audit-trail rows)",
+      "cause": "data exfiltration from two Salesforce organizations (claimed)",
+      "incident_date": "on or about 2026-11-17 (claimed)",
+      "posted": "claim 2026-11-21",
+      "urls": [
+        "https://qpulse.quasarcybertech.com/news/8906/vortex-ransomware-group-claims-exfiltration-of-25-million-records-from-caris-life-sciences"
+      ],
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "rfp:community-health-centers-of-arkansas-cybersecurity-2026-11",
+      "type": "rfp",
+      "state": "AR",
+      "title": "Community Health Centers of Arkansas — Statewide Health Center Cybersecurity Initiative RFP (CHCA-2026-CYBER-001)",
+      "status": "REPORTED (LinkedIn post by CHCA's CIO, 2026-11-16; RFP page on chc-ar.org not reached)",
+      "what": "One prime contractor to assess, strengthen, implement and verify cybersecurity across 11 Arkansas FQHCs: risk assessments, shared baseline, MFA and EDR deployment, IR planning and tabletop, training, cyber-insurance readiness. Total budget $500,000; completion 2027-07-15.",
+      "due": "Proposals 2026-12-17, 5:00 p.m. CT (written questions 2026-11-27, 5:00 p.m. CT)",
+      "rfp_contact": "Dr. Marico Bryant Howe, Chief Information Officer, mbryanthowe@chc-ar.org (as published in the post)",
+      "submission": "Email questions and proposals to the contact; RFP posted at www.chc-ar.org (About → Cybersecurity Initiative RFP)",
+      "bid_no_bid": "Bid: strong fit on all three service lines (risk assessments, MFA, HIPAA readiness) in a priority state; confirm Allstar can act as prime for EDR deployment or team with a partner; questions due 11-27.",
+      "urls": [
+        "https://www.linkedin.com/posts/marico-bryant-howe-phd-ba449818_home-community-health-centers-of-arkansas-activity-7528130175029518337-yRnD",
+        "https://www.chc-ar.org"
+      ],
+      "prospect": {
+        "group": "Primary care association (issues on behalf of 11 FQHCs)",
+        "allstar_score": "n/a",
+        "why": "Not scored: CHCA is a primary care association, not a health center.",
+        "business_problems": [
+          "Statewide RFP for risk assessments, MFA/EDR and IR planning across 11 FQHCs (REPORTED, CHCA CIO post) → direct demand for all three service lines → Identity security / Vulnerability Management / HIPAA services"
+        ]
+      },
+      "contact": {
+        "outreach_draft": "none (RFP)"
+      },
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "leadership:jordan-health-ceo-2026-11",
+      "type": "leadership",
+      "state": "NY",
+      "title": "Anthony L. Jordan Health — new President & CEO Natasha Jackson",
+      "status": "CONFIRMED (jordanhealth.org 2026-10-01; started 2026-11-02 per RBJ)",
+      "person": "Natasha Jackson, MSN, RN, President and CEO",
+      "effective": "2026-11-02 (REPORTED, RBJ); \"beginning in November 2026\" (CONFIRMED)",
+      "urls": [
+        "https://www.jordanhealth.org/jordan-health-welcomes-natasha-jackson-as-chief-executive-officer/",
+        "https://rbj.net/2026/10/08/rochester-native-natasha-jackson-leads-jordan-health/"
+      ],
+      "contact": {
+        "ceo": "Natasha Jackson, MSN, RN, President and CEO",
+        "ceo_source": "https://www.jordanhealth.org/jordan-health-welcomes-natasha-jackson-as-chief-executive-officer/",
+        "ceo_email": "not published",
+        "website": "https://www.jordanhealth.org",
+        "telephone": "585-423-5800",
+        "board": "LaShana Boose (Board Chair); Dr. Chantz Miles (Vice Chair); Sammy Ndive (Secretary); Shappelle Thompson (Treasurer); other members listed on the same page together with the Foundation board — see source",
+        "board_source": "https://www.jordanhealth.org/board/ (accessed 2026-11-23)",
+        "it_lead": "not published",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "cfo": "Jennifer Gaffey, CFO (from 2026-11-30)",
+        "outreach_to": "Natasha Jackson, President and CEO",
+        "outreach_draft": "Subject: Congratulations on leading Jordan Health\n\nDear Ms. Jackson,\n\nCongratulations on becoming President and CEO of Jordan Health, and on the leadership team you are already building. Your focus on operational excellence and financial sustainability will matter to every patient Jordan Health serves across Rochester and Canandaigua.\n\nA new chief executive often wants an early, independent picture of where the organization stands on security and HIPAA readiness. At Allstar Partners we give community health center leaders exactly that: a plain-language view of what is exposed, which risks matter most to patients and operations, and what to address first. Our Strategic Business Review ends in decisions, not a stack of technical findings, and fits naturally into a new leader's first 90 days.\n\nWould you be open to a 30-minute introductory conversation once your new CFO is on board?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS21582",
+        "ein": "16-0977295",
+        "revenue_990": 30750741,
+        "expenses_990": 32556693,
+        "fye_990": "2024-12",
+        "patients_uds2025": 18686,
+        "sites_hrsa": 10,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "eClinicalWorks, LLC / eCW",
+        "allstar_score": 49.8,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 0.50x15; Sites 0.60x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low); Leadership 0.80x8 (new CEO Natasha Jackson from 2026-11-02; new CFO from 2026-11-30, jordanhealth.org); Rural/underserved 0.25x8 (urban per UDS, public housing, school-based sites); Cyber 0.50x13 (10 sites; no named security, compliance or privacy officer; 1 school-based sites); Data quality 0.875x10",
+        "business_problems": [
+          "New CEO from 2026-11-02 and new CFO from 2026-11-30 (CONFIRMED, jordanhealth.org) → leadership setting first-year priorities (SPECULATION) → Strategic Business Review",
+          "FY2024 audit reported a material weakness in internal controls (CONFIRMED, Federal Audit Clearinghouse via ProPublica) → governance and control gaps under scrutiny (SPECULATION) → HIPAA services",
+          "No named IT, security or compliance officer; 10 sites (CONFIRMED) → HIPAA services / Vulnerability Management"
+        ],
+        "why": "Small: 18,686 patients, 10 sites, $31M revenue. Plus: new CEO (Nov 2026) and CFO (Nov 2026); no named security or privacy officer."
+      },
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "leadership:jordan-health-cfo-2026-11",
+      "type": "leadership",
+      "state": "NY",
+      "title": "Anthony L. Jordan Health — new CFO Jennifer Gaffey (also new CMO, VP People & Culture)",
+      "status": "CONFIRMED (jordanhealth.org 2026-11-10)",
+      "person": "Jennifer Gaffey, CPA, Chief Financial Officer",
+      "effective": "2026-11-30",
+      "urls": [
+        "https://www.jordanhealth.org/leadership-appointments/"
+      ],
+      "prospect_ref": "leadership:jordan-health-ceo-2026-11",
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "leadership:hawaii-island-community-health-center-ceo-2026-11",
+      "type": "leadership",
+      "state": "HI",
+      "title": "Hawaiʻi Island Community Health Center — new CEO Dr. Victoria Hanes",
+      "status": "CONFIRMED (hichc.org leadership page lists her as CEO; started 2026-11-01 per HICHC chamber release)",
+      "person": "Dr. Victoria Hanes, Chief Executive Officer (succeeds Richard Taaffe)",
+      "effective": "2026-11-01",
+      "urls": [
+        "https://hichc.org/leadership/",
+        "https://www.kona-kohala.com/news/details/victoria-hanes-takes-the-reins-welcoming-hichc-s-new-ceo"
+      ],
+      "contact": {
+        "ceo": "Dr. Victoria Hanes, Chief Executive Officer",
+        "ceo_source": "https://hichc.org/leadership/",
+        "ceo_email": "not published",
+        "website": "https://hichc.org",
+        "telephone": "808-333-3600",
+        "board": "Michael Matsukawa (Chair); Brandee Menino (Vice Chair); Haidee Abe (Treasurer); Patti Aoki (Secretary); Douglass Adams; Katharyn Daub; Tom Hasslinger; Pete Hoffmann; Cyrus Johnasen; Marlo Lyman-Kekaualua; Larry McCabe; Mike McGee; Luka Madison; Dalilah Schlueter; Tui Silva; Elisa Yadao",
+        "board_source": "https://hichc.org/leadership/ (accessed 2026-11-23)",
+        "it_lead": "John Williams, Vice President of Healthcare Analytics, Systems & Applications",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "cfo": "James Chen, EVP Finance & Strategy, CFO",
+        "outreach_to": "Dr. Victoria Hanes, CEO",
+        "outreach_draft": "Subject: Congratulations on your new role at HICHC\n\nDear Dr. Hanes,\n\nCongratulations on becoming Chief Executive Officer of Hawaiʻi Island Community Health Center. Leading an organization that serves about 40,000 patients across the island, from school-based clinics to a mobile unit, is a remarkable responsibility, and your long history with HICHC is a real strength.\n\nA new chief executive often wants an early, independent picture of where the organization stands on security and HIPAA readiness, especially after a merger that brought many sites together. At Allstar Partners we give community health center leaders a plain-language view of what is exposed, which risks matter most to patients and operations, and what to address first. Our Strategic Business Review ends in decisions, not a stack of technical findings.\n\nWould you be open to a 30-minute introductory conversation in your first few months?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS06640",
+        "ein": "20-0495394",
+        "revenue_990": 54174649,
+        "expenses_990": 60276096,
+        "fye_990": "2024-12",
+        "patients_uds2025": 39675,
+        "sites_hrsa": 26,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "Epic Systems Corporation (not including OCHIN) / EpicCare Ambulatory Base",
+        "allstar_score": 68.8,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.70x15; Sites 0.80x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.80x8 (new CEO Dr. Victoria Hanes from 2026-11-01, hichc.org); Rural/underserved 0.95x8 (rural per UDS, school-based sites); Cyber 0.75x13 (25,000+ patients; 26 sites; no named security, compliance or privacy officer; 7 school-based sites); Data quality 0.875x10",
+        "business_problems": [
+          "New CEO from 2026-11-01 after a 2022 merger that doubled the organization (CONFIRMED/REPORTED, hichc.org; Hawaii Tribune-Herald) → leader reviewing priorities across many sites (SPECULATION) → Strategic Business Review",
+          "26 HRSA sites incl. 7 school-based, no named security or compliance officer (CONFIRMED) → wide, distributed attack surface (SPECULATION) → Vulnerability Management / Identity security",
+          "FY2024 audit reported a material weakness in internal controls; expenses exceeded revenue by $6.1M (CONFIRMED, ProPublica) → governance under scrutiny (SPECULATION) → HIPAA services"
+        ],
+        "why": "Mid-size: 39,675 patients, 26 sites, $54M revenue. Plus: new CEO (Nov 2026); rural; 7 school sites; no named security or privacy officer."
+      },
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "funding:valley-health-systems-wv-rhtp-2026-11",
+      "type": "funding",
+      "state": "WV",
+      "title": "Valley Health Systems (WV) — WV Rural Health Transformation awards: AI documentation, HIE alerts, remote monitoring",
+      "status": "CONFIRMED (WV Department of Health, RHTP Released Awards)",
+      "program": "West Virginia Rural Health Transformation Program",
+      "amount": "$2,474,487 (Provider Productivity Support Fund: AI-assisted documentation, performance tools, real-time HIE alerts) and $500,000 (remote patient monitoring)",
+      "period": "not stated",
+      "urls": [
+        "https://health.wv.gov/sites/default/files/2026-11/RHTP%20Released%20Awards.pdf"
+      ],
+      "contact": {
+        "ceo": "Mathew Weimer, MD, President & CEO",
+        "ceo_source": "https://valleyhealth.org/resources/press-release/valley-health-systems-announces-leadership-changes/ (2025-01-07; as of 2025, not reconfirmed)",
+        "ceo_email": "mbweimer@valleyhealth.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://www.valleyhealth.org",
+        "telephone": "304-743-1407",
+        "board": "not published (no board page reached on valleyhealth.org this run)",
+        "board_source": "valleyhealth.org searched 2026-11-23",
+        "it_lead": "Angie Wellman, VP of Information Systems / CIO; Matthew Cremeans, Information Security Officer (as of 2025-01, not reconfirmed)",
+        "compliance": "not published (no named compliance or privacy officer found)",
+        "outreach_to": "Dr. Mathew Weimer, President & CEO",
+        "outreach_draft": "Subject: Valley Health's new AI and data projects\n\nDear Dr. Weimer,\n\nCongratulations to you and the Valley Health team on your West Virginia Rural Health Transformation awards. Bringing AI-assisted documentation, real-time information-exchange alerts and remote monitoring to a network of your size is a meaningful step for patients across the region.\n\nProjects like these also add new data flows, vendor connections and accounts that deserve a clear look before they scale. At Allstar Partners we give community health center leaders a plain-language view of where they stand: what is exposed, which risks matter most to patients and operations, and what to address first. Our Executive Vulnerability Management service pairs that view with a Strategic Business Review that ends in decisions, not a stack of technical findings.\n\nWould you be open to a 30-minute conversation as these projects get under way?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00614",
+        "ein": "55-0554001",
+        "revenue_990": 73376474,
+        "expenses_990": 94751841,
+        "fye_990": "2025-05",
+        "patients_uds2025": 118806,
+        "sites_hrsa": 46,
+        "fte_uds2025": 933.36,
+        "ehr": "Epic Systems Corporation (not including OCHIN) / EpicCare Ambulatory Base",
+        "allstar_score": 64.5,
+        "tier": "Tier 2 — High",
+        "score_breakdown": "Scale 1.00x15; Sites 1.00x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.75x12 (IT complexity High); Leadership 0.00x8; Rural/underserved 0.25x8 (urban per UDS, homeless, school-based sites); Cyber 0.55x13 (25,000+ patients; 46 sites; 6 school-based sites); Data quality 0.917x10",
+        "business_problems": [
+          "RHTP awards of $2.47M for AI documentation and HIE alerts plus $500K for remote monitoring (CONFIRMED, WV DoH) → new data flows, vendors and devices to secure (SPECULATION) → Vulnerability Management / Identity security",
+          "FY2025 expenses exceeded revenue by $21.4M; FY2025 audit reported a material weakness (CONFIRMED, ProPublica) → cost pressure; value-focused scope likely to land (SPECULATION) → Strategic Business Review",
+          "Named CIO and Information Security Officer (as of Jan 2025) → position as independent validation, not replacement (SPECULATION) → HIPAA services"
+        ],
+        "why": "Very large: 118,806 patients, 46 sites, $73M revenue. Plus: 6 school sites; new AI and data projects. Minus: already has a named security officer."
+      },
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "funding:monongahela-valley-association-rhtp-2026-10",
+      "type": "funding",
+      "state": "WV",
+      "title": "MVA Health Centers (Monongahela Valley Association) — $500,000 RHTP award for billing, IT and cybersecurity upgrades; cloud migration",
+      "status": "CONFIRMED (WV Department of Health, RHTP Released Awards); cloud migration REPORTED (WDTV 2026-10-13, CEO quote)",
+      "program": "West Virginia Rural Health Transformation Program",
+      "amount": "$500,000",
+      "period": "not stated",
+      "urls": [
+        "https://health.wv.gov/sites/default/files/2026-11/RHTP%20Released%20Awards.pdf",
+        "https://www.wdtv.com/2026/10/13/mva-receives-500k-rural-health-transformation-grant/"
+      ],
+      "contact": {
+        "ceo": "Dr. Raymond Alvarez, President & CEO",
+        "ceo_source": "https://www.wdtv.com/2026/10/13/mva-receives-500k-rural-health-transformation-grant/ (REPORTED); NPI registry authorized official (CEO)",
+        "ceo_email": "raymond.alvarez@mvahealth.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact",
+        "website": "https://www.mvahealth.org",
+        "telephone": "304-366-0700",
+        "board": "Rev. O. Richard Bowyer (Chairperson); Eric Pulice (Vice Chairperson); Cliffton Jackson (Finance Chair); Belinda Eagle (Recorder); Delbert Carpenter; Walter Edgar Cosner; Nancy Deming; Memori Dobbs; Thomas Dragich; Jon Frantz; Deborah Hiltz; Gary Jack; Phillip Koloff; John F. Lee; Dr. Michael Schroering",
+        "board_source": "https://projects.propublica.org/nonprofits/organizations/550419191 (IRS Form 990, FY ending 2025-01)",
+        "it_lead": "not published",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "outreach_to": "Dr. Raymond Alvarez, President & CEO",
+        "outreach_draft": "Subject: Securing MVA's move to the cloud\n\nDear Dr. Alvarez,\n\nCongratulations on MVA's Rural Health Transformation award. Moving from an older system to a cloud-based platform, with better billing, documentation and data exchange, is a significant step for the communities MVA has served for nearly seventy years.\n\nA move like this also changes who can reach your data and how. At Allstar Partners we give community health center leaders a plain-language view of where they stand during and after a change like this: what is exposed, which risks matter most to patients and operations, and what to address first. Our Executive Vulnerability Management service pairs that view with a Strategic Business Review that ends in decisions, not a stack of technical findings.\n\nWould you be open to a 30-minute conversation as you plan the migration?\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00383",
+        "ein": "55-0419191",
+        "revenue_990": 12910599,
+        "expenses_990": 12341433,
+        "fye_990": "2025-01",
+        "patients_uds2025": 7865,
+        "sites_hrsa": 6,
+        "fte_uds2025": 76.48,
+        "ehr": "Greenway Health / Greenway Intergy",
+        "allstar_score": 33.4,
+        "tier": "Tier 4 — Monitor",
+        "score_breakdown": "Scale 0.30x15; Sites 0.40x12; Revenue 0.50x12; Federal funding 0x10 (not available); Tech 0.00x12 (IT complexity Low); Leadership 0.00x8; Rural/underserved 0.95x8 (rural per UDS, school-based sites); Cyber 0.10x13 (2 school-based sites); Data quality 0.917x10",
+        "business_problems": [
+          "$500K RHTP award for billing, IT and cybersecurity upgrades (CONFIRMED, WV DoH); migrating to a cloud-based system (REPORTED, WDTV) → new cloud accounts and access paths to secure (SPECULATION) → Identity security / Vulnerability Management",
+          "No named IT, security or compliance officer (CONFIRMED, public pages) → HIPAA services",
+          "Small organization with limited in-house IT (SPECULATION) → fixed-scope Strategic Business Review"
+        ],
+        "why": "Very small: 7,865 patients, 6 sites, $13M revenue. Plus: rural; cloud migration funded. Minus: small scale."
+      },
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "funding:community-care-of-west-virginia-rhtp-2026-11",
+      "type": "funding",
+      "state": "WV",
+      "title": "Community Care of West Virginia — Telehealth technology upgrades and a mobile unit (WV RHTP)",
+      "status": "CONFIRMED (state award list)",
+      "program": "Telehealth technology upgrades and a mobile unit (WV RHTP)",
+      "amount": "$92,736 (telehealth upgrades); also $574,082 (mobile health unit) and $82,432 (workforce)",
+      "period": "not stated",
+      "urls": [
+        "https://health.wv.gov/sites/default/files/2026-11/RHTP%20Released%20Awards.pdf"
+      ],
+      "prospect": {
+        "hrsa_grant": "H80CS00080",
+        "why": "profile pending (contacts and board not yet researched).",
+        "patients_uds2025": 54584,
+        "sites_hrsa": 83,
+        "ehr": "Athenahealth / AthenaOne"
+      },
+      "entity": "Community Care of West Virginia",
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "funding:community-health-centers-of-the-rutland-region-rht-2026-11",
+      "type": "funding",
+      "state": "VT",
+      "title": "Community Health Centers of the Rutland Region — OnMed CareStation telehealth stations across Rutland County (Vermont RHT Year 1 grant)",
+      "status": "CONFIRMED (state award list)",
+      "program": "OnMed CareStation telehealth stations across Rutland County (Vermont RHT Year 1 grant)",
+      "amount": "$2,283,000",
+      "period": "not stated",
+      "urls": [
+        "https://healthcarereform.vermont.gov/sites/hcr/files/documents/Summary%20of%20Y1%20RHT%20Care%20Transformation%20Grants%2011.3.26.pdf"
+      ],
+      "prospect": {
+        "hrsa_grant": "H80CS06659",
+        "why": "profile pending (contacts and board not yet researched).",
+        "patients_uds2025": 47889,
+        "sites_hrsa": 13,
+        "ehr": "Other (Please specify) / Ambulatory Cloud Edition"
+      },
+      "entity": "Community Health Centers of the Rutland Region",
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "funding:richford-health-center-notch-rht-2026-11",
+      "type": "funding",
+      "state": "VT",
+      "title": "The Richford Health Center (Northern Tier Center for Health, NOTCH) — Wound care, medical-dental communication, cybersecurity and technology upgrades (Vermont RHT Year 1 grant)",
+      "status": "CONFIRMED (state award list)",
+      "program": "Wound care, medical-dental communication, cybersecurity and technology upgrades (Vermont RHT Year 1 grant)",
+      "amount": "$219,562",
+      "period": "not stated",
+      "urls": [
+        "https://healthcarereform.vermont.gov/sites/hcr/files/documents/Summary%20of%20Y1%20RHT%20Care%20Transformation%20Grants%2011.3.26.pdf"
+      ],
+      "prospect": {
+        "hrsa_grant": "H80CS00261",
+        "why": "profile pending (contacts and board not yet researched)."
+      },
+      "entity": "The Richford Health Center (Northern Tier Center for Health, NOTCH)",
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23",
+      "reported": true
+    },
+    {
+      "id": "rfp:alaska-native-tribal-health-consortium-infosec-2026-11",
+      "type": "rfp",
+      "title": "ANTHC information security assessment RFP 27-R-263818 (due 2026-12-10)",
+      "reported": false,
+      "reason": "Tribal health consortium, not an FQHC or look-alike; not a signal. Open RFP Guy may still want: Bonfire portal, contact Bethany Jones.",
+      "urls": [
+        "https://bidscopeai.com/opportunities/8d3eb2d8-5571-4b8e-9798-3cf0800fc7aa"
+      ],
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23"
+    },
+    {
+      "id": "rfp:self-regional-healthcare-epic-cyber-2026-11",
+      "type": "rfp",
+      "title": "Self Regional Healthcare RFP CC168 Epic Foundation / cyber enhancement (due 2026-12-12)",
+      "reported": false,
+      "reason": "Hospital system, not an FQHC; not a signal.",
+      "urls": [
+        "https://www.selfregional.org/wp-content/uploads/2026/11/CC168-RFP-Epic-Foundation-Refuel.pdf"
+      ],
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23"
+    },
+    {
+      "id": "breach:sbc-medical-group-2026-11",
+      "type": "breach",
+      "title": "SBC Medical Group database breach",
+      "reported": false,
+      "reason": "Japan-based businesses affected; outside US scope.",
+      "urls": [
+        "https://www.bleepingcomputer.com/news/security/hackers-steal-data-of-16-million-sbc-medical-group-customers/"
+      ],
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23"
+    },
+    {
+      "id": "breach:bausch-health-2026-06",
+      "type": "breach",
+      "title": "Bausch Health Companies (CA AG 2026-11-20)",
+      "reported": false,
+      "reason": "Pharmaceutical manufacturer; notice not reviewed; no indication of PHI on the list.",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "first_seen": "2026-11-23",
+      "last_updated": "2026-11-23"
     }
   ],
   "signals_initialized": true
