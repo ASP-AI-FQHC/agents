@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-23",
+  "last_run": "2026-11-24",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -214,6 +214,15 @@
       "items_updated": 0,
       "alert_sent": "yes",
       "note": "OCR portal newest still 2026-10-16. state_lists.js from 2026-11-20: nothing new in healthcare. No KEV additions since 11-20. New: Tier 1 Miami Beach CHC email incident (REPORTED); Tier 3 Tahoe Forest, El Camino, Regions Behavioral claim, Caris claim. Signals: CHCA cybersecurity RFP (due 12-17), Jordan Health CEO+CFO, HICHC CEO, WV RHTP funding (Valley Health, MVA, CCWV), VT RHT (CHCRR, NOTCH). Full profiles: MBCHC, Jordan, HICHC, Valley Health, MVA; pending: CCWV, CHCRR, Richford/NOTCH. Rejected: ANTHC and Self Regional RFPs (not FQHCs), SBC Medical (Japan), Bausch. HC3/Maine/NH known gaps not fetched."
+    },
+    {
+      "date": "2026-11-24",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 8,
+      "items_updated": 2,
+      "alert_sent": "yes",
+      "note": "OCR portal newest still 2026-10-16. state_lists.js from 2026-11-21: TX AG Bausch (now Tier 3), Coborn's, MD Labs. KEV 11-23: N-able MailAssure (reported), MONAI Label (rejected). New: Tier 1 claims Greater Family Health (IL, full profile) and HealthSource of Ohio (profile pending); Tier 2 New England Orthopedic Surgeons claim. Update: MBCHC now CONFIRMED by own website notice. No new sales signals. Profiles still pending: CCWV, CHCRR, Richford/NOTCH, HealthSource of Ohio. HC3/Maine/NH known gaps not fetched."
     }
   ],
   "items": [
@@ -3441,13 +3450,14 @@
       "tier": 1,
       "state": "FL",
       "title": "Miami Beach Community Health Center — employee email account accessed",
-      "status": "REPORTED (public notice published 2026-11-22, via NoticeRegistry; not found on mymbchc.org; not on OCR portal yet)",
+      "status": "CONFIRMED (entity website notice posted 2026-11-19, mymbchc.org); not on OCR portal yet",
       "affected_count": "not disclosed (review ongoing)",
       "cause": "unauthorized access to one employee email account, 2026-07-13 to 2026-09-21",
       "incident_date": "2026-07-13 to 2026-09-21 (discovered 2026-09-21)",
-      "posted": "2026-11-22 (call center opened 2026-11-19)",
+      "posted": "2026-11-19 (website notice and call center)",
       "fqhc_verification": "HRSA Health Center Program site list: MIAMI BEACH COMMUNITY HEALTH CENTER INC, grant H80CS00182",
       "urls": [
+        "https://mymbchc.org/notice-of-security-incident/",
         "https://www.noticeregistry.com/florida/notice/other-miami-beach-11741929"
       ],
       "contact": {
@@ -3478,15 +3488,16 @@
         "tier": "Tier 1 — Strategic",
         "score_breakdown": "Scale 0.70x15; Sites 0.80x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.50x12 (IT complexity Moderate); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.70x13 (25,000+ patients; 18 sites; published breach; named compliance officer but no named security leader); Data quality 0.875x10",
         "business_problems": [
-          "Employee email account accessed for about ten weeks, Jul–Sep 2026 (REPORTED, public notice) → account takeover and email security gaps (SPECULATION) → Identity security",
-          "Notification under way, count not yet disclosed (REPORTED) → breach notification, OCR reporting and risk analysis follow-up (SPECULATION) → HIPAA services",
+          "Employee email account accessed for about ten weeks, Jul–Sep 2026 (CONFIRMED, MBCHC website notice) → account takeover and email security gaps (SPECULATION) → Identity security",
+          "Notification under way, count not yet disclosed (CONFIRMED) → breach notification, OCR reporting and risk analysis follow-up (SPECULATION) → HIPAA services",
           "CIO also serves as interim compliance officer; no named security leader (CONFIRMED, mymbchc.org) → stretched security and compliance ownership (SPECULATION) → HIPAA services / Vulnerability Management"
         ],
         "why": "Mid-size: 47,516 patients, 18 sites, $77M revenue. Plus: published breach; CIO is also interim compliance officer, no named security leader."
       },
       "first_seen": "2026-11-23",
-      "last_updated": "2026-11-23",
-      "reported": true
+      "last_updated": "2026-11-24",
+      "reported": true,
+      "what_changed": "2026-11-24: entity's own website notice found (posted 2026-11-19); status REPORTED → CONFIRMED."
     },
     {
       "id": "breach:tahoe-forest-health-system-2026-09",
@@ -3915,14 +3926,182 @@
     {
       "id": "breach:bausch-health-2026-06",
       "type": "breach",
-      "title": "Bausch Health Companies (CA AG 2026-11-20)",
-      "reported": false,
-      "reason": "Pharmaceutical manufacturer; notice not reviewed; no indication of PHI on the list.",
+      "title": "Bausch Health Companies — data incident (medical and health insurance information in TX filing)",
+      "reported": true,
       "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage",
         "https://oag.ca.gov/privacy/databreach/list"
       ],
       "first_seen": "2026-11-23",
-      "last_updated": "2026-11-23"
+      "last_updated": "2026-11-24",
+      "tier": 3,
+      "state": "NJ",
+      "status": "CONFIRMED (TX AG 2026-11-23; CA AG 2026-11-20)",
+      "affected_count": "1,786 Texans",
+      "cause": "not stated on state lists",
+      "incident_date": "2026-06-24 (CA AG)",
+      "posted": "TX AG 2026-11-23"
+    },
+    {
+      "id": "breach:coborns-2026-11",
+      "type": "breach",
+      "tier": 3,
+      "state": "MN",
+      "title": "Coborn's, Inc. (grocery/pharmacy; medical and health insurance information in TX filing)",
+      "status": "CONFIRMED (TX AG 2026-11-23)",
+      "affected_count": "352 Texans",
+      "cause": "not stated on TX list",
+      "incident_date": "not disclosed",
+      "posted": "TX AG 2026-11-23",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-24",
+      "last_updated": "2026-11-24",
+      "reported": true
+    },
+    {
+      "id": "breach:md-spine-solutions-md-labs-2026-11",
+      "type": "breach",
+      "tier": 3,
+      "state": "NV",
+      "title": "MD Spine Solutions dba MD Labs (clinical lab)",
+      "status": "CONFIRMED (TX AG 2026-11-23)",
+      "affected_count": "806 Texans",
+      "cause": "not stated on TX list",
+      "incident_date": "not disclosed",
+      "posted": "TX AG 2026-11-23",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-24",
+      "last_updated": "2026-11-24",
+      "reported": true
+    },
+    {
+      "id": "breach:new-england-orthopedic-surgeons-claim-2026-11",
+      "type": "breach",
+      "tier": 2,
+      "state": "MA",
+      "title": "New England Orthopedic Surgeons — ransomware claim (Booba Project group)",
+      "group": "Physician group",
+      "status": "REPORTED (leak-site listing relayed by SOCRadar; not confirmed by the organization or a regulator)",
+      "affected_count": "not disclosed",
+      "cause": "ransomware (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim 2026-11-17",
+      "urls": [
+        "https://socradar.io/data-breach/greater-elgin-family-care-center/"
+      ],
+      "first_seen": "2026-11-24",
+      "last_updated": "2026-11-24",
+      "reported": true
+    },
+    {
+      "id": "breach:greater-family-health-claim-2026-11",
+      "type": "breach",
+      "tier": 1,
+      "state": "IL",
+      "title": "Greater Family Health (Greater Elgin Family Care Center) — ransomware claim (Booba Project group)",
+      "status": "REPORTED (leak-site listing 2026-11-17 relayed by SOCRadar; not confirmed by the organization or a regulator)",
+      "affected_count": "not disclosed",
+      "cause": "ransomware (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim 2026-11-17",
+      "fqhc_verification": "HRSA site list: GREATER FAMILY HEALTH, grant H80CS00288 (site web address gefcc.org / greaterfamilyhealth.org)",
+      "urls": [
+        "https://socradar.io/data-breach/greater-elgin-family-care-center/"
+      ],
+      "contact": {
+        "ceo": "V. Guadalupe (Lupe) Fonseca, President & CEO",
+        "ceo_source": "https://greaterfamilyhealth.org/about-us/our-story/",
+        "ceo_email": "Lfonseca@greaterfamilyhealth.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact (Veronica Fonseca)",
+        "website": "https://greaterfamilyhealth.org",
+        "telephone": "844-599-3700",
+        "board": "Nimra Khan (Board Chair); Lizzette Leanos (Past Chair); Jeremy Hayes (Chair-Elect); Laura Espinoza (Treasurer); Kasia Zarrow (Secretary); Jessica Alvarez; Paul Bednar; Ciera Chancellor; Eira Corral-Sepulveda; Jose Garcia Lara; Brian Heimberg; Deborah Everette",
+        "board_source": "https://greaterfamilyhealth.org/about-us/our-story/ (accessed 2026-11-24; ex officio member Corey Dixon and committee volunteers excluded)",
+        "it_lead": "Robert Warzecha, Chief Information Officer",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "contacts_source": "https://greaterfamilyhealth.org/about-us/our-story/",
+        "outreach_draft": "held — ransomware claim 2026-11-17 not yet addressed by the organization; revisit once it issues a notice"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00288",
+        "ein": "36-4249586",
+        "revenue_990": 48036267,
+        "expenses_990": 49818873,
+        "fye_990": "2025-06",
+        "patients_uds2025": 75001,
+        "sites_hrsa": 15,
+        "fte_uds2025": 359.11,
+        "ehr": "NextGen Healthcare (not including OSIS) / Enterprise EHR",
+        "allstar_score": 60.1,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.85x15; Sites 0.80x12; Revenue 0.70x12; Federal funding 0x10 (not available); Tech 0.75x12 (IT complexity High: 15 sites, 359.1 FTE, named CIO); Leadership 0.00x8; Rural/underserved 0.10x8 (urban per UDS); Cyber 0.80x13 (25,000+ patients; 15 sites; no named security, compliance or privacy officer; published breach claim); Data quality 0.917x10",
+        "business_problems": [
+          "Ransomware group listed the health center 2026-11-17 (REPORTED, SOCRadar) → possible data theft and notification duty (SPECULATION) → HIPAA services (breach response, risk analysis)",
+          "75,001 patients across 15 sites on NextGen, no named security or compliance officer (CONFIRMED) → Vulnerability Management / Identity security",
+          "FY2025 expenses exceeded revenue by $1.8M (CONFIRMED, 990) → fixed-scope Strategic Business Review"
+        ],
+        "why": "Large: 75,001 patients, 15 sites, $48M revenue. Plus: ransomware claim (Nov 2026); no named security or privacy officer; priority state."
+      },
+      "first_seen": "2026-11-24",
+      "last_updated": "2026-11-24",
+      "reported": true
+    },
+    {
+      "id": "breach:healthsource-of-ohio-claim-2026-11",
+      "type": "breach",
+      "tier": 1,
+      "state": "OH",
+      "title": "HealthSource of Ohio — data-theft claim (LeakNet group)",
+      "status": "REPORTED (leak-site claim 2026-11-03 relayed by Breachsense; not confirmed by the organization or a regulator)",
+      "affected_count": "not disclosed",
+      "cause": "data theft (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim 2026-11-03",
+      "fqhc_verification": "HRSA site list: HEALTHSOURCE OF OHIO INC, grant H80CS00201",
+      "urls": [
+        "https://www.breachsense.com/breaches/healthsource-of-ohio-data-breach/"
+      ],
+      "contact": {
+        "outreach_draft": "held — claim only; profile pending"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00201",
+        "why": "profile pending (contacts and board not yet researched)."
+      },
+      "first_seen": "2026-11-24",
+      "last_updated": "2026-11-24",
+      "reported": true
+    },
+    {
+      "id": "kev:cve-2026-134624-n-able-mailassure",
+      "type": "kev",
+      "title": "CISA KEV: N-able MailAssure (SpamExperts) SSRF, CVE-2026-134624",
+      "status": "CONFIRMED (CISA KEV, added 2026-11-23; federal due date 2026-11-26)",
+      "date": "2026-11-23",
+      "summary": "Authenticated API user can reach internal hosts via LDAP sync check. Email-filtering product often sold through MSPs to small organizations.",
+      "urls": [
+        "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+        "https://nvd.nist.gov/vuln/detail/CVE-2026-134624"
+      ],
+      "first_seen": "2026-11-24",
+      "last_updated": "2026-11-24",
+      "reported": true
+    },
+    {
+      "id": "kev:cve-2026-133968-monai-label",
+      "type": "kev",
+      "title": "CISA KEV: Project MONAI Label path traversal, CVE-2026-133968",
+      "reported": false,
+      "reason": "Medical-imaging AI annotation toolkit; not common in FQHCs.",
+      "urls": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2026-133968"
+      ],
+      "first_seen": "2026-11-24",
+      "last_updated": "2026-11-24"
     }
   ],
   "signals_initialized": true
