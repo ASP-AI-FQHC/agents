@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-24",
+  "last_run": "2026-11-25",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -223,6 +223,15 @@
       "items_updated": 2,
       "alert_sent": "yes",
       "note": "OCR portal newest still 2026-10-16. state_lists.js from 2026-11-21: TX AG Bausch (now Tier 3), Coborn's, MD Labs. KEV 11-23: N-able MailAssure (reported), MONAI Label (rejected). New: Tier 1 claims Greater Family Health (IL, full profile) and HealthSource of Ohio (profile pending); Tier 2 New England Orthopedic Surgeons claim. Update: MBCHC now CONFIRMED by own website notice. No new sales signals. Profiles still pending: CCWV, CHCRR, Richford/NOTCH, HealthSource of Ohio. HC3/Maine/NH known gaps not fetched."
+    },
+    {
+      "date": "2026-11-25",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 3,
+      "items_updated": 1,
+      "alert_sent": "yes",
+      "note": "OCR portal newest still 2026-10-16. state_lists.js from 2026-11-22: TX AG Todd, Hamaker & Johnson (Tier 3). CA AG: Kern County BH&RS (Tier 3). KEV 11-24 (Optimizely, AntiCsrf, Drupal) not FQHC-relevant. Signal: Central Health (Travis County, TX) GRC platform RFP due 12-14 (likely no-bid). Update: Metropolitan Community Health Services (NC) second ransomware claim (SoulGroup). Profiles still pending: CCWV, CHCRR, Richford/NOTCH, HealthSource of Ohio, Central Health. HC3/Maine/NH known gaps not fetched."
     }
   ],
   "items": [
@@ -551,14 +560,16 @@
       "state": "NC",
       "urls": [
         "https://siberpol.com/metropolitan-community-health-services-listed-on-insomnia-ransomware-leak-site",
-        "https://www.breachsense.com/breaches/agape-health-services-data-breach/"
+        "https://www.breachsense.com/breaches/agape-health-services-data-breach/",
+        "https://www.hookphish.com/blog/ransomware-group-soulgroup-hits-metropolitan-community-health-services/"
       ],
-      "status": "REPORTED",
+      "status": "REPORTED (two leak-site claims: Insomnia group, Sept 2026; SoulGroup, 2026-11-19 via HookPhish); not confirmed by the organization or a regulator",
       "reported": false,
       "reason": "Leak-site claim only (listing dated 2026-09-14/15 per secondary trackers). No entity notice, OCR portal entry or AG filing found; entity home page shows no notice. FQHC status confirmed by HHS OCR 2020 resolution page. Re-check if a primary notice appears.",
       "fqhc_verified": "HHS OCR resolution agreement page (2020) describes entity as a Federally Qualified Health Center",
       "first_seen": "2026-11-11",
-      "last_updated": "2026-11-11"
+      "last_updated": "2026-11-25",
+      "what_changed": "2026-11-25: second ransomware group (SoulGroup) listed the organization on 2026-11-19 (REPORTED)."
     },
     {
       "id": "breach:erie-family-health-centers-2026-03",
@@ -4102,6 +4113,84 @@
       ],
       "first_seen": "2026-11-24",
       "last_updated": "2026-11-24"
+    },
+    {
+      "id": "breach:kern-county-behavioral-health-recovery-services-2026-01",
+      "type": "breach",
+      "tier": 3,
+      "state": "CA",
+      "title": "Kern County Behavioral Health & Recovery Services (county behavioral health)",
+      "status": "CONFIRMED (CA AG list, reported 2026-11-23)",
+      "affected_count": "not disclosed",
+      "cause": "not stated on CA AG list",
+      "incident_date": "2026-01-19 (CA AG)",
+      "posted": "CA AG 2026-11-23",
+      "urls": [
+        "https://oag.ca.gov/privacy/databreach/list"
+      ],
+      "first_seen": "2026-11-25",
+      "last_updated": "2026-11-25",
+      "reported": true
+    },
+    {
+      "id": "breach:todd-hamaker-johnson-2026-11",
+      "type": "breach",
+      "tier": 3,
+      "state": "TX",
+      "title": "Todd, Hamaker & Johnson (Lufkin, TX; medical and health insurance information in TX filing)",
+      "status": "CONFIRMED (TX AG 2026-11-24)",
+      "affected_count": "4,585 Texans",
+      "cause": "not stated on TX list",
+      "incident_date": "not disclosed",
+      "posted": "TX AG 2026-11-24",
+      "urls": [
+        "https://oag.my.site.com/datasecuritybreachreport/apex/DataSecurityReportsPage"
+      ],
+      "first_seen": "2026-11-25",
+      "last_updated": "2026-11-25",
+      "reported": true
+    },
+    {
+      "id": "rfp:central-health-travis-county-grc-platform-2026-11",
+      "type": "rfp",
+      "state": "TX",
+      "title": "Central Health (Travis County Healthcare District) — RFP 2711-001 governance, risk and compliance (GRC) platform for Central Health, Sendero Health Plans and CommUnityCare Health Centers",
+      "status": "REPORTED (Bidscope listing of the BidNet Direct solicitation; posted 2026-11-16; original solicitation not opened)",
+      "what": "Configurable GRC software platform plus implementation, migration, training and support: policy management, internal audit, enterprise and third-party risk, regulatory monitoring, corrective actions, privacy case intake. HIPAA/HITECH and BAA readiness required. 1-year base + four 1-year options.",
+      "due": "2026-12-14 (Bidscope lists 08:00 PM; time zone not stated)",
+      "rfp_contact": "Samuel Dobecka, samuel.dobecka@centralhealth.net, 512-978-9907 (as listed)",
+      "submission": "Online via BidNet Direct (Travis County Healthcare District dba Central Health) or mail to Central Health Purchasing Office, 1111 East Cesar Chavez Street, Austin, TX 78702",
+      "bid_no_bid": "Likely no-bid: the buyer wants a software platform vendor. Consider only as a services partner to a GRC platform bidder (HIPAA risk and policy content). Priority state; note the account for later.",
+      "fqhc_verification": "HRSA site list: TRAVIS COUNTY HEALTHCARE DISTRICT, grant H80CS11298",
+      "urls": [
+        "https://bidscopeai.com/opportunities/c4b20cd4-e806-401c-a28d-b7531bbe0d13",
+        "https://www.bidnetdirect.com/texas/traviscountyhealthcaredistrictdbacentralhealth"
+      ],
+      "contact": {
+        "outreach_draft": "none (RFP)"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS11298",
+        "why": "profile pending (contacts and board not yet researched).",
+        "business_problems": [
+          "Seeking a GRC platform to replace manual compliance processes across the district, its health plan and CommUnityCare (REPORTED, Bidscope) → compliance program being rebuilt (SPECULATION) → HIPAA services"
+        ]
+      },
+      "first_seen": "2026-11-25",
+      "last_updated": "2026-11-25",
+      "reported": true
+    },
+    {
+      "id": "kev:cisa-2026-11-24-optimizely-anticsrf-drupal",
+      "type": "kev",
+      "title": "CISA KEV 2026-11-24: Optimizely Web Experimentation, Idunno AntiCsrf, Drupal Core",
+      "reported": false,
+      "reason": "Not EHR, remote-access, email or identity products common in FQHCs.",
+      "urls": [
+        "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      ],
+      "first_seen": "2026-11-25",
+      "last_updated": "2026-11-25"
     }
   ],
   "signals_initialized": true
