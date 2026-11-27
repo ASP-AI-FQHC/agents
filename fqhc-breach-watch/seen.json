@@ -1,6 +1,6 @@
 {
   "initialized": true,
-  "last_run": "2026-11-26",
+  "last_run": "2026-11-27",
   "ocr_portal_last_date": "2026-10-16",
   "runs": [
     {
@@ -241,6 +241,15 @@
       "items_updated": 0,
       "alert_sent": "yes",
       "note": "OCR portal newest still 2026-10-16. state_lists.js from 2026-11-23: TX AG Integrated Pain Associates (Tier 2, 30,422 Texans), Ryan Sanders Baseball (Tier 3). KEV 11-25: Mitel MiCollab x5, Juniper SSR (reported). No new FQHC breaches or sales signals (Cook County Health Epic selection rejected: not an FQHC). Profiles still pending: CCWV, CHCRR, Richford/NOTCH, HealthSource of Ohio, Central Health. HC3/Maine/NH known gaps not fetched."
+    },
+    {
+      "date": "2026-11-27",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 6,
+      "items_updated": 1,
+      "alert_sent": "yes",
+      "note": "Thanksgiving: OCR portal newest still 2026-10-16; state lists no new filings since 11-25; no KEV additions. Ransomware.live/ATLAS: SoulGroup 11-19 wave (NorthShore update, United Medical Doctors, Park Place BH), The Gentlemen (Farragut ENT, Kapperman White), MetaEncryptor (Exceptional Healthcare). Signal: Family Health Centers (Orangeburg, SC) $700K RHT IT network grant (REPORTED). Profiles still pending: CCWV, CHCRR, Richford/NOTCH, HealthSource of Ohio, Central Health, FHC Orangeburg. HC3/Maine/NH known gaps not fetched."
     }
   ],
   "items": [
@@ -252,12 +261,13 @@
       "urls": [
         "https://northshorehealth.org/wp-content/uploads/NorthShore-Website-Notice-10-19-26.pdf",
         "https://www.hipaajournal.com/data-breach-northshore-health-centers/",
-        "https://ransomware.live/id/Tm9ydGhTaG9yZSBIZWFsdGggQ2VudGVyc0BpbnNvbW5pYQ"
+        "https://ransomware.live/id/Tm9ydGhTaG9yZSBIZWFsdGggQ2VudGVyc0BpbnNvbW5pYQ",
+        "https://www.ransomware.live/activity/Healthcare"
       ],
-      "status": "CONFIRMED",
+      "status": "CONFIRMED; second leak-site listing by SoulGroup 2026-11-19 (REPORTED, ransomware.live)",
       "summary": "Entity notice dated 2026-10-14: unknown actor accessed parts of network 2026-08-10 to 2026-08-11; data review ongoing; letters not yet mailed.",
       "first_seen": "2026-11-10",
-      "last_updated": "2026-11-11",
+      "last_updated": "2026-11-27",
       "reported": true,
       "fqhc_verified": "HRSA Health Center Program award H8002458 (HHS TAGGS)",
       "incident_date": "2026-08-10 to 2026-08-11",
@@ -294,7 +304,8 @@
         "ehr_uds2025": "NextGen Healthcare (not including OSIS) / NextGen Enterprise EHR",
         "uds_project_director": "David  Hall",
         "uds_project_director_email": "dhall@northshorehealth.org"
-      }
+      },
+      "what_changed": "2026-11-27: SoulGroup listed NorthShore on 2026-11-19 (REPORTED); Insomnia had claimed the August incident."
     },
     {
       "id": "breach:integrated-health-centers-of-west-virginia-2026-10",
@@ -4264,6 +4275,126 @@
       ],
       "first_seen": "2026-11-26",
       "last_updated": "2026-11-26"
+    },
+    {
+      "id": "breach:united-medical-doctors-soulgroup-claim-2026-11",
+      "type": "breach",
+      "tier": 2,
+      "group": "Physician group",
+      "state": "not stated",
+      "title": "United Medical Doctors — ransomware claim (SoulGroup); described as an independent multi-specialty medical-surgical group",
+      "status": "REPORTED (leak-site listing 2026-11-19 relayed by ransomware.live)",
+      "affected_count": "not disclosed",
+      "cause": "ransomware (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim 2026-11-19",
+      "urls": [
+        "https://www.ransomware.live/activity/Healthcare"
+      ],
+      "first_seen": "2026-11-27",
+      "last_updated": "2026-11-27",
+      "reported": true
+    },
+    {
+      "id": "breach:farragut-ent-claim-2026-11",
+      "type": "breach",
+      "tier": 2,
+      "group": "Physician group",
+      "state": "not stated",
+      "title": "Farragut ENT — ransomware claim (The Gentlemen group)",
+      "status": "REPORTED (leak-site listing 2026-11-25 relayed by Brandefense ATLAS)",
+      "affected_count": "not disclosed",
+      "cause": "ransomware (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim 2026-11-25",
+      "urls": [
+        "https://atlas.brandefense.io/ransomware-intelligence/victims/hchcla-org"
+      ],
+      "first_seen": "2026-11-27",
+      "last_updated": "2026-11-27",
+      "reported": true
+    },
+    {
+      "id": "breach:park-place-behavioral-health-care-claim-2026-11",
+      "type": "breach",
+      "tier": 3,
+      "state": "FL",
+      "title": "Park Place Behavioral Health Care (Osceola County, FL) — ransomware claim (SoulGroup)",
+      "status": "REPORTED (leak-site listing 2026-11-19 relayed by ransomware.live)",
+      "affected_count": "not disclosed",
+      "cause": "ransomware (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim 2026-11-19",
+      "urls": [
+        "https://www.ransomware.live/activity/Healthcare"
+      ],
+      "first_seen": "2026-11-27",
+      "last_updated": "2026-11-27",
+      "reported": true
+    },
+    {
+      "id": "breach:exceptional-healthcare-claim-2026-11",
+      "type": "breach",
+      "tier": 3,
+      "state": "not stated",
+      "title": "Exceptional Healthcare Inc. — ransomware claim (MetaEncryptor group, 690 GB claimed)",
+      "status": "REPORTED (leak-site listing 2026-11-26 relayed by Brandefense ATLAS)",
+      "affected_count": "not disclosed",
+      "cause": "ransomware (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim 2026-11-26",
+      "urls": [
+        "https://atlas.brandefense.io/ransomware-intelligence/victims/hchcla-org"
+      ],
+      "first_seen": "2026-11-27",
+      "last_updated": "2026-11-27",
+      "reported": true
+    },
+    {
+      "id": "breach:kapperman-white-eyecare-claim-2026-11",
+      "type": "breach",
+      "tier": 3,
+      "state": "not stated",
+      "title": "Kapperman White Eyecare — ransomware claim (The Gentlemen group)",
+      "status": "REPORTED (leak-site listing 2026-11-25 relayed by Brandefense ATLAS)",
+      "affected_count": "not disclosed",
+      "cause": "ransomware (claimed)",
+      "incident_date": "not disclosed",
+      "posted": "claim 2026-11-25",
+      "urls": [
+        "https://atlas.brandefense.io/ransomware-intelligence/victims/hchcla-org"
+      ],
+      "first_seen": "2026-11-27",
+      "last_updated": "2026-11-27",
+      "reported": true
+    },
+    {
+      "id": "funding:family-health-centers-orangeburg-rht-2026-11",
+      "type": "funding",
+      "state": "SC",
+      "entity": "Family Health Centers, Inc. (Orangeburg, SC)",
+      "title": "Family Health Centers, Inc. (SC) — $700,000 Rural Transformation grant to modernize IT network (reliability, security, connectivity, infrastructure)",
+      "status": "REPORTED (SC Primary Health Care Association blog post 2026-11-25, written by FHC; award list not checked)",
+      "program": "South Carolina Rural Health Transformation (as described)",
+      "amount": "$700,000",
+      "period": "not stated",
+      "fqhc_verification": "HRSA site list: FAMILY HEALTH CENTERS, INC, Orangeburg SC, grant H80CS00090",
+      "urls": [
+        "https://www.scphca.org/blogs/joel-mercado/2026/11/25/shakia-bouknight-haynes-named-2026-it-professional-of-the-year?hlmlt=BL"
+      ],
+      "prospect": {
+        "hrsa_grant": "H80CS00090",
+        "why": "profile pending (contacts and board not yet researched).",
+        "business_problems": [
+          "$700K grant to modernize IT network incl. security (REPORTED, SCPHCA) → network rebuild across 8 sites and 3 mobile units creates new access paths (SPECULATION) → Vulnerability Management / Identity security"
+        ]
+      },
+      "contact": {
+        "it_lead": "Shakia Bouknight Haynes, Director of Health Information Technology (named in SCPHCA post 2026-11-25)"
+      },
+      "first_seen": "2026-11-27",
+      "last_updated": "2026-11-27",
+      "reported": true
     }
   ],
   "signals_initialized": true
