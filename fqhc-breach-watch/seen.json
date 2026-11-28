@@ -1,7 +1,7 @@
 {
   "initialized": true,
-  "last_run": "2026-11-27",
-  "ocr_portal_last_date": "2026-10-16",
+  "last_run": "2026-11-28",
+  "ocr_portal_last_date": "2026-10-30",
   "runs": [
     {
       "date": "2026-11-10",
@@ -250,6 +250,15 @@
       "items_updated": 1,
       "alert_sent": "yes",
       "note": "Thanksgiving: OCR portal newest still 2026-10-16; state lists no new filings since 11-25; no KEV additions. Ransomware.live/ATLAS: SoulGroup 11-19 wave (NorthShore update, United Medical Doctors, Park Place BH), The Gentlemen (Farragut ENT, Kapperman White), MetaEncryptor (Exceptional Healthcare). Signal: Family Health Centers (Orangeburg, SC) $700K RHT IT network grant (REPORTED). Profiles still pending: CCWV, CHCRR, Richford/NOTCH, HealthSource of Ohio, Central Health, FHC Orangeburg. HC3/Maine/NH known gaps not fetched."
+    },
+    {
+      "date": "2026-11-28",
+      "sources_checked": 24,
+      "sources_failed": [],
+      "items_new": 7,
+      "items_updated": 0,
+      "alert_sent": "yes",
+      "note": "OCR portal advanced: newest 2026-10-30 (6 new rows). Tier 1 Valley Health Team (CA) 178,202 with full profile; Tier 2 BASS Medical Group; Tier 3 HCA (BA), Brightmoor Hospice, Smart Vision, Gibson Area Hospital (own notice 10-30). No new state filings since 11-25. KEV 11-27 (GeoServer, Drupal) not FQHC-relevant. No new sales signals. Profiles still pending: CCWV, CHCRR, Richford/NOTCH, HealthSource of Ohio, Central Health, FHC Orangeburg. HC3/Maine/NH known gaps not fetched."
     }
   ],
   "items": [
@@ -4395,6 +4404,165 @@
       "first_seen": "2026-11-27",
       "last_updated": "2026-11-27",
       "reported": true
+    },
+    {
+      "id": "breach:valley-health-team-2026-08",
+      "type": "breach",
+      "tier": 1,
+      "state": "CA",
+      "title": "Valley Health Team, Inc. (San Joaquin, CA) — hacking/IT incident, network server",
+      "status": "CONFIRMED (OCR portal, submitted 2026-10-23); ransomware claim REPORTED (Rhysida leak site 2026-08-28, per ransomware trackers); no entity notice found",
+      "affected_count": "178,202 (OCR portal)",
+      "cause": "Hacking/IT Incident, Network Server (OCR); Rhysida ransomware claim of 3.28 TB (REPORTED)",
+      "incident_date": "not disclosed",
+      "posted": "OCR portal submission 2026-10-23",
+      "fqhc_verification": "HRSA site list: VALLEY HEALTH TEAM, INC., grant H80CS00525",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://siberpol.com/valley-health-team-data-allegedly-listed-by-rhysida-ransomware-group"
+      ],
+      "contact": {
+        "ceo": "Soyla Reyna-Griffin, Chief Executive Officer",
+        "ceo_source": "https://projects.propublica.org/nonprofits/organizations/942217261 (IRS Form 990, FY ending 2025-06)",
+        "ceo_email": "Grants@vht.org",
+        "ceo_email_source": "HRSA UDS 2025, project director contact (shared grants mailbox)",
+        "website": "https://www.vht.org",
+        "telephone": "559-595-1000",
+        "board": "Surjit Virdi (Board President); Mary Ellen Pumarejo (Board Vice President); Joann Minnite (Board Treasurer); Mary Reynaga (Board Secretary); Paul Brar; Gurpriet Sran; Linda Amparano; Jose E Ramos; Maggie Rubio",
+        "board_source": "https://projects.propublica.org/nonprofits/organizations/942217261 (IRS Form 990, FY ending 2025-06)",
+        "it_lead": "not published (no named IT or security leader found)",
+        "compliance": "not published (no named privacy or compliance officer found)",
+        "outreach_to": "Soyla Reyna-Griffin, CEO",
+        "outreach_draft": "Subject: Supporting Valley Health Team after a difficult season\n\nDear Ms. Reyna-Griffin,\n\nI understand Valley Health Team has recently reported a data security incident to federal regulators. Moments like this ask a great deal of a leadership team, and I admire the care Valley Health Team brings to patients across the Central Valley and Inyo County.\n\nAt Allstar Partners we help community health center leaders see clearly where they stand once the immediate response is behind them: what remains exposed, which risks matter most to patients and operations, and what to decide next. Our Executive Vulnerability Management service pairs that executive-level view with a Strategic Business Review, a working session that ends in priorities and decisions rather than technical jargon.\n\nIf it would be useful as you plan the year ahead, I would welcome a 30-minute conversation at a time that suits you.\n\nWarm regards,\nGuy Fuller\nPartner, Allstar Partners"
+      },
+      "prospect": {
+        "hrsa_grant": "H80CS00525",
+        "ein": "94-2217261",
+        "revenue_990": 54882040,
+        "expenses_990": 49451997,
+        "fye_990": "2025-06",
+        "patients_uds2025": 36657,
+        "sites_hrsa": 19,
+        "fte_uds2025": "suppressed by HRSA",
+        "ehr": "NextGen Healthcare (not including OSIS) / NextGen Enterprise EHR",
+        "allstar_score": 61.4,
+        "tier": "Tier 1 — Strategic",
+        "score_breakdown": "Scale 0.70x15; Sites 0.80x12; Revenue 0.85x12; Federal funding 0x10 (not available); Tech 0.25x12 (IT complexity Low: 19 sites, FTE suppressed, no named IT lead); Leadership 0.00x8; Rural/underserved 0.95x8 (rural per UDS, migrant, school-based sites); Cyber 0.90x13 (25,000+ patients; 19 sites; no named security, compliance or privacy officer; published breach; 6 school-based sites); Data quality 0.875x10",
+        "business_problems": [
+          "Hacking incident on network server affecting 178,202 people (CONFIRMED, OCR portal) → recovery, notification and OCR investigation under way (SPECULATION) → HIPAA services",
+          "Ransomware group claims 3.28 TB taken (REPORTED) → identity and credential exposure across staff accounts (SPECULATION) → Identity security",
+          "19 sites incl. 6 school-based, NextGen EHR, no named security or compliance officer (CONFIRMED) → Vulnerability Management"
+        ],
+        "why": "Mid-size: 36,657 patients, 19 sites, $55M revenue. Plus: published breach (178,202 people); rural; 6 school sites; no named security or privacy officer."
+      },
+      "first_seen": "2026-11-28",
+      "last_updated": "2026-11-28",
+      "reported": true
+    },
+    {
+      "id": "breach:gibson-area-hospital-2026-09",
+      "type": "breach",
+      "tier": 3,
+      "state": "IL",
+      "title": "Gibson Area Hospital & Health Services (Gibson City, IL) — files copied 2026-09-02 to 09-03; safety-net status not verified",
+      "status": "CONFIRMED (entity notice 2026-10-30; OCR portal submission 2026-10-30, 501 placeholder); Wallstreet extortion claim REPORTED (2026-09-29)",
+      "affected_count": "501 (OCR placeholder; review ongoing)",
+      "cause": "unauthorized access and file copying (Hacking/IT, Network Server)",
+      "incident_date": "2026-09-02 to 2026-09-03",
+      "posted": "2026-10-30",
+      "urls": [
+        "https://www.gibsonhospital.org/file/2623/Gibson%20-Website%20Notice%20for%2010-30-2026%20rev%20102926.pdf",
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "first_seen": "2026-11-28",
+      "last_updated": "2026-11-28",
+      "reported": true
+    },
+    {
+      "id": "breach:bass-medical-group-2026-10",
+      "type": "breach",
+      "tier": 2,
+      "group": "Physician group",
+      "state": "CA",
+      "title": "BASS Medical Group — hacking/IT incident (Booba Project claim 2026-10-27 REPORTED)",
+      "status": "CONFIRMED (OCR portal, submitted 2026-10-22, 501 placeholder)",
+      "affected_count": "501 (OCR placeholder)",
+      "cause": "Hacking/IT Incident, Network Server",
+      "incident_date": "not disclosed",
+      "posted": "OCR 2026-10-22",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf",
+        "https://www.ransomware.live/activity/Healthcare"
+      ],
+      "first_seen": "2026-11-28",
+      "last_updated": "2026-11-28",
+      "reported": true
+    },
+    {
+      "id": "breach:hca-healthcare-ba-2026-10",
+      "type": "breach",
+      "tier": 3,
+      "state": "TN",
+      "title": "HCA Healthcare (business associate)",
+      "status": "CONFIRMED (OCR portal, submitted 2026-10-23)",
+      "affected_count": "54,638",
+      "cause": "Hacking/IT Incident, Network Server and Other",
+      "incident_date": "not disclosed",
+      "posted": "OCR 2026-10-23",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "first_seen": "2026-11-28",
+      "last_updated": "2026-11-28",
+      "reported": true
+    },
+    {
+      "id": "breach:brightmoor-hospice-2026-10",
+      "type": "breach",
+      "tier": 3,
+      "state": "GA",
+      "title": "Brightmoor Hospice, LLC",
+      "status": "CONFIRMED (OCR portal, submitted 2026-10-17)",
+      "affected_count": "1,822",
+      "cause": "Hacking/IT Incident, Email",
+      "incident_date": "not disclosed",
+      "posted": "OCR 2026-10-17",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "first_seen": "2026-11-28",
+      "last_updated": "2026-11-28",
+      "reported": true
+    },
+    {
+      "id": "breach:smart-vision-2026-10",
+      "type": "breach",
+      "tier": 3,
+      "state": "ME",
+      "title": "Smart Vision, LLC (eye care)",
+      "status": "CONFIRMED (OCR portal, submitted 2026-10-27)",
+      "affected_count": "501 (OCR placeholder)",
+      "cause": "Hacking/IT Incident, Network Server",
+      "incident_date": "not disclosed",
+      "posted": "OCR 2026-10-27",
+      "urls": [
+        "https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf"
+      ],
+      "first_seen": "2026-11-28",
+      "last_updated": "2026-11-28",
+      "reported": true
+    },
+    {
+      "id": "kev:cisa-2026-11-27-geoserver-drupal",
+      "type": "kev",
+      "title": "CISA KEV 2026-11-27: OSGeo GeoServer (two CVEs), Drupal Core",
+      "reported": false,
+      "reason": "Not EHR, remote-access, email or identity products common in FQHCs.",
+      "urls": [
+        "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      ],
+      "first_seen": "2026-11-28",
+      "last_updated": "2026-11-28"
     }
   ],
   "signals_initialized": true
